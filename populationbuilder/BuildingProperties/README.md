@@ -4,7 +4,7 @@ This project allocates dwelling properties to buildings in Darebin and Banyule c
 
 ## Build Instructions
 
-There are 4 maven projects (geo, filemanager, util and BuildingProperties) that needs to be built. They are all subprojects of `intg` project. To build all the projects at once change directory to `buildpopulation/populationbuilder/` and execute below command.
+There are 4 maven projects (geo, filemanager, util and BuildingProperties) that needs to be built. They are all subprojects of `populationbuilder` project. To build all the projects at once change directory to `buildpopulation/populationbuilder/` and execute below command.
 
         > mvn clean install
 
@@ -16,7 +16,7 @@ To run the code and generate the latch population, change directory to `buildpop
  
 ## Importing the project into Eclipse
 
-This project is nested under `intg` parent project. We have to import this project as a child project of `intg` parent project. Follow below instructions to import all the required projects into Eclipse.
+This project is nested under `populationbuilder` parent project. We have to import this project as a child project of `populationbuilder` parent project. Follow below instructions to import all the required projects into Eclipse.
 
    1. File > Import...
    2. In Import console, select Maven> Existing Maven Projects > Next

@@ -17,7 +17,7 @@ There are 4 maven projects that needs to be built. They are all subprojects of `
 
 To run the code and generate the latch population, change directory to `buildpopulation/populationbuilder/latchpop/` and execute:
 
-        > java -jar target/latchpop.jar latchpop.properties
+        > java -jar target/latchpop.jar population.properties
 
 ## Importing the project into Eclipse
 
