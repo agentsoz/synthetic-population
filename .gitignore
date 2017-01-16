@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.metadata
+.recommenders
+*.pyc
+.project
+.pydevproject
+.classpath
+.settings/
+*.log
+*.csv
+MyTests/
+test/
+*.png
+*.class
+
