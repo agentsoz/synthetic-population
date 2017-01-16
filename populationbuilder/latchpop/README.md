@@ -4,39 +4,44 @@ This project builds the LATCH ABM population, using input ABS census data.
 
 ## Build Instructions
 
-There are 4 maven projects that needs to be built. They are all subprojects of `intg` project. To build all the 4 projects at once change directory to `anonymous/sources/intg` and execute below command.
+### Prerequisits
+* JAVA 8 (https://java.com/en/download/)
+* Maven (https://maven.apache.org/download.cgi)
+* ABS TableBuilder Pro access to download data
+
+There are 4 maven projects that needs to be built. They are all subprojects of `populationbuilder` project. To build all the 4 projects at once change directory to `buildpopulation/populationbuilder` and execute below command.
 
         > mvn clean install
 
 ## Run Instructions
 
-To run the code and generate the latch population, change directory to `anonymous/sources/intg/latchpop/` and do:
+To run the code and generate the latch population, change directory to `buildpopulation/populationbuilder/latchpop/` and execute:
 
         > java -jar target/latchpop.jar latchpop.properties
 
 ## Importing the project into Eclipse
 
-This project is nested under `intg` parent project. We have to import this project as a child project of `intg` parent project. Follow below instructions to import all the required projects into Eclipse.
+This project is nested under `populationbuilder` parent project. We have to import this project as a child project of `populationbuilder` parent project. Follow below instructions to import all the required projects into Eclipse.
 
    1. File > Import...
-   2. In Import console, select Maven> Existing Maven Projects > Next
-   3. In Import Maven Project console, set `anonymous/sources` as the Root Directory. This will show available projects
-   4. Select only `intg` and its child projects
+   2. In Import console, select Maven > Existing Maven Projects > Next
+   3. In Import Maven Project console, set `populationbuilder` as the Root Directory. This will show available projects
+   4. Select `populationbuilder` and its child projects
    5. Click Finish
   
-This will automatically create the required Eclipse configuration files (.project, .classpath, .settings) and import all the projects under `intg`.
+This will automatically create the required Eclipse configuration files (.project, .classpath, .settings) and import all the projects under `populationbuilder`.
 
-When checking in any changes to the repository do not push .project, .classpath and .settings. Otherwise there will be conflicts when using different Eclipse versions.
+When checking in any changes to the repository do not push .project, .classpath and .settings. Otherwise there will be conflicts when using with different Eclipse versions.
 
 ## Output file
 
-The program produces 3 files contaning all househods, all families and all persons. Files are saved to `anonymous/data/latch/locationaldata/`. Files can be viewed plain text viewers or spread sheet processors.
+The program produces 3 files contaning all househods, all families and all persons. Files are saved to `buildpopulation/data/latch/locationaldata/`. Files can be viewed plain text viewers or spread sheet processors.
 
   * `AllAgents.csv` -  Each record represents a person in the population. "AgentId" is a unique key. Family members are given in (MotherId, FatherId, ChildrenIds, RelativeIds) fields and each Id points to a record in the file.
   * `AllHouseholds.csv` - Each record represents a household. "GroupId" uniquely identifies a household. A household can be made of several families. "FamilyIds" are foreign keys to records in "AllFamilies.csv"
   * `AllFamilies.csv` - Each record represents a family. "FamilyId" is the primary key. "HouseholdId" is a foreign key representing a record in "AllHouseholds.csv". "Members" field gives IDs of persons in a family, which are foreign keys pointing to "AllAgents.csv".
 
-## latchpop.properties file instructions
+## population.properties file instructions
 
 This file contains all the properties for constructing the popoulation
 
@@ -65,11 +70,11 @@ This file contains all the properties for constructing the popoulation
 #!Java
 WARNING | Multi-family househods: Children: 0 Relatives: 1 Extras: 0
 Exception in thread "main" java.lang.Error: Multi-family househods: Cannot form more households. All extra persons consumed
-	at bnw.abm.intg.latchpop.GroupMaker.fillChildrenAndRelativesUsingExtras(GroupMaker.java:717)
-	at bnw.abm.intg.latchpop.GroupMaker.addNonPrimaryFamiliesToMultiFamilyHousehold(GroupMaker.java:575)
-	at bnw.abm.intg.latchpop.GroupMaker.makePopulation(GroupMaker.java:92)
-	at bnw.abm.intg.latchpop.App.main(App.java:74)
+	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.fillChildrenAndRelativesUsingExtras(GroupMaker.java:717)
+	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.addNonPrimaryFamiliesToMultiFamilyHousehold(GroupMaker.java:575)
+	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.makePopulation(GroupMaker.java:92)
+	at bnw.abm.intg.populationbuilder.latchpop.App.main(App.java:74)
 ```
 This exception occurs because all extra persons were exausted but still family could not be completed. If the number of remaining relatives according warning message is not zero (in this case we have 1 unused relative), that means grouping process had decided to create extra children where relatives should have been used. The exception can be avoided by changing the `RelativesProbabiliy`. The program uses same instance of java.util.Random throughout. So, when `RelativesProbability` is changed, it is normal to see changes in other aspects where the random number sequence is used.
 
-Relatives are temporarily removed from the population until other dependencies are able to required demographic changes. Apply `anonymous/sources/intg/latchpop/UnhideRelatives.patch/` to stop removing relatives from population. IMPORTANT: no exceptions or warnings given at the moment.
+Relatives are temporarily removed from the population until other dependencies are able to required demographic changes. Apply `buildpopulation/populationbuilder/latchpop/UnhideRelatives.patch/` to stop removing relatives from population. IMPORTANT: no exceptions or warnings given at the moment.

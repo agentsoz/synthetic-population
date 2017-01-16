@@ -9,13 +9,9 @@ Install following list of R libraries
 * stringr
 * optparse
 
-`$ANONDATA_HOME` environment variable set to `anonymous/data/` directory.
-
-e.g. on linux execute: `export ANONDATA_HOME="<path to anonymous repository location>/data/"`
-
 ## Run Instructions
 
-To run with default settings, change directory to `anonymous/sources/RProjects/latch/populationconstruction/` and run following command:
+To run with default settings, change directory to `buildpopulation/datapreprocessing/` and run following command:
 
 ```
 #!shell
@@ -31,16 +27,16 @@ Usage: ./sa2preprocess.R [options]
 
 Options:
 	-hi CHARACTER, --householdinput=CHARACTER
-		Household data from ABS[default= $ANONDATA_HOME/latch/raw/SA2, NPRD and HCFMD.csv]
+		Household data from ABS[default= ../data/latch/raw/SA2, NPRD and HCFMD.csv]
 
 	-ii CHARACTER, --individualinput=CHARACTER
-		Individual data from ABS[default= $ANONDATA_HOME/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv]
+		Individual data from ABS[default= ../data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv]
 
 	-sa1tosa2 CHARACTER, --sa1bysa2home=CHARACTER
-		Household distribution in SA1 by SA2s [default= $ANONDATA_HOME/latch/raw/Hh-SA1-in-each-SA2/]
+		Household distribution in SA1 by SA2s [default= ../data/latch/raw/Hh-SA1-in-each-SA2/]
 
 	-o CHARACTER, --output=CHARACTER
-		output file location [default= $ANONDATA_HOME/latch/absprocessed/SA2/]
+		output file location [default= ../data/latch/absprocessed/SA2/]
 
 	-sa2 CHARACTER, --sa2list=CHARACTER
 		list of SA2s to process [default= Alphington - Fairfield,Northcote,Thornbury,Bundoora - East,Greensborough,Heidelberg - Rosanna,Heidelberg West,Ivanhoe,Ivanhoe East - Eaglemont,Montmorency - Briar Hill,Viewbank - Yallambie,Watsonia,Kingsbury,Preston,Reservoir - East,Reservoir - West]
@@ -51,4 +47,4 @@ Options:
 
 ## Input files from ABS TableBuilder
 
-Default input files are located in `anonymous/data/latch/raw/` directory. Default location for the processed files is `anonymous/data/latch/absprocessed/SA2/`.
+Default input files are located in `buildpopulation/data/latch/raw/` directory. Default location for the processed files is `buildpopulation/data/latch/absprocessed/SA2/`.
