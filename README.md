@@ -55,7 +55,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
    * Number of persons by Relationship Status (RLHP) by Sex (SEXP) by Age group (AGE5P) by SA2. 
 
-     Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `anonymous/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
+     Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `buildpopulation/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
 ```
 |---------------------------| Persons, Place of usual residence |
 | SA2 | RLHP | SEXP | AGE5P |                                   |
@@ -63,24 +63,24 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 |     |      |      |       |                 x                 |
 |     |      |      |       |                 x                 |
 ```
-  We are using custom data categories for Relationship status and Age groups. Custom categories can be formed by combining existing categories in TableBuilder's "My Custom Data" section. Refer to `anonymous/doc/latch/Custom Individual relationship categories.pdf` for custom categories
+  We are using custom data categories for Relationship status and Age groups. Custom categories can be formed by combining existing categories in TableBuilder's "My Custom Data" section. Refer to `buildpopulation/doc/latch/Custom Individual relationship categories.pdf` for custom categories
   
   Age groups used here are 0-14,15-24,25-34,35-49,50-64, ... ,85-99,100++. 
       
-  * Number of households by Number of persons in household (NPRD) by Family Household Composition (Family) (HCFMD). 
+  * Number of households by Number of persons in household (NPRD) by Family Household Composition (Dwelling) (HCFMD). 
 
-    Use Construct below table using "Counting Families, Place of Usual Residence" database and save as `anonymous/data/latch/raw/SA2, NPRD and HCFMD.csv`. This table should not have any `Total` fields
+    Use Construct below table using "Counting Families, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/SA2, NPRD and HCFMD.csv`. This table should not have any `Total` fields
 
 ```
-|--------------------| Families, Place of usual residence |
-| SA2 | NPRD | HCFMD |                                    |
-|-----|------|-------|------------------------------------|
-|     |      |       |                  x                 |
-|     |      |       |                  x                 |
+|--------------------| Dwellings, Location on census night |
+| SA2 | NPRD | HCFMD |                                     |
+|-----|------|-------|-------------------------------------|
+|     |      |       |                  x                  |
+|     |      |       |                  x                  |
 ```   
   * Distribution of households by number of bedrooms in dwelling (BEDD) by dwelling structure (STRD) by tenure and landlord type (TENLLD) by number of persons usually resident in dwelling (NPRD) by SA1. 
 
-    Construct below table using "Counting Families, Place of Usual Residence" database and save as `anonymous/data/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip` No `Total` fields in this table either.
+    Construct below table using "Counting Families, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip` No `Total` fields in this table either.
 ```
 |-----------------------------------| Dwellings, Location on census night |
 | SA1 | BEDD | STRD | TENLLD | NPRD |                                     |
@@ -105,7 +105,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
        
    * Household composition distributions of each SA2 by SA1s in it. 
 
-     Construct below table in TableBuilder using "Counting Families, Place of Usual Residence" database for each SA2 and save the files in `anonymous/data/latch/raw/Hh-SA1-in-each-SA2/` directory. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
+     Construct below table in TableBuilder using "Counting Families, Place of Usual Residence" database for each SA2 and save the files in `buildpopulation/data/latch/raw/Hh-SA1-in-each-SA2/` directory. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
 
 ```
 |------| SA1s  | SA1_CODE1 | SA1_CODE2 | SA1_CODE3 |  ...  |
@@ -117,7 +117,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
   * Age distribution of persons in SA2s. 
 
-    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `anonymous/data/latch/raw/AGEP by SA3.csv`. Keep `Total` column shown in below structure and remove `Total` row from AGEP column.
+    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/AGEP by SA3.csv`. Keep `Total` column shown in below structure and remove `Total` row from AGEP column.
 
 ```
 | SA3s | Darebin - South | Darebin - North | Banyule | Total |
@@ -138,23 +138,14 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
    1. Building Addresses shape files can be downloaded by selecting [Address](https://services.land.vic.gov.au/landchannel/content/vicmapdata?productID=1) from Vicmap Products list.
    
-   2. Default location for saving downloaded zip files is `anonymous/data/raw/address-shapefiles/`
+   2. Default location for saving downloaded zip files is `buildpopulation/data/raw/address-shapefiles/`
 
   This is used to construct the intial dwellings distribution in the area. Geographical coordinates are used to find the SA1 each building belongs to.
   
-###4. Set environment variables###
-   Set following envrionment variables on linux terminal (alternatively add following lines to ~/.bashrc file and restart the terminal)
-
-```
-#!shell
-export ANONDATA_HOME=<location of this repository>/anonymous/data
-export ANONPROG_HOME=<location of this repository>/anonymous/sources
-```
-
-###5. Rerun the commands in above Quick Run guide ###
+###4. Rerun the commands in above Quick Run guide ###
 
 This will construct the new synthetic population. Further information is available in README files in each project directory
 
-  * `/anonymous/sources/RProjects/latch/populationconstruction/` - R scripts for preprocessing SA2 level population data csvs downloaded using ABS TableBuilder
-  * `/anonymous/sources/intg/latchpop/` - Java project for constructing the synthetic population
-  * `/anonymous/sources/intg/BuildingProperties/` - Java project for assiging dwelling properties to buildings in selecte area
+  * `/buildpopulation/datapreprocessing/` - R scripts for preprocessing SA2 level population data csvs downloaded using ABS TableBuilder
+  * `/buildpopulation/populationbuilder/latchpop/` - Java project for constructing the synthetic population
+  * `/buildpopulation/populationbuilder/BuildingProperties/` - Java project for assiging dwelling properties to buildings in selecte area
