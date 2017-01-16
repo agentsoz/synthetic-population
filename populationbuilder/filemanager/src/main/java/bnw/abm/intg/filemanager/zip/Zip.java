@@ -3,20 +3,22 @@
  */
 package bnw.abm.intg.filemanager.zip;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bnw.abm.intg.filemanager.Find;
@@ -28,6 +30,7 @@ import bnw.abm.intg.util.BNWLogger;
  */
 public class Zip {
 	private static final Logger LOGGER = BNWLogger.getLogger();
+	private static List<FileSystem> fileSystems = new ArrayList<>();
 
 	public static Reader read(Path zipFile, String fileInZip) throws IOException {
 		FileSystem fs = FileSystems.newFileSystem(zipFile, null);
@@ -49,31 +52,41 @@ public class Zip {
 		}
 	}
 
-	public static List<Path> findFiles(Path jarFile, String pattern) {
+	public static List<Path> findFiles(Path jarFile, String pattern) throws IOException {
+		
+		Path currDir = Paths.get("").toAbsolutePath();
+		jarFile = currDir.resolve(jarFile);
+		
 		HashMap<Path, FileSystem> fileSystems = new HashMap<Path, FileSystem>();
 		FileSystem fs = fileSystems.get(jarFile);
+		
 
-		try {
-			if (fs == null) {
-				Map<String, String> env = new HashMap<>();
-				env.put("create", "false");
+		if (fs == null) {
+			// throw new FileNotFoundException(jarFile.toString());
+			Map<String, String> env = new HashMap<>();
+			env.put("create", "false");
+			try {
 				fs = FileSystems.newFileSystem(URI.create("jar:file:" + jarFile), env);
-				fileSystems.put(jarFile, fs);
+			} catch (FileSystemNotFoundException iae) {
+				throw new FileNotFoundException(jarFile.toString());
 			}
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, ex.toString(), ex);
+			fileSystems.put(jarFile, fs);
 		}
 
 		Find finder = new Find(pattern, fs);
-		try {
-			for (Path root : fs.getRootDirectories()) {
-				Files.walkFileTree(root, finder);
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+		for (Path root : fs.getRootDirectories()) {
+			Files.walkFileTree(root, finder);
 		}
+
 		ArrayList<Path> files = finder.getFilePaths();
+		Zip.fileSystems.add(fs);
 		return files;
+	}
+
+	public static void closeOpenedFileSystems() throws IOException {
+		for (FileSystem fs : fileSystems) {
+			fs.close();
+		}
 	}
 }
