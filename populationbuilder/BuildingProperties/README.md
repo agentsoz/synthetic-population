@@ -4,13 +4,13 @@ This project allocates dwelling properties to buildings in Darebin and Banyule c
 
 ## Build Instructions
 
-There are 4 maven projects (geo, filemanager, util and BuildingProperties) that needs to be built. They are all subprojects of `intg` project. To build all the projects at once change directory to `anonymous/sources/intg` and execute below command.
+There are 4 maven projects (geo, filemanager, util and BuildingProperties) that needs to be built. They are all subprojects of `intg` project. To build all the projects at once change directory to `buildpopulation/populationbuilder/` and execute below command.
 
         > mvn clean install
 
 ## Run Instructions
 
-To run the code and generate the latch population, change directory to `anonymous/sources/intg/BuildingProperties/` and do:
+To run the code and generate the latch population, change directory to `buildpopulation/populationbuilder/BuildingProperties/` and do:
 
         > java -jar target/buildingproperties.jar Buildings.properties
  
@@ -20,11 +20,11 @@ This project is nested under `intg` parent project. We have to import this proje
 
    1. File > Import...
    2. In Import console, select Maven> Existing Maven Projects > Next
-   3. In Import Maven Project console, set `anonymous/sources` as the Root Directory. This will show available projects
-   4. Select only `intg` and its child projects
+   3. In Import Maven Project console, set `buildpopulation/populationbuilder` as the Root Directory. This will show available projects
+   4. Select only `populationbuilder` and its child projects
    5. Click Finish
   
-This will automatically create the required Eclipse configuration files (.project, .classpath, .settings) and import all the projects under `intg`.
+This will automatically create the required Eclipse configuration files (.project, .classpath, .settings) and import all the projects under `populationbuilder`.
 
 When checking in any changes to the repository do not push .project, .classpath and .settings. Otherwise there will be conflicts when using different Eclipse versions.
 
@@ -46,10 +46,10 @@ This file contains all the properties for constructing the popoulation
   * `SACodesCsvInSACodesZip` - Csv file in the SACodesZip (SA1_2011_AUST.csv)
   * `ReferenceColumnHeader` - Column to be used as reference (SA1_7DIGITCODE_2011)
   * `TargetColumnHeader` - Column to be used as target column (SA1_MAINCODE_2011)
-  * `DwellingPropertyFile` - Dwelling properties zip downloaded from ABS TableBuilder ($ANONDATA_HOME/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip)
+  * `DwellingPropertyFile` - Dwelling properties zip downloaded from ABS TableBuilder (buildpopulation/data/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip)
   * `NewForeignKeyInAddressRecord` - SA1 identifier to be used for buildings when assigning them to relaven SA1 (SA1_MAINCODE_2011)
   * `TemporaryOutputDirectory`- Temporary file location. Use `system` to use system default
-  * `OutputFile` - Name of the output file (e.g. $ANONDATA_HOME/latch/locationaldata/BuildingsCumSA1andDwellingProperties.json.gz)
+  * `OutputFile` - Name of the output file (e.g. buildpopulation/data/latch/locationaldata/BuildingsCumSA1andDwellingProperties.json.gz)
   * `RandomSeed` - Seed for random number generator
   
 ## Output file
