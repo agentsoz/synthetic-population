@@ -28,5 +28,8 @@
 	<modules>
 		<module>util</module>
 		<module>filemanager</module>
+		<module>geo</module>
+		<module>BuildingProperties</module>
+		<module>latchpop</module>
 	</modules>
 </project>
