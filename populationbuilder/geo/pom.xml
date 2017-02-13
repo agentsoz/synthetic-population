@@ -6,7 +6,7 @@
 		<artifactId>populationbuilder</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>bnw.abm.intg.populationbuilder</groupId>
+	<groupId>bnw.abm.intg</groupId>
 	<artifactId>geo</artifactId>
 	<packaging>jar</packaging>
 
@@ -45,12 +45,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>bnw.abm.intg.populationbuilder</groupId>
+			<groupId>bnw.abm.intg</groupId>
 			<artifactId>filemanager</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>bnw.abm.intg.populationbuilder</groupId>
+			<groupId>bnw.abm.intg</groupId>
 			<artifactId>util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
