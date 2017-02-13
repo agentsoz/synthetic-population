@@ -6,7 +6,7 @@
 		<artifactId>populationbuilder</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>bnw.abm.intg.populationbuilder</groupId>
+	<groupId>bnw.abm.intg</groupId>
 	<artifactId>util</artifactId>
 	<packaging>jar</packaging>
 
