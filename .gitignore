@@ -9,7 +9,6 @@
 .classpath
 .settings/
 *.log
-*.csv
 MyTests/
 test/
 *.png
