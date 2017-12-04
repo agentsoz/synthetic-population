@@ -9,7 +9,6 @@ import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
 
 import bnw.abm.intg.geo.ShapefileGeoFeatureReader;
-import bnw.abm.intg.geo.ShapefilePolygonReader;
 import bnw.abm.intg.util.BNWLogger;
 
 /**
@@ -21,7 +20,7 @@ public class SA1Reader {
 
 	static SimpleFeatureCollection getSA1Collection(Path sa1Path, String sa1FilterProp, String[] sa1FilterVals) {
 		SimpleFeatureCollection sa1Collection = null;
-		ShapefileGeoFeatureReader geoPoly = new ShapefilePolygonReader();
+		ShapefileGeoFeatureReader geoPoly = new ShapefileGeoFeatureReader();
 		try {
 			geoPoly.loadFeaturesByProperty(sa1Path, sa1FilterProp, sa1FilterVals);
 			sa1Collection = DataUtilities.simple(geoPoly.getFeatures());
@@ -29,8 +28,6 @@ public class SA1Reader {
 			//saveShapeFile(sa1Collection, sa1OutLoc, null);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "SA1s reading failed", e);
-		}finally{
-			geoPoly.close();
 		}
 		logger.log(Level.INFO, "Reading SA1 shapes complete");
 		return sa1Collection;
