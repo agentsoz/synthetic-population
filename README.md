@@ -7,6 +7,8 @@ LATCH populatin covers 613 SA1 areas that fall within Darebin (North, South) and
      * stringr
      * optparse
      * Metrics
+     * mipfp
+
 * JAVA 8 (https://java.com/en/download/)
 * Maven (https://maven.apache.org/download.cgi)
 * ABS TableBuilder Pro access to download data
