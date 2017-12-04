@@ -69,10 +69,6 @@ for (sa in sa2list) {
   rownames(seed) <- 0:(nrow(seed)-1)
   write.csv(seed,paste(saoutpath,"seed.csv",sep=""))
 }
-  children <-rowSums(matrix(indv[c(33:80),5],ncol=3,byrow = F))
-  indv <- indv[-c(49:80),]
-  indv[c(33:48),5] <- children
-  indv[c(33:48),2] <- "Children"
   
   indv[,5] <- smart.round((indv[,5]/sum(indv[,5]))*ttlIndividuals)
   write.csv(indv, paste(saoutpath,"Indivround.csv",sep=""))
