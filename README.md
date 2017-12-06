@@ -58,9 +58,9 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
    * Number of persons by Relationship Status (RLHP) by Sex (SEXP) by Age group (AGE5P) by SA2. 
 
-     Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `buildpopulation/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
+     Construct the below table using "Counting Persons, Place of Enumeration" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `buildpopulation/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
 ```
-|---------------------------| Persons, Place of usual residence |
+|---------------------------| Persons, Place of Enumeration     |
 | SA2 | RLHP | SEXP | AGE5P |                                   |
 |-----|------|------|-------|-----------------------------------|
 |     |      |      |       |                 x                 |
@@ -72,7 +72,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
       
   * Number of households by Number of persons in household (NPRD) by Family Household Composition (Dwelling) (HCFMD). 
 
-    Use Construct below table using "Counting Families, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/SA2, NPRD and HCFMD.csv`. This table should not have any `Total` fields
+    Use Construct below table using "Counting Dwellings, Place of Enumeration" database and save as `buildpopulation/data/latch/raw/SA2, NPRD and HCFMD.csv`. This table should not have any `Total` fields
 
 ```
 |--------------------| Dwellings, Location on census night |
@@ -83,7 +83,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 ```   
   * Distribution of households by number of bedrooms in dwelling (BEDD) by dwelling structure (STRD) by tenure and landlord type (TENLLD) by number of persons usually resident in dwelling (NPRD) by SA1. 
 
-    Construct below table using "Counting Families, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip` No `Total` fields in this table either.
+    Construct below table using "Counting Dwellings, Place of Enumeration" database and save as `buildpopulation/data/latch/raw/SA1, BEDD, STRD, TENLLD Tenure and Landlord Type and NPRD.zip` No `Total` fields in this table either.
 ```
 |-----------------------------------| Dwellings, Location on census night |
 | SA1 | BEDD | STRD | TENLLD | NPRD |                                     |
