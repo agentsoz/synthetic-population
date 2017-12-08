@@ -13,4 +13,5 @@ MyTests/
 test/
 *.png
 *.class
-
+*.iml
+*.idea/
