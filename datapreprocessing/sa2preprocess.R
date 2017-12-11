@@ -3,7 +3,7 @@ library(stringr)
 library(tools)
 
 
-source("DataReadUltraShort.R")
+source("./DataReadUltraShort.R")
 source("util.R")
 source("dwellingproperties.R")
 source("cleaning.R")
@@ -11,8 +11,8 @@ source("estimateSA1HouseholdsUsingSA2.R")
 source("ipfpCalculation.R")
 
 option_list = list(
-  make_option(c("-hi", "--householdinput"), type="character", default="../data/latch/raw/SA2, NPRD and HCFMD.csv", help="Household data from ABS[default= %default]",metavar="character"),
-  make_option(c("-ii", "--individualinput"), type="character", default="../data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv", help="Individual data from ABS[default= %default]", metavar="character"),
+  make_option(c("-hi", "--householdinput"), type="character", default="../data/latch/raw/SA2, NPRD HCFMD.csv", help="Household data from ABS[default= %default]",metavar="character"),
+  make_option(c("-ii", "--individualinput"), type="character", default="../data/latch/raw/SA2, RLHP SEXP AGE5P.csv", help="Individual data from ABS[default= %default]", metavar="character"),
   make_option(c("-sa1tosa2", "--sa1bysa2home"), type="character", default="../data/latch/raw/Hh-SA1-in-each-SA2/", help="Household distribution in SA1 by SA2s [default= %default]",metavar="character"),
   make_option(c("-o", "--output"), type="character", default="../data/latch/absprocessed/SA2/", help="output file location [default= %default]", metavar="character"),
   make_option(c("-sa2", "--sa2list"), type="character", help="list of SA2s to process [default= %default]", metavar="character",
@@ -21,11 +21,11 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
-hhinput = opt$householdinput
-indinput=opt$individualinput
-sa1bysa2home=opt$sa1bysa2home
-outLoc = opt$output
-sa2list = unlist(strsplit(opt$sa2list,","))
+hhinput <- opt$householdinput
+indinput<-opt$individualinput
+sa1bysa2home<-opt$sa1bysa2home
+outLoc <- opt$output
+sa2list <- unlist(strsplit(opt$sa2list,","))
 
 hhArr = readHouseholds(hhinput)
 indArr = readIndividuals(indinput)
@@ -51,24 +51,24 @@ for (sa in sa2list) {
   write.csv(hhs,paste(saoutpath,"Hh.csv",sep=""))
   
   if(TRUE){
-  cat("Running IPFP..... ")
-  hhSizeOfEachRow = rep(c(1:8),each =14)
-  ttlIndividuals = sum(hhs[,4]*hhSizeOfEachRow)
-  seed = seedLatchAgeLatchRelSex(length(hhs[,4]), length(indv[,5]))
-  hhinds <- (hhs[,4]*hhSizeOfEachRow)
-  ipfresult = ipfpCalculate((hhs[,4]*hhSizeOfEachRow),indv[,5],seed)
-
-  colnames(ipfresult$p.hat) <- 0:(ncol(ipfresult$p.hat)-1)
-  rownames(ipfresult$p.hat) <- 0:(nrow(ipfresult$p.hat)-1)
-  cat("\rIPFP complete, saving data..... ")
-  write.csv(ipfresult$p.hat, paste(saoutpath,"ipfraw.csv",  sep=""))
+    cat("Running IPFP..... ")
+    hhSizeOfEachRow = rep(c(1:8),each =14)
+    ttlIndividuals = sum(hhs[,4]*hhSizeOfEachRow)
+    seed = seedLatchAgeLatchRelSex(length(hhs[,4]), length(indv[,5]))
+    hhinds <- (hhs[,4]*hhSizeOfEachRow)
+    ipfresult = ipfpCalculate((hhs[,4]*hhSizeOfEachRow),indv[,5],seed)
   
-  write.csv(smart.round(ipfresult$p.hat*ttlIndividuals), paste(saoutpath,"ipfresult.csv",  sep=""))
-  
-  colnames(seed) <- 0:(ncol(seed)-1)
-  rownames(seed) <- 0:(nrow(seed)-1)
-  write.csv(seed,paste(saoutpath,"seed.csv",sep=""))
-}
+    colnames(ipfresult$p.hat) <- 0:(ncol(ipfresult$p.hat)-1)
+    rownames(ipfresult$p.hat) <- 0:(nrow(ipfresult$p.hat)-1)
+    cat("\rIPFP complete, saving data..... ")
+    write.csv(ipfresult$p.hat, paste(saoutpath,"ipfraw.csv",  sep=""))
+    
+    write.csv(smart.round(ipfresult$p.hat*ttlIndividuals), paste(saoutpath,"ipfresult.csv",  sep=""))
+    
+    colnames(seed) <- 0:(ncol(seed)-1)
+    rownames(seed) <- 0:(nrow(seed)-1)
+    write.csv(seed,paste(saoutpath,"seed.csv",sep=""))
+  }
   
   indv[,5] <- smart.round((indv[,5]/sum(indv[,5]))*ttlIndividuals)
   write.csv(indv, paste(saoutpath,"Indivround.csv",sep=""))
