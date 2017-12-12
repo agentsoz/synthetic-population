@@ -116,6 +116,6 @@
 		<module>filemanager</module>
 		<module>geo</module>
 		<module>BuildingProperties</module>
-		<module>latchpop</module>
+		<module>synthesis</module>
 	</modules>
 </project>

@@ -1,362 +1,338 @@
 package bnw.abm.intg.filemanager.csv;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import bnw.abm.intg.util.Log;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import bnw.abm.intg.util.BNWLogger;
-	
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
+
+
 /**
  * @author Bhagya N. Wickramasinghe
- *
  */
 public class CSVReader {
-	private static Logger logger = BNWLogger.getLogger();
 
-	private String[] stripChars = null;
-	CSVFormat csvFileFormat;
 
-	public CSVReader() {
-		csvFileFormat = CSVFormat.EXCEL.withHeader();
-	}
+    private String[] stripChars = null;
+    CSVFormat csvFileFormat;
 
-	public CSVReader(CSVFormat csvFormat) {
-		csvFileFormat = csvFormat;
-	}
+    public CSVReader() {
+        csvFileFormat = CSVFormat.EXCEL.withHeader();
+    }
 
-	/**
-	 * Reads csv file row by row and returns an ArrayList of LinkedHashMaps. LinkedHashMap entry contains String key-value pairs
-	 * 
-	 * @param csvf
-	 *            FileReader object of csv file
-	 * @param titles
-	 *            String array of known titles in csv file
-	 * @return ArrayList of csv rows
-	 * @throws IOException
-	 *             If there is a problem reading the csv file
-	 */
-	public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String[] titles) throws IOException {
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
+    public CSVReader(CSVFormat csvFormat) {
+        csvFileFormat = csvFormat;
+    }
 
-		// Iterable<CSVParser> records =
-		// CSVFormat.EXCEL.withHeader().parse(csvf);
-		LinkedHashMap<String, Object> recordMap = null;
-		ArrayList<LinkedHashMap<String, Object>> allRecords = new ArrayList<LinkedHashMap<String, Object>>();
-		for (CSVRecord csvRecord : parser) {
-			recordMap = new LinkedHashMap<String, Object>();
-			for (int i = 0; i < titles.length; i++) {
-				Object value = csvRecord.get(titles[i]);
-				value = processValue(value, titles[i]);
-				recordMap.put(titles[i], value);
+    /**
+     * Reads csv file row by row and returns an ArrayList of LinkedHashMaps. LinkedHashMap entry contains String key-value pairs
+     *
+     * @param csvf   FileReader object of csv file
+     * @param titles String array of known titles in csv file
+     * @return ArrayList of csv rows
+     * @throws IOException If there is a problem reading the csv file
+     */
+    public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String[] titles) throws IOException {
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
-			}
-			allRecords.add(recordMap);
-		}
-		parser.close();
-		return allRecords;
-	}
+        // Iterable<CSVParser> records =
+        // CSVFormat.EXCEL.withHeader().parse(csvf);
+        LinkedHashMap<String, Object> recordMap = null;
+        ArrayList<LinkedHashMap<String, Object>> allRecords = new ArrayList<LinkedHashMap<String, Object>>();
+        for (CSVRecord csvRecord : parser) {
+            recordMap = new LinkedHashMap<String, Object>();
+            for (int i = 0; i < titles.length; i++) {
+                Object value = csvRecord.get(titles[i]);
+                value = processValue(value, titles[i]);
+                recordMap.put(titles[i], value);
 
-	/**
-	 * Reads csv file row by row and returns an ArrayList of LinkedHashMaps. LinkedHashMap entry contains String key-value pairs
-	 * 
-	 * @param csvf
-	 *            FileReader object of csv file
-	 * @param titles
-	 *            String array of known titles in csv file
-	 * @param uniqueTitle
-	 *            Index of the title to be used as key - must be unique otherwise records will be lost
-	 * @return Map of csv entries with uniqueTitle as key
-	 * @throws IOException
-	 *             If there is a problem reading the csv file
-	 */
-	public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String[] titles, int uniqueTitle) throws IOException {
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
+            }
+            allRecords.add(recordMap);
+        }
+        parser.close();
+        return allRecords;
+    }
 
-		// Iterable<CSVParser> records =
-		// CSVFormat.EXCEL.withHeader().parse(csvf);
-		LinkedHashMap<String, Object> recordMap = null;
-		HashMap<String, LinkedHashMap<String, Object>> allRecords = new HashMap<String, LinkedHashMap<String, Object>>();
-		for (CSVRecord csvRecord : parser) {
-			recordMap = new LinkedHashMap<String, Object>();
-			for (int i = 0; i < titles.length; i++) {
-				Object value = csvRecord.get(titles[i]);
-				value = processValue(value, titles[i]);
-				recordMap.put(titles[i], value);
+    /**
+     * Reads csv file row by row and returns an ArrayList of LinkedHashMaps. LinkedHashMap entry contains String key-value pairs
+     *
+     * @param csvf        FileReader object of csv file
+     * @param titles      String array of known titles in csv file
+     * @param uniqueTitle Index of the title to be used as key - must be unique otherwise records will be lost
+     * @return Map of csv entries with uniqueTitle as key
+     * @throws IOException If there is a problem reading the csv file
+     */
+    public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String[] titles, int uniqueTitle) throws IOException {
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
-			}
-			allRecords.put(titles[uniqueTitle], recordMap);
-		}
-		parser.close();
-		return allRecords;
-	}
+        // Iterable<CSVParser> records =
+        // CSVFormat.EXCEL.withHeader().parse(csvf);
+        LinkedHashMap<String, Object> recordMap = null;
+        HashMap<String, LinkedHashMap<String, Object>> allRecords = new HashMap<String, LinkedHashMap<String, Object>>();
+        for (CSVRecord csvRecord : parser) {
+            recordMap = new LinkedHashMap<String, Object>();
+            for (int i = 0; i < titles.length; i++) {
+                Object value = csvRecord.get(titles[i]);
+                value = processValue(value, titles[i]);
+                recordMap.put(titles[i], value);
 
-	public LinkedHashMap<String, List<Object>> readABSCsvByColumn(Reader csvr, int titleRow, int lastRow, int firstCol, int maxCol)
-			throws IOException {
-		LinkedHashMap<String, List<Object>> allRecords = new LinkedHashMap<>();
+            }
+            allRecords.put(titles[uniqueTitle], recordMap);
+        }
+        parser.close();
+        return allRecords;
+    }
 
-		int i = 1;
-		CSVParser parser = new CSVParser(csvr, csvFileFormat.withIgnoreEmptyLines(false));
-		String[] titles = new String[maxCol - firstCol + 1];
-		for (CSVRecord csvRecord : parser) {
-			if (i < titleRow) {
-				i++;
-				continue;
-			} else if (i > lastRow) {
-				break;
-			}
-			for (int j = firstCol; j <= maxCol; j++) {
-				if (i == titleRow) {
-					allRecords.put(csvRecord.get(j), new ArrayList<>());
-					titles[j - firstCol] = csvRecord.get(j);
-				} else {
-					allRecords.get(titles[j - firstCol]).add(processValue(csvRecord.get(j)));
-				}
-			}
-			i++;
+    public LinkedHashMap<String, List<Object>> readABSCsvByColumn(Reader csvr, int titleRow, int lastRow, int firstCol, int maxCol)
+            throws IOException {
+        LinkedHashMap<String, List<Object>> allRecords = new LinkedHashMap<>();
 
-		}
-		parser.close();
-		return allRecords;
-	}
+        int i = 1;
+        CSVParser parser = new CSVParser(csvr, csvFileFormat.withIgnoreEmptyLines(false));
+        String[] titles = new String[maxCol - firstCol + 1];
+        for (CSVRecord csvRecord : parser) {
+            if (i < titleRow) {
+                i++;
+                continue;
+            } else if (i > lastRow) {
+                break;
+            }
+            for (int j = firstCol; j <= maxCol; j++) {
+                if (i == titleRow) {
+                    allRecords.put(csvRecord.get(j), new ArrayList<>());
+                    titles[j - firstCol] = csvRecord.get(j);
+                } else {
+                    allRecords.get(titles[j - firstCol]).add(processValue(csvRecord.get(j)));
+                }
+            }
+            i++;
 
-	/**
-	 * This is used to process csv files downloaded from ABS. The function expects last column to be the only column with values. Other preceding
-	 * columns are expected to have strings. These are treaded as row headers and used as keys of a series of Map objects. This function ignores
-	 * cv column titles.
-	 * 
-	 * |rowhead1|rowhead1.1|rowhead1.1.1|value|<br />
-	 * |........|..........|rowhead1.1.2|value|<br />
-	 * |........|rowhead1.2|rowhead1.2.1|value|<br />
-	 * |........|..........|rowhead1.2.2|value|<br />
-	 * |rowhead2|rowhead2.1|rowhead2.1.1|value|<br />
-	 * |........|..........|rowhead2.1.2|value|<br />
-	 * ...
-	 * 
-	 * @param csvf
-	 *            Reader object of csv file
-	 * @param titlerow
-	 *            0 based index of title row
-	 * @param endrow
-	 *            0 based index of the last row to read. -1 read till end
-	 * @param firstCol
-	 *            0 based index of starting column
-	 * @param lastCol
-	 *            0 based index of the last column to read
-	 * @return Series of nested HashMaps with data in csv file
-	 * @throws IOException
-	 */
-	public LinkedHashMap<String, Object> readABSCsvAsMap(Reader csvf, int titlerow, int endrow, int firstCol, int lastCol) throws IOException {
-		logger.log(Level.INFO, "Reading ABS csv file as a Map ");
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
+        }
+        parser.close();
+        return allRecords;
+    }
 
-		LinkedHashMap<String, Object> recordMap = new LinkedHashMap<>();
-		new LinkedHashMap<String, LinkedHashMap<String, Object>>();
-		int i = 0;
+    /**
+     * This is used to process csv files downloaded from ABS. The function expects last column to be the only column with values. Other preceding
+     * columns are expected to have strings. These are treaded as row headers and used as keys of a series of Map objects. This function ignores
+     * cv column titles.
+     * <p>
+     * |rowhead1|rowhead1.1|rowhead1.1.1|value|<br />
+     * |........|..........|rowhead1.1.2|value|<br />
+     * |........|rowhead1.2|rowhead1.2.1|value|<br />
+     * |........|..........|rowhead1.2.2|value|<br />
+     * |rowhead2|rowhead2.1|rowhead2.1.1|value|<br />
+     * |........|..........|rowhead2.1.2|value|<br />
+     * ...
+     *
+     * @param csvf     Reader object of csv file
+     * @param titlerow 0 based index of title row
+     * @param endrow   0 based index of the last row to read. -1 read till end
+     * @param firstCol 0 based index of starting column
+     * @param lastCol  0 based index of the last column to read
+     * @return Series of nested HashMaps with data in csv file
+     * @throws IOException
+     */
+    public LinkedHashMap<String, Object> readABSCsvAsMap(Reader csvf, int titlerow, int endrow, int firstCol, int lastCol) throws IOException {
+        Log.info("Reading ABS csv file as a Map ");
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
-		String[] keys = new String[lastCol];
-		for (CSVRecord csvRecord : parser) {
-			i++;
-			if (i <= titlerow) {
-				continue;
-			}
-			this.readKeyVal(csvRecord, recordMap, firstCol, keys);
-			if (i == endrow) {
-				break;
-			}
-		}
-		parser.close();
-		return recordMap;
-	}
+        LinkedHashMap<String, Object> recordMap = new LinkedHashMap<>();
+        new LinkedHashMap<String, LinkedHashMap<String, Object>>();
+        int i = 0;
 
-	private void readKeyVal(CSVRecord csvRec, LinkedHashMap<String, Object> map, int keyCol, String[] keys) throws IOException {
+        String[] keys = new String[lastCol];
+        for (CSVRecord csvRecord : parser) {
+            i++;
+            if (i <= titlerow) {
+                continue;
+            }
+            this.readKeyVal(csvRecord, recordMap, firstCol, keys);
+            if (i == endrow) {
+                break;
+            }
+        }
+        parser.close();
+        return recordMap;
+    }
 
-		if (map == null) {
-			map = new LinkedHashMap<>();
-		}
-		LinkedHashMap<String, Object> procMap = map;
+    private void readKeyVal(CSVRecord csvRec, LinkedHashMap<String, Object> map, int keyCol, String[] keys) throws IOException {
 
-		for (int i = 0; i < csvRec.size(); i++) {
-			String str = csvRec.get(i);
+        if (map == null) {
+            map = new LinkedHashMap<>();
+        }
+        LinkedHashMap<String, Object> procMap = map;
 
-			if (i < keyCol) {
-				continue;
-			}
+        for (int i = 0; i < csvRec.size(); i++) {
+            String str = csvRec.get(i);
 
-			if (i == keys.length - 1) { // 0 based indices. We use last 2 cols
-				procMap.put(csvRec.get(i), csvRec.get(++i));
-				break;
-			}
-			if (!(str.equals("") || str == null)) {
-				LinkedHashMap<String, Object> subMap = new LinkedHashMap<>();
-				if (procMap == null) {
-					System.out.println();
-				}
-				procMap.put(str, subMap);
-				keys[i - keyCol] = str;
-				procMap = subMap;
-			} else {
-				if (procMap == null) {
-					break;
-				}
-				if (procMap.get(keys[i - keyCol]) == null) {
-					logger.log(Level.ALL, "Something wrong with the file. " + keys[i - keyCol] + " has no value");
-					throw new IOException("Something wrong with the file. " + keys[i - keyCol] + " has no value");
-				}
-				procMap = (LinkedHashMap<String, Object>) procMap.get(keys[i - keyCol]);
-			}
+            if (i < keyCol) {
+                continue;
+            }
 
-		}
-	}
+            if (i == keys.length - 1) { // 0 based indices. We use last 2 cols
+                procMap.put(csvRec.get(i), csvRec.get(++i));
+                break;
+            }
+            if (!(str.equals("") || str == null)) {
+                LinkedHashMap<String, Object> subMap = new LinkedHashMap<>();
+                if (procMap == null) {
+                    System.out.println();
+                }
+                procMap.put(str, subMap);
+                keys[i - keyCol] = str;
+                procMap = subMap;
+            } else {
+                if (procMap == null) {
+                    break;
+                }
+                if (procMap.get(keys[i - keyCol]) == null) {
+                    Log.info("Something wrong with the file. " + keys[i - keyCol] + " has no value");
+                    throw new IOException("Something wrong with the file. " + keys[i - keyCol] + " has no value");
+                }
+                procMap = (LinkedHashMap<String, Object>) procMap.get(keys[i - keyCol]);
+            }
 
-	public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, int titleRow) throws IOException {
-		CSVParser parser = new CSVParser(csvf, CSVFormat.EXCEL.withSkipHeaderRecord(true));
+        }
+    }
 
-		// Iterable<CSVParser> records =
-		// CSVFormat.EXCEL.withHeader().parse(csvf);
-		LinkedHashMap<String, Object> recordMap = null;
-		ArrayList<LinkedHashMap<String, Object>> allRecords = new ArrayList<LinkedHashMap<String, Object>>();
-		String[] titles = null;
-		for (CSVRecord csvRecord : parser) {
-			if (titleRow == 0) {
-				titles = new String[csvRecord.size()];
-				for (int i = 0; i < csvRecord.size(); i++) {
-					titles[i] = csvRecord.get(i);
-				}
+    public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, int titleRow) throws IOException {
+        CSVParser parser = new CSVParser(csvf, CSVFormat.EXCEL.withSkipHeaderRecord(true));
 
-				titleRow--;
-				continue;
-			} else if (titleRow > 0) {
-				titleRow--;
-				continue;
-			}
-			recordMap = new LinkedHashMap<String, Object>();
-			int len = csvRecord.size();
-			for (int i = 0; i < len; i++) {
-				Object value = csvRecord.get(i);
-				value = processValue(value);
-				recordMap.put(titles[i], value);
-			}
-			allRecords.add(recordMap);
-		}
-		parser.close();
-		return allRecords;
-	}
+        // Iterable<CSVParser> records =
+        // CSVFormat.EXCEL.withHeader().parse(csvf);
+        LinkedHashMap<String, Object> recordMap = null;
+        ArrayList<LinkedHashMap<String, Object>> allRecords = new ArrayList<LinkedHashMap<String, Object>>();
+        String[] titles = null;
+        for (CSVRecord csvRecord : parser) {
+            if (titleRow == 0) {
+                titles = new String[csvRecord.size()];
+                for (int i = 0; i < csvRecord.size(); i++) {
+                    titles[i] = csvRecord.get(i);
+                }
 
-	public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String uniqueColName) throws IOException {
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
+                titleRow--;
+                continue;
+            } else if (titleRow > 0) {
+                titleRow--;
+                continue;
+            }
+            recordMap = new LinkedHashMap<String, Object>();
+            int len = csvRecord.size();
+            for (int i = 0; i < len; i++) {
+                Object value = csvRecord.get(i);
+                value = processValue(value);
+                recordMap.put(titles[i], value);
+            }
+            allRecords.add(recordMap);
+        }
+        parser.close();
+        return allRecords;
+    }
 
-		HashMap<String, LinkedHashMap<String, Object>> allRecords = new HashMap<>();
-		LinkedHashMap<String, Object> recordMap = null;
-		for (CSVRecord csvRecord : parser) {
-			recordMap = new LinkedHashMap<>();
-			Map<String, String> record = csvRecord.toMap();
-			for (String key : parser.getHeaderMap().keySet()) {
-				Object val = record.get(key);
-				val = processValue(val);
-				recordMap.put(key, val);
-			}
-			allRecords.put(csvRecord.get(uniqueColName), recordMap);
-		}
-		parser.close();
-		csvf.close();
-		return allRecords;
-	}
+    public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String uniqueColName) throws IOException {
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
-	public List<List<String>> readCsvRows(Reader csvf) throws IOException {
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
-		// Iterable<CSVParser> records =
-		// CSVFormat.EXCEL.withHeader().parse(csvf);
-		List<List<String>> records = new ArrayList<>();
-		for (CSVRecord csvRecord : parser) {
-			ArrayList<String> entry = new ArrayList<>();
-			int len = csvRecord.size();
+        HashMap<String, LinkedHashMap<String, Object>> allRecords = new HashMap<>();
+        LinkedHashMap<String, Object> recordMap = null;
+        for (CSVRecord csvRecord : parser) {
+            recordMap = new LinkedHashMap<>();
+            Map<String, String> record = csvRecord.toMap();
+            for (String key : parser.getHeaderMap().keySet()) {
+                Object val = record.get(key);
+                val = processValue(val);
+                recordMap.put(key, val);
+            }
+            allRecords.put(csvRecord.get(uniqueColName), recordMap);
+        }
+        parser.close();
+        csvf.close();
+        return allRecords;
+    }
 
-			for (int i = 0; i < len; i++) {
-				Object value = csvRecord.get(i);
-				value = processValue(value);
-				entry.add((String) value);
-			}
-			records.add(entry);
-		}
-		parser.close();
-		csvf.close();
-		return records;
-	}
+    public List<List<String>> readCsvRows(Reader csvf) throws IOException {
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
+        // Iterable<CSVParser> records =
+        // CSVFormat.EXCEL.withHeader().parse(csvf);
+        List<List<String>> records = new ArrayList<>();
+        for (CSVRecord csvRecord : parser) {
+            ArrayList<String> entry = new ArrayList<>();
+            int len = csvRecord.size();
 
-	/**
-	 * Reads csv file column by column and returns a LinkedHashMap of column-headers(key) and column-values(values-ArrayList<String>)
-	 * 
-	 * @param csvf
-	 *            Reader object of csv file
-	 * @param titles
-	 *            String array of known titles in csv file
-	 * @return LinkedHashMap of column headers and values
-	 * @throws IOException
-	 *             If there is a problem reading csv file
-	 */
-	public LinkedHashMap<String, ArrayList<String>> readCsvGroupByColumn(Reader csvf, String[] titles) throws IOException {
-		LinkedHashMap<String, ArrayList<String>> allRecords = new LinkedHashMap<String, ArrayList<String>>();
-		for (String header : titles) {
-			allRecords.put(header, new ArrayList<String>());
-		}
+            for (int i = 0; i < len; i++) {
+                Object value = csvRecord.get(i);
+                value = processValue(value);
+                entry.add((String) value);
+            }
+            records.add(entry);
+        }
+        parser.close();
+        csvf.close();
+        return records;
+    }
 
-		CSVParser parser = new CSVParser(csvf, csvFileFormat);
-		for (CSVRecord csvRecord : parser) {
-			for (String header : titles) {
-				allRecords.get(header).add(csvRecord.get(header));
-			}
-		}
-		parser.close();
-		csvf.close();
-		return allRecords;
-	}
+    /**
+     * Reads csv file column by column and returns a LinkedHashMap of column-headers(key) and column-values(values-ArrayList<String>)
+     *
+     * @param csvf   Reader object of csv file
+     * @param titles String array of known titles in csv file
+     * @return LinkedHashMap of column headers and values
+     * @throws IOException If there is a problem reading csv file
+     */
+    public LinkedHashMap<String, ArrayList<String>> readCsvGroupByColumn(Reader csvf, String[] titles) throws IOException {
+        LinkedHashMap<String, ArrayList<String>> allRecords = new LinkedHashMap<String, ArrayList<String>>();
+        for (String header : titles) {
+            allRecords.put(header, new ArrayList<String>());
+        }
 
-	public String[] getStripChars() {
-		return stripChars;
-	}
+        CSVParser parser = new CSVParser(csvf, csvFileFormat);
+        for (CSVRecord csvRecord : parser) {
+            for (String header : titles) {
+                allRecords.get(header).add(csvRecord.get(header));
+            }
+        }
+        parser.close();
+        csvf.close();
+        return allRecords;
+    }
 
-	/**
-	 * Strings to be removed form a cell value
-	 * 
-	 * @param stripChars
-	 *            array of strings to be removed when processing the csv
-	 */
-	public void setStripChars(String[] stripChars) {
-		this.stripChars = stripChars;
-	}
+    public String[] getStripChars() {
+        return stripChars;
+    }
 
-	Object processValue(Object value, Object... args) {
-		// Array of value can be placed inside square brackets [] as comma
-		// separated elements
-		if (stripChars == null) {
-			return value;
-		}
-		if (value == null) {
-			return null;
-		}
-		for (String str : stripChars) {// Remove the characters in stripchars
-			// from value
-			value = value.toString().replace(str, "");
-		}
-		String[] parts = value.toString().split(",");
-		for (int i = 0; i < parts.length; i++) {
-			parts[i] = parts[i].trim();
-		}
-		if (parts.length > 1) {
-			return new ArrayList<>(Arrays.asList(parts));
-		} else {
-			return parts[0];
-		}
-	}
+    /**
+     * Strings to be removed form a cell value
+     *
+     * @param stripChars array of strings to be removed when processing the csv
+     */
+    public void setStripChars(String[] stripChars) {
+        this.stripChars = stripChars;
+    }
+
+    Object processValue(Object value, Object... args) {
+        // Array of value can be placed inside square brackets [] as comma
+        // separated elements
+        if (stripChars == null) {
+            return value;
+        }
+        if (value == null) {
+            return null;
+        }
+        for (String str : stripChars) {// Remove the characters in stripchars
+            // from value
+            value = value.toString().replace(str, "");
+        }
+        String[] parts = value.toString().split(",");
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].trim();
+        }
+        if (parts.length > 1) {
+            return new ArrayList<>(Arrays.asList(parts));
+        } else {
+            return parts[0];
+        }
+    }
 }

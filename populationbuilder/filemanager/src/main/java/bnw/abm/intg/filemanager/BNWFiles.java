@@ -3,28 +3,25 @@
  */
 package bnw.abm.intg.filemanager;
 
+import bnw.abm.intg.util.Log;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import bnw.abm.intg.util.BNWLogger;
 
 /**
  * @author Bhagya N. Wickramasinghe
  *
  */
 public class BNWFiles {
-	private static final Logger LOGGER = BNWLogger.getLogger("bnw.abm.intg.util");
 
 	public static List<Path> find(Path startDir, String pattern) {
 		Find finder = new Find(pattern);
 		try {
 			Files.walkFileTree(startDir, finder);
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, ex.toString(), ex);
+			Log.error("When trying to walk file free", ex);
 		}
 		List<Path> files = finder.getFilePaths();
 		return files;
