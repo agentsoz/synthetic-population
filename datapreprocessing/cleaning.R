@@ -276,16 +276,5 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   cat("Difference (unrecongnised missing persons):",difference," - ",percentage,"%\n\n")
 
 
-  #Extras
-  extrasPersons = matrix(unlist(hhold),nrow = nrow(hhold), ncol(hhold))
-  compulsory = c(2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2,
-                 2,3,2,2,2,3,2,2,2,3,2,2,1,2)
-  extras <- (rep(1:8, each=14 ) - (compulsory*HhPossibles))*hhold[,hValColi]
   return(list(person, hhold))
 }
