@@ -102,4 +102,34 @@ public class Log {
         return logger;
     }
 
+    /**
+     * Creates a logger and stores in an private static variable. So no need to assign returned Logger instance to a variable. Access logging
+     * functions by calling Log.function(). Intended to be used with -Dlogback system property e.g. java -Dlogback.debug=true main
+     *
+     * @param name
+     *            ID for the logger
+     * @param file
+     *            Log file path
+     * @return Logger instance
+     */
+    public static Logger createLogger(String name, String file){
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        PatternLayoutEncoder ple = new PatternLayoutEncoder();
+        ple.setPattern("%date %level %logger{10} %msg%n");
+        ple.setContext(lc);
+        ple.start();
+        FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
+        fileAppender.setFile(file);
+        fileAppender.setEncoder(ple);
+        fileAppender.setAppend(false);
+        fileAppender.setContext(lc);
+        fileAppender.start();
+        logger = (Logger) LoggerFactory.getLogger(name);
+        logger.detachAndStopAllAppenders(); // detach console (doesn't seem to work)
+        logger.addAppender(fileAppender); // attach file appender
+        logger.setAdditive(true); // set to true if root should log too
+        return logger;
+
+    }
+
 }

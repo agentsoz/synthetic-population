@@ -19,17 +19,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import bnw.abm.intg.filemanager.Find;
-import bnw.abm.intg.util.BNWLogger;
+
 
 /**
  * @author Bhagya N. Wickramasinghe
  *
  */
 public class Zip {
-	private static final Logger LOGGER = BNWLogger.getLogger();
+
 	private static List<FileSystem> fileSystems = new ArrayList<>();
 
 	public static Reader read(Path zipFile, String fileInZip) throws IOException {
