@@ -3,12 +3,38 @@ library(stringr)
 library(tools)
 
 
-source("./DataReadUltraShort.R")
+source("DataReadUltraShort.R")
 source("util.R")
 source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
 source("ipfpCalculation.R")
+
+#ABS csv file specifics
+## Persons file
+pNofCols = 6
+pColHeaderStartingCol = 1
+pRowHeaderStartingRow = 11
+pValuesStartingRow = 12
+
+pSAColi = 1
+pRelColi = 2
+pSexColi = 3
+pSgeColi = 4
+pValueColi = 5
+
+## Households file
+hNofCols = 5
+hColHeaderStartingCol = 1
+hRowHeaderStartingRow  = 11
+hValuesStartingRow = 12
+
+hSAColi = 1
+hPerCountColi = 2
+hFamilyTypeColi = 3
+hValueColi = 4
+# End ABS csv file specifics
+
 
 option_list = list(
   make_option(c("-hi", "--householdinput"), type="character", default="../data/latch/raw/SA2, NPRD HCFMD.csv", help="Household data from ABS[default= %default]",metavar="character"),
@@ -27,8 +53,10 @@ sa1bysa2home<-opt$sa1bysa2home
 outLoc <- opt$output
 sa2list <- unlist(strsplit(opt$sa2list,","))
 
-hhArr = readHouseholds(hhinput)
-indArr = readIndividuals(indinput)
+
+
+hhArr = readHouseholds(hhinput,hNofCols, hColHeaderStartingCol, hValueColi, hValuesStartingRow, hSAColi, hPerCountColi, hFamilyTypeColi)
+indArr = readPersons(indinput,pNofCols, pColHeaderStartingCol, pValueColi, pValuesStartingRow, pSAColi, pRelColi, pSexColi)
 sa1DistFileslist = matrix(list.files(sa1bysa2home))
 
 for (sa in sa2list) {
@@ -39,7 +67,7 @@ for (sa in sa2list) {
   hhSArwid = getMatchingRowIds(hhArr,1,sa)
   indSArwid = getMatchingRowIds(indArr,1,sa)
   
-  outlist = cleanup(indv,hhs)
+  outlist = cleanup(indv,pSAColi, pRelColi, pSexColi, pAgeColi,pValueColi, hhs, hPersonCountColi, hFamilyTypeColi, hValueColi)
   indv = outlist[[1]]
   hhs = outlist[[2]]
 

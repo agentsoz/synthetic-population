@@ -1,11 +1,6 @@
-readHouseholds <- function(inFile) {
-  print("Reading households file")
-  NofCols = 5
-  DatCol = 4
-  DatRow = 12
-  HeaderRow = 11
-  HeaderCol = 1
+readHouseholds <- function(inFile, nofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, personCountColi, familyTypeColi) {
   
+  print("Reading households file")
   if (file_ext(inFile) == "zip") {
     csvname = paste(file_path_sans_ext(basename(inFile)),".csv",sep = "")
     inputCsv = unz(inFile,csvname)
@@ -15,40 +10,33 @@ readHouseholds <- function(inFile) {
   Hhs <-
     read.csv(
       inputCsv, header = F,sep = ",",fill = T,blank.lines.skip = F, stringsAsFactors =
-        FALSE,na.strings=c("","NA"), col.names = paste0("V",seq_len(NofCols))
+        FALSE,na.strings=c("","NA"), col.names = paste0("V",seq_len(nofCols))
     )
 
   dummyVec = 1:length(Hhs[,1])
-  SAcoli = 1  # Column number for SA IDs
-  SArowi = DatRow	# Row number for SA IDs
+  SArowi = valuesStartingRow	# Row number for SA IDs
   SAgap = 112  # Number of rows between each SA heading
   seq =dummyVec[seq(SArowi, length(dummyVec), SAgap)]
-  SAlist = na.omit(as.character(Hhs[seq,SAcoli])) #Array of SA headings
+  SAlist = na.omit(as.character(Hhs[seq,SAColi])) #Array of SA headings
   nSA = length(SAlist)
-  lastRow = (nSA * SAgap)+DatRow-1
+  lastRow = (nSA * SAgap)+valuesStartingRow-1
   
-  NofPcoli = 2
-  NofProwi = DatRow
-  NofPgap = 14
-  seq =dummyVec[seq(NofProwi, length(dummyVec), NofPgap)]
-  Noplist = na.omit((as.character(Hhs[seq,NofPcoli]))) #Array of SA headings
-  nNop = length(Noplist)
+  personCountRowi = valuesStartingRow
+  personCountGap = 14
+  seq =dummyVec[seq(personCountRowi, length(dummyVec), personCountGap)]
+  personCountList = na.omit((as.character(Hhs[seq,personCountColi]))) #Array of SA headings
+  nNop = length(personCountList)
   
-  Hhs[DatRow:lastRow,SAcoli] = rep(SAlist, each=SAgap)
-  Hhs[DatRow:lastRow,nopcol] = rep(Noplist, each=NofPgap)
-  hhArr = Hhs[DatRow:lastRow,HeaderCol:DatCol]
+  Hhs[valuesStartingRow:lastRow,SAColi] = rep(SAlist, each=SAgap)
+  Hhs[valuesStartingRow:lastRow,personCountColi] = rep(personCountList, each=personCountGap)
+  hhArr = Hhs[valuesStartingRow:lastRow,headerStartingCol:valueColi]
   print("Reading households file complete")
   return(hhArr)
 }
 
-readIndividuals <- function(inFile) {
+readPersons <- function(inFile, NofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, relColi, sexColi ) {
   print("Reading individuals file")
-  NofCols = 6
-  DatCol = 5
-  DatRow = 12
-  HeaderRow = 11
-  HeaderCol = 1
-  
+
   if (file_ext(inFile) == "zip") {
     csvname = paste(file_path_sans_ext(basename(inFile)),".csv",sep = "")
     inputCsv = unz(inFile,csvname)
@@ -62,32 +50,30 @@ readIndividuals <- function(inFile) {
     )
   
   dummyVec = 1:length(Inds[,1])
-  SAcoli = 1  # Column number for SA IDs
-  SArowi = DatRow	# Row number for SA IDs
+  SArowi = valuesStartingRow	# Row number for SA IDs
   SAgap = 128  # Number of rows between each SA heading
   seq =dummyVec[seq(SArowi, length(dummyVec), SAgap)]
-  SAlist = na.omit(as.character(Inds[seq,SAcoli])) #Array of SA headings
+  SAlist = na.omit(as.character(Inds[seq,SAColi])) #Array of SA headings
   nSA = length(SAlist)
-  lastRow = (nSA * SAgap)+DatRow-1
+  lastRow = (nSA * SAgap)+valuesStartingRow-1
   
-  relcoli = 2  # Column number for Relationship statuses
-  relrowi = DatRow	# Row number for Relationship statuses
+  relColi = 2  # Column number for Relationship statuses
+  relrowi = valuesStartingRow	# Row number for Relationship statuses
   relgap = 16  # Number of rows between each Relationship status
   seq =dummyVec[seq(relrowi, length(dummyVec), relgap)]
-  rellist = na.omit((as.character(Inds[seq,relcoli]))) #Array of Relationship statuses
+  rellist = na.omit((as.character(Inds[seq,relColi]))) #Array of Relationship statuses
   nRel = length(rellist)
   
-  sexcoli = 3  # Column number for Sex types
-  sexrowi = DatRow	# Row number for Sex types
+  sexrowi = valuesStartingRow	# Row number for Sex types
   sexgap = 8  # Number of rows between each Sex type
   seq =dummyVec[seq(sexrowi, length(dummyVec), sexgap)]
-  sexlist = na.omit((as.character(Inds[seq,sexcoli]))) #Array of Sex types
+  sexlist = na.omit((as.character(Inds[seq,sexColi]))) #Array of Sex types
   nSex = length(sexlist)
   
-  Inds[DatRow:lastRow,SAcoli] = rep(SAlist, each=SAgap)
-  Inds[DatRow:lastRow,relcoli] = rep(rellist, each = relgap)
-  Inds[DatRow:lastRow,sexcoli] = rep(sexlist, each = sexgap)
-  indArr = Inds[DatRow:lastRow,HeaderCol:DatCol]
+  Inds[valuesStartingRow:lastRow,SAColi] = rep(SAlist, each=SAgap)
+  Inds[valuesStartingRow:lastRow,relColi] = rep(rellist, each = relgap)
+  Inds[valuesStartingRow:lastRow,sexColi] = rep(sexlist, each = sexgap)
+  indArr = Inds[valuesStartingRow:lastRow,headerStartingCol:valueColi]
   print("Reading individuals file complete")
   return(indArr)
 }
