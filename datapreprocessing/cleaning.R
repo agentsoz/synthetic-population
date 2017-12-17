@@ -50,14 +50,14 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   difference = totalpersonsNeededByHhs - totalExistingpersons
   percentage = difference/ totalpersonsNeededByHhs*100
   cat("In households file:", totalpersonsNeededByHhs,"\n")
-  cat("In personiduals file:",totalExistingpersons,"\n")
+  cat("In persons file:",totalExistingpersons,"\n")
   cat("Difference:",difference," - ",percentage,"%\n\n")
   
   cat("Removed impossible values:\n")
   indPossibles = person[,pValColi]*IndPossibles
   indDetectedImpossibles = person[,pValColi] - indPossibles
   indImpossibleRwids = which(indDetectedImpossibles > 0)
-  cat("personiduals:")
+  cat("persons:")
   if(length(indImpossibleRwids) > 0){
     print(person[indImpossibleRwids,-1])
   }else{
@@ -89,7 +89,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   difference = totalpersonsNeededByHhs - totalExistingpersons
   percentage = difference/ totalpersonsNeededByHhs*100
   cat("In households file:", totalpersonsNeededByHhs,"\n")
-  cat("In personiduals file:",totalExistingpersons,"\n")
+  cat("In persons file:",totalExistingpersons,"\n")
   cat("Difference:",difference," - ",percentage,"%\n\n")
   
   
@@ -139,8 +139,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   #Match married males to married females
   marriedrwids = getMatchingRowIds(person, pRelColi, "Married")
   marMalerwids = getMatchingRowIds(person[marriedrwids,], pSexColi, "Male")
-  marFemalerwids = getMatchingRowIds(person[marriedrwids,], pSexColi
-                    ,"Female")
+  marFemalerwids = getMatchingRowIds(person[marriedrwids,], pSexColi,"Female")
   ttlMarriedMales = sum(person[marMalerwids,pValColi])
   cat("Married couples: total married males in persons file:",ttlMarriedMales,"\n")
   ttlMarriedFemales = sum(person[marFemalerwids,pValColi])
@@ -175,7 +174,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
     }else if(pdiff ==0){
       cat("Married Couples: married females are equal to couple families\n")
     }else{
-      cat("Married Couples: there are more married females than couple families, no problem")
+      cat("Married Couples: there are more married females than couple families, no problem\n")
     }
     ttlMarriedFemales =sum(person[marFemalerwids,pValColi])
     pdiff = ttlMarriedFemales - ttlMarriedMales
@@ -237,7 +236,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
     person[c(u15rwids,sturwids,o15rwids),pValColi] = fillAccording2Dist(person[c(u15rwids,sturwids,o15rwids),pValColi], pdiff)
     cat("Children: less children than families, adding new agents:", pdiff,"(",percent,"%)\n")
   }else{
-    cat("Children: there are enough children to construct all basic family structures with children, no problem\n")
+    cat("Children: there are enough children to construct all known basic family structures with children, no problem\n")
   }
   
   #Relatives and Other family
@@ -273,7 +272,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   percentage = difference/ totalpersonsNeededByHhs*100
   cat("In households file:", totalpersonsNeededByHhs,"\n")
   cat("In persons file:",totalExistingpersons,"\n")
-  cat("Difference (unrecongnised missing persons):",difference," - ",percentage,"%\n\n")
+  cat("Difference (unrecongnised missing persons):",difference," (",percentage,"%)\n\n")
 
 
   return(list(person, hhold))
