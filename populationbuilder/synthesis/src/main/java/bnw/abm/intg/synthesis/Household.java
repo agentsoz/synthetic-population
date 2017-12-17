@@ -1,6 +1,3 @@
-/**
- *
- */
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.util.Log;
@@ -10,6 +7,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+class FamilyHouseholdType {
+    private int familyCount;
+    private FamilyType familyType;
+
+    FamilyHouseholdType(int familyCount, FamilyType familyType){
+        this.familyCount = familyCount;
+        this.familyType = familyType;
+    }
+
+    int getFamilyCount(){
+        return this.familyCount;
+    }
+
+    FamilyType getFamilyType(){
+        return this.familyType;
+    }
+}
+
 /**
  * @author Bhagya N. Wickramasinghe 19 May 2016
  */
@@ -18,9 +33,9 @@ public class Household {
 
     private static long IDCounter = 0;
     private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
-    private List<Family> families;
     final int TARGETSIZE;
     final int TARGETFAMLYCOUNT;
+    private List<Family> families;
     private String householdID;
     private String tenlld;
     private String SA1_7DIG11;
@@ -35,12 +50,12 @@ public class Household {
         this.householdID = String.valueOf(IDCounter++);
     }
 
-    public void setSA2MainCode(String mainCode) {
-        this.SA2MAINCODE = mainCode;
-    }
-
     public String getSA2MainCode() {
         return this.SA2MAINCODE;
+    }
+
+    public void setSA2MainCode(String mainCode) {
+        this.SA2MAINCODE = mainCode;
     }
 
     public String getSA2Name() {
