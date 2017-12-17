@@ -1,20 +1,33 @@
 package bnw.abm.intg.synthesis;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import bnw.abm.intg.util.GlobalConstants;
 import bnw.abm.intg.util.Log;
+
+import java.util.*;
 
 /**
  * @author Bhagya N. Wickramasinghe
  */
 public class GroupMaker {
 
+    private final int f1 = 1, f2 = 2, f3 = 3;
+    private final String coupleOnly = "Couple family with no children";
+    private final String coupleYesChild = "Couple family with children";
+    private final String oneParent = "One parent family";
+    private final String otherFamily = "Other family";
+    private final String lonePerson = "Lone person household";
+    private final String groupHousehold = "Group household";
+    private List<Household> allHouseholds = new ArrayList<>();
+    private Random rand = null;
+    private int fmTypes = 14;
+    private int imarried = 0, ilnparent = 1, iu15c = 2, istu = 3, io15c = 4, igrpInd = 5, ilnperson = 6, irelt = 7;
+    private int ageCats = 8;
+    private int sexCats = 2;
+    private String sa2name;
+    private List<Family> married = null, loneParentBasic = null, nonPrimaryOtherFamilies = null;
+    private List<Person> relatives = null, loneParents = null, children = null, extras = null;
+    private List<HhRecord> hhrecs;
+    private List<IndRecord> indrecs;
     private double sexRatio, relativeProbability, femaleLoneParentProbability;
 
     public GroupMaker(double maleProbability, double relativeProbability, double femaleLoneParentProbability) {
@@ -23,31 +36,12 @@ public class GroupMaker {
         this.femaleLoneParentProbability = femaleLoneParentProbability;
     }
 
-    List<Household> allHouseholds = new ArrayList<>();
-    Random rand = null;
-
-    int i1fCplOnly = 0, i1fCplChld = 1, i1f1P = 2, i1fOthr = 3, i2fCplOnly = 4, i2fCplChld = 5, i2f1P = 6, i2fOthr = 7, i3fCplOnly = 8,
-            i3fCplChld = 9, i3f1P = 10, i3fOthr = 11, ilnPerhh = 12, igrpHh = 13;
-    int fmTypes = 14;
-
-    int imarried = 0, ilnparent = 1, iu15c = 2, istu = 3, io15c = 4, igrpInd = 5, ilnperson = 6, irelt = 7;
-    int ageCats = 8;
-    int sexCats = 2;
-    String sa2name;
-
-    List<Family> married = null, loneParentBasic = null, nonPrimaryOtherFamilies = null;
-    ;
-    List<Person> relatives = null, loneParents = null, children = null, extras = null;
-    List<HhRecord> hhrecs;
-    List<IndRecord> indrecs;
-
     List<Household> makePopulation(List<HhRecord> hhrecs, List<IndRecord> indrecs, Random rand, String sa2) {
         this.sa2name = sa2;
-        ;
         this.hhrecs = hhrecs;
         this.indrecs = indrecs;
 
-        // printHhSummary(hhrecs);
+        // printHhSummary(hhrecs)
         // printIndSummary(indrecs);
 
         this.rand = rand;
@@ -58,61 +52,89 @@ public class GroupMaker {
 
         married = makeAllMarriedCouples(hhrecs, indrecs);
         relatives = makeAllPersonsByRelationshipType(indrecs, irelt);
-        List<Family> primaryOtherFamiliesBasic = makeAllPrimaryOtherFamilyBasicStructs(hhrecs);
         loneParents = makeAllPersonsByRelationshipType(indrecs, ilnparent);
         children = makeAllPersonsByRelationshipType(indrecs, iu15c, istu, io15c);
-        print("Children: " + children.size());
+
+        Log.debug("all married couples: " + married.size());
+        Log.debug("relatives: " + relatives.size());
+        Log.debug("children: " + children.size());
+        Log.debug("Lone parents: " + loneParents.size());
+
         loneParentBasic = makeAllBasicLoneParentStructs(loneParents);
+        List<Family> primaryOtherFamiliesBasic = makeAllPrimaryOtherFamilyBasicStructs(hhrecs);
         List<Family> primaryCoupleWChildFamilyBasic = makePrimaryCoupleWithChildFamilyBasicStructs(hhrecs);//Form basic family structs and removes couples from married list
         List<Family> primaryCoupleOnlyFamilyBasic = makePrimaryCoupleOnlyFamilyBasicStructs(hhrecs);//Form basic family structs and removes couples from married list
 
-        print("Remaining relatives: " + relatives.size());
-        formOtherFamily1FamilyHouseholds(hhrecs, primaryOtherFamiliesBasic);
-        print("Remaining primary other family structures: " + primaryOtherFamiliesBasic.size());
-        print("Remaining cpl only: " + primaryCoupleOnlyFamilyBasic.size());
-        formCoupleOnly1FamilyHouseholds(hhrecs, primaryCoupleOnlyFamilyBasic);
-        print("Remaining relatives: " + relatives.size());
-        print("Remaining cpl only: " + primaryCoupleOnlyFamilyBasic.size());
-        formCoupleWithChild1FamilyHouseholds(hhrecs, primaryCoupleWChildFamilyBasic);
-        print("Remaining children: " + children.size());
-        print("Remaining relatives: " + relatives.size());
-        formLoneParent1FamilyHouseholds(hhrecs); //Forms basic family structs and removes LP and child pairs from loneParentBasic list
-        print("Remaning lone parent basic structures: " + loneParentBasic.size());
+        Log.debug("Remaining married couples: " + married.size());
+        Log.debug("Remaining relatives: " + relatives.size());
+        Log.debug("Remaining children: " + children.size());
+        Log.debug("Remaining lone parents: " + loneParents.size());
 
-        List<Household> multiFamilyHhWith1Family = formPrimaryFamiliesForMultiFamilyHouseholds(hhrecs, primaryCoupleOnlyFamilyBasic,
-                primaryCoupleWChildFamilyBasic, loneParentBasic, primaryOtherFamiliesBasic);
+        try {
+            formOtherFamily1FamilyHouseholds(hhrecs, primaryOtherFamiliesBasic);
+            Log.debug("Remaining primary other family basic structures: " + primaryOtherFamiliesBasic.size());
+            Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining extras: " + extras.size());
 
-        formBasicStructuresFor2ndAnd3rdFamiliesInMultiFamilyHouseholds(hhrecs, indrecs);
-        print("all married couples: " + married.size());
-        print("relatives: " + relatives.size());
-        print("children: " + children.size());
-        print("Lone parent: " + loneParentBasic.size());
-        print("Other family: " + primaryOtherFamiliesBasic.size());
-        print("Non primary other families: " + nonPrimaryOtherFamilies.size());
-        print("Extras: " + extras.size());
+            formCoupleOnly1FamilyHouseholds(hhrecs, primaryCoupleOnlyFamilyBasic);
+            Log.debug("Remaining primary couple only family basic structures: " + primaryCoupleOnlyFamilyBasic.size());
+            Log.debug("Remaining married couples (not expected to change): " + married.size());
+            Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining extras: " + extras.size());
 
-        addNonPrimaryFamiliesToMultiFamilyHousehold(multiFamilyHhWith1Family);
+            formCoupleWithChild1FamilyHouseholds(hhrecs, primaryCoupleWChildFamilyBasic);
+            Log.debug("Remaining primary couple w/ children basic structures: " + primaryCoupleWChildFamilyBasic.size());
+            Log.debug("Remaining children: " + children.size());
+            Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining extras: " + extras.size());
 
-        print("------------ Discarded persons and family structures -----------");
-        print("primary couple with child basic structures: " + primaryCoupleWChildFamilyBasic.size());
-        print("primary couple only: " + primaryCoupleOnlyFamilyBasic.size());
-        print("primary other family: " + primaryOtherFamiliesBasic.size());
-        print("basic lone parents: " + loneParentBasic.size());
-        print("all married: " + married.size());
-        print("relatives: " + relatives.size());
-        print("lone parents: " + loneParents.size());
-        print("children: " + children.size());
-        print("Extras: " + extras.size());
+            formLoneParent1FamilyHouseholds(hhrecs);
+            Log.debug("Remaining lone parent basic structures: " + loneParentBasic.size());
+            Log.debug("Remaining children: " + children.size());
+            Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining extras: " + extras.size());
 
-        // printHhSummary(hhrecs);
+            List<Household> multiFamilyHhWith1Family = formPrimaryFamiliesForMultiFamilyHouseholds(hhrecs, primaryCoupleOnlyFamilyBasic,
+                    primaryCoupleWChildFamilyBasic, loneParentBasic, primaryOtherFamiliesBasic);
+
+            formBasicStructuresFor2ndAnd3rdFamiliesInMultiFamilyHouseholds(hhrecs, indrecs);
+            print("all married couples: " + married.size());
+            print("relatives: " + relatives.size());
+            print("children: " + children.size());
+            print("Lone parent: " + loneParentBasic.size());
+            print("Other family: " + primaryOtherFamiliesBasic.size());
+            print("Non primary other families: " + nonPrimaryOtherFamilies.size());
+            print("Extras: " + extras.size());
+
+            addNonPrimaryFamiliesToMultiFamilyHousehold(multiFamilyHhWith1Family);
+        } catch (Exception e) {
+            Log.error("Error in populatin construction", e);
+        } finally {
+
+
+            print("------------ Discarded persons and family structures -----------");
+            print("primary couple with child basic structures: " + primaryCoupleWChildFamilyBasic.size());
+            print("primary couple only: " + primaryCoupleOnlyFamilyBasic.size());
+            print("primary other family: " + primaryOtherFamiliesBasic.size());
+            print("basic lone parents: " + loneParentBasic.size());
+            print("all married couples: " + married.size());
+            print("relatives: " + relatives.size());
+            print("lone parents: " + loneParents.size());
+            print("children: " + children.size());
+            print("Extras: " + extras.size());
+            print("All formed households: " + allHouseholds.size());
+
+//            printHhSummary(hhrecs);
+        }
+        summary();
         return allHouseholds;
     }
 
-    void formBasicStructuresFor2ndAnd3rdFamiliesInMultiFamilyHouseholds(List<HhRecord> householdRecords, List<IndRecord> individualRecords) {
+    private void formBasicStructuresFor2ndAnd3rdFamiliesInMultiFamilyHouseholds(List<HhRecord> householdRecords, List<IndRecord> individualRecords) {
         String logprefix = "Basic structures for non-primary families in multi-family households: ";
         int familiesWithMarriedCouples = 0, loneParentFamilies = 0, otherFamilies = 0;
 
-        List<HhRecord> f2Households = getHhsByFamlyType(householdRecords, i2f1P, i2fCplChld, i2fCplOnly, i2fOthr);
+        List<HhRecord> f2Households = getHhsByFamilyType(householdRecords, new FamilyHouseholdType(f2, FamilyType.LONEPARENT), new FamilyHouseholdType(f2, FamilyType.COUPLEFAMILYWITHCHILDREN), new FamilyHouseholdType(f2, FamilyType.COUPLEONLY), new FamilyHouseholdType(f2, FamilyType.OTHERFAMILY));
         int f2secondcount = 0;
         for (HhRecord hhRecord : f2Households) {
             if (hhRecord.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN | hhRecord.primaryFamilyType == FamilyType.COUPLEONLY) {
@@ -124,7 +146,7 @@ public class GroupMaker {
             }
             f2secondcount += hhRecord.hhCount;
         }
-        List<HhRecord> f3Households = getHhsByFamlyType(householdRecords, i3f1P, i3fCplChld, i3fCplOnly, i3fOthr);
+        List<HhRecord> f3Households = getHhsByFamilyType(householdRecords, new FamilyHouseholdType(f3, FamilyType.LONEPARENT), new FamilyHouseholdType(f3, FamilyType.COUPLEFAMILYWITHCHILDREN), new FamilyHouseholdType(f3, FamilyType.COUPLEONLY), new FamilyHouseholdType(f3, FamilyType.OTHERFAMILY));
         int f3secondcount = 0, f3thirdcount = 0;
         for (HhRecord hhRecord : f3Households) {
             if (hhRecord.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN | hhRecord.primaryFamilyType == FamilyType.COUPLEONLY) {
@@ -138,7 +160,7 @@ public class GroupMaker {
             f3thirdcount += hhRecord.hhCount;
         }
 
-        List<HhRecord> f1Households = getHhsByFamlyType(householdRecords, i1f1P, i1fCplChld, i1fCplOnly, i1fOthr);
+        List<HhRecord> f1Households = getHhsByFamilyType(householdRecords, new FamilyHouseholdType(f1, FamilyType.LONEPARENT), new FamilyHouseholdType(f1, FamilyType.COUPLEFAMILYWITHCHILDREN), new FamilyHouseholdType(f1, FamilyType.COUPLEONLY), new FamilyHouseholdType(f1, FamilyType.OTHERFAMILY));
         for (HhRecord hhRecord : f1Households) {
             if (hhRecord.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN | hhRecord.primaryFamilyType == FamilyType.COUPLEONLY) {
                 familiesWithMarriedCouples += hhRecord.hhCount;
@@ -159,7 +181,8 @@ public class GroupMaker {
         if (totalAvailableBasicStructs < totalRequiredNonPrimaryFamilies) {
 
             int extraNonPrimaryFamiliesToCreate = totalRequiredNonPrimaryFamilies - totalAvailableBasicStructs;
-
+            //We know the total number of extra families we want. But we don't know how many from each family type.
+            //So we divide the number among the family types according to distribution we observed in the population.
             int totalPrimaryFamilyBasicStructs = familiesWithMarriedCouples + loneParentFamilies + otherFamilies;
             newNonPrimaryMarriedCpls = Math
                     .round((familiesWithMarriedCouples / (float) totalPrimaryFamilyBasicStructs) * extraNonPrimaryFamiliesToCreate);
@@ -282,7 +305,7 @@ public class GroupMaker {
         Log.info(logprefix + " other family basic: " + newNonPrimaryOtherFamilies);
     }
 
-    List<Person> getExtras(List<HhRecord> hhrecs, List<IndRecord> indrecs) {
+    private List<Person> getExtras(List<HhRecord> hhrecs, List<IndRecord> indrecs) {
         int personsInHh = 0;
         int personsInInds = 0;
         List<Person> extras = new ArrayList<>();
@@ -294,7 +317,7 @@ public class GroupMaker {
         }
 
         int extraPersons = personsInHh > personsInInds ? (personsInHh - personsInInds) : 0;
-        for (int i = 0; i < extraPersons; i++) {
+        for (int i = 0; i < extraPersons + 100; i++) {
             extras.add(new Person());
         }
         return extras;
@@ -309,7 +332,7 @@ public class GroupMaker {
     // return selected;
     // }
 
-    void print(Object l) {
+    private void print(Object l) {
         System.out.println(l.toString());
     }
 
@@ -320,17 +343,17 @@ public class GroupMaker {
      * @param bias By how much should occurrence of True be biased. e.g. if bias == 0.25, probability of method returning True is 1/4.
      * @return true or false
      */
-    boolean selectTrueOrFalseRandomlyWithBias(Random rand, double bias) {
+    private boolean selectTrueOrFalseRandomlyWithBias(Random rand, double bias) {
         double r = rand.nextDouble();
         return (r < bias) ? true : false;
     }
 
-    int pickRandomly(int... fromvals) {
+    private int pickRandomly(int... fromvals) {
         int r = rand.nextInt(fromvals.length);
         return fromvals[r];
     }
 
-    void summary() {
+    private void summary() {
         print("------------ Formed households -----------");
         int wanted = 0;
         print("Total households formed: " + allHouseholds.size());
@@ -350,29 +373,29 @@ public class GroupMaker {
         print("Total missing persons: " + wanted);
     }
 
-    void printHhSummary(List<HhRecord> hhrecs) {
+    private void printHhSummary(List<HhRecord> hhrecs) {
         int ttlHhs = 0;
-        int cplonly = 0, cplYeschld = 0, oneparentfamily = 0;
+        int coupleOnly = 0, coupleYesChild = 0, oneParentFamily = 0;
         List<Map<String, Integer>> householdInfo = new ArrayList<Map<String, Integer>>(9);
         householdInfo.add(new LinkedHashMap<>());// Dummy for 0th element;
 
         Map<String, Integer> map = null;
-        int previousHhsize = 0;
-        for (HhRecord hhrec : hhrecs) {
-            if (hhrec.numOfPersonsPerHh != previousHhsize) {
-                previousHhsize = hhrec.numOfPersonsPerHh;
+        int previousHhSize = 0;
+        for (HhRecord hhRec : hhrecs) {
+            if (hhRec.numOfPersonsPerHh != previousHhSize) {
+                previousHhSize = hhRec.numOfPersonsPerHh;
                 map = new LinkedHashMap<>();
                 householdInfo.add(map);
             }
-            map.put(hhrec.familyCountPerHousehold + "" + hhrec.primaryFamilyType, 0);
-            if (hhrec.primaryFamilyType == FamilyType.COUPLEONLY) {
-                cplonly += (hhrec.hhCount);
+            map.put(hhRec.familyCountPerHousehold + "" + hhRec.primaryFamilyType, 0);
+            if (hhRec.primaryFamilyType == FamilyType.COUPLEONLY) {
+                coupleOnly += (hhRec.hhCount);
             }
-            if (hhrec.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN) {
-                cplYeschld += hhrec.hhCount;
+            if (hhRec.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN) {
+                coupleYesChild += hhRec.hhCount;
             }
-            if (hhrec.primaryFamilyType == FamilyType.LONEPARENT) {
-                oneparentfamily += hhrec.hhCount;
+            if (hhRec.primaryFamilyType == FamilyType.LONEPARENT) {
+                oneParentFamily += hhRec.hhCount;
             }
         }
 
@@ -383,9 +406,9 @@ public class GroupMaker {
             hhmap.put(household.TARGETFAMLYCOUNT + "" + primaryFamily.getType(), hhcount + 1);
         }
         System.out.println("Total Households: " + ttlHhs);
-        System.out.println("Couple Only Hhs: " + cplonly);
-        System.out.println("Couple with children Hhs: " + cplYeschld);
-        System.out.println("One parent family Hhs: " + oneparentfamily);
+        System.out.println("Couple Only Hhs: " + coupleOnly);
+        System.out.println("Couple with children Hhs: " + coupleYesChild);
+        System.out.println("One parent family Hhs: " + oneParentFamily);
 
         print("size\tDesctiption\t\t\t\t\t\t\ttarget\tcurrent");
         for (HhRecord hhrec : hhrecs) {
@@ -402,7 +425,7 @@ public class GroupMaker {
 
     }
 
-    void printIndSummary(List<IndRecord> indRecords) {
+    private void printIndSummary(List<IndRecord> indRecords) {
         int ttlInds = 0, marriedMale = 0, marriedFemale = 0, children = 0, lnp = 0;
         for (IndRecord indrec : indRecords) {
             ttlInds += indrec.indCount;
@@ -427,8 +450,8 @@ public class GroupMaker {
         System.out.println("Lone parents: " + lnp);
     }
 
-    List<Household> addPrimaryFamilytoMultiFamily(List<HhRecord> hhrecs, List<Family> primaryFamilies, String logprefix, int hhcode) {
-        List<HhRecord> selectedHouseholdRecords = getHhsByFamlyType(hhrecs, hhcode);
+    private List<Household> addPrimaryFamilytoMultiFamily(List<HhRecord> hhrecs, List<Family> primaryFamilies, String logprefix, FamilyHouseholdType familyHouseholdType) {
+        List<HhRecord> selectedHouseholdRecords = getHhsByFamilyType(hhrecs, familyHouseholdType);
         List<Household> partiallyFormedMultiFamilyHouseholds = new ArrayList<>();
         int formed = 0, unformed = 0;
         for (HhRecord householdRecord : selectedHouseholdRecords) {
@@ -458,32 +481,76 @@ public class GroupMaker {
         return partiallyFormedMultiFamilyHouseholds;
     }
 
-    List<Household> formPrimaryFamiliesForMultiFamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplOnlyPrimaryFamilies,
-                                                                List<Family> cplYsChldPrimaryFamilies, List<Family> loneParentFamilies, List<Family> primaryOtherFamilies) {
+    private List<Household> formPrimaryFamiliesForMultiFamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplOnlyPrimaryFamilies,
+                                                                        List<Family> cplYsChldPrimaryFamilies, List<Family> loneParentFamilies, List<Family> primaryOtherFamilies) {
         List<Household> multiFamilyHhs = null, tempHhWith1Family = new ArrayList<>();
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplOnlyPrimaryFamilies, "Two family, Couple only households", i2fCplOnly);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplOnlyPrimaryFamilies, "Two family, Couple only households", new FamilyHouseholdType(f2, FamilyType.COUPLEONLY));
         tempHhWith1Family.addAll(multiFamilyHhs);
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplOnlyPrimaryFamilies, "Three family, Couple only households", i3fCplOnly);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplOnlyPrimaryFamilies, "Three family, Couple only households", new FamilyHouseholdType(f3, FamilyType.COUPLEONLY));
         tempHhWith1Family.addAll(multiFamilyHhs);
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, primaryOtherFamilies, "Two family, Other family households", i2fOthr);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, primaryOtherFamilies, "Two family, Other family households", new FamilyHouseholdType(f2, FamilyType.OTHERFAMILY));
         tempHhWith1Family.addAll(multiFamilyHhs);
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, primaryOtherFamilies, "Three family, Other family households", i3fOthr);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, primaryOtherFamilies, "Three family, Other family households", new FamilyHouseholdType(f3, FamilyType.OTHERFAMILY));
         tempHhWith1Family.addAll(multiFamilyHhs);
         multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplYsChldPrimaryFamilies, "Two family, Couple with children households",
-                i2fCplChld);
+                new FamilyHouseholdType(f2, FamilyType.COUPLEFAMILYWITHCHILDREN));
         tempHhWith1Family.addAll(multiFamilyHhs);
         multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, cplYsChldPrimaryFamilies, "Three family, Couple with children households",
-                i3fCplChld);
+                new FamilyHouseholdType(f3, FamilyType.COUPLEFAMILYWITHCHILDREN));
         tempHhWith1Family.addAll(multiFamilyHhs);
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, loneParentFamilies, "Two family, Lone parent households", i2f1P);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, loneParentFamilies, "Two family, Lone parent households", new FamilyHouseholdType(f2, FamilyType.LONEPARENT));
         tempHhWith1Family.addAll(multiFamilyHhs);
-        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, loneParentFamilies, "Three family, Lone parent households", i3f1P);
+        multiFamilyHhs = addPrimaryFamilytoMultiFamily(hhrecs, loneParentFamilies, "Three family, Lone parent households", new FamilyHouseholdType(f3, FamilyType.LONEPARENT));
         tempHhWith1Family.addAll(multiFamilyHhs);
         return tempHhWith1Family;
 
     }
 
-    void addNonPrimaryFamiliesToMultiFamilyHousehold(List<Household> multiFamilyHouseholdWith1Family) {
+    private void formOtherFamily1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> othrFamilyBasic) {
+        String logprefix = "One family, Other Family: ";
+        List<HhRecord> otherFmlyrec = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.OTHERFAMILY));//Get one family other-family hh records
+        List<Household> hhs = new ArrayList<>();
+        int takenFromExtras = 0;
+        int total1FOtherFamily = 0;
+        for (HhRecord householdRecord : otherFmlyrec) {
+            total1FOtherFamily += householdRecord.hhCount;
+
+            for (int i = 0; i < householdRecord.hhCount; i++) {
+                if (othrFamilyBasic.isEmpty()) {
+                    Log.errorAndExit(logprefix + "Not enough other family basic structures", GlobalConstants.EXITCODE.UNDEF);
+                }
+
+                Family family = othrFamilyBasic.get(0);
+                if (householdRecord.numOfPersonsPerHh > 2) {
+                    int remMems = householdRecord.numOfPersonsPerHh - family.size();
+                    if (relatives.size() < remMems) {
+                        int missing = remMems - relatives.size();
+                        addMembersToFamilyFromExtras(family, PersonType.Relative, missing);
+                        takenFromExtras += missing;
+                        //Add the ones we can get from relatives list
+                        addMembersToFamily(family, relatives, relatives.size());
+                    } else {
+                        addMembersToFamily(family, relatives, remMems);
+                    }
+                }
+                othrFamilyBasic.remove(0);
+                family.setType(householdRecord.primaryFamilyType);
+                Household h = new Household(householdRecord.numOfPersonsPerHh, householdRecord.familyCountPerHousehold, sa2name);
+                h.addFamily(family);
+                hhs.add(h);
+            }
+        }
+        Log.info(logprefix + "formed households: " + hhs.size());
+        if (takenFromExtras > 0) {
+            Log.info(logprefix + "Number taken from extras as Relatives: " + takenFromExtras);
+        }
+        if (hhs.size() == total1FOtherFamily) {
+            Log.info(logprefix + "All households created");
+        }
+        allHouseholds.addAll(hhs);
+    }
+
+    private void addNonPrimaryFamiliesToMultiFamilyHousehold(List<Household> multiFamilyHouseholdWith1Family) {
 
         String logprefix = "Multi-family househods: ";
         List<FamilyType> threeOrMoreMember = new ArrayList<>(
@@ -511,7 +578,7 @@ public class GroupMaker {
                 secondFamilyType = selectFamilyType(household, FamilyType.UNDEFINED);
                 if (secondFamilyType == null) {
                     Log.warn(logprefix + "Second family type selection failed: First family: " + firstFamilyType
-                            + "Second family:" + secondFamilyType);
+                            + "Second family: null");
                     throw new Error("Second family type null");
                 }
                 secondFamily = getNewFamily(secondFamilyType);
@@ -683,7 +750,35 @@ public class GroupMaker {
 
     }
 
-    void fillChildrenAndRelativesUsingExtras(int childMembers, int relativeMembers, List<Person> familyMembers, String logprefix) {
+    /**
+     * Adds required number of persons to the family from extras
+     *
+     * @param family          The family instance
+     * @param personType      The type of the newly added persons
+     * @param requiredMembers The number of persons to add
+     */
+    private void addMembersToFamilyFromExtras(Family family, PersonType personType, int requiredMembers) {
+        List<AgeRange> agesList = new ArrayList<>(Arrays.asList(AgeRange.values()));
+        for (int i = 0; i < requiredMembers; i++) {
+            Person member = extras.remove(0);
+            member.setSex(selectTrueOrFalseRandomlyWithBias(rand, sexRatio) ? Sex.Male : Sex.Female);
+            member.setType(personType);
+            Collections.shuffle(agesList);
+
+            if (personType == PersonType.Child) {
+                // We select U15 children for simplicity.
+                // TODO: To allow student and O15 children we have to implement logic considering age of parents
+                member.setAgeCat(AgeRange.A0_14);
+                member.setChildType(ChildType.U15Child);
+            } else {
+                member.setAgeCat(agesList.get(0));
+            }
+            family.addMember(member);
+        }
+    }
+
+
+    private void fillChildrenAndRelativesUsingExtras(int childMembers, int relativeMembers, List<Person> familyMembers, String logprefix) {
         int missingChildren = 0, missingRelatives = 0;
 
         if (children.size() > childMembers) {
@@ -732,14 +827,14 @@ public class GroupMaker {
                     relatives.subList(0, missingChildren).clear();
                 } else {
                     Log.warn(
-                            logprefix + "Children: " + children.size() + " Relatives: " + relatives.size() + " Extras: " + extras.size());
+                            logprefix + "Children: " + children.size() + " Relatives: " + relatives.size() + " Extras: " + extras.size() + " Required: " + (missingChildren + missingRelatives));
                     throw new Error(logprefix + "Cannot form more households. All extra persons consumed");
                 }
             }
         }
     }
 
-    Family getNewFamily(FamilyType newFamilyType) {
+    private Family getNewFamily(FamilyType newFamilyType) {
         Family newFamily = null;
         if (newFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN) {
             newFamily = married.remove(0);
@@ -763,26 +858,8 @@ public class GroupMaker {
         return newFamily;
     }
 
-    List<Person> getNewFamilyRemainingMembers(FamilyType newFamilyType) {
-        // we have already checked whether required agents exist, so can remove without issues
-        List<Person> newFamilyNewMembers = new ArrayList<>();
-        if (newFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN) {
-            newFamilyNewMembers.add(children.remove(0));
-        } else if (newFamilyType == FamilyType.OTHERFAMILY) {
-            newFamilyNewMembers.addAll(relatives.subList(0, 2));
-            relatives.subList(0, 2).clear();
-        } else if (newFamilyType == FamilyType.COUPLEONLY | newFamilyType == FamilyType.LONEPARENT) {
-        } else if (newFamilyType == null) {
-            Log.warn("Multi-family households: Family Type is null");
-            throw new Error("Unrecognised family type: " + newFamilyType);
-        } else {
-            Log.warn("Multi-family households: Family Type selected for second family does not exist: " + newFamilyType);
-            throw new Error("Unrecognised family type: " + newFamilyType);
-        }
-        return newFamilyNewMembers;
-    }
 
-    FamilyType selectFamilyType(Household household, FamilyType secondFamilyType) {
+    private FamilyType selectFamilyType(Household household, FamilyType secondFamilyType) {
         List<FamilyType> threeOrMoreMember = new ArrayList<>(
                 Arrays.asList(FamilyType.COUPLEFAMILYWITHCHILDREN, FamilyType.COUPLEONLY, FamilyType.OTHERFAMILY, FamilyType.LONEPARENT));
         List<FamilyType> twoMember = new ArrayList<>(Arrays.asList(FamilyType.COUPLEONLY, FamilyType.OTHERFAMILY, FamilyType.LONEPARENT));
@@ -834,62 +911,9 @@ public class GroupMaker {
         return nextFamilyType;
     }
 
-    void formOtherFamily1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> othrFamilyBasic) {
-        String logprefix = "One family, Other Family: ";
-        List<HhRecord> otherFmlyrec = getHhsByFamlyType(hhrecs, i1fOthr);
-        List<Household> hhs = new ArrayList<>();
-        int takenFromExtras = 0;
-        int total1FOtherFamily = 0;
-        for (HhRecord householdRecord : otherFmlyrec) {
-            if (othrFamilyBasic.isEmpty()) {
-                continue;
-            }
-
-            total1FOtherFamily += householdRecord.hhCount;
-
-            for (int i = 0; i < householdRecord.hhCount; i++) {
-                if (othrFamilyBasic.isEmpty()) {
-                    Log.warn(logprefix + "Not enough other family basic structures");
-                    break;
-                }
-
-                Family family = othrFamilyBasic.get(0);
-                if (householdRecord.numOfPersonsPerHh > 2) {
-                    int remMems = householdRecord.numOfPersonsPerHh - family.size();
-                    if (relatives.size() < remMems) {
-                        List<Person> newMembers = new ArrayList<>();
-                        int needed = remMems - relatives.size();
-                        family.addMembers(relatives.subList(0, relatives.size()));
-                        fillChildrenAndRelativesUsingExtras(0, needed, newMembers, logprefix);
-                        takenFromExtras += needed;
-                        family.addMembers(newMembers);
-                        print("comes here");
-
-                    } else {
-                        family.addMembers(relatives.subList(0, remMems));
-                        relatives.subList(0, remMems).clear();
-                    }
-                }
-                othrFamilyBasic.remove(0);
-                family.setType(householdRecord.primaryFamilyType);
-                Household h = new Household(householdRecord.numOfPersonsPerHh, householdRecord.familyCountPerHousehold, sa2name);
-                h.addFamily(family);
-                hhs.add(h);
-            }
-        }
-        Log.info(logprefix + "formed households: " + hhs.size());
-        if (takenFromExtras > 0) {
-            Log.info(logprefix + "Taken from extras as Relatives: " + takenFromExtras);
-        }
-        if (hhs.size() == total1FOtherFamily) {
-            Log.info(logprefix + "All households created");
-        }
-        allHouseholds.addAll(hhs);
-    }
-
-    void formLoneParent1FamilyHouseholds(List<HhRecord> hhrecs) {
+    private void formLoneParent1FamilyHouseholds(List<HhRecord> hhrecs) {
         String logprefix = "One family, Lone parent: ";
-        List<HhRecord> lnparentrec = getHhsByFamlyType(hhrecs, i1f1P);
+        List<HhRecord> lnparentrec = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.LONEPARENT));
         // int neededMembers = 0;
         List<Household> loneParentHouseholds = new ArrayList<>();
         int totalLoneParenHhs = 0;
@@ -905,37 +929,24 @@ public class GroupMaker {
                 }
                 Family family = loneParentBasic.remove(0);
                 family.setType(FamilyType.LONEPARENT);
-                int neededMembers = hhrec.numOfPersonsPerHh - family.size();
-                if (neededMembers > 0) {
-                    int relativeMembers = 0;
-                    boolean hasRelative = selectTrueOrFalseRandomlyWithBias(rand, relativeProbability);
-                    if (relatives.size() > 0 && hasRelative && neededMembers > 2) {
-                        relativeMembers = 1;
-                    }
-                    int childMembers = neededMembers - relativeMembers;
-                    if (children.size() + relatives.size() > neededMembers) {
-                        if (children.size() < childMembers) {
-                            childMembers = children.size();
-                            relativeMembers = neededMembers - childMembers;
-                        }
 
-                        if (relatives.size() < relativeMembers) {
-                            relativeMembers = relatives.size();
-                            childMembers = neededMembers - relativeMembers;
-                        }
-                        family.addMembers(children.subList(0, childMembers));
-                        children.subList(0, childMembers).clear();
-                        family.addMembers(relatives.subList(0, relativeMembers));
-                        relatives.subList(0, relativeMembers).clear();
-                    } else {
-                        List<Person> newPersons = new ArrayList<>();
-                        fillChildrenAndRelativesUsingExtras(childMembers, relativeMembers, newPersons, logprefix);
-                        family.addMembers(newPersons);
+                if (hhrec.numOfPersonsPerHh > family.size())
+                    addChildrenAndRelativesToFamilyFromMainLists(family, hhrec.numOfPersonsPerHh);
+
+                if (hhrec.numOfPersonsPerHh > family.size()) {
+                    int neededMembers = hhrec.numOfPersonsPerHh - family.size();
+                    if (neededMembers > 0) { //We have exhausted all known children and relatives. So select from extras.
+                        int relativesCount = selectTrueOrFalseRandomlyWithBias(rand, relativeProbability) ? 1 : 0;
+                        int childrenCount = neededMembers - relativesCount;
+
+                        addMembersToFamilyFromExtras(family, PersonType.Relative, relativesCount);
+                        addMembersToFamilyFromExtras(family, PersonType.Child, childrenCount);
                     }
                 }
                 Household household = new Household(hhrec.numOfPersonsPerHh, hhrec.familyCountPerHousehold, sa2name);
                 household.addFamily(family);
-                loneParentHouseholds.add(household);
+//                loneParentHouseholds.add(household);
+                allHouseholds.add(household);
             }
 
         }
@@ -943,12 +954,32 @@ public class GroupMaker {
         if (loneParentHouseholds.size() == totalLoneParenHhs) {
             Log.info("One family, Lone parent: All households created");
         }
-        allHouseholds.addAll(loneParentHouseholds);
+//        allHouseholds.addAll(loneParentHouseholds);
     }
 
-    void formCoupleWithChild1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplYsChldPrimaryFamilies) {
+    private int addChildrenAndRelativesToFamilyFromMainLists(Family family, int maxHhSize) {
+        //We can complete the family using children or relatives. We randomly add a child or a relative
+        //to the family. The while loop treats children and relatives as a one large virtual list. We
+        //randomly pick an index and add the corresponding the child or relative to the family.
+        int missingMembers = maxHhSize - family.size(), addCount = 0;
+        while (missingMembers > 0 && !(children.isEmpty() && relatives.isEmpty())) {
+            int randIndex = rand.nextInt(relatives.size() + children.size());
+            if (randIndex < relatives.size()) {
+                family.addMember(relatives.remove(randIndex));
+            } else {
+                //Children section of the virtual list starts at the end of relatives list. So we have to
+                //offset the index
+                family.addMember(children.remove(randIndex - relatives.size()));
+            }
+            addCount++;
+            missingMembers--;
+        }
+        return addCount;
+    }
+
+    private void formCoupleWithChild1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplYsChldPrimaryFamilies) {
         String logprefix = "One Family, Couple with children: ";
-        List<HhRecord> cplYsChldrec = getHhsByFamlyType(hhrecs, i1fCplChld);
+        List<HhRecord> cplYsChldrec = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.COUPLEFAMILYWITHCHILDREN));
         List<Household> hhs = new ArrayList<>();
 
         int unformed = 0;
@@ -966,25 +997,18 @@ public class GroupMaker {
 
                 Family family = cplYsChldPrimaryFamilies.get(0);
 
+                //We can complete the family using children or relatives. We randomly add a child or a relative
+                //to the family. The while loop treats children and relatives as a one large virtual list. We
+                //randomly pick an index and add the corresponding the child or relative to the family.
+                int addedCount = addChildrenAndRelativesToFamilyFromMainLists(family, householdRecord.numOfPersonsPerHh);
+
                 int remMems = householdRecord.numOfPersonsPerHh - family.size();
-                boolean hasRelative = selectTrueOrFalseRandomlyWithBias(rand, 0.19);
-                if (remMems > 0) {
-                    if (hasRelative & !relatives.isEmpty()) {
-                        --remMems; // We delay adding relative to family until we are sure this family can be
-                        // formed successfully
-                    }
-                    if (children.size() < remMems) {
-                        List<Person> extraChildren = new ArrayList<>();
-                        fillChildrenAndRelativesUsingExtras(remMems, 0, extraChildren, logprefix);
-                        family.addMembers(extraChildren);
-                        Log.info(logprefix + "Not enough children in main list. Drawing persons from extras");
-                    } else {
-                        family.addMembers(children.subList(0, remMems));
-                        children.subList(0, remMems).clear();
-                    }
-                    if (hasRelative && !relatives.isEmpty()) {
-                        family.addMember(relatives.remove(0));
-                    }
+                if (remMems > 0) { //We have exhausted all known children and relatives. So select from extras.
+                    int relativesCount = selectTrueOrFalseRandomlyWithBias(rand, relativeProbability) ? 1 : 0;
+                    int childrenCount = remMems - relativesCount;
+
+                    addMembersToFamilyFromExtras(family, PersonType.Relative, relativesCount);
+                    addMembersToFamilyFromExtras(family, PersonType.Child, childrenCount);
                 }
 
                 cplYsChldPrimaryFamilies.remove(0);
@@ -1003,9 +1027,9 @@ public class GroupMaker {
         allHouseholds.addAll(hhs);
     }
 
-    void formCoupleOnly1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplOnlyPrimaryFamilies) {
+    private void formCoupleOnly1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> cplOnlyPrimaryFamilies) {
         String logprefix = "One Family, Couple only: ";
-        List<HhRecord> cplOnlyrec = getHhsByFamlyType(hhrecs, i1fCplOnly);
+        List<HhRecord> cplOnlyrec = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.COUPLEONLY));
         List<Household> hhs = new ArrayList<>();
         int unformed = 0;
         for (HhRecord householdRecord : cplOnlyrec) {
@@ -1016,7 +1040,7 @@ public class GroupMaker {
             for (int i = 0; i < householdRecord.hhCount; i++) {
                 if (cplOnlyPrimaryFamilies.isEmpty()) {
                     unformed += (householdRecord.hhCount - i);
-                    Log.warn("One Family, Couple only: Not enough Couple Only Primary Families");
+                    Log.warn(logprefix + "Not enough Couple Only Primary Families");
                     break;
                 }
 
@@ -1024,12 +1048,11 @@ public class GroupMaker {
                 if (householdRecord.numOfPersonsPerHh > 2) {
                     int remMems = householdRecord.numOfPersonsPerHh - family.size();
                     if (relatives.size() < remMems) {
-                        List<Person> extraRelatives = new ArrayList<>();
-                        fillChildrenAndRelativesUsingExtras(0, remMems, extraRelatives, logprefix);
-                        family.addMembers(extraRelatives);
+                        int neededFromExtras = remMems - relatives.size();
+                        addMembersToFamily(family, relatives, relatives.size());
+                        addMembersToFamilyFromExtras(family, PersonType.Relative, neededFromExtras);
                     } else {
-                        family.addMembers(relatives.subList(0, remMems));
-                        relatives.subList(0, remMems).clear();
+                        addMembersToFamily(family, relatives, remMems);
                     }
                 }
                 cplOnlyPrimaryFamilies.remove(0);
@@ -1039,16 +1062,31 @@ public class GroupMaker {
                 hhs.add(h);
             }
         }
-        Log.info("One Family, Couple only: formed households: " + hhs.size());
+        Log.info(logprefix + "formed households: " + hhs.size());
         if (unformed > 0) {
-            Log.warn("One Family, Couple only: unformed households: " + unformed);
+            Log.warn(logprefix + "unformed households: " + unformed);
         } else {
-            Log.info("One Family, Couple only: All households created");
+            Log.info(logprefix + "All households created");
         }
         allHouseholds.addAll(hhs);
     }
 
-    List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indrec, int... relType) {
+    /**
+     * Add a specified number of members to the family from a list of persons. The persons are selected
+     * from the source list from top to bottom. After adding the members the members are removed from
+     * the source list.
+     *
+     * @param family     The family instance to which members are added
+     * @param sourceList The persons list from which members are selected
+     * @param count      The number of persons to add
+     */
+    private void addMembersToFamily(Family family, List<Person> sourceList, int count) {
+        List<Person> selected = sourceList.subList(0, count);
+        family.addMembers(selected);
+        selected.clear();
+    }
+
+    private List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indrec, int... relType) {
         List<IndRecord> indRecs = getAgentsByRelType(indrec, relType);
         List<Person> persons = new ArrayList<>();
         for (IndRecord rec : indRecs) {
@@ -1065,8 +1103,8 @@ public class GroupMaker {
         return persons;
     }
 
-    List<Family> makePrimaryCoupleOnlyFamilyBasicStructs(List<HhRecord> hhrecs) {
-        List<HhRecord> cplOnlyHhrecs = getHhsByFamlyType(hhrecs, i1fCplOnly, i2fCplOnly, i3fCplOnly);
+    private List<Family> makePrimaryCoupleOnlyFamilyBasicStructs(List<HhRecord> hhrecs) {
+        List<HhRecord> cplOnlyHhrecs = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.COUPLEONLY), new FamilyHouseholdType(f2, FamilyType.COUPLEONLY), new FamilyHouseholdType(f3, FamilyType.COUPLEONLY));
         List<Family> cplOnly = new ArrayList<>();
         int unformed = 0;
         for (HhRecord hhrec : cplOnlyHhrecs) {
@@ -1094,8 +1132,8 @@ public class GroupMaker {
         return cplOnly;
     }
 
-    List<Family> makePrimaryCoupleWithChildFamilyBasicStructs(List<HhRecord> householdRecords) {
-        List<HhRecord> cplYesChldFamilies = getHhsByFamlyType(householdRecords, i1fCplChld, i2fCplChld, i3fCplChld);
+    private List<Family> makePrimaryCoupleWithChildFamilyBasicStructs(List<HhRecord> householdRecords) {
+        List<HhRecord> cplYesChldFamilies = getHhsByFamilyType(householdRecords, new FamilyHouseholdType(f1, FamilyType.COUPLEFAMILYWITHCHILDREN), new FamilyHouseholdType(f2, FamilyType.COUPLEFAMILYWITHCHILDREN), new FamilyHouseholdType(f3, FamilyType.COUPLEFAMILYWITHCHILDREN));
         List<Family> cplwChld = new ArrayList<>();
         int unformed = 0;
         for (HhRecord hhrec : cplYesChldFamilies) {
@@ -1128,7 +1166,7 @@ public class GroupMaker {
         return cplwChld;
     }
 
-    List<Family> makeAllBasicLoneParentStructs(List<Person> lnParents) {
+    private List<Family> makeAllBasicLoneParentStructs(List<Person> lnParents) {
         List<Family> lnParentBasic = new ArrayList<>();
         int lnpcnt = lnParents.size();
         for (int i = 0; i < lnpcnt; i++) {
@@ -1149,41 +1187,11 @@ public class GroupMaker {
         return lnParentBasic;
     }
 
-    List<Family> makeAllPrimaryLoneParentFamilies(List<HhRecord> hhrecs, List<Family> basicLoneParentFamilies) {
-        List<HhRecord> lnParentRecs = getHhsByFamlyType(hhrecs, i1f1P, i2f1P, i3f1P);
-        List<Family> lnParentFamilies = new ArrayList<>();
-        int unformed = 0;
-        for (HhRecord lnprec : lnParentRecs) {
-            if (basicLoneParentFamilies.isEmpty()) {
-                unformed += lnprec.hhCount;
-                continue;
-            }
-            for (int i = 0; i < lnprec.hhCount; i++) {
-                if (basicLoneParentFamilies.isEmpty()) {
-                    Log.warn("Primary Lone Parent Families: Not engough Basic Lone Parent Family structures");
-                    unformed += (lnprec.hhCount - i);
-                    break;
-                }
 
-                Family f = basicLoneParentFamilies.remove(0);
-                f.setType(lnprec.primaryFamilyType);
-                lnParentFamilies.add(f);
-
-            }
-        }
-        Log.info("Primary Lone Parent Families: Structures created: " + lnParentFamilies.size());
-        if (unformed != 0) {
-            Log.warn("Primary Lone Parent Families: Discarded structures: " + unformed);
-        } else {
-            Log.info("Primary Lone Parent Families: All structures created");
-        }
-        return lnParentFamilies;
-    }
-
-    List<Family> makeAllPrimaryOtherFamilyBasicStructs(List<HhRecord> hhrecs) {
-        List<HhRecord> otherFamily = getHhsByFamlyType(hhrecs, i1fOthr);
-        otherFamily.addAll(getHhsByFamlyType(hhrecs, i2fOthr));
-        otherFamily.addAll(getHhsByFamlyType(hhrecs, i3fOthr));
+    private List<Family> makeAllPrimaryOtherFamilyBasicStructs(List<HhRecord> hhrecs) {
+        List<HhRecord> otherFamily = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.OTHERFAMILY));
+        otherFamily.addAll(getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f2, FamilyType.OTHERFAMILY)));
+        otherFamily.addAll(getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f3, FamilyType.OTHERFAMILY)));
 
         List<Family> otherFamilyBasic = new ArrayList<>();
         Collections.shuffle(relatives, rand);
@@ -1216,7 +1224,7 @@ public class GroupMaker {
         return otherFamilyBasic;
     }
 
-    List<Family> makeAllMarriedCouples(List<HhRecord> hhrecs, List<IndRecord> indrec) {
+    private List<Family> makeAllMarriedCouples(List<HhRecord> hhrecs, List<IndRecord> indrec) {
         List<IndRecord> married = getAgentsByRelType(indrec, imarried);
         List<Person> maleMarried = new ArrayList<>();
         List<Person> femaleMarried = new ArrayList<>();
@@ -1258,8 +1266,8 @@ public class GroupMaker {
         return fl;
     }
 
-    void makeLonePersonsHhs(List<HhRecord> hhrecs, List<IndRecord> indrec) {
-        List<HhRecord> lnPersonHhs = getHhsByFamlyType(hhrecs, ilnPerhh);
+    private void makeLonePersonsHhs(List<HhRecord> hhrecs, List<IndRecord> indrec) {
+        List<HhRecord> lnPersonHhs = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.LONEPERSON));
         List<IndRecord> lnPersonInds = getAgentsByRelType(indrec, ilnperson);
 
         List<Person> allpersons = new ArrayList<>();
@@ -1301,8 +1309,8 @@ public class GroupMaker {
 
     }
 
-    void makeGroupHhs(List<HhRecord> hhrecs, List<IndRecord> indrec) {
-        List<HhRecord> grpHhrecs = getHhsByFamlyType(hhrecs, igrpHh);
+    private void makeGroupHhs(List<HhRecord> hhrecs, List<IndRecord> indrec) {
+        List<HhRecord> grpHhrecs = getHhsByFamilyType(hhrecs, new FamilyHouseholdType(f1, FamilyType.COUPLEONLY.GROUPHOUSEHOLD));
         List<IndRecord> grpIndrecs = getAgentsByRelType(indrec, igrpInd);
 
         List<Person> grpmems = new ArrayList<>();
@@ -1352,11 +1360,12 @@ public class GroupMaker {
         }
     }
 
-    List<HhRecord> getHhsByFamlyType(List<HhRecord> hhrecs, int... familytype) {
+    private List<HhRecord> getHhsByFamilyType(List<HhRecord> hhrecs, FamilyHouseholdType... familyTypes) {
         List<HhRecord> shortlist = new ArrayList<>();
-        for (int j = 0; j < familytype.length; j++) {
+        for (int j = 0; j < familyTypes.length; j++) {
             for (int i = 0; i < hhrecs.size(); i++) {
-                if ((i % fmTypes) == familytype[j]) {
+                if (hhrecs.get(i).familyCountPerHousehold == familyTypes[j].getFamilyCount() &&
+                        hhrecs.get(i).primaryFamilyType == familyTypes[j].getFamilyType()) {
                     shortlist.add(hhrecs.get(i));
                 }
             }
@@ -1364,7 +1373,7 @@ public class GroupMaker {
         return shortlist;
     }
 
-    List<IndRecord> getAgentsByRelType(List<IndRecord> indrecs, int... relState) {
+    private List<IndRecord> getAgentsByRelType(List<IndRecord> indrecs, int... relState) {
         List<IndRecord> shortlist = new ArrayList<>();
         for (int j = 0; j < relState.length; j++) {
             for (int i = 0; i < indrecs.size(); i++) {
