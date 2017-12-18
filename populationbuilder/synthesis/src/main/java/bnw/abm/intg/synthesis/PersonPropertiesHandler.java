@@ -6,6 +6,10 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import bnw.abm.intg.synthesis.models.AgeRange;
+import bnw.abm.intg.synthesis.models.Family;
+import bnw.abm.intg.synthesis.models.Household;
+import bnw.abm.intg.synthesis.models.Person;
 import com.google.common.util.concurrent.AtomicDouble;
 
 /**

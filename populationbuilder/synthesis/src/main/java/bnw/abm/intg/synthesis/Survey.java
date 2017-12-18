@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import bnw.abm.intg.filemanager.csv.CSVWriter;
+import bnw.abm.intg.synthesis.models.*;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -119,7 +120,7 @@ public class Survey {
 
         Map<String, Integer> map = new LinkedHashMap<>();
         for (IndRecord inrec : indrecs) {
-            String key = inrec.personType + "," + inrec.sex + "," + inrec.ageRange;
+            String key = inrec.relationshipStatus + "," + inrec.sex + "," + inrec.ageRange;
             map.put(key, 0);
         }
 
@@ -197,7 +198,7 @@ public class Survey {
                     continue;
                 }
                 for (Person person : family.getMembers()) {
-                    if (person.getType() == PersonType.Relative) {// FIXME: add relatives back
+                    if (person.getType() == RelationshipStatus.Relative) {// FIXME: add relatives back
                         continue;
                     }
                     List<String> pdata = new ArrayList<>();
@@ -243,7 +244,7 @@ public class Survey {
                     // }
 
                     // RelationshipStatus
-                    if (person.getType() == PersonType.Child) {
+                    if (person.getType() == RelationshipStatus.Child) {
                         pdata.add(String.valueOf(person.getChildType()));
                     } else {
                         pdata.add(String.valueOf(person.getType()));
@@ -272,7 +273,7 @@ public class Survey {
                 fdata.add(String.valueOf(family.getType()));
                 fdata.add(String.valueOf(family.size()));
                 // List<String> memberIds = family.getMembers().stream().map(p -> p.getID()).collect(Collectors.toList());
-                List<String> memberIds = family.getMembers().stream().filter(p -> p.getType() != PersonType.Relative).map(p -> p.getID())
+                List<String> memberIds = family.getMembers().stream().filter(p -> p.getType() != RelationshipStatus.Relative).map(p -> p.getID())
                         .collect(Collectors.toList());// FIXME: add relatives back
                 fdata.add(memberIds.toString());
                 fdata.add(household.getID());
@@ -297,7 +298,7 @@ public class Survey {
             hhData.add(String.valueOf(household.getFamilies().get(0).getType()));
             // Members
             // List<String> memberIds = household.getMembers().stream().map((p) -> p.getID()).collect(Collectors.toList());
-            List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != PersonType.Relative).map((p) -> p.getID())
+            List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map((p) -> p.getID())
                     .collect(Collectors.toList()); // FIXME: add relatives back
             hhData.add(memberIds.toString());
             // FamilyIds
@@ -332,7 +333,7 @@ public class Survey {
                 hhData.add(String.valueOf(household.TARGETSIZE));
                 hhData.add(String.valueOf(household.currentSize()));
                 // List<String> memberIds = household.getMembers().stream().map((p) -> p.getID()).collect(Collectors.toList());
-                List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != PersonType.Relative).map((p) -> p.getID())
+                List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map((p) -> p.getID())
                         .collect(Collectors.toList());// FIXME: add relatives back
                 hhData.add(memberIds.toString());
                 hhData.add(null);
@@ -376,7 +377,7 @@ public class Survey {
                     // throw new Error("Validation failed");
                     // }
                     for (Person person : family.getMembers()) {
-                        if (person.getType() == PersonType.Relative) {// FIXME: add relatives back
+                        if (person.getType() == RelationshipStatus.Relative) {// FIXME: add relatives back
                             continue;
                         }
                         // if (!person.validate()) {
@@ -413,7 +414,7 @@ public class Survey {
                         // } else {
                         // pdata.add(null);
                         // }
-                        if (person.getType() == PersonType.Child) {
+                        if (person.getType() == RelationshipStatus.Child) {
                             pdata.add(String.valueOf(person.getChildType()));
                         } else {
                             pdata.add(String.valueOf(person.getType()));
@@ -452,7 +453,7 @@ public class Survey {
                     fdata.add(String.valueOf(family.getType()));
                     fdata.add(String.valueOf(family.size()));
                     // List<String> memberIds = family.getMembers().stream().map(p -> p.getID()).collect(Collectors.toList());
-                    List<String> memberIds = family.getMembers().stream().filter(m -> m.getType() != PersonType.Relative).map(p -> p.getID())
+                    List<String> memberIds = family.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map(p -> p.getID())
                             .collect(Collectors.toList());// FIXME: add relatives back
                     fdata.add(memberIds.toString());
                     fdata.add(household.getID());

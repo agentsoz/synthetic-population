@@ -1,4 +1,4 @@
-package bnw.abm.intg.synthesis;
+package bnw.abm.intg.synthesis.models;
 
 import bnw.abm.intg.util.Log;
 
@@ -7,34 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class FamilyHouseholdType {
-    private int familyCount;
-    private FamilyType familyType;
-
-    FamilyHouseholdType(int familyCount, FamilyType familyType){
-        this.familyCount = familyCount;
-        this.familyType = familyType;
-    }
-
-    int getFamilyCount(){
-        return this.familyCount;
-    }
-
-    FamilyType getFamilyType(){
-        return this.familyType;
-    }
-}
-
 /**
- * @author Bhagya N. Wickramasinghe 19 May 2016
+ * @author Bhagya N. Wickramasinghe
  */
 public class Household {
 
 
+    public final int TARGETSIZE;
+    public final int TARGETFAMLYCOUNT;
+
     private static long IDCounter = 0;
     private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
-    final int TARGETSIZE;
-    final int TARGETFAMLYCOUNT;
     private List<Family> families;
     private String householdID;
     private String tenlld;
