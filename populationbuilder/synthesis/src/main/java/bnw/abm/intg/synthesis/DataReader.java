@@ -4,6 +4,10 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.CSVReader;
+import bnw.abm.intg.synthesis.models.AgeRange;
+import bnw.abm.intg.synthesis.models.FamilyType;
+import bnw.abm.intg.synthesis.models.RelationshipStatus;
+import bnw.abm.intg.synthesis.models.Sex;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -25,7 +29,7 @@ public class DataReader {
         CSVParser parser = new CSVParser(Files.newBufferedReader(hhfileinfo), CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int r = -1;
         String sa, hhSize, familyDesc, hhcount, currentSA = null;
-        int sacol = 1, hhSizecol = 2, familyDescriptioncol = 3, hhcountcol = 4;
+        int saCol = 1, hhSizeCol = 2, familyDescriptionCol = 3, hhCountCol = 4;
         List<HhRecord> hhreclist = null;
         Map<String, List<HhRecord>> hhdata = new LinkedHashMap<>();
         for (CSVRecord rec : parser) {
@@ -34,16 +38,16 @@ public class DataReader {
                 continue;
             }
 
-            sa = rec.get(sacol);
+            sa = rec.get(saCol);
             if (!sa.equals(currentSA)) {
                 currentSA = sa;
                 hhreclist = new ArrayList<>();
                 hhdata.put(sa, hhreclist);
             }
 
-            hhSize = rec.get(hhSizecol);
-            familyDesc = rec.get(familyDescriptioncol);
-            hhcount = rec.get(hhcountcol);
+            hhSize = rec.get(hhSizeCol);
+            familyDesc = rec.get(familyDescriptionCol);
+            hhcount = rec.get(hhCountCol);
             int nop = parseIntNofPersons(hhSize);
             int nofFamilies = getFamilyCountInHousehold(familyDesc);
             FamilyType primaryFamilyType = getPrimaryFamilyType(familyDesc);
@@ -56,13 +60,12 @@ public class DataReader {
         return hhdata;
     }
 
-    static Map<String, List<IndRecord>> readPersonRecords(Path indfileinfo) throws IOException {
+    static Map<String, List<IndRecord>> readPersonRecords(Path indFileInfo) throws IOException {
         int titleRow = 0;
-        CSVParser parser = new CSVParser(Files.newBufferedReader(indfileinfo), CSVFormat.EXCEL.withSkipHeaderRecord(false));
+        CSVParser parser = new CSVParser(Files.newBufferedReader(indFileInfo), CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int r = -1;
         String sa, ageRangeStr, currentSA = null;
-        PersonType personType;
-        ChildType childType;
+        RelationshipStatus relStatus;
         Sex sex;
         int sacol = 1, relcol = 2, sexcol = 3, agecol = 4, nofagentscol = 5;
         List<IndRecord> indreclist = new ArrayList<>();
@@ -79,16 +82,12 @@ public class DataReader {
                 inddata.put(sa, indreclist);
             }
 
-            personType = getPersonType(rec.get(relcol));
-            if (personType == PersonType.Child)
-                childType = getChildType(rec.get(relcol));
-            else
-                childType = null;
+            relStatus = getRelationshipStatus(rec.get(relcol));
             sex = getSex(rec.get(sexcol));
             ageRangeStr = rec.get(agecol);
 
             int personcount = Integer.parseInt(rec.get(nofagentscol));
-            IndRecord indr = new IndRecord(personType, childType, sex, getAgeRange(ageRangeStr), personcount);
+            IndRecord indr = new IndRecord(relStatus, sex, getAgeRange(ageRangeStr), personcount);
             indreclist.add(indr);
         }
         parser.close();
@@ -175,55 +174,37 @@ public class DataReader {
         }
     }
 
-    private static PersonType getPersonType(String relationshipType) {
-        PersonType ptype;
+    private static RelationshipStatus getRelationshipStatus(String relationshipType) {
+        RelationshipStatus relStatus;
         switch (relationshipType) {
             case "Relatives":
-                ptype = PersonType.Relative;
+                relStatus = RelationshipStatus.Relative;
                 break;
             case "Married":
-                ptype = PersonType.Married;
+                relStatus = RelationshipStatus.Married;
                 break;
             case "Lone parent":
-                ptype = PersonType.LoneParent;
+                relStatus = RelationshipStatus.LoneParent;
                 break;
             case "U15Child":
-                ptype = PersonType.Child;
+                relStatus = RelationshipStatus.U15Child;
                 break;
             case "Student":
-                ptype = PersonType.Child;
+                relStatus = RelationshipStatus.Student;
                 break;
             case "O15Child":
-                ptype = PersonType.Child;
+                relStatus = RelationshipStatus.O15Child;
                 break;
             case "GroupHhold":
-                ptype = PersonType.GroupHousehold;
+                relStatus = RelationshipStatus.GroupHousehold;
                 break;
             case "Lone person":
-                ptype = PersonType.LonePerson;
+                relStatus = RelationshipStatus.LonePerson;
                 break;
             default:
                 throw new Error("Unrecognised Person type");
         }
-        return ptype;
-    }
-
-    private static ChildType getChildType(String relationshipType) {
-        ChildType childType;
-        switch (relationshipType) {
-            case "U15Child":
-                childType = ChildType.U15Child;
-                break;
-            case "Student":
-                childType = ChildType.Student;
-                break;
-            case "O15Child":
-                childType = ChildType.O15Child;
-                break;
-            default:
-                throw new Error("Unrecognised Child type");
-        }
-        return childType;
+        return relStatus;
     }
 
     private static int parseIntNofPersons(String nofPersons) throws IOException {
@@ -332,19 +313,17 @@ class HhRecord {
 }
 
 class IndRecord {
-    final public PersonType personType;
-    final public ChildType childType;
+    final public RelationshipStatus relationshipStatus;
     final public Sex sex;
     final public AgeRange ageRange;
     final public int indCount;
 
-    public IndRecord(PersonType type, ChildType childType, Sex sex, AgeRange agerange, int individualscount) {
-        this.ageRange = agerange;
+    public IndRecord(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int individualsCount) {
+        this.ageRange = ageRange;
         this.sex = sex;
-        this.personType = type;
-        this.childType = childType;
-        this.indCount = individualscount;
-        if (individualscount > 0) {
+        this.relationshipStatus = relStatus;
+        this.indCount = individualsCount;
+        if (individualsCount > 0) {
             this.ageRange.markNotEmpty(true);
         }
     }

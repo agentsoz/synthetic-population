@@ -1,7 +1,7 @@
 /**
  *
  */
-package bnw.abm.intg.synthesis;
+package bnw.abm.intg.synthesis.models;
 
 import bnw.abm.intg.util.Log;
 
@@ -10,14 +10,14 @@ import java.util.List;
 
 
 /**
- * @author Bhagya N. Wickramasinghe 19 May 2016
+ * @author wniroshan
+ * @date 19 May 2016
  */
 public class Person {
 
     private static long IDCounter = 0;
     private String personID;
-    private PersonType type;
-    private ChildType childType;
+    private RelationshipStatus type;
     private int age;
     private Sex sex;
     private AgeRange ageCat;
@@ -34,22 +34,11 @@ public class Person {
         this.personID = String.valueOf(IDCounter++);
     }
 
-    public ChildType getChildType() {
-        if (type == PersonType.Child && childType == null) {
-            throw new Error("ChilType is not set");
-        }
-        return childType;
-    }
-
-    public void setChildType(ChildType childType) {
-        this.childType = childType;
-    }
-
-    public PersonType getType() {
+    public RelationshipStatus getType() {
         return type;
     }
 
-    public void setType(PersonType type) {
+    public void setType(RelationshipStatus type) {
         this.type = type;
     }
 
@@ -149,7 +138,7 @@ public class Person {
     }
 
     void setParent(Person parent) {
-        if (parent.type == PersonType.Married | parent.type == PersonType.LoneParent) {
+        if (parent.type == RelationshipStatus.Married | parent.type == RelationshipStatus.LoneParent) {
             if (parent.sex == Sex.Male) {
                 setFather(parent);
             } else if (parent.sex == Sex.Female) {
@@ -206,7 +195,7 @@ public class Person {
 
                     return true;
                 } else {
-                    Log.error( logprefix + " Lone person");
+                    Log.error(logprefix + " Lone person");
                 }
                 break;
             case Relative:
@@ -215,22 +204,24 @@ public class Person {
 
                     return true;
                 } else {
-                    Log.error( logprefix + " Relative");
+                    Log.error(logprefix + " Relative");
                 }
                 break;
             case Married:
                 if (father == null & mother == null & partner != null & siblings == null & groupHouseholdMembers == null) {
                     return true;
                 } else {
-                    Log.error( logprefix + " Married");
+                    Log.error(logprefix + " Married");
                 }
                 break;
-            case Child:
-                if ((father != null | mother != null) & partner == null & children == null & groupHouseholdMembers == null
-                        & childType != null) {
+                //Logically equivalent to case (U15Child | Student | O15Child)
+            case U15Child:
+            case Student:
+            case O15Child:
+                if ((father != null | mother != null) & partner == null & children == null & groupHouseholdMembers == null) {
                     return true;
                 } else {
-                    Log.error( logprefix + " Child");
+                    Log.error(logprefix + " U15Child | Student | O15Child");
                 }
                 break;
             case LoneParent:
@@ -238,7 +229,7 @@ public class Person {
                         & groupHouseholdMembers == null) {
                     return true;
                 } else {
-                    Log.error( logprefix + " Lone parent");
+                    Log.error(logprefix + " Lone parent");
                 }
                 break;
             case GroupHousehold:
@@ -246,7 +237,7 @@ public class Person {
                         & siblings == null & groupHouseholdMembers != null) {
                     return true;
                 } else {
-                    Log.error( logprefix + " Group household");
+                    Log.error(logprefix + " Group household");
                 }
                 break;
             default:
@@ -255,44 +246,4 @@ public class Person {
         return false;
     }
 
-}
-
-enum Sex {
-    Male, Female;
-}
-
-enum PersonType {
-    Relative, LonePerson, Married, Child, LoneParent, GroupHousehold;
-}
-
-enum ChildType {
-    U15Child, Student, O15Child;
-}
-
-enum AgeRange {
-    A0_14(0, 14), A15_24(15, 24), A25_39(25, 39), A40_54(40, 54), A55_69(55, 69), A70_84(70, 84), A85_99(85,
-            99), A100_110(100, 110);
-    private int min, max;
-    private boolean isEmpty = true;
-
-    AgeRange(int min, int max) {
-        this.min = min;
-        this.max = max;
-    }
-
-    boolean isEmpty() {
-        return isEmpty;
-    }
-
-    void markNotEmpty(boolean status) {
-        this.isEmpty = !status;
-    }
-
-    int min() {
-        return this.min;
-    }
-
-    int max() {
-        return this.max;
-    }
 }

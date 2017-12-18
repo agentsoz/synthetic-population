@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 
 import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
+import bnw.abm.intg.synthesis.models.Household;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
 
