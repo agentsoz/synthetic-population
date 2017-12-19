@@ -4,10 +4,7 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.CSVReader;
-import bnw.abm.intg.synthesis.models.AgeRange;
-import bnw.abm.intg.synthesis.models.FamilyType;
-import bnw.abm.intg.synthesis.models.RelationshipStatus;
-import bnw.abm.intg.synthesis.models.Sex;
+import bnw.abm.intg.synthesis.models.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -178,28 +175,28 @@ public class DataReader {
         RelationshipStatus relStatus;
         switch (relationshipType) {
             case "Relatives":
-                relStatus = RelationshipStatus.Relative;
+                relStatus = RelationshipStatus.RELATIVE;
                 break;
             case "Married":
-                relStatus = RelationshipStatus.Married;
+                relStatus = RelationshipStatus.MARRIED;
                 break;
             case "Lone parent":
-                relStatus = RelationshipStatus.LoneParent;
+                relStatus = RelationshipStatus.LONE_PARENT;
                 break;
             case "U15Child":
-                relStatus = RelationshipStatus.U15Child;
+                relStatus = RelationshipStatus.U15_CHILD;
                 break;
             case "Student":
-                relStatus = RelationshipStatus.Student;
+                relStatus = RelationshipStatus.STUDENT;
                 break;
             case "O15Child":
-                relStatus = RelationshipStatus.O15Child;
+                relStatus = RelationshipStatus.O15_CHILD;
                 break;
             case "GroupHhold":
-                relStatus = RelationshipStatus.GroupHousehold;
+                relStatus = RelationshipStatus.GROUP_HOUSEHOLD;
                 break;
             case "Lone person":
-                relStatus = RelationshipStatus.LonePerson;
+                relStatus = RelationshipStatus.LONE_PERSON;
                 break;
             default:
                 throw new Error("Unrecognised Person type");
@@ -294,6 +291,32 @@ public class DataReader {
         }
 
         throw new Error("Number of families could not be recognised");
+    }
+
+    static List<HhRecord> getHhsByFamilyType(List<HhRecord> hhrecs, FamilyHouseholdType... familyTypes) {
+        List<HhRecord> shortlist = new ArrayList<>();
+        for (int j = 0; j < familyTypes.length; j++) {
+            for (int i = 0; i < hhrecs.size(); i++) {
+                if (hhrecs.get(i).familyCountPerHousehold == familyTypes[j].getFamilyCount() &&
+                        hhrecs.get(i).primaryFamilyType == familyTypes[j].getFamilyType()) {
+                    shortlist.add(hhrecs.get(i));
+                }
+            }
+        }
+        return shortlist;
+    }
+
+    static List<IndRecord> getAgentsByRelType(List<IndRecord> indrecs, RelationshipStatus... relStates) {
+        List<IndRecord> shortlist = new ArrayList<>();
+        for (int j = 0; j < relStates.length; j++) {
+            for (int i = 0; i < indrecs.size(); i++) {
+                if (indrecs.get(i).relationshipStatus == relStates[j]) {
+                    shortlist.add(indrecs.get(i));
+                }
+            }
+        }
+        return shortlist;
+
     }
 
 }

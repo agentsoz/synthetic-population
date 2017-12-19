@@ -10,8 +10,7 @@ import java.util.List;
 
 
 /**
- * @author wniroshan
- * @date 19 May 2016
+ * @author wniroshan 19 May 2016
  */
 public class Person {
 
@@ -20,7 +19,7 @@ public class Person {
     private RelationshipStatus type;
     private int age;
     private Sex sex;
-    private AgeRange ageCat;
+    private AgeRange ageRange;
 
     private Person partner;
     private List<Person> children;
@@ -34,11 +33,11 @@ public class Person {
         this.personID = String.valueOf(IDCounter++);
     }
 
-    public RelationshipStatus getType() {
+    public RelationshipStatus getRelationshipStatus() {
         return type;
     }
 
-    public void setType(RelationshipStatus type) {
+    public void setRelationshipStatus(RelationshipStatus type) {
         this.type = type;
     }
 
@@ -58,12 +57,12 @@ public class Person {
         this.sex = sex;
     }
 
-    public AgeRange getAgeCat() {
-        return ageCat;
+    public AgeRange getAgeRange() {
+        return ageRange;
     }
 
-    public void setAgeCat(AgeRange ageCat) {
-        this.ageCat = ageCat;
+    public void setAgeRange(AgeRange ageRange) {
+        this.ageRange = ageRange;
     }
 
     public String getID() {
@@ -74,10 +73,11 @@ public class Person {
         return partner;
     }
 
-    void setPartner(Person partner) {
+    public void setPartner(Person partner) {
         if (this.partner == null) {
             this.partner = partner;
-        } else {
+        }
+        else {
             throw new Error("Already has a partner");
         }
     }
@@ -93,7 +93,20 @@ public class Person {
         this.children.addAll(children);
     }
 
-    void setChild(Person child) {
+    /**
+     * Checks whether this person is a child
+     *
+     * @return True if this person is a child, else false
+     */
+    public boolean isChild() {
+        if (this.getRelationshipStatus() == RelationshipStatus.U15_CHILD || this.getRelationshipStatus() == RelationshipStatus.STUDENT || this
+                .getRelationshipStatus() == RelationshipStatus.O15_CHILD) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setChild(Person child) {
         if (this.children == null) {
             this.children = new ArrayList<>();
         }
@@ -104,10 +117,11 @@ public class Person {
         return mother;
     }
 
-    void setMother(Person mother) {
+    public void setMother(Person mother) {
         if (this.mother == null) {
             this.mother = mother;
-        } else {
+        }
+        else {
             throw new Error("Child already has a mother");
         }
 
@@ -117,41 +131,45 @@ public class Person {
         return father;
     }
 
-    void setFather(Person father) {
+    public void setFather(Person father) {
         if (this.father == null) {
             this.father = father;
-        } else {
+        }
+        else {
             throw new Error("Child already has a father");
         }
 
     }
 
-    List<Person> getSiblings() {
+    public List<Person> getSiblings() {
         return this.siblings;
     }
 
-    void setSibling(Person sibling) {
+    public void setSibling(Person sibling) {
         if (this.siblings == null) {
             this.siblings = new ArrayList<>();
         }
         this.siblings.add(sibling);
     }
 
-    void setParent(Person parent) {
-        if (parent.type == RelationshipStatus.Married | parent.type == RelationshipStatus.LoneParent) {
+    public void setParent(Person parent) {
+        if (parent.type == RelationshipStatus.MARRIED | parent.type == RelationshipStatus.LONE_PARENT) {
             if (parent.sex == Sex.Male) {
                 setFather(parent);
-            } else if (parent.sex == Sex.Female) {
+            }
+            else if (parent.sex == Sex.Female) {
                 setMother(parent);
-            } else {
+            }
+            else {
                 throw new Error("Parent's Sex is not Male or Female: " + parent.sex);
             }
-        } else {
+        }
+        else {
             throw new Error("This person cannot be a parent: " + parent.type);
         }
     }
 
-    void setParents(List<Person> parents) {
+    public void setParents(List<Person> parents) {
         for (Person parent : parents) {
             setParent(parent);
         }
@@ -161,14 +179,14 @@ public class Person {
         return relatives;
     }
 
-    void setRelatives(List<Person> relatives) {
+    public void setRelatives(List<Person> relatives) {
         if (this.relatives == null) {
             this.relatives = new ArrayList<>();
         }
         this.relatives.addAll(relatives);
     }
 
-    void setRelative(Person relative) {
+    public void setRelative(Person relative) {
         if (this.relatives == null) {
             this.relatives = new ArrayList<>();
         }
@@ -179,65 +197,73 @@ public class Person {
         return groupHouseholdMembers;
     }
 
-    void setGroupHouseholdMember(Person groupHouseholdMember) {
+    public void setGroupHouseholdMember(Person groupHouseholdMember) {
         if (this.groupHouseholdMembers == null) {
             this.groupHouseholdMembers = new ArrayList<>();
         }
         this.groupHouseholdMembers.add(groupHouseholdMember);
     }
 
-    boolean validate() {
-        String logprefix = "Person validation failed: ";
+    public boolean validate() {
+        String logPrefix = "Person validation failed: ";
         switch (this.type) {
-            case LonePerson:
-                if (father == null & mother == null & partner == null & children == null & relatives == null
-                        & siblings == null & groupHouseholdMembers == null) {
+            case LONE_PERSON:
+                if (father == null & mother == null & partner == null & children == null & relatives == null &
+                        siblings == null & groupHouseholdMembers == null) {
 
                     return true;
-                } else {
-                    Log.error(logprefix + " Lone person");
+                }
+                else {
+                    Log.error(logPrefix + " Lone person");
                 }
                 break;
-            case Relative:
-                if (father == null & mother == null & partner == null & children == null & relatives != null
-                        & siblings == null & groupHouseholdMembers == null) {
+            case RELATIVE:
+                if (father == null & mother == null & partner == null & children == null & relatives != null &
+                        siblings == null & groupHouseholdMembers == null) {
 
                     return true;
-                } else {
-                    Log.error(logprefix + " Relative");
+                }
+                else {
+                    Log.error(logPrefix + " RELATIVE");
                 }
                 break;
-            case Married:
-                if (father == null & mother == null & partner != null & siblings == null & groupHouseholdMembers == null) {
+            case MARRIED:
+                if (father == null & mother == null & partner != null & siblings == null & groupHouseholdMembers ==
+                        null) {
                     return true;
-                } else {
-                    Log.error(logprefix + " Married");
+                }
+                else {
+                    Log.error(logPrefix + " MARRIED");
                 }
                 break;
-                //Logically equivalent to case (U15Child | Student | O15Child)
-            case U15Child:
-            case Student:
-            case O15Child:
-                if ((father != null | mother != null) & partner == null & children == null & groupHouseholdMembers == null) {
+            //Logically equivalent to case (U15_CHILD | STUDENT | O15_CHILD)
+            case U15_CHILD:
+            case STUDENT:
+            case O15_CHILD:
+                if ((father != null | mother != null) & partner == null & children == null & groupHouseholdMembers ==
+                        null) {
                     return true;
-                } else {
-                    Log.error(logprefix + " U15Child | Student | O15Child");
+                }
+                else {
+                    Log.error(logPrefix + " U15_CHILD | STUDENT | O15_CHILD");
                 }
                 break;
-            case LoneParent:
-                if (father == null & mother == null & partner == null & children != null & siblings == null
-                        & groupHouseholdMembers == null) {
+            case LONE_PARENT:
+                if (father == null & mother == null & partner == null & children != null & siblings == null &
+                        groupHouseholdMembers == null) {
                     return true;
-                } else {
-                    Log.error(logprefix + " Lone parent");
+                }
+                else {
+                    Log.error(logPrefix + " Lone parent");
                 }
                 break;
-            case GroupHousehold:
-                if (father == null & mother == null & partner == null & children == null & relatives == null
-                        & siblings == null & groupHouseholdMembers != null) {
+            case GROUP_HOUSEHOLD:
+                if (father == null & mother == null & partner == null & children == null & relatives == null &
+                        siblings == null & groupHouseholdMembers != null) {
                     return true;
-                } else {
-                    Log.error(logprefix + " Group household");
+                }
+                else {
+                    Log.error(logPrefix + " Group household");
                 }
                 break;
             default:

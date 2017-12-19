@@ -49,10 +49,11 @@ public class Family {
      *
      * @param member the member to add
      */
-    public  void addMember(Person member) {
+    public void addMember(Person member) {
         if (this.members.contains(member)) {
             throw new Error("This person already a member of this family");
-        } else {
+        }
+        else {
             this.members.add(member);
             Family.allMembersAlreadyInFamilies.put(member.getID(), member);
         }
@@ -63,10 +64,11 @@ public class Family {
      *
      * @param members list of members
      */
-    public  void addMembers(List<Person> members) {
+    public void addMembers(List<Person> members) {
         if (this.members.stream().anyMatch(e -> members.contains(e))) {
             throw new Error("At least one of the new members already exists in this family");
-        } else {
+        }
+        else {
             this.members.addAll(members);
         }
     }
@@ -86,9 +88,11 @@ public class Family {
      * @param type the type to set
      */
     public void setType(FamilyType type) {
-        if (this.type == null || this.type == FamilyType.BASIC || this.type == FamilyType.UNDEFINED | this.type == type) {
+        if (this.type == null || this.type == FamilyType.BASIC || this.type == FamilyType.UNDEFINED | this.type ==
+                type) {
             this.type = type;
-        } else {
+        }
+        else {
             throw new Error("Trying to overwrite " + this.type + " with " + type);
         }
     }
@@ -101,7 +105,7 @@ public class Family {
     public int numberOfChildren() {
         int nofChildren = 0;
         for (Person member : this.members) {
-            if (member.getType() == RelationshipStatus.Child) {
+            if (member.isChild()) {
                 nofChildren++;
             }
         }
@@ -115,17 +119,17 @@ public class Family {
      */
     public boolean validate() {
         switch (this.type) {
-            case COUPLEFAMILYWITHCHILDREN:
+            case COUPLE_WITH_CHILDREN:
                 return hasMarriedCouple() & hasChildren() & noLoneParents() & noGroupOrLonePersons();
-            case COUPLEONLY:
+            case COUPLE_ONLY:
                 return (hasMarriedCouple() & !hasChildren() & noLoneParents() & noGroupOrLonePersons());
-            case ONEPARENT:
+            case ONE_PARENT:
                 return (hasALoneParent() & hasChildren() & noneMarried() & noGroupOrLonePersons());
-            case OTHERFAMILY:
+            case OTHER_FAMILY:
                 return onlyRelatives() & noGroupOrLonePersons();
-            case LONEPERSON:
+            case LONE_PERSON:
                 return onlyALonePerson();
-            case GROUPHOUSEHOLD:
+            case GROUP_HOUSEHOLD:
                 return onlyGroupHouseholds();
             default:
                 throw new Error("An alien family: " + this.type);
@@ -133,38 +137,40 @@ public class Family {
     }
 
     private boolean hasALoneParent() {
-        return members.stream().filter(member -> member.getType() == RelationshipStatus.LoneParent).count() == 1;
+        return members.stream().filter(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT).count() == 1;
     }
 
     private boolean noLoneParents() {
-        return members.stream().noneMatch(member -> member.getType() == RelationshipStatus.LoneParent);
+        return members.stream().noneMatch(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT);
     }
 
     private boolean hasChildren() {
-        return members.stream().anyMatch(member -> member.getType() == RelationshipStatus.Child);
+        return members.stream().anyMatch(member -> member.isChild());
     }
 
     private boolean noneMarried() {
-        return members.stream().noneMatch(member -> member.getType() == RelationshipStatus.Married);
+        return members.stream().noneMatch(member -> member.getRelationshipStatus() == RelationshipStatus.MARRIED);
     }
 
     private boolean hasMarriedCouple() {
-        return members.stream().filter(person -> person.getType() == RelationshipStatus.Married).count() == 2;
+        return members.stream().filter(person -> person.getRelationshipStatus() == RelationshipStatus.MARRIED).count() == 2;
     }
 
     private boolean onlyRelatives() {
-        return members.stream().allMatch(person -> person.getType() == RelationshipStatus.Relative);
+        return members.stream().allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.RELATIVE);
     }
 
     private boolean onlyGroupHouseholds() {
-        return members.stream().allMatch(person -> person.getType() == RelationshipStatus.GroupHousehold);
+        return members.stream().allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD);
     }
 
     private boolean noGroupOrLonePersons() {
-        return members.stream().noneMatch(person -> person.getType() == RelationshipStatus.GroupHousehold | person.getType() == RelationshipStatus.LonePerson);
+        return members.stream().noneMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD | person
+                .getRelationshipStatus() == RelationshipStatus.LONE_PERSON);
     }
 
     private boolean onlyALonePerson() {
-        return members.size() == 1 && members.stream().filter(person -> person.getType() == RelationshipStatus.LonePerson).count() == 1;
+        return members.size() == 1 && members.stream().filter(person -> person.getRelationshipStatus() == RelationshipStatus
+                .LONE_PERSON).count() == 1;
     }
 }

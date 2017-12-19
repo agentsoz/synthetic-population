@@ -7,20 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author wniroshan
- * @date 18 Dec 2017
+ * @author wniroshan 18 Dec 2017
  */
 public class PersonsConstructor {
 
     List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indrec, RelationshipStatus... relType) {
-        List<IndRecord> indRecs = GroupingUtils.getAgentsByRelType(indrec, relType);
+        List<IndRecord> indRecs = DataReader.getAgentsByRelType(indrec, relType);
         List<Person> persons = new ArrayList<>();
         for (IndRecord rec : indRecs) {
             for (int i = 0; i < rec.indCount; i++) {
                 Person p = new Person();
-                p.setAgeCat(rec.ageRange);
+                p.setAgeRange(rec.ageRange);
                 p.setSex(rec.sex);
-                p.setType(rec.relationshipStatus);
+                p.setRelationshipStatus(rec.relationshipStatus);
                 persons.add(p);
             }
         }
