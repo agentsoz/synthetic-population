@@ -10,18 +10,18 @@ package bnw.abm.intg.synthesis.models;
  * and UNDEFINED enums are not part of HCFMD but added for system needs.
  */
 public enum FamilyType {
-    COUPLEFAMILYWITHCHILDREN("Couple family with children", 2, 0, 1, 0, 0, 0),
-    COUPLEONLY("Couple family with no children", 2, 0, 0, 0, 0, 0),
-    ONEPARENT("One parent family", 0, 1, 1, 0, 0, 0),
-    OTHERFAMILY("Other family", 0, 0, 0, 0, 2, 0),
-    LONEPERSON("Lone person", 0, 0, 0, 1, 0, 0),
-    GROUPHOUSEHOLD("Group household", 0, 0, 0, 0, 0, 2),
+    COUPLE_WITH_CHILDREN("Couple family with children", 2, 0, 1, 0, 0, 0),
+    COUPLE_ONLY("Couple family with no children", 2, 0, 0, 0, 0, 0),
+    ONE_PARENT("One parent family", 0, 1, 1, 0, 0, 0),
+    OTHER_FAMILY("Other family", 0, 0, 0, 0, 2, 0),
+    LONE_PERSON("Lone person", 0, 0, 0, 1, 0, 0),
+    GROUP_HOUSEHOLD("Group household", 0, 0, 0, 0, 0, 2),
     /**
      * This is the basic structure containing minimum required persons for couple only, couple with children. other
      * or one parent families. Generally represents an intermediate state of a family instance that will be eventually
      * converted to one of the above 4 family types.
      */
-    BASIC("Married basic or Lone parent basic ", 0, 0, 0, 0, 0, 0),
+    BASIC("MARRIED basic or Lone parent basic ", 0, 0, 0, 0, 0, 0),
     /**
      * Generally indicates an erroneous state in the family.
      */

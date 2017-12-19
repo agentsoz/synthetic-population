@@ -135,8 +135,8 @@ public class Household {
                     + " Current families: " + familyCount() + " Expected families: " + this.TARGETFAMLYCOUNT);
             return false;
         }
-        if (getFamilies().get(0).getType() != FamilyType.COUPLEFAMILYWITHCHILDREN
-                & getFamilies().stream().filter(family -> family.getType() == FamilyType.COUPLEFAMILYWITHCHILDREN).count() > 0) {
+        if (getFamilies().get(0).getType() != FamilyType.COUPLE_WITH_CHILDREN
+                & getFamilies().stream().filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN).count() > 0) {
             Log.warn(
                     "Househld validation: Primary family: " + getFamilies().get(0).getType() + " Secondary: " + getFamilies().get(1).getType());
             return false;

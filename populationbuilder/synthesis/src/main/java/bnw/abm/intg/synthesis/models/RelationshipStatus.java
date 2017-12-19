@@ -14,33 +14,33 @@ public enum RelationshipStatus {
     /**
      * RLHP: Other related individual and (Unrelated individual living in family household under Non-family member category)
      */
-    Relative,
+    RELATIVE,
     /**
      * RLHP: Lone person under Non-family member category
      */
-    LonePerson,
+    LONE_PERSON,
     /**
      * RLHP: Husband, Wife or Partner - includes registered and de facto ( including same sex) couples
      */
-    Married,
+    MARRIED,
     /**
      * RLHP: Child under 15
      */
-    U15Child,
+    U15_CHILD,
     /**
      * RLHP: Dependent student
      */
-    Student,
+    STUDENT,
     /**
      * RLHP: Non-dependent student combined
      */
-    O15Child,
+    O15_CHILD,
     /**
      * RLHP: 	Lone parent
      */
-    LoneParent,
+    LONE_PARENT,
     /**
      * RLHP: Group household member under Non-family member category
      */
-    GroupHousehold;
+    GROUP_HOUSEHOLD;
 }

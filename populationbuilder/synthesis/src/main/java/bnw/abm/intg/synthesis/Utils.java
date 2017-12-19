@@ -40,13 +40,13 @@ public class Utils {
                 householdInfo.add(map);
             }
             map.put(hhRec.familyCountPerHousehold + "" + hhRec.primaryFamilyType, 0);
-            if (hhRec.primaryFamilyType == FamilyType.COUPLEONLY) {
+            if (hhRec.primaryFamilyType == FamilyType.COUPLE_ONLY) {
                 coupleOnly += (hhRec.hhCount);
             }
-            if (hhRec.primaryFamilyType == FamilyType.COUPLEFAMILYWITHCHILDREN) {
+            if (hhRec.primaryFamilyType == FamilyType.COUPLE_WITH_CHILDREN) {
                 coupleYesChild += hhRec.hhCount;
             }
-            if (hhRec.primaryFamilyType == FamilyType.ONEPARENT) {
+            if (hhRec.primaryFamilyType == FamilyType.ONE_PARENT) {
                 oneParentFamily += hhRec.hhCount;
             }
         }
@@ -65,44 +65,46 @@ public class Utils {
         print("size\tDesctiption\t\t\t\t\t\t\ttarget\tcurrent");
         for (HhRecord hhrec : hhrecs) {
             int numberOfPersons = hhrec.numOfPersonsPerHh;
-            String familyDescription = hhrec.familyCountPerHousehold + " Family: " + hhrec.primaryFamilyType.description();
+            String familyDescription = hhrec.familyCountPerHousehold + " Family: " + hhrec.primaryFamilyType
+                    .description();
 
-            /* Just esthetics - nothing important */
-            int stringlengthdifference = 62 - familyDescription.length();
-            String tabspace = new String(new char[stringlengthdifference]).replace("\0", " ");
+            /* Just aesthetics - nothing important */
+            int stringLengthDifference = 62 - familyDescription.length();
+            String tabSpace = new String(new char[stringLengthDifference]).replace("\0", " ");
 
-            print(numberOfPersons + "\t" + familyDescription + tabspace + "\t" + hhrec.hhCount + "\t"
-                    + householdInfo.get(numberOfPersons).get(hhrec.familyCountPerHousehold + "" + hhrec.primaryFamilyType));
+            print(numberOfPersons + "\t" + familyDescription + tabSpace + "\t" + hhrec.hhCount + "\t" + householdInfo
+                    .get(numberOfPersons).get(hhrec.familyCountPerHousehold + "" + hhrec.primaryFamilyType));
         }
 
     }
 
     static void printIndSummary(List<IndRecord> indRecords) {
-        int ttlInds = 0, marriedMale = 0, marriedFemale = 0, children = 0, lnp = 0;
-        for (IndRecord indrec : indRecords) {
-            ttlInds += indrec.indCount;
-            if (indrec.sex == Sex.Female && indrec.relationshipStatus == RelationshipStatus.Married) {
-                marriedFemale += indrec.indCount;
+        int totalPersons = 0, marriedMale = 0, marriedFemale = 0, children = 0, lnp = 0;
+        for (IndRecord indRec : indRecords) {
+            totalPersons += indRec.indCount;
+            if (indRec.sex == Sex.Female && indRec.relationshipStatus == RelationshipStatus.MARRIED) {
+                marriedFemale += indRec.indCount;
             }
-            if (indrec.relationshipStatus == RelationshipStatus.Married && indrec.sex == Sex.Male) {
-                marriedMale += indrec.indCount;
+            if (indRec.relationshipStatus == RelationshipStatus.MARRIED && indRec.sex == Sex.Male) {
+                marriedMale += indRec.indCount;
             }
-            if (indrec.relationshipStatus == RelationshipStatus.Child) {
-                children += indrec.indCount;
+            if (indRec.relationshipStatus == RelationshipStatus.U15_CHILD || indRec.relationshipStatus ==
+                    RelationshipStatus.STUDENT || indRec.relationshipStatus == RelationshipStatus.O15_CHILD) {
+                children += indRec.indCount;
             }
-            if (indrec.relationshipStatus == RelationshipStatus.LonePerson) {
-                lnp += indrec.indCount;
+            if (indRec.relationshipStatus == RelationshipStatus.LONE_PERSON) {
+                lnp += indRec.indCount;
             }
         }
 
-        System.out.println("Total Individuals: " + ttlInds);
-        System.out.println("Male Married: " + marriedMale);
-        System.out.println("Female Married: " + marriedFemale);
+        System.out.println("Total Individuals: " + totalPersons);
+        System.out.println("Male MARRIED: " + marriedMale);
+        System.out.println("Female MARRIED: " + marriedFemale);
         System.out.println("Children: " + children);
         System.out.println("Lone parents: " + lnp);
     }
 
-    static void print(Object l) {
+    private static void print(Object l) {
         System.out.println(l.toString());
     }
 
@@ -111,17 +113,18 @@ public class Utils {
      * Randomly decides True or False. Occurrence of True can be biased by specifying the ratio for being True
      *
      * @param rand Random object
-     * @param bias By how much should occurrence of True be biased. e.g. if bias == 0.25, probability of method returning True is 1/4.
+     * @param bias By how much should occurrence of True be biased. e.g. if bias == 0.25, probability of method
+     *             returning True is 1/4.
      * @return true or false
      */
     static boolean selectTrueOrFalseRandomlyWithBias(Random rand, double bias) {
         double r = rand.nextDouble();
-        return (r < bias) ? true : false;
+        return (r < bias);
     }
 
-    static int pickRandomly(Random rand, int... fromvals) {
-        int r = rand.nextInt(fromvals.length);
-        return fromvals[r];
+    static int pickRandomly(Random rand, int... values) {
+        int r = rand.nextInt(values.length);
+        return values[r];
     }
 
 }

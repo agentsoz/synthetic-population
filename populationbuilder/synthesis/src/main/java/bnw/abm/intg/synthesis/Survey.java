@@ -127,7 +127,7 @@ public class Survey {
         for (Household household : allHouseholds) {
             for (Family family : household.getFamilies()) {
                 for (Person person : family.getMembers()) {
-                    String searchKey = person.getType() + "," + person.getSex() + "," + person.getAgeCat();
+                    String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person.getAgeRange();
                     int currentCount = map.get(searchKey);
                     map.put(searchKey, currentCount + 1);
                 }
@@ -190,15 +190,15 @@ public class Survey {
         List<List<String>> outputPersons = new ArrayList<>();
         outputPersons.add(PERSONS_OUTPUT_COLS);
         for (Household household : allHouseholds) {
-            if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+            if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                 continue;
             }
             for (Family family : household.getFamilies()) {
-                if (family.getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+                if (family.getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                     continue;
                 }
                 for (Person person : family.getMembers()) {
-                    if (person.getType() == RelationshipStatus.Relative) {// FIXME: add relatives back
+                    if (person.getRelationshipStatus() == RelationshipStatus.RELATIVE) {// FIXME: add relatives back
                         continue;
                     }
                     List<String> pdata = new ArrayList<>();
@@ -244,11 +244,7 @@ public class Survey {
                     // }
 
                     // RelationshipStatus
-                    if (person.getType() == RelationshipStatus.Child) {
-                        pdata.add(String.valueOf(person.getChildType()));
-                    } else {
-                        pdata.add(String.valueOf(person.getType()));
-                    }
+                    pdata.add(String.valueOf(person.getRelationshipStatus()));
 
                     outputPersons.add(pdata);
                 }
@@ -261,11 +257,11 @@ public class Survey {
         List<List<String>> outputFamilies = new ArrayList<>();
         outputFamilies.add(FAMILIES_OUTPUT_COLS);
         for (Household household : allHouseholds) {
-            if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) { // FIXME: add relatives back
+            if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) { // FIXME: add relatives back
                 continue;
             }
             for (Family family : household.getFamilies()) {
-                if (family.getType() == FamilyType.OTHERFAMILY) { // FIXME: add relatives back
+                if (family.getType() == FamilyType.OTHER_FAMILY) { // FIXME: add relatives back
                     continue;
                 }
                 List<String> fdata = new ArrayList<>();
@@ -273,7 +269,7 @@ public class Survey {
                 fdata.add(String.valueOf(family.getType()));
                 fdata.add(String.valueOf(family.size()));
                 // List<String> memberIds = family.getMembers().stream().map(p -> p.getID()).collect(Collectors.toList());
-                List<String> memberIds = family.getMembers().stream().filter(p -> p.getType() != RelationshipStatus.Relative).map(p -> p.getID())
+                List<String> memberIds = family.getMembers().stream().filter(p -> p.getRelationshipStatus() != RelationshipStatus.RELATIVE).map(p -> p.getID())
                         .collect(Collectors.toList());// FIXME: add relatives back
                 fdata.add(memberIds.toString());
                 fdata.add(household.getID());
@@ -288,7 +284,7 @@ public class Survey {
         List<List<String>> outputHouseholds = new ArrayList<>();
         outputHouseholds.add(HOUSEHOLDS_OUTPUT_COLS);
         for (Household household : allHouseholds) {
-            if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+            if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                 continue;
             }
             List<String> hhData = new ArrayList<>();
@@ -298,12 +294,12 @@ public class Survey {
             hhData.add(String.valueOf(household.getFamilies().get(0).getType()));
             // Members
             // List<String> memberIds = household.getMembers().stream().map((p) -> p.getID()).collect(Collectors.toList());
-            List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map((p) -> p.getID())
+            List<String> memberIds = household.getMembers().stream().filter(m -> m.getRelationshipStatus() != RelationshipStatus.RELATIVE).map((p) -> p.getID())
                     .collect(Collectors.toList()); // FIXME: add relatives back
             hhData.add(memberIds.toString());
             // FamilyIds
             // List<String> familyIds = household.getFamilies().stream().map((f) -> f.getID()).collect(Collectors.toList());
-            List<String> familyIds = household.getFamilies().stream().filter(f -> f.getType() != FamilyType.OTHERFAMILY).map((f) -> f.getID())
+            List<String> familyIds = household.getFamilies().stream().filter(f -> f.getType() != FamilyType.OTHER_FAMILY).map((f) -> f.getID())
                     .collect(Collectors.toList());// FIXME: add relatives back
             hhData.add(familyIds.toString());
             // HHSize
@@ -325,7 +321,7 @@ public class Survey {
                     "FamilyIncome", "Tenure&Landlord", "FamilyIds", "SA1_7DIG"));
             outputHouseholds.add(titles);
             for (Household household : households) {
-                if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+                if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                     continue;
                 }
                 List<String> hhData = new ArrayList<>();
@@ -333,7 +329,7 @@ public class Survey {
                 hhData.add(String.valueOf(household.TARGETSIZE));
                 hhData.add(String.valueOf(household.currentSize()));
                 // List<String> memberIds = household.getMembers().stream().map((p) -> p.getID()).collect(Collectors.toList());
-                List<String> memberIds = household.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map((p) -> p.getID())
+                List<String> memberIds = household.getMembers().stream().filter(m -> m.getRelationshipStatus() != RelationshipStatus.RELATIVE).map((p) -> p.getID())
                         .collect(Collectors.toList());// FIXME: add relatives back
                 hhData.add(memberIds.toString());
                 hhData.add(null);
@@ -341,7 +337,7 @@ public class Survey {
                 hhData.add(null);
                 hhData.add(household.getTenlld());
                 // List<String> familyIds = household.getFamilies().stream().map((f) -> f.getID()).collect(Collectors.toList());
-                List<String> familyIds = household.getFamilies().stream().filter(f -> f.getType() != FamilyType.OTHERFAMILY)
+                List<String> familyIds = household.getFamilies().stream().filter(f -> f.getType() != FamilyType.OTHER_FAMILY)
                         .map((f) -> f.getID()).collect(Collectors.toList());// FIXME: add relatives back
                 hhData.add(familyIds.toString());
                 hhData.add(household.getSA1Code());
@@ -363,21 +359,21 @@ public class Survey {
                     "RelationshipStatus", "Gender", "GroupSize", "Age", "GroupId", "Travel2Work", "Destination", "PersonalIncome"));
             outputPersons.add(titles);
             for (Household household : householdsBySA1.get(sa1)) {
-                if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+                if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                     continue;
                 }
                 // if (!household.validate()) {
                 // throw new Error("Validation failed");
                 // }
                 for (Family family : household.getFamilies()) {
-                    if (family.getType() == FamilyType.OTHERFAMILY) { // FIXME: add relatives back
+                    if (family.getType() == FamilyType.OTHER_FAMILY) { // FIXME: add relatives back
                         continue;
                     }
                     // if (!family.validate()) {
                     // throw new Error("Validation failed");
                     // }
                     for (Person person : family.getMembers()) {
-                        if (person.getType() == RelationshipStatus.Relative) {// FIXME: add relatives back
+                        if (person.getRelationshipStatus() == RelationshipStatus.RELATIVE) {// FIXME: add relatives back
                             continue;
                         }
                         // if (!person.validate()) {
@@ -414,11 +410,8 @@ public class Survey {
                         // } else {
                         // pdata.add(null);
                         // }
-                        if (person.getType() == RelationshipStatus.Child) {
-                            pdata.add(String.valueOf(person.getChildType()));
-                        } else {
-                            pdata.add(String.valueOf(person.getType()));
-                        }
+
+                        pdata.add(String.valueOf(person.getRelationshipStatus()));
                         pdata.add(String.valueOf(person.getSex()));
                         pdata.add(String.valueOf(household.currentSize()));
                         pdata.add(String.valueOf(person.getAge()));
@@ -441,11 +434,11 @@ public class Survey {
             List<String> titles = new ArrayList<>(Arrays.asList("FamilyId", "FamilyType", "FamilySize", "Members", "HouseholdId"));
             outputFamilies.add(titles);
             for (Household household : householdsBySA1.get(sa1)) {
-                if (household.getFamilies().get(0).getType() == FamilyType.OTHERFAMILY) {// FIXME: add relatives back
+                if (household.getFamilies().get(0).getType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
                     continue;
                 }
                 for (Family family : household.getFamilies()) {
-                    if (family.getType() == FamilyType.OTHERFAMILY) { // FIXME: add relatives back
+                    if (family.getType() == FamilyType.OTHER_FAMILY) { // FIXME: add relatives back
                         continue;
                     }
                     List<String> fdata = new ArrayList<>();
@@ -453,7 +446,7 @@ public class Survey {
                     fdata.add(String.valueOf(family.getType()));
                     fdata.add(String.valueOf(family.size()));
                     // List<String> memberIds = family.getMembers().stream().map(p -> p.getID()).collect(Collectors.toList());
-                    List<String> memberIds = family.getMembers().stream().filter(m -> m.getType() != RelationshipStatus.Relative).map(p -> p.getID())
+                    List<String> memberIds = family.getMembers().stream().filter(m -> m.getRelationshipStatus() != RelationshipStatus.RELATIVE).map(p -> p.getID())
                             .collect(Collectors.toList());// FIXME: add relatives back
                     fdata.add(memberIds.toString());
                     fdata.add(household.getID());

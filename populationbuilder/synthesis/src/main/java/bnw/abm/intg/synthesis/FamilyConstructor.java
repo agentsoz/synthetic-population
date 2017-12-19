@@ -84,8 +84,8 @@ public class FamilyConstructor {
 //            for (int i = 0; i < ind.indCount; i++) {
 //                Person p = new Person();
 //                p.setSex(ind.sex);
-//                p.setAgeCat(ind.ageRange);
-//                p.setType(ind.relationshipStatus);
+//                p.setAgeRange(ind.ageRange);
+//                p.setRelationshipStatus(ind.relationshipStatus);
 //                if (p.getSex() == Sex.Male) {
 //                    maleMarried.add(p);
 //                } else {
@@ -106,13 +106,13 @@ public class FamilyConstructor {
 //            fl.add(f);
 //        }
 //
-//        Log.info("Married couples: Couples formed: " + cpls);
+//        Log.info("MARRIED couples: Couples formed: " + cpls);
 //        if (diff > 0) {
-//            Log.warn("Married couples: Discarded married males: " + diff);
+//            Log.warn("MARRIED couples: Discarded married males: " + diff);
 //        } else if (diff < 0) {
-//            Log.warn("Married couples: Discarded married females: " + ((-1) * diff));
+//            Log.warn("MARRIED couples: Discarded married females: " + ((-1) * diff));
 //        } else {
-//            Log.info("Married couples: All couples created");
+//            Log.info("MARRIED couples: All couples created");
 //        }
 //        return fl;
 //    }
@@ -140,7 +140,7 @@ public class FamilyConstructor {
                     unformed += (hhrec.hhCount - 1);
                     break;
                 }
-                Family f = new Family(FamilyType.COUPLEFAMILYWITHCHILDREN);
+                Family f = new Family(FamilyType.COUPLE_WITH_CHILDREN);
                 f.addMember(marriedMales.remove(0));
                 f.addMember(marriedFemales.remove(0));
                 f.addMember(children.remove(0));
@@ -181,7 +181,7 @@ public class FamilyConstructor {
                     break;
                 }
 
-                Family f = new Family(FamilyType.COUPLEFAMILYWITHCHILDREN);
+                Family f = new Family(FamilyType.COUPLE_WITH_CHILDREN);
                 f.addMember(marriedMales.remove(0));
                 f.addMember(marriedFemales.remove(0));
 

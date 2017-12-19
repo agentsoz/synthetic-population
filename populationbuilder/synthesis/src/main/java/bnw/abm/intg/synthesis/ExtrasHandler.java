@@ -10,12 +10,14 @@ import java.util.*;
  */
 class ExtrasHandler {
 
-    final private List<Person> extras;
     final double sexRatio;
+    final Random random;
+    final private List<Person> extras;
 
-    ExtrasHandler(List<Person> extras, double sexRatio) {
-        this.extras = extras;
+    ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, double sexRatio, Random random) {
+        this.extras = this.getExtras(hhRecords,indRecords);
         this.sexRatio = sexRatio;
+        this.random = random;
     }
 
     /**
@@ -25,32 +27,64 @@ class ExtrasHandler {
      * @param relationshipStatus The type of the newly added persons
      * @param requiredMembers    The number of persons to add
      */
-    void addMembersToFamilyFromExtras(Family family, RelationshipStatus relationshipStatus, int requiredMembers, Random rand) {
+    void addMembersToFamilyFromExtras(Family family, RelationshipStatus relationshipStatus, int requiredMembers) {
         List<AgeRange> agesList = new ArrayList<>(Arrays.asList(AgeRange.values()));
         for (int i = 0; i < requiredMembers; i++) {
             Person member = extras.remove(0);
-            member.setSex(Utils.selectTrueOrFalseRandomlyWithBias(rand, sexRatio) ? Sex.Male : Sex.Female);
-            member.setType(relationshipStatus);
+            member.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random, sexRatio) ? Sex.Male : Sex.Female);
+            member.setRelationshipStatus(relationshipStatus);
             Collections.shuffle(agesList);
 
             switch (relationshipStatus) {
-                case U15Child:
-                    member.setAgeCat(AgeRange.A0_14);
+                case U15_CHILD:
+                    member.setAgeRange(AgeRange.A0_14);
                     break;
-                case Student:
-                    member.setAgeCat(AgeRange.A15_24);
+                case STUDENT:
+                    member.setAgeRange(AgeRange.A15_24);
                     break;
-                case O15Child:
+                case O15_CHILD:
                     //TODO: Allow a wider range of age categories based on parents' age.
-                    member.setAgeCat(AgeRange.A25_39);
+                    member.setAgeRange(AgeRange.A25_39);
                     break;
                 default:
-                    member.setAgeCat(agesList.get(0));
+                    member.setAgeRange(agesList.get(0));
 
             }
 
             family.addMember(member);
         }
     }
+
+    private List<Person> getExtras(List<HhRecord> hhrecs, List<IndRecord> indrecs) {
+        int personsInHh = 0;
+        int personsInInds = 0;
+        List<Person> extras = new ArrayList<>();
+        for (HhRecord hhrec : hhrecs) {
+            personsInHh += (hhrec.hhCount * hhrec.numOfPersonsPerHh);
+        }
+        for (IndRecord inrec : indrecs) {
+            personsInInds += inrec.indCount;
+        }
+
+        int extraPersons = personsInHh > personsInInds ? (personsInHh - personsInInds) : 0;
+        for (int i = 0; i < extraPersons + 100; i++) {
+            extras.add(new Person());
+        }
+        return extras;
+    }
+
+    int remainingExtras(){
+        return extras.size();
+    }
+
+    Person createPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex){
+        Person person = extras.remove(0);
+        person.setAgeRange(ageRange);
+        person.setRelationshipStatus(relStatus);
+        person.setSex(sex);
+
+        return person;
+    }
+
 
 }
