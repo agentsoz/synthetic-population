@@ -1,5 +1,10 @@
 package bnw.abm.intg.synthesis;
 
+import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
+import bnw.abm.intg.synthesis.models.Household;
+import bnw.abm.intg.util.BNWProperties;
+import bnw.abm.intg.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
-import bnw.abm.intg.synthesis.models.Household;
-import bnw.abm.intg.util.BNWProperties;
-import bnw.abm.intg.util.Log;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -47,7 +47,7 @@ public class App {
         boolean enableSummaryReports = props.getProperty("EnableSummaryReports").trim().toLowerCase().equals("true");
         double sexRatio = Double.parseDouble(props.getProperty("SexRatio"));
         double relativesProbability = Double.parseDouble(props.getProperty("RelativesProbability"));
-        double femaleLoneParentProbability = Double.parseDouble(props.getProperty("FemaleLoneParentProbability"));
+        double maleLoneParentProbability = Double.parseDouble(props.getProperty("MaleLoneParentProbability"));
         Map<String, String> ageDistributionParams = props.readKeyValuePairs("AgeDistributionFile");
 
         long startTime = System.currentTimeMillis();
@@ -60,7 +60,7 @@ public class App {
                 Path hhfileinfo = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Hh.csv");
                 Path indfileinfo = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Indiv.csv");
 
-                GroupMaker grpmaker = new GroupMaker(sexRatio, relativesProbability, femaleLoneParentProbability);
+                GroupMaker grpmaker = new GroupMaker(sexRatio, relativesProbability, maleLoneParentProbability);
 
                 /* Data fields */
                 Map<String, List<HhRecord>> hhrecs = null;

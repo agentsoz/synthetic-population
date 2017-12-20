@@ -5,18 +5,17 @@ import bnw.abm.intg.synthesis.models.*;
 import java.util.*;
 
 /**
- * @author wniroshan
- * @date 18 Dec 2017
+ * @author wniroshan 18 Dec 2017
  */
 class ExtrasHandler {
 
-    final double sexRatio;
+    final double maleProbability;
     final Random random;
     final private List<Person> extras;
 
     ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, double sexRatio, Random random) {
         this.extras = this.getExtras(hhRecords,indRecords);
-        this.sexRatio = sexRatio;
+        this.maleProbability = sexRatio;
         this.random = random;
     }
 
@@ -31,9 +30,8 @@ class ExtrasHandler {
         List<AgeRange> agesList = new ArrayList<>(Arrays.asList(AgeRange.values()));
         for (int i = 0; i < requiredMembers; i++) {
             Person member = extras.remove(0);
-            member.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random, sexRatio) ? Sex.Male : Sex.Female);
+            member.setSex(Utils.getSexRandomly(random, maleProbability));
             member.setRelationshipStatus(relationshipStatus);
-            Collections.shuffle(agesList);
 
             switch (relationshipStatus) {
                 case U15_CHILD:
@@ -47,6 +45,7 @@ class ExtrasHandler {
                     member.setAgeRange(AgeRange.A25_39);
                     break;
                 default:
+                    Collections.shuffle(agesList);
                     member.setAgeRange(agesList.get(0));
 
             }
@@ -59,11 +58,11 @@ class ExtrasHandler {
         int personsInHh = 0;
         int personsInInds = 0;
         List<Person> extras = new ArrayList<>();
-        for (HhRecord hhrec : hhrecs) {
-            personsInHh += (hhrec.hhCount * hhrec.numOfPersonsPerHh);
+        for (HhRecord hhRec : hhrecs) {
+            personsInHh += (hhRec.hhCount * hhRec.numOfPersonsPerHh);
         }
-        for (IndRecord inrec : indrecs) {
-            personsInInds += inrec.indCount;
+        for (IndRecord inRec : indrecs) {
+            personsInInds += inRec.indCount;
         }
 
         int extraPersons = personsInHh > personsInInds ? (personsInHh - personsInInds) : 0;
@@ -77,7 +76,7 @@ class ExtrasHandler {
         return extras.size();
     }
 
-    Person createPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex){
+    Person getPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex){
         Person person = extras.remove(0);
         person.setAgeRange(ageRange);
         person.setRelationshipStatus(relStatus);

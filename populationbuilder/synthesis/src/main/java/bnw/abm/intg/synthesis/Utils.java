@@ -117,14 +117,33 @@ public class Utils {
      *             returning True is 1/4.
      * @return true or false
      */
-    static boolean selectTrueOrFalseRandomlyWithBias(Random rand, double bias) {
+    static boolean tossCoinWithBias(Random rand, double bias) {
         double r = rand.nextDouble();
         return (r < bias);
     }
 
-    static int pickRandomly(Random rand, int... values) {
-        int r = rand.nextInt(values.length);
-        return values[r];
+    /**
+     * Randomly returns Male or Female based on the specified probability
+     *
+     * @param random          Random number generator
+     * @param maleProbability The probability of returning Male
+     * @return Sex of the person
+     */
+    static Sex getSexRandomly(Random random, double maleProbability) {
+        return random.nextDouble() < maleProbability ? Sex.Male : Sex.Female;
+    }
+
+    /**
+     * Selects an element randomly from the list without shuffling it. The element is not removed from the list.
+     *
+     * @param rand   Random instance
+     * @param values The list to select an element from
+     * @param <T>    Any instance
+     * @return The randomly selected element
+     */
+    static <T> T getRandomlyWithoutShuffling(Random rand, List<T> values) {
+        int r = rand.nextInt(values.size());
+        return values.get(r);
     }
 
 }
