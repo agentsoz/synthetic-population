@@ -5,10 +5,14 @@ package bnw.abm.intg.synthesis.models;
  * @date 18 Dec 2017
  */
 public enum AgeRange {
-    A0_14(0, 14), A15_24(15, 24), A25_39(25, 39), A40_54(40, 54), A55_69(55, 69), A70_84(70, 84), A85_99(85,
-                                                                                                         99), A100_110(
-            100,
-            110);
+    A0_14(0, 14),
+    A15_24(15, 24),
+    A25_39(25, 39),
+    A40_54(40, 54),
+    A55_69(55, 69),
+    A70_84(70, 84),
+    A85_99(85, 99),
+    A100_110(100, 110);
     private int min, max;
     private boolean isEmpty = true;
 

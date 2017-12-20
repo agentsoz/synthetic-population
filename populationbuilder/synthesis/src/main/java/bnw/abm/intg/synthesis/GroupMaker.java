@@ -27,13 +27,13 @@ public class GroupMaker {
     private List<Person> children = null;
     private List<Person> marriedMales = null;
     private List<Person> marriedFemales = null;
-    private double maleProbability, relativeProbability, femaleLoneParentProbability;
+    private double maleProbability, relativeProbability, maleLoneParentProbability;
     private ExtrasHandler extrasHander;
 
     public GroupMaker(double maleProbability, double relativeProbability, double femaleLoneParentProbability) {
         this.maleProbability = maleProbability;
         this.relativeProbability = relativeProbability;
-        this.femaleLoneParentProbability = femaleLoneParentProbability;
+        this.maleLoneParentProbability = femaleLoneParentProbability;
     }
 
     List<Household> makePopulation(List<HhRecord> hhrecs, List<IndRecord> indrecs, Random rand, String sa2) {
@@ -257,86 +257,54 @@ public class GroupMaker {
                                                                        AgeRange.A70_84));
             for (int i = 0; i < newNonPrimaryMarriedCpls; i++) {
                 Collections.shuffle(marriedAges, random);
-                Person male = extrasHander.createPersonFromExtras(RelationshipStatus.MARRIED,
-                                                                  marriedAges.get(0),
-                                                                  Sex.Male);
+                Person male = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                               marriedAges.get(0),
+                                                               Sex.Male);
                 marriedMales.add(male);
 
-                Person female = extrasHander.createPersonFromExtras(RelationshipStatus.MARRIED,
-                                                                    marriedAges.get(0),
-                                                                    Sex.Female);
+                Person female = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                                 marriedAges.get(0),
+                                                                 Sex.Female);
                 marriedFemales.add(female);
             }
             Log.info(logPrefix + " new married couples: " + newNonPrimaryMarriedCpls);
 
-            List<AgeRange> loneParentAges = new ArrayList<>(Arrays.asList(AgeRange.A25_39,
-                                                                          AgeRange.A40_54,
-                                                                          AgeRange.A55_69));
             for (int i = 0; i < newNonPrimaryLoneParents; i++) {
+                Family family = new Family(FamilyType.BASIC);
+
                 Person child = null;
 
                 if (children.size() != 0) {
                     child = children.remove(0);
+                    family.addMember(child);
                 } else {
-                    Sex sex = Utils.selectTrueOrFalseRandomlyWithBias(random, maleProbability) ? Sex.Male : Sex.Female;
-                    /*TODO: Implement proper age selection for children.
+                    /*TODO: Implement proper age selection for children. Parent's age need to increase accordingly
                     For now selecting an age range for the child. For simplicity we consider child as 0-14 U15Child
-                    or 25-24 student. We ignore independent children over 15. Also giving 2/3 higher probability to 0-14
-                    age category*/
-                    List<AgeRange> childAges = new ArrayList<>(Arrays.asList(AgeRange.A0_14,
-                                                                             AgeRange.A0_14,
-                                                                             AgeRange.A15_24));
-                    Collections.shuffle(childAges, random);
-                    AgeRange ageRange = childAges.get(0);
-                    RelationshipStatus relStatus = null;
-                    if (ageRange == AgeRange.A0_14) {
-                        relStatus = RelationshipStatus.U15_CHILD;
-                    } else if (ageRange == AgeRange.A15_24) {
-                        relStatus = RelationshipStatus.STUDENT;
-                    } else {
-                        //TODO: set relationship status to O15_CHILD after implementing proper age selection method
-                    }
-
-                    child = extrasHander.createPersonFromExtras(relStatus, ageRange, sex);
+                    or 15-24 student. We ignore independent children over 15 for now*/
+                    extrasHander.addMembersToFamilyFromExtras(family,
+                                                              Utils.tossCoinWithBias(random,
+                                                                                     0.5) ? RelationshipStatus.U15_CHILD : RelationshipStatus.STUDENT,
+                                                              1);
+                    child = family.getMembers().get(0);
                 }
-
                 /*
-                Creating the lone parent
+                Creating the lone parent. We assume parent's age come from 3 age categories above child's age
                  */
-                Sex psex = Utils.selectTrueOrFalseRandomlyWithBias(random,
-                                                                  femaleLoneParentProbability) ? Sex.Female : Sex.Male;
+                Sex parentSex = Utils.getSexRandomly(random, maleLoneParentProbability);
                 AgeRange ageRange;
-                List<AgeRange> parentAges = new ArrayList<>();
-                if (child != null) {
-                    for (int j = 0; j < AgeRange.values().length; j++) {
-                        if (child.getAgeRange().max() < AgeRange.values()[j].min()) {
-                            parentAges.add(AgeRange.values()[j]);
-                            if (parentAges.size() == 2) {
-                                if (child.getAgeRange() == AgeRange.A0_14) {
-                                    parentAges.add(AgeRange.A40_54);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    Collections.shuffle(parentAges, random);
-                    ageRange = parentAges.get(0);
-                } else {
-                    Collections.shuffle(loneParentAges, random);
-                    ageRange = parentAges.get(0);
-                }
-                Person parent = extrasHander.createPersonFromExtras(RelationshipStatus.LONE_PARENT, ageRange, psex);
-
-
-                Family family = new Family(FamilyType.BASIC);
+                int childAgeIndex = Arrays.asList(AgeRange.values()).indexOf(child.getAgeRange());
+                ageRange = Utils.getRandomlyWithoutShuffling(random,
+                                                             Arrays.asList(AgeRange.values())
+                                                                     .subList(childAgeIndex + 1, childAgeIndex + 4));
+                Person parent = extrasHander.getPersonFromExtras(RelationshipStatus.LONE_PARENT, ageRange, parentSex);
                 family.addMember(parent);
-                family.addMember(child);
-
                 loneParentBasic.add(family);
             }
+
+
             Log.info(logPrefix + " lone parent basic: " + newNonPrimaryLoneParents);
         } else {
-            // At this stage we can form all requiredNonPromaryOtherFamilies from existing relatives
+            // At this stage we can form all requiredNonPrimaryOtherFamilies from existing relatives
             //TODO: change marriedFemale.size() when considering homosexual marital partnerships
             newNonPrimaryOtherFamilies = totalRequiredNonPrimaryFamilies - (marriedFemales.size() + loneParentBasic
                     .size());
@@ -349,22 +317,17 @@ public class GroupMaker {
             Family family = new Family(FamilyType.OTHER_FAMILY);
             Person rel1, rel2;
             if (relatives.size() < 2) {
-                Collections.shuffle(agesAll, random);
-                rel1 = extras.remove(0);
-                rel1.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random, maleProbability) ? Sex.Male : Sex.Female);
-                rel1.setRelationshipStatus(RelationshipStatus.RELATIVE);
-                rel1.setAgeRange(agesAll.get(0));
 
-                rel2 = extras.remove(0);
-                rel2.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random, maleProbability) ? Sex.Male : Sex.Female);
-                rel2.setRelationshipStatus(RelationshipStatus.RELATIVE);
-                if (rel1.getAgeRange() == AgeRange.A0_14) {
-                    Collections.shuffle(agesAll, random);
-                    rel2.setAgeRange(agesAll.get(0));
-                } else {
-                    Collections.shuffle(agesAll, random);
-                    rel2.setAgeRange(agesAll.get(0));
-                }
+                rel1 = extrasHander.getPersonFromExtras(RelationshipStatus.RELATIVE,
+                                                        Utils.getRandomlyWithoutShuffling(random, agesAll),
+                                                        Utils.getSexRandomly(random, maleProbability));
+                rel2 = extrasHander.getPersonFromExtras(RelationshipStatus.RELATIVE,
+                                                        (rel1.getAgeRange() == AgeRange.A0_14) ?
+                                                                Utils.getRandomlyWithoutShuffling(random,
+                                                                                                  agesAll.subList(0,
+                                                                                                                  agesAll.size() - 1))
+                                                                : Utils.getRandomlyWithoutShuffling(random, agesAll),
+                                                        Utils.getSexRandomly(random, maleProbability));
             } else {
                 rel1 = relatives.remove(0);
                 rel2 = relatives.remove(0);
@@ -705,22 +668,19 @@ public class GroupMaker {
                 Log.info(logprefix + "Not enough children and/or relatives in main lists. Drawing persons from extras");
                 for (int i = 0; i < (missingChildren + missingRelatives); i++) {
                     if (i < missingChildren) {
-                        Person child = extras.remove(0);
-                        child.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random,
-                                                                             maleProbability) ? Sex.Male : Sex.Female);
-                        child.setRelationshipStatus(RelationshipStatus.U15_CHILD);
-                        child.setAgeRange(AgeRange.A0_14);
-                        familyMembers.add(child);
+
+                        familyMembers.add(extrasHander.getPersonFromExtras(RelationshipStatus.U15_CHILD,
+                                                                           AgeRange.A0_14,
+                                                                           Utils.getSexRandomly(random,
+                                                                                                maleProbability)));
                     } else {
-                        List<AgeRange> ageslist = new ArrayList<>(Arrays.asList(AgeRange.values()));
-                        Person relative = extras.remove(0);
-                        relative.setSex(Utils.selectTrueOrFalseRandomlyWithBias(random,
-                                                                                maleProbability) ? Sex.Male : Sex
-                                                .Female);
-                        relative.setRelationshipStatus(RelationshipStatus.RELATIVE);
-                        Collections.shuffle(ageslist);
-                        relative.setAgeRange(ageslist.get(0));
-                        familyMembers.add(relative);
+                        familyMembers.add(extrasHander.getPersonFromExtras(RelationshipStatus.RELATIVE,
+                                                                           Utils.getRandomlyWithoutShuffling(
+                                                                                   random,
+                                                                                   Arrays.asList(AgeRange.values())
+                                                                           ),
+                                                                           Utils.getSexRandomly(random,
+                                                                                                maleProbability)));
                     }
                 }
             } else {
@@ -828,7 +788,7 @@ public class GroupMaker {
         return nextFamilyType;
     }
 
-    void formOtherFamily1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> othrFamilyBasic) {
+    private void formOtherFamily1FamilyHouseholds(List<HhRecord> hhrecs, List<Family> othrFamilyBasic) {
         String logprefix = "One family, Other Family: ";
         List<HhRecord> otherFmlyrec = DataReader.getHhsByFamilyType(hhrecs, FamilyHouseholdType.F1_OTHER_FAMILY);
         //Get one family other-family hh records
@@ -902,8 +862,8 @@ public class GroupMaker {
                     int neededMembers = hhrec.numOfPersonsPerHh - family.size();
                     if (neededMembers > 0) { //We have exhausted all known children and relatives. So select from
                         // extras.
-                        int relativesCount = Utils.selectTrueOrFalseRandomlyWithBias(random,
-                                                                                     relativeProbability) ? 1 : 0;
+                        int relativesCount = Utils.tossCoinWithBias(random,
+                                                                    relativeProbability) ? 1 : 0;
                         int childrenCount = neededMembers - relativesCount;
 
                         extrasHander.addMembersToFamilyFromExtras(family, RelationshipStatus.RELATIVE, relativesCount);
@@ -974,7 +934,7 @@ public class GroupMaker {
 
                 int remMems = householdRecord.numOfPersonsPerHh - family.size();
                 if (remMems > 0) { //We have exhausted all known children and relatives. So select from extras.
-                    int relativesCount = Utils.selectTrueOrFalseRandomlyWithBias(random, relativeProbability) ? 1 : 0;
+                    int relativesCount = Utils.tossCoinWithBias(random, relativeProbability) ? 1 : 0;
                     int childrenCount = remMems - relativesCount;
 
                     extrasHander.addMembersToFamilyFromExtras(family, RelationshipStatus.RELATIVE, relativesCount);

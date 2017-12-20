@@ -181,7 +181,7 @@ public class FamilyConstructor {
                     break;
                 }
 
-                Family f = new Family(FamilyType.COUPLE_WITH_CHILDREN);
+                Family f = new Family(FamilyType.COUPLE_ONLY);
                 f.addMember(marriedMales.remove(0));
                 f.addMember(marriedFemales.remove(0));
 
