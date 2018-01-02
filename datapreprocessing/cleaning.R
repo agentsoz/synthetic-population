@@ -192,7 +192,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   if(diff > 0){
     percent =  diff/ttlMarriedMales*100
     person[marMaleRwIds,pValColi] = fillAccording2Dist(person[marMaleRwIds,pValColi], diff)
-    cat("Marred Couples: there are not there are enough married males to form min required couples, increase married males by :", diff,"(",percent,"%)\n")
+    cat("Married Couples: there are not enough married males to form min required couples, increase married males by :", diff,"(",percent,"%)\n")
   }else if(diff ==0){
     cat("Married Couples: married males are equal to couple families\n")
   }else{
@@ -202,8 +202,8 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   #Check Lone Parents
   f1OneParentRwIds = getMatchingRowIds(hhold, hFamilyTypeColi,"One family household: One parent family")
   f2OneParentRwIds = getMatchingRowIds(hhold, hFamilyTypeColi,"Two family household: One parent family")
-  f3OneParentRwids = getMatchingRowIds(hhold, hFamilyTypeColi,"Three or more family household: One parent family")
-  ttlOneParentFamilies = sum(hhold[f1OneParentRwIds,hValColi],hhold[f2OneParentRwIds,hValColi],hhold[f3OneParentRwids,hValColi])
+  f3OneParentRwIds = getMatchingRowIds(hhold, hFamilyTypeColi,"Three or more family household: One parent family")
+  ttlOneParentFamilies = sum(hhold[f1OneParentRwIds,hValColi],hhold[f2OneParentRwIds,hValColi],hhold[f3OneParentRwIds,hValColi])
   cat("Lone Parents: minimum required number of lone parents in households file",ttlOneParentFamilies,"\n")
   
   loneParentRwIds = getMatchingRowIds(person, pRelColi, "Lone parent")
@@ -232,9 +232,11 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   if(diff > 0){
     percent = diff/ttlChlds*100
     person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = fillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
-    cat("Children: less children than families, adding new agents:", diff,"(",percent,"%)\n")
+    cat("Children: less children than primary families requiring children, adding new agents:", diff,"(",percent,"%)\n")
+    availableExtraChildren = 0
   }else{
-    cat("Children: there are enough children to construct all known basic family structures with children, no problem\n")
+    availableExtraChildren = -diff
+    cat("Children: there are enough children to construct all known primary family structures requiring children, no problem\n")
   }
   
   #Relatives and Other family
@@ -259,11 +261,63 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
     percent = diff/ttlrelatives*100
     person[relrwids,pValColi] = fillAccording2Dist(person[relrwids,pValColi], diff)
     cat("Relatives for Other families: less persons than households, adding new agents:", diff,"(",percent,"%)\n")
+    availableExtraRelatives = 0
   }else{
+    availableExtraRelatives = -diff
     cat("Relatives for Other families: there are enough relatives to construch all basic other family structures\n")
   }
+
+  #The number of extra relatives or children needed for households based on the size of the primary family
+  m3F1UnitExtras = c(0,0,0,1,2,3,4,5)
+  m2F1UnitExtras = c(0,0,1,2,3,4,5,6)
+  m2F2UnitExtras = c(0,0,0,0,1,2,3,4)
+  m2F3UnitExtras = c(0,0,0,0,0,0,1,2)
   
-  cat("\n     Final Summary   \n")
+  #Extra relatives to complete other family households
+  relInOtherFamilyF1 = sum(hhold[f1otherfamilyrwids,hValColi] * m2F1UnitExtras)
+  relInOtherFamilyF2 = sum(hhold[f2otherfamilyrwids,hValColi] * m2F2UnitExtras)
+  relInOtherFamilyF3 = sum(hhold[f3otherfamilyrwids,hValColi] * m2F3UnitExtras)
+  #Extra relatives to complete couple only households
+  relInCplOnlyF1 = sum(hhold[f1CplOnlyRwIds,hValColi] * m2F1UnitExtras)
+  relInCplOnlyF2 = sum(hhold[f2CplOnlyRwIds,hValColi] * m2F2UnitExtras)
+  relInCplOnlyF3 = sum(hhold[f3CplOnlyRwIds,hValColi] * m2F3UnitExtras)
+  
+  requiredExtraRels = relInOtherFamilyF1 + relInOtherFamilyF2 + relInOtherFamilyF3 + relInCplOnlyF1 + relInCplOnlyF2 + relInCplOnlyF3
+  cat("Multi-family households with coule only and Other family: relatives required to complete households ",requiredExtraRels,"\n")
+  cat("Multi-family households with coule only and Other family: relatives available after primary families",availableExtraRelatives,"\n")
+  if(requiredExtraRels > availableExtraRelatives){
+    diff = requiredExtraRels - availableExtraRelatives
+    existingTtlrelatives = sum(person[relrwids,pValColi])
+    percent = diff/existingTtlrelatives*100
+    person[relrwids,pValColi] = fillAccording2Dist(person[relrwids,pValColi], diff)
+    cat("Multi-family households with coule only and Other family: there are not enough relatives to complete these households, adding new relatives:",diff,"(",percent,"%)\n")
+  }else{
+    cat("Multi-family households with coule only and Other family: there are enough relatives to complete these households\n")
+  }
+  
+  #Extra relatives or children for couple with children. 
+  #We can't infer exact number for 2 and 3 family households because 2nd and 3rd families can be of different sizes.
+  #So we infer relatives/children only for couple with children 1 family households
+  relchldInClpWithChldF1 = sum(hhold[f1otherfamilyrwids,hValColi] * m3F1UnitExtras)
+  
+  #Extra relatives and children in one parent families
+  relchldInOneParentF1 = sum(hhold[f1OneParentRwIds,hValColi] * m2F1UnitExtras)
+  relchldInOneParentF2 = sum(hhold[f2OneParentRwIds,hValColi] * m2F2UnitExtras)
+  relchldInOneParentF3 = sum(hhold[f3OneParentRwIds,hValColi] * m2F3UnitExtras)
+  
+  requiredRelsAndChildSum = relchldInClpWithChldF1 + relchldInOneParentF1 + relchldInOneParentF2 + relchldInOneParentF3
+  cat("Multi-family households Couple with children (1 family) and One parent family: children required to complete households ",requiredRelsAndChildSum,"\n")
+  cat("Multi-family households Couple with children (1 family) and One parent family: children available after primary families",availableExtraChildren,"\n")
+  if (requiredRelsAndChildSum > availableExtraChildren){
+    diff = requiredRelsAndChildSum - availableExtraChildren
+    precentage = diff/availableExtraChildren*100
+    person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = fillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
+    cat("Multi-family households Couple with children (1 family) and One parent family: there are not enough extra children to complete the households, adding new children:",diff,"(",percent,"%)\n")    
+  }else{
+    cat("Multi-family households Couple with children (1 family) and One parent family: there are enough extra children to complete the households\n")        
+  }
+  
+  cat("\n    Final Summary   \n")
   totalpersonsNeededByHhs =sum(hhold[,hValColi]*rep(seq(1,8), each = 14))
   totalExistingpersons = sum(person[,pValColi])
   difference = totalpersonsNeededByHhs - totalExistingpersons
@@ -271,7 +325,6 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   cat("In households file:", totalpersonsNeededByHhs,"\n")
   cat("In persons file:",totalExistingpersons,"\n")
   cat("Difference (unrecongnised missing persons):",difference," (",percentage,"%)\n\n")
-
 
   return(list(person, hhold))
 }

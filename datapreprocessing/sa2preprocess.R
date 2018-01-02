@@ -2,7 +2,6 @@
 library(stringr)
 library(tools)
 
-
 source("DataReadUltraShort.R")
 source("util.R")
 source("dwellingproperties.R")
@@ -42,7 +41,7 @@ option_list = list(
   make_option(c("-sa1tosa2", "--sa1bysa2home"), type="character", default="../data/latch/raw/Hh-SA1-in-each-SA2/", help="Household distribution in SA1 by SA2s [default= %default]",metavar="character"),
   make_option(c("-o", "--output"), type="character", default="../data/latch/absprocessed/SA2/", help="output file location [default= %default]", metavar="character"),
   make_option(c("-sa2", "--sa2list"), type="character", help="list of SA2s to process [default= %default]", metavar="character",
-      default="Thornbury")
+      default="Alphington - Fairfield,Northcote,Thornbury,Bundoora - East,Greensborough,Heidelberg - Rosanna,Heidelberg West,Ivanhoe,Ivanhoe East - Eaglemont,Montmorency - Briar Hill,Viewbank - Yallambie,Watsonia,Kingsbury,Preston,Reservoir - East,Reservoir - West")
   ); 
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
