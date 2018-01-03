@@ -66,7 +66,7 @@ class ExtrasHandler {
         }
 
         int extraPersons = personsInHh > personsInInds ? (personsInHh - personsInInds) : 0;
-        for (int i = 0; i < extraPersons + 100; i++) {
+        for (int i = 0; i < extraPersons; i++) {
             extras.add(new Person());
         }
         return extras;
