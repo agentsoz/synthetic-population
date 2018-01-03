@@ -134,6 +134,12 @@ public class GroupMaker {
                                                                                                    primaryCoupleWChildFamilyBasic,
                                                                                                    loneParentBasic,
                                                                                                    primaryOtherFamiliesBasic);
+            Log.debug("Remaining married males: " + marriedMales.size());
+            Log.debug("Remaining married females: " + marriedFemales.size());
+            Log.debug("Remaining lone parent basic structures: " + loneParentBasic.size());
+            Log.debug("Remaining children: " + children.size());
+            Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining extras: " + extrasHander.remainingExtras());
 
             formBasicStructuresFor2ndAnd3rdFamiliesInMultiFamilyHouseholds(hhrecs, indrecs);
             Log.debug("Remaining married males: " + marriedMales.size());
@@ -232,7 +238,8 @@ public class GroupMaker {
         int creatableNonPrimaryOtherFamiliesWithExistingRelatives = relatives.size() / 2;
         //TODO: We assume heterosexual marital partnerships. marriedFemales.size() is not correct if we consider
         // homosexual partnerships
-        int totalAvailableBasicStructs = marriedFemales.size() + loneParentBasic.size() +
+        int possibleCouples = marriedFemales.size() > marriedMales.size() ? marriedMales.size() : marriedFemales.size();
+        int totalAvailableBasicStructs = possibleCouples + loneParentBasic.size() +
                 creatableNonPrimaryOtherFamiliesWithExistingRelatives;
         int newNonPrimaryMarriedCpls = 0, newNonPrimaryLoneParents = 0, newNonPrimaryOtherFamilies = 0;
 
@@ -255,17 +262,30 @@ public class GroupMaker {
                                                                        AgeRange.A40_54,
                                                                        AgeRange.A55_69,
                                                                        AgeRange.A70_84));
+
             for (int i = 0; i < newNonPrimaryMarriedCpls; i++) {
                 Collections.shuffle(marriedAges, random);
-                Person male = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
-                                                               marriedAges.get(0),
-                                                               Sex.Male);
-                marriedMales.add(male);
+                if (marriedFemales.size() == marriedMales.size()) {
+                    Person male = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                                   marriedAges.get(0),
+                                                                   Sex.Male);
+                    marriedMales.add(male);
 
-                Person female = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
-                                                                 marriedAges.get(0),
-                                                                 Sex.Female);
-                marriedFemales.add(female);
+                    Person female = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                                     marriedAges.get(0),
+                                                                     Sex.Female);
+                    marriedFemales.add(female);
+                } else if (marriedFemales.size() < marriedMales.size()) {
+                    Person female = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                                     marriedAges.get(0),
+                                                                     Sex.Female);
+                    marriedFemales.add(female);
+                } else {
+                    Person male = extrasHander.getPersonFromExtras(RelationshipStatus.MARRIED,
+                                                                   marriedAges.get(0),
+                                                                   Sex.Male);
+                    marriedMales.add(male);
+                }
             }
             Log.info(logPrefix + " new married couples: " + newNonPrimaryMarriedCpls);
 
@@ -461,7 +481,7 @@ public class GroupMaker {
                 secondFamilyType = selectFamilyType(household, FamilyType.UNDEFINED);
                 if (secondFamilyType == null) {
                     Log.warn(logPrefix + "Second family type selection failed: First family: " + firstFamilyType +
-                                     "Second family: null");
+                                     " Second family: null");
                     throw new Error("Second family type null");
                 }
                 secondFamily = getNewFamily(secondFamilyType);
@@ -706,7 +726,11 @@ public class GroupMaker {
             newFamily = new Family(FamilyType.COUPLE_WITH_CHILDREN);
             newFamily.addMember(marriedMales.remove(0));
             newFamily.addMember(marriedFemales.remove(0));
-            newFamily.addMember(children.remove(0));
+            if (children.isEmpty()) {
+                extrasHander.addMembersToFamilyFromExtras(newFamily, RelationshipStatus.U15_CHILD, 1);
+            } else {
+                newFamily.addMember(children.remove(0));
+            }
         } else if (newFamilyType == FamilyType.COUPLE_ONLY) {
             newFamily = new Family(FamilyType.COUPLE_ONLY);
             newFamily.addMember(marriedMales.remove(0));
@@ -743,13 +767,13 @@ public class GroupMaker {
 
         FamilyType nextFamilyType = null;
 
+        if (children.isEmpty()) {
+            threeOrMoreMember.remove(FamilyType.COUPLE_WITH_CHILDREN);
+            twoMember.remove(FamilyType.COUPLE_WITH_CHILDREN);
+        }
         if (marriedMales.isEmpty() | marriedFemales.isEmpty()) {
             threeOrMoreMember.remove(FamilyType.COUPLE_ONLY);
             twoMember.remove(FamilyType.COUPLE_ONLY);
-            if (children.isEmpty()) {
-                threeOrMoreMember.remove(FamilyType.COUPLE_WITH_CHILDREN);
-                twoMember.remove(FamilyType.COUPLE_WITH_CHILDREN);
-            }
         }
         if (nonPrimaryOtherFamilies.isEmpty()) {
             threeOrMoreMember.remove(FamilyType.OTHER_FAMILY);
@@ -767,16 +791,12 @@ public class GroupMaker {
                 Log.warn("Multi-family households: Unable to form secondary or tertiary families. Aborting");
                 return null;
             }
-
         } else if (household.TARGETSIZE - household.currentSize() >= 2) {
             if (!twoMember.isEmpty()) {
                 nextFamilyType = twoMember.get(random.nextInt(twoMember.size()));
             } else {
-
-                Log.warn("Multi-family households: All two member family structures consumed. Resorting to form only " +
-                                 "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" + "" +
-                                 "" + "" + "" + "" + "" + "Couple " + "with " + "children " + "secondary " + "and " +
-                                 "tertiary" + "" + " " + "families");
+                Log.warn("Multi-family households: All two member family structures consumed. Resorting to form " +
+                                 "only Couple with children secondary and tertiary families");
                 return null;
             }
 
