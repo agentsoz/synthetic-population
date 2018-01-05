@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author wniroshan 18 Dec 2017
  */
-public class PersonsConstructor {
+public class PersonsFactory {
 
     List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indrec, RelationshipStatus... relType) {
         List<IndRecord> indRecs = DataReader.getAgentsByRelType(indrec, relType);

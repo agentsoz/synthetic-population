@@ -10,7 +10,7 @@ public class FamilyConstructor {
     final private List<Person> marriedMales, marriedFemales, children, relatives;
     final private Random random;
 
-    FamilyConstructor(List<Person> marriedMales, List<Person> marriedFemales, List<Person> children, List<Person> relatives, Random random) {
+    FamilyConstructor(List<Person> marriedMales, List<Person> marriedFemales, List<Person> loneParents, List<Person> children, List<Person> relatives, Random random) {
         this.children = children;
         this.relatives = relatives;
         this.marriedMales = marriedMales;
@@ -68,54 +68,48 @@ public class FamilyConstructor {
 
         Log.info("Other Family Basic Primary Families: Structures formed: " + otherFamilyBasic.size());
         if (unfomredFamilycount > 0) {
-            Log.warn("Other Family Basic Primary Families: Unformed strcutres: " + unfomredFamilycount);
+            Log.warn("Other Family Basic Primary Families: Unformed structures: " + unfomredFamilycount);
         } else {
-            Log.info("Other Family Basic Primary Families: All structres created");
+            Log.info("Other Family Basic Primary Families: All structures created");
         }
         return otherFamilyBasic;
     }
-//TODO: Delete this code if not used
-//    List<Family> makeAllMarriedCouples(List<HhRecord> hhrecs, List<IndRecord> indrec) {
-//        List<IndRecord> married = GroupingUtils.getAgentsByRelType(indrec, imarried);
-//        List<Person> maleMarried = new ArrayList<>();
-//        List<Person> femaleMarried = new ArrayList<>();
-//
-//        for (IndRecord ind : married) {
-//            for (int i = 0; i < ind.indCount; i++) {
-//                Person p = new Person();
-//                p.setSex(ind.sex);
-//                p.setAgeRange(ind.ageRange);
-//                p.setRelationshipStatus(ind.relationshipStatus);
-//                if (p.getSex() == Sex.Male) {
-//                    maleMarried.add(p);
-//                } else {
-//                    femaleMarried.add(p);
-//                }
-//            }
-//        }
-//
-//        int cpls = Math.min(maleMarried.size(), femaleMarried.size());
-//        int diff = maleMarried.size() - femaleMarried.size();
-//
-//        List<Family> fl = new ArrayList<>();
-//        for (int i = 0; i < cpls; i++) {
-//            Family f = new Family(FamilyType.BASIC);
-//            f.addMember(maleMarried.remove(0));
-//            f.addMember(femaleMarried.remove(0));
-//
-//            fl.add(f);
-//        }
-//
-//        Log.info("MARRIED couples: Couples formed: " + cpls);
-//        if (diff > 0) {
-//            Log.warn("MARRIED couples: Discarded married males: " + diff);
-//        } else if (diff < 0) {
-//            Log.warn("MARRIED couples: Discarded married females: " + ((-1) * diff));
-//        } else {
-//            Log.info("MARRIED couples: All couples created");
-//        }
-//        return fl;
-//    }
+
+    /**
+     * Forms basic married couple units.
+     *
+     * @param marriedMales list of married males
+     * @param marriedFemales list of married females
+     * @return list of couples
+     */
+    List<Family> makeAllMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
+
+        //Sort two lists in age descending order
+        AgeRange.AgeComparator ageComparator = new AgeRange.AgeComparator();
+        Collections.sort(marriedMales, ageComparator.reversed());
+        Collections.sort(marriedFemales,ageComparator.reversed());
+
+        int cpls = Math.min(marriedMales.size(), marriedFemales.size());
+        int diff = marriedMales.size() - marriedFemales.size();
+
+        List<Family> fl = new ArrayList<>();
+        for (int i = 0; i < cpls; i++) {
+            Family f = new Family(FamilyType.BASIC);
+            f.addMember(marriedMales.remove(0));
+            f.addMember(marriedFemales.remove(0));
+            fl.add(f);
+        }
+
+        Log.info("Forming Married couples: Couples formed: " + cpls);
+        if (diff > 0) {
+            Log.warn("Forming Married couples: " + diff+" young married males discarded. Population may be biased");
+        } else if (diff < 0) {
+            Log.warn("Forming Married couples: " + ((-1) * diff)+" young married females discarded. Population may be biased");
+        } else {
+            Log.info("Forming Married couples: no issues");
+        }
+        return fl;
+    }
 
     List<Family> makePrimaryCoupleWithChildFamilyBasicStructs(List<HhRecord> cplYesChldRecords) {
         List<Family> cplwChld = new ArrayList<>();

@@ -70,11 +70,10 @@ public class App {
                 hhrecs = DataReader.readHouseholdRecords(hhfileinfo);
                 indrec = DataReader.readPersonRecords(indfileinfo);
 
-                // Build all the households (bar relationships between
-                // individuals in the HH)
+                // Group persons into households considering person, household and family types
                 List<Household> householdsOfSA2 = grpmaker.makePopulation(hhrecs.get(sa2), indrec.get(sa2), rand, sa2);
 
-                // Link up all the persons in each household
+                // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);
 
                 // Read in populations overall age distribution

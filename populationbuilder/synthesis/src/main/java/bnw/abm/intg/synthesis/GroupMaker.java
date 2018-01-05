@@ -47,21 +47,23 @@ public class GroupMaker {
         makeLonePersonsHhs(hhrecs, indrecs);
         makeGroupHouseholds(hhrecs, indrecs);
 
-        PersonsConstructor personConstruct = new PersonsConstructor();
+        PersonsFactory personsFactory = new PersonsFactory();
         //        marriedStructs = familyConstuct.makeAllMarriedCouples(hhrecs, indrecs);
-        List<Person> married = personConstruct.makeAllPersonsByRelationshipType(indrecs, RelationshipStatus.MARRIED);
-        marriedMales = married.stream().filter(p -> p.getSex() == Sex.Male).collect(Collectors.toList());
-        marriedFemales = married.stream().filter(p -> p.getSex() == Sex.Female).collect(Collectors.toList());
-        relatives = personConstruct.makeAllPersonsByRelationshipType(indrecs, RelationshipStatus.RELATIVE);
-        List<Person> loneParents = personConstruct.makeAllPersonsByRelationshipType(indrecs,
+        List<Person> married = personsFactory.makeAllPersonsByRelationshipType(indrecs, RelationshipStatus.MARRIED);
+        List<Person> marriedMales = married.stream().filter(p -> p.getSex() == Sex.Male).collect(Collectors.toList());
+        List<Person> marriedFemales =  married.stream().filter(p -> p.getSex() == Sex.Female).collect(Collectors.toList());
+
+        relatives = personsFactory.makeAllPersonsByRelationshipType(indrecs, RelationshipStatus.RELATIVE);
+        List<Person> loneParents = personsFactory.makeAllPersonsByRelationshipType(indrecs,
                                                                                     RelationshipStatus.LONE_PARENT);
-        children = personConstruct.makeAllPersonsByRelationshipType(indrecs,
+        children = personsFactory.makeAllPersonsByRelationshipType(indrecs,
                                                                     RelationshipStatus.U15_CHILD,
                                                                     RelationshipStatus.STUDENT,
                                                                     RelationshipStatus.O15_CHILD);
 
         FamilyConstructor familyConstructor = new FamilyConstructor(marriedMales,
                                                                     marriedFemales,
+                                                                    loneParents,
                                                                     children,
                                                                     relatives,
                                                                     rand);
