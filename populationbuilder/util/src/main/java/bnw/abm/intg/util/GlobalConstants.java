@@ -2,22 +2,22 @@ package bnw.abm.intg.util;
 
 /**
  * @author Bhagya N. Wickramasinghe
- *
  */
 public class GlobalConstants {
 
-    public enum EXITCODE {
+    public enum ExitCode {
         NORMAL(0, "All Good!"),
         IOERROR(1, "Input/output error"),
         ENVVAR(2, "Environment variable read error"),
         USERINPUT(3, "User input error"),
         PROGERROR(4, "Programmar error"),
-        UNDEF(99, "Undefined error");
+        UNDEF(99, "Undefined error"),
+        DATA_ERROR(5, "Error in population data");
 
         private int code;
         private String msg;
 
-        EXITCODE(int code, String msg) {
+        ExitCode(int code, String msg) {
             this.code = code;
             this.msg = msg;
         }
@@ -26,11 +26,8 @@ public class GlobalConstants {
             return this.code;
         }
 
-        public String getMsg(){
+        public String getMsg() {
             return this.msg;
         }
     }
-
-    public static int EXIT_NORMAL = 0;
-    public static int EXIT_IOERROR = 1;
 }

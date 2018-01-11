@@ -1,29 +1,21 @@
 package bnw.abm.intg.synthesis;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import bnw.abm.intg.util.*;
+import bnw.abm.intg.filemanager.BNWFiles;
+import bnw.abm.intg.filemanager.csv.CSVReader;
+import bnw.abm.intg.filemanager.csv.CSVWriter;
+import bnw.abm.intg.filemanager.json.JSONReadable;
+import bnw.abm.intg.filemanager.json.JSONWriter;
+import bnw.abm.intg.filemanager.json.JacksonJSONReader;
+import bnw.abm.intg.geo.CoordinateConversion;
+import bnw.abm.intg.geo.FeatureProcessing;
+import bnw.abm.intg.geo.ShapefileGeoFeatureReader;
+import bnw.abm.intg.util.BNWProperties;
+import bnw.abm.intg.util.ConsoleProgressBar;
+import bnw.abm.intg.util.GlobalConstants;
+import bnw.abm.intg.util.Log;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 import org.geotools.feature.FeatureIterator;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -38,19 +30,13 @@ import org.matsim.core.scenario.ScenarioUtils;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-
-import bnw.abm.intg.filemanager.BNWFiles;
-import bnw.abm.intg.filemanager.csv.CSVReader;
-import bnw.abm.intg.filemanager.csv.CSVWriter;
-import bnw.abm.intg.filemanager.json.JSONReadable;
-import bnw.abm.intg.filemanager.json.JSONWriter;
-import bnw.abm.intg.filemanager.json.JacksonJSONReader;
-import bnw.abm.intg.geo.CoordinateConversion;
-import bnw.abm.intg.geo.FeatureProcessing;
-import bnw.abm.intg.geo.ShapefileGeoFeatureReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Hello world!
@@ -291,7 +277,7 @@ public class Traffic {
 		 */
 		if (!(addressMap.get(jsonMatchProperty[0]) instanceof List)) {
 			System.err.println("Root element must have an arrray of address elements, but this not an array");
-			Log.errorAndExit("Root element must have an arrray of address elements, but this not an array", GlobalConstants.EXITCODE.USERINPUT);
+			Log.errorAndExit("Root element must have an arrray of address elements, but this not an array", GlobalConstants.ExitCode.USERINPUT);
 		}
 		List featuresList = (List) addressMap.get(jsonMatchProperty[0]);
 
@@ -299,7 +285,7 @@ public class Traffic {
 			String errorStr = "Expecting a map after " + jsonMatchProperty[0] + "\\" + jsonMatchProperty[1]
 					+ " but you have something else in addressMap";
 			System.err.println(errorStr);
-			Log.errorAndExit(errorStr, GlobalConstants.EXITCODE.USERINPUT);
+			Log.errorAndExit(errorStr, GlobalConstants.ExitCode.USERINPUT);
 		}
 		/*
 		 * Store all the addresses in JSON grouped by their SA1

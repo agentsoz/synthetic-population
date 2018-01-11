@@ -1,5 +1,7 @@
 package bnw.abm.intg.util;
 
+import bnw.abm.intg.util.GlobalConstants.ExitCode;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Properties;
-
-import bnw.abm.intg.util.GlobalConstants.EXITCODE;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -32,10 +32,10 @@ public class BNWProperties extends Properties {
             if (inputStream != null) {
                 this.load(inputStream);
             } else {
-                Log.errorAndExit("Property file loading : FAILED", EXITCODE.IOERROR);
+                Log.errorAndExit("Property file loading : FAILED", ExitCode.IOERROR);
             }
         } catch (IOException e) {
-            Log.errorAndExit(e.toString(), e, EXITCODE.IOERROR);
+            Log.errorAndExit(e.toString(), e, ExitCode.IOERROR);
         }
         return this;
     }
@@ -121,7 +121,7 @@ public class BNWProperties extends Properties {
             String envVar = filePath.substring(dollar, filePath.indexOf(File.separatorChar));
             String replacement = System.getenv(envVar.substring(1));
             if (replacement == null) {
-                Log.errorAndExit(envVar.substring(1) + "  environment variable not found", EXITCODE.ENVVAR);
+                Log.errorAndExit(envVar.substring(1) + "  environment variable not found", ExitCode.ENVVAR);
             }
             return filePath.replace(envVar, replacement);
         } else {

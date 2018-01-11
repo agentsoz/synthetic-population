@@ -2,7 +2,7 @@ package bnw.abm.intg.util;
 
 import org.slf4j.LoggerFactory;
 
-import bnw.abm.intg.util.GlobalConstants.EXITCODE;
+import bnw.abm.intg.util.GlobalConstants.ExitCode;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
@@ -49,13 +49,13 @@ public class Log {
         logger.error(msg, thrown);
     }
 
-    public static void errorAndExit(String msg, EXITCODE exitCode) {
+    public static void errorAndExit(String msg, ExitCode exitCode) {
         logger.error(msg);
         System.out.println("EXIT CODE: " + exitCode.getCode() + " " + exitCode.getMsg());
         System.exit(exitCode.getCode());
     }
 
-    public static void errorAndExit(String msg, Throwable thrown, EXITCODE exitCode) {
+    public static void errorAndExit(String msg, Throwable thrown, ExitCode exitCode) {
         logger.error(msg, thrown);
         System.out.println("EXIT CODE: " + exitCode.getCode() + " " + exitCode.getMsg());
         System.exit(exitCode.getCode());

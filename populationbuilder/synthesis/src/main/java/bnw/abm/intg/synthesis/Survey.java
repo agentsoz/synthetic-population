@@ -1,22 +1,16 @@
 
 package bnw.abm.intg.synthesis;
 
+import bnw.abm.intg.filemanager.csv.CSVWriter;
+import bnw.abm.intg.synthesis.models.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import bnw.abm.intg.filemanager.csv.CSVWriter;
-import bnw.abm.intg.synthesis.models.*;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -52,11 +46,11 @@ public class Survey {
         for (Household household : allHouseholds) {
             Map<String, Map<String, Integer>> familyCountLevelMap;
             Map<String, Integer> primaryFamilyLevelMap;
-            if (sizeLevelMap.containsKey(household.currentSize())) {
-                familyCountLevelMap = sizeLevelMap.get(household.currentSize());
+            if (sizeLevelMap.containsKey(household.getCurrentSize())) {
+                familyCountLevelMap = sizeLevelMap.get(household.getCurrentSize());
             } else {
                 familyCountLevelMap = new LinkedHashMap<>();
-                sizeLevelMap.put(household.currentSize(), familyCountLevelMap);
+                sizeLevelMap.put(household.getCurrentSize(), familyCountLevelMap);
             }
             if (familyCountLevelMap.containsKey(household.familyCount() + " Family")) {
                 primaryFamilyLevelMap = familyCountLevelMap.get(household.familyCount() + " Family");
@@ -94,15 +88,15 @@ public class Survey {
         fullHhSummary.add(record1);
         for (HhRecord hhrec : hhrecs) {
             List<String> record = new ArrayList<>();
-            record.add(String.valueOf(hhrec.numOfPersonsPerHh));
+            record.add(String.valueOf(hhrec.NUM_OF_PERSONS_PER_HH));
 
-            String nofFamilies = String.valueOf(hhrec.familyCountPerHousehold) + " Family";
+            String nofFamilies = String.valueOf(hhrec.getFamilyCountPerHousehold()) + " Family";
             record.add(nofFamilies);
 
-            record.add(hhrec.primaryFamilyType.description());
+            record.add(hhrec.getPrimaryFamilyType().description());
             int nofHhs = 0;
-            List<Household> hhs = householdsByType.get(hhrec.numOfPersonsPerHh + ":" + hhrec.familyCountPerHousehold + ":"
-                    + hhrec.primaryFamilyType);
+            List<Household> hhs = householdsByType.get(hhrec.NUM_OF_PERSONS_PER_HH + ":" + hhrec.getFamilyCountPerHousehold() + ":"
+                    + hhrec.getPrimaryFamilyType());
             if (hhs != null) {
                 nofHhs = hhs.size();
             }
@@ -158,7 +152,7 @@ public class Survey {
 
         for (Household household : allHouseholds) {
             Family primaryFamily = household.getFamilies().get(0);
-            String key = household.currentSize() + ":" + household.familyCount() + ":" + primaryFamily.getType();
+            String key = household.getCurrentSize() + ":" + household.familyCount() + ":" + primaryFamily.getType();
             if (householdsByType.containsKey(key)) {
                 householdsByType.get(key).add(household);
             } else {
@@ -326,8 +320,8 @@ public class Survey {
                 }
                 List<String> hhData = new ArrayList<>();
                 hhData.add(household.getID());
-                hhData.add(String.valueOf(household.TARGETSIZE));
-                hhData.add(String.valueOf(household.currentSize()));
+                hhData.add(String.valueOf(household.getExpectedSize()));
+                hhData.add(String.valueOf(household.getCurrentSize()));
                 // List<String> memberIds = household.getMembers().stream().map((p) -> p.getID()).collect(Collectors.toList());
                 List<String> memberIds = household.getMembers().stream().filter(m -> m.getRelationshipStatus() != RelationshipStatus.RELATIVE).map((p) -> p.getID())
                         .collect(Collectors.toList());// FIXME: add relatives back
@@ -413,7 +407,7 @@ public class Survey {
 
                         pdata.add(String.valueOf(person.getRelationshipStatus()));
                         pdata.add(String.valueOf(person.getSex()));
-                        pdata.add(String.valueOf(household.currentSize()));
+                        pdata.add(String.valueOf(household.getCurrentSize()));
                         pdata.add(String.valueOf(person.getAge()));
                         pdata.add(household.getID());
                         outputPersons.add(pdata);

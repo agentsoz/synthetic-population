@@ -23,7 +23,8 @@ public class DataReader {
     static Map<String, List<HhRecord>> readHouseholdRecords(Path hhfileinfo) throws IOException {
         int titleRow = 0;
 
-        CSVParser parser = new CSVParser(Files.newBufferedReader(hhfileinfo), CSVFormat.EXCEL.withSkipHeaderRecord(false));
+        CSVParser parser = new CSVParser(Files.newBufferedReader(hhfileinfo),
+                                         CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int r = -1;
         String sa, hhSize, familyDesc, hhcount, currentSA = null;
         int saCol = 1, hhSizeCol = 2, familyDescriptionCol = 3, hhCountCol = 4;
@@ -59,7 +60,8 @@ public class DataReader {
 
     static Map<String, List<IndRecord>> readPersonRecords(Path indFileInfo) throws IOException {
         int titleRow = 0;
-        CSVParser parser = new CSVParser(Files.newBufferedReader(indFileInfo), CSVFormat.EXCEL.withSkipHeaderRecord(false));
+        CSVParser parser = new CSVParser(Files.newBufferedReader(indFileInfo),
+                                         CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int r = -1;
         String sa, ageRangeStr, currentSA = null;
         RelationshipStatus relStatus;
@@ -91,9 +93,13 @@ public class DataReader {
         return inddata;
     }
 
-    static Map<String, Map<String, Integer>> readSA1HouseholdDistribution(Path csvFile, int sa1Row, int numberOfPersonsCol, int familyHhTypeCol)
+    static Map<String, Map<String, Integer>> readSA1HouseholdDistribution(Path csvFile,
+                                                                          int sa1Row,
+                                                                          int numberOfPersonsCol,
+                                                                          int familyHhTypeCol)
             throws IOException {
-        CSVParser csvParser = new CSVParser(Files.newBufferedReader(csvFile), CSVFormat.EXCEL.withSkipHeaderRecord(false));
+        CSVParser csvParser = new CSVParser(Files.newBufferedReader(csvFile),
+                                            CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int row = -1;
 
         Map<String, Map<String, Integer>> householdTypesBySA1 = new LinkedHashMap<>();
@@ -129,7 +135,8 @@ public class DataReader {
 
     static Map<Integer, Double> readAgeDistribution(Map<String, String> params) throws IOException {
         Path csvFile = Paths.get(params.get("FileName"));
-        CSVParser csvParser = new CSVParser(Files.newBufferedReader(csvFile), CSVFormat.EXCEL.withSkipHeaderRecord(false));
+        CSVParser csvParser = new CSVParser(Files.newBufferedReader(csvFile),
+                                            CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int row = -1;
         int dataRow = Integer.parseInt(params.get("DataStartRow"));
         int percentageCol = Integer.parseInt(params.get("PercentageColumn"));
@@ -139,7 +146,8 @@ public class DataReader {
         for (CSVRecord csvRecord : csvParser) {
             row++;
             if (row >= dataRow) {
-                if ((csvRecord.size() - 1) < ageColumn || csvRecord.get(ageColumn) == null || csvRecord.get(ageColumn).equals("")) {
+                if ((csvRecord.size() - 1) < ageColumn || csvRecord.get(ageColumn) == null || csvRecord.get(ageColumn)
+                        .equals("")) {
                     break; // We have reached end
                 }
                 String age = csvRecord.get(ageColumn).split(" ")[0];
@@ -297,8 +305,8 @@ public class DataReader {
         List<HhRecord> shortlist = new ArrayList<>();
         for (int j = 0; j < familyTypes.length; j++) {
             for (int i = 0; i < hhrecs.size(); i++) {
-                if (hhrecs.get(i).familyCountPerHousehold == familyTypes[j].getFamilyCount() &&
-                        hhrecs.get(i).primaryFamilyType == familyTypes[j].getFamilyType()) {
+                if (hhrecs.get(i).getFamilyCountPerHousehold() == familyTypes[j].getFamilyCount() &&
+                        hhrecs.get(i).getPrimaryFamilyType() == familyTypes[j].getFamilyType()) {
                     shortlist.add(hhrecs.get(i));
                 }
             }
@@ -322,16 +330,32 @@ public class DataReader {
 }
 
 class HhRecord {
-    final public int numOfPersonsPerHh;
-    final public int hhCount;
-    final public FamilyType primaryFamilyType;
-    final public int familyCountPerHousehold;
+    public final int NUM_OF_PERSONS_PER_HH;
+    public final int hhCount;
+    public final FamilyHouseholdType FAMILY_HOUSEHOLD_TYPE;
 
     public HhRecord(int nofPersons, int familyCountPerHh, FamilyType familyType, int hhcount) {
-        this.numOfPersonsPerHh = nofPersons;
-        this.familyCountPerHousehold = familyCountPerHh;
+        this.NUM_OF_PERSONS_PER_HH = nofPersons;
         this.hhCount = hhcount;
-        this.primaryFamilyType = familyType;
+
+        FamilyHouseholdType tempFamilyHhtype = null;
+        for (FamilyHouseholdType familyHouseholdType : FamilyHouseholdType.values()) {
+            if (familyHouseholdType.getFamilyCount() == familyCountPerHh && familyHouseholdType.getFamilyType() == familyType) {
+                tempFamilyHhtype = familyHouseholdType;
+                break;
+            }
+        }
+        FAMILY_HOUSEHOLD_TYPE = tempFamilyHhtype;
+
+    }
+
+    public FamilyType getPrimaryFamilyType() {
+
+        return this.FAMILY_HOUSEHOLD_TYPE.getFamilyType();
+    }
+
+    public int getFamilyCountPerHousehold() {
+        return this.FAMILY_HOUSEHOLD_TYPE.getFamilyCount();
     }
 }
 
