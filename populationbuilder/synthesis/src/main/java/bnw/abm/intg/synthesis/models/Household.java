@@ -13,36 +13,38 @@ import java.util.Map;
 public class Household {
 
 
-    public final int TARGETSIZE;
-    public final int TARGETFAMLYCOUNT;
+    private final int expectedSize;
+    private final FamilyHouseholdType familyHhType;
+    private final String SA2_NAME;
 
+    private final List<Family> families;
     private static long IDCounter = 0;
     private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
-    private List<Family> families;
     private String householdID;
+
     private String tenlld;
     private String SA1_7DIG11;
-    private String sa2name;
-    private String SA2MAINCODE;
+    private String SA2_MAINCODE;
 
-    public Household(int targetSize, int targetFamilyCount, String sa2) {
-        this.families = new ArrayList<Family>();
-        this.TARGETSIZE = targetSize;
-        this.TARGETFAMLYCOUNT = targetFamilyCount;
-        this.sa2name = sa2;
+    public Household(int expectedSize, FamilyHouseholdType expectedFamilyHouseholdType, String sa2) {
+        this.expectedSize = expectedSize;
+        this.familyHhType = expectedFamilyHouseholdType;
+        this.SA2_NAME = sa2;
+
+        this.families = new ArrayList<>();
         this.householdID = String.valueOf(IDCounter++);
     }
 
     public String getSA2MainCode() {
-        return this.SA2MAINCODE;
+        return this.SA2_MAINCODE;
     }
 
     public void setSA2MainCode(String mainCode) {
-        this.SA2MAINCODE = mainCode;
+        this.SA2_MAINCODE = mainCode;
     }
 
     public String getSA2Name() {
-        return this.sa2name;
+        return this.SA2_NAME;
     }
 
     public String getSA1Code() {
@@ -104,7 +106,7 @@ public class Household {
      *
      * @return number of members
      */
-    public int currentSize() {
+    public int getCurrentSize() {
         int size = 0;
         for (Family family : families) {
             size += family.size();
@@ -129,16 +131,26 @@ public class Household {
         return members;
     }
 
+    public int getExpectedFamilyCount(){
+        return this.familyHhType.getFamilyCount();
+    }
+
     public boolean validate() {
-        if (this.currentSize() != this.TARGETSIZE | this.familyCount() != this.TARGETFAMLYCOUNT) {
-            Log.warn("Househld validation: Current size: " + this.currentSize() + " Expected size: " + this.TARGETSIZE
-                    + " Current families: " + familyCount() + " Expected families: " + this.TARGETFAMLYCOUNT);
+        if (this.getCurrentSize() != this.getExpectedSize() | this.familyCount() != this.getExpectedFamilyCount()) {
+            Log.warn("Household validation: Current size: " + this.getCurrentSize() + " Expected size: " + this.getExpectedSize()
+                    + " Current families: " + familyCount() + " Expected families: " + this.getExpectedFamilyCount());
             return false;
         }
         if (getFamilies().get(0).getType() != FamilyType.COUPLE_WITH_CHILDREN
                 & getFamilies().stream().filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN).count() > 0) {
             Log.warn(
-                    "Househld validation: Primary family: " + getFamilies().get(0).getType() + " Secondary: " + getFamilies().get(1).getType());
+                    "Household validation: Primary family: " + getFamilies().get(0).getType() + " Secondary: " + getFamilies().get(1).getType());
+            return false;
+        }
+
+        if(this.getFamilies().get(0).getType() != this.familyHhType.getFamilyType()){
+            Log.warn(
+                    "Household validation: Expected primary family: " +this.familyHhType.getFamilyType() + " Actual primary family: "+getFamilies().get(0).getType());
             return false;
         }
 
@@ -146,4 +158,7 @@ public class Household {
 
     }
 
+    public int getExpectedSize() {
+        return expectedSize;
+    }
 }

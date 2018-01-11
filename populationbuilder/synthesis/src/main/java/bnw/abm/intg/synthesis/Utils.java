@@ -12,10 +12,10 @@ public class Utils {
         print("Distribution of missing persons in formed households by size:");
         int[] count = new int[9];
         for (Household h : allHouseholds) {
-            if (h.TARGETSIZE - h.currentSize() < 0) {
-                print(h.TARGETSIZE + " " + h.currentSize());
+            if (h.getExpectedSize() - h.getCurrentSize() < 0) {
+                print(h.getExpectedSize() + " " + h.getCurrentSize());
             }
-            count[h.TARGETSIZE] += (h.TARGETSIZE - h.currentSize());
+            count[h.getExpectedSize()] += (h.getExpectedSize() - h.getCurrentSize());
         }
         print("size\t persons");
         for (int i = 1; i < count.length; i++) {
@@ -34,28 +34,28 @@ public class Utils {
         Map<String, Integer> map = null;
         int previousHhSize = 0;
         for (HhRecord hhRec : hhrecs) {
-            if (hhRec.numOfPersonsPerHh != previousHhSize) {
-                previousHhSize = hhRec.numOfPersonsPerHh;
+            if (hhRec.NUM_OF_PERSONS_PER_HH != previousHhSize) {
+                previousHhSize = hhRec.NUM_OF_PERSONS_PER_HH;
                 map = new LinkedHashMap<>();
                 householdInfo.add(map);
             }
-            map.put(hhRec.familyCountPerHousehold + "" + hhRec.primaryFamilyType, 0);
-            if (hhRec.primaryFamilyType == FamilyType.COUPLE_ONLY) {
+            map.put(hhRec.getFamilyCountPerHousehold() + "" + hhRec.getPrimaryFamilyType(), 0);
+            if (hhRec.getPrimaryFamilyType() == FamilyType.COUPLE_ONLY) {
                 coupleOnly += (hhRec.hhCount);
             }
-            if (hhRec.primaryFamilyType == FamilyType.COUPLE_WITH_CHILDREN) {
+            if (hhRec.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN) {
                 coupleYesChild += hhRec.hhCount;
             }
-            if (hhRec.primaryFamilyType == FamilyType.ONE_PARENT) {
+            if (hhRec.getPrimaryFamilyType() == FamilyType.ONE_PARENT) {
                 oneParentFamily += hhRec.hhCount;
             }
         }
 
         for (Household household : allHouseholds) {
             Family primaryFamily = household.getFamilies().get(0);
-            Map<String, Integer> hhmap = householdInfo.get(household.TARGETSIZE);
-            int hhcount = hhmap.get(household.TARGETFAMLYCOUNT + "" + primaryFamily.getType());
-            hhmap.put(household.TARGETFAMLYCOUNT + "" + primaryFamily.getType(), hhcount + 1);
+            Map<String, Integer> hhmap = householdInfo.get(household.getExpectedSize());
+            int hhcount = hhmap.get(household.getExpectedFamilyCount() + "" + primaryFamily.getType());
+            hhmap.put(household.getExpectedFamilyCount() + "" + primaryFamily.getType(), hhcount + 1);
         }
         System.out.println("Total Households: " + ttlHhs);
         System.out.println("Couple Only Hhs: " + coupleOnly);
@@ -64,8 +64,8 @@ public class Utils {
 
         print("size\tDesctiption\t\t\t\t\t\t\ttarget\tcurrent");
         for (HhRecord hhrec : hhrecs) {
-            int numberOfPersons = hhrec.numOfPersonsPerHh;
-            String familyDescription = hhrec.familyCountPerHousehold + " Family: " + hhrec.primaryFamilyType
+            int numberOfPersons = hhrec.NUM_OF_PERSONS_PER_HH;
+            String familyDescription = hhrec.getFamilyCountPerHousehold() + " Family: " + hhrec.getPrimaryFamilyType()
                     .description();
 
             /* Just aesthetics - nothing important */
@@ -73,7 +73,7 @@ public class Utils {
             String tabSpace = new String(new char[stringLengthDifference]).replace("\0", " ");
 
             print(numberOfPersons + "\t" + familyDescription + tabSpace + "\t" + hhrec.hhCount + "\t" + householdInfo
-                    .get(numberOfPersons).get(hhrec.familyCountPerHousehold + "" + hhrec.primaryFamilyType));
+                    .get(numberOfPersons).get(hhrec.getFamilyCountPerHousehold() + "" + hhrec.getPrimaryFamilyType()));
         }
 
     }

@@ -14,7 +14,7 @@ class ExtrasHandler {
     final private List<Person> extras;
 
     ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, double sexRatio, Random random) {
-        this.extras = this.getExtras(hhRecords,indRecords);
+        this.extras = this.getExtras(hhRecords, indRecords);
         this.maleProbability = sexRatio;
         this.random = random;
     }
@@ -26,10 +26,16 @@ class ExtrasHandler {
      * @param relationshipStatus The type of the newly added persons
      * @param requiredMembers    The number of persons to add
      */
-    void addMembersToFamilyFromExtras(Family family, RelationshipStatus relationshipStatus, int requiredMembers) {
+    void addMembersToFamilyFromExtras(Family family,
+                                      RelationshipStatus relationshipStatus,
+                                      int requiredMembers) throws NotEnoughPersonsException {
         List<AgeRange> agesList = new ArrayList<>(Arrays.asList(AgeRange.values()));
         for (int i = 0; i < requiredMembers; i++) {
+            if (extras.isEmpty()) {
+                throw new NotEnoughPersonsException("Not enough persons in Extras");
+            }
             Person member = extras.remove(0);
+            //TODO: Implement sex selection based on distribution in relationship type
             member.setSex(Utils.getSexRandomly(random, maleProbability));
             member.setRelationshipStatus(relationshipStatus);
 
@@ -45,6 +51,7 @@ class ExtrasHandler {
                     member.setAgeRange(AgeRange.A25_39);
                     break;
                 default:
+                    //TODO: Implement AgeRange selection based on age distribution of relationship/sex type
                     Collections.shuffle(agesList);
                     member.setAgeRange(agesList.get(0));
 
@@ -59,7 +66,7 @@ class ExtrasHandler {
         int personsInInds = 0;
         List<Person> extras = new ArrayList<>();
         for (HhRecord hhRec : hhrecs) {
-            personsInHh += (hhRec.hhCount * hhRec.numOfPersonsPerHh);
+            personsInHh += (hhRec.hhCount * hhRec.NUM_OF_PERSONS_PER_HH);
         }
         for (IndRecord inRec : indrecs) {
             personsInInds += inRec.indCount;
@@ -72,11 +79,11 @@ class ExtrasHandler {
         return extras;
     }
 
-    int remainingExtras(){
+    int remainingExtras() {
         return extras.size();
     }
 
-    Person getPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex){
+    Person getPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex) {
         Person person = extras.remove(0);
         person.setAgeRange(ageRange);
         person.setRelationshipStatus(relStatus);

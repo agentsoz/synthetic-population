@@ -1,5 +1,7 @@
 package bnw.abm.intg.util;
 
+import bnw.abm.intg.util.GlobalConstants.ExitCode;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +9,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
-import bnw.abm.intg.util.GlobalConstants.EXITCODE;
 
 @Deprecated
 /**
@@ -82,7 +82,7 @@ public class BNWLogger {
      * @param thrown Log exception
      * @param exitCode Exit code
      */
-    public void logAndExit(Level level, String message, Throwable thrown, EXITCODE exitCode) {
+    public void logAndExit(Level level, String message, Throwable thrown, ExitCode exitCode) {
         getLogger().log(level, message, thrown);
         System.exit(exitCode.getCode());
     }
@@ -94,7 +94,7 @@ public class BNWLogger {
      * @param message Log message
      * @param exitCode Exit code
      */
-    public void logAndExit(Level level, String message, EXITCODE exitCode) {
+    public void logAndExit(Level level, String message, ExitCode exitCode) {
         getLogger().log(level, message);
         System.exit(exitCode.getCode());
     }
