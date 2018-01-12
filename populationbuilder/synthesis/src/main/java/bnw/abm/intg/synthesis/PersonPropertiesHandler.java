@@ -46,7 +46,7 @@ public class PersonPropertiesHandler {
                                         break;
                                     default:
                                         throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " but " +
-                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
+                                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
                                 }
                                 break;
                             case LONE_PARENT:
@@ -61,7 +61,7 @@ public class PersonPropertiesHandler {
                                         break;
                                     default:
                                         throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " but " +
-                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
+                                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
                                 }
                                 break;
 
@@ -85,7 +85,7 @@ public class PersonPropertiesHandler {
                                         break;
                                     default:
                                         throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " but " +
-                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
+                                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
                                 }
                                 break;
                             case RELATIVE:
@@ -93,7 +93,7 @@ public class PersonPropertiesHandler {
                                     case GROUP_HOUSEHOLD:
                                     case LONE_PERSON:
                                         throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " but " +
-                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
+                                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
                                     default:
                                         iam.setRelative(member);
                                         break;
@@ -101,7 +101,7 @@ public class PersonPropertiesHandler {
                                 break;
                             case LONE_PERSON:
                                 throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " and other "
-                                        + "memeber is not supposed to be here: " + member.getRelationshipStatus());
+                                                        + "memeber is not supposed to be here: " + member.getRelationshipStatus());
                             case GROUP_HOUSEHOLD:
                                 switch (member.getRelationshipStatus()) {
                                     case GROUP_HOUSEHOLD:
@@ -109,12 +109,12 @@ public class PersonPropertiesHandler {
                                         break;
                                     default:
                                         throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " but " +
-                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
+                                                                "" + "" + "other memeber is a: " + member.getRelationshipStatus());
                                 }
                                 break;
                             default:
                                 throw new Error("Impossible configuration: I am a: " + iam.getRelationshipStatus() + " and I am " +
-                                        "not" + " from this world!");
+                                                        "not" + " from this world!");
 
                         }
                     }

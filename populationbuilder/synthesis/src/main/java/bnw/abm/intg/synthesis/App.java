@@ -17,12 +17,11 @@ import java.util.Random;
 
 /**
  * @author Bhagya N. Wickramasinghe
- *
  */
 public class App {
 
     public static void main(String[] args) {
-        Log.createLogger("Synthesis","PopulationSynthesis.log");
+        Log.createLogger("Synthesis", "PopulationSynthesis.log");
         BNWProperties props = null;
         try {
             props = new BNWProperties(args[0]);
@@ -48,6 +47,8 @@ public class App {
         double sexRatio = Double.parseDouble(props.getProperty("SexRatio"));
         double relativesProbability = Double.parseDouble(props.getProperty("RelativesProbability"));
         double maleLoneParentProbability = Double.parseDouble(props.getProperty("MaleLoneParentProbability"));
+        double nonPrimaryCoupleWithChildProbability = Double.parseDouble(props.getProperty(
+                "NonPrimaryCoupleWithChildProbability"));
         Map<String, String> ageDistributionParams = props.readKeyValuePairs("AgeDistributionFile");
 
         long startTime = System.currentTimeMillis();
@@ -71,7 +72,11 @@ public class App {
                 indrec = DataReader.readPersonRecords(indfileinfo);
 
                 // Group persons into households considering person, household and family types
-                List<Household> householdsOfSA2 = grpmaker.makePopulation(hhrecs.get(sa2), indrec.get(sa2), rand, sa2);
+                List<Household> householdsOfSA2 = grpmaker.makePopulation(hhrecs.get(sa2),
+                                                                          indrec.get(sa2),
+                                                                          rand,
+                                                                          sa2,
+                                                                          nonPrimaryCoupleWithChildProbability);
 
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);
@@ -89,14 +94,23 @@ public class App {
                     Path outlocationForThisSA2 = Paths.get(sa2OutputDirectory + File.separator + sa2 + File.separator);
                     Files.createDirectories(outlocationForThisSA2);
                     Survey.saveHouseholdSummary2csv(hhrecs.get(sa2), householdsOfSA2,
-                            Paths.get(outlocationForThisSA2 + File.separator + "GroupSummary.csv"));
+                                                    Paths.get(outlocationForThisSA2 + File.separator + "GroupSummary.csv"));
                     Survey.savePersonsSummary2csv(indrec.get(sa2), householdsOfSA2,
-                            Paths.get(outlocationForThisSA2 + File.separator + "AgentSummary.csv"));
-                    savePopulationToSA1s(sa2, sa1HhDistCsvProperties, sa2InputDirectory, sa1OutputDirectory, householdsOfSA2, rand);
+                                                  Paths.get(outlocationForThisSA2 + File.separator + "AgentSummary.csv"));
+                    savePopulationToSA1s(sa2,
+                                         sa1HhDistCsvProperties,
+                                         sa2InputDirectory,
+                                         sa1OutputDirectory,
+                                         householdsOfSA2,
+                                         rand);
                 }
 
             }
-            convertToSA2MAINCODE(allHouseholds, saCodesZip, SACodesCsvInSACodesZip, ReferenceColumnHeader, TargetColumnHeader);
+            convertToSA2MAINCODE(allHouseholds,
+                                 saCodesZip,
+                                 SACodesCsvInSACodesZip,
+                                 ReferenceColumnHeader,
+                                 TargetColumnHeader);
             Log.info("Writing output files to: " + allHouseholdsCsv.getParent());
             Files.createDirectories(allHouseholdsCsv.getParent());
             Survey.saveAllHouseholds(allHouseholdsCsv, allHouseholds);
@@ -112,18 +126,28 @@ public class App {
         Log.info("Execution time: " + timeSpent);
     }
 
-    private static void convertToSA2MAINCODE(List<Household> allHouseolds, Path zipWithCodesCsv, String csvFileInZip, String referenceColTitle,
-            String targetColTitle) throws IOException {
-        Map<String, String> sa2CodeMap = ABSStatisticalAreaCodeConverter.loadCsvAndCreateMapWithAreaCode(zipWithCodesCsv, csvFileInZip,
-                referenceColTitle, targetColTitle);
+    private static void convertToSA2MAINCODE(List<Household> allHouseolds,
+                                             Path zipWithCodesCsv,
+                                             String csvFileInZip,
+                                             String referenceColTitle,
+                                             String targetColTitle) throws IOException {
+        Map<String, String> sa2CodeMap = ABSStatisticalAreaCodeConverter.loadCsvAndCreateMapWithAreaCode(zipWithCodesCsv,
+                                                                                                         csvFileInZip,
+                                                                                                         referenceColTitle,
+                                                                                                         targetColTitle);
         for (Household household : allHouseolds) {
             household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
         }
     }
 
-    private static void savePopulationToSA1s(String thisSA2, Map<String, String> sa1HhDistCsvProperties, Path inputLocation,
-            Path sa1outputLocation, List<Household> householdsOfSA2, Random rand) throws IOException {
-        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + thisSA2 + File.separator + sa1HhDistCsvProperties.get("FileName"));
+    private static void savePopulationToSA1s(String thisSA2,
+                                             Map<String, String> sa1HhDistCsvProperties,
+                                             Path inputLocation,
+                                             Path sa1outputLocation,
+                                             List<Household> householdsOfSA2,
+                                             Random rand) throws IOException {
+        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + thisSA2 + File.separator + sa1HhDistCsvProperties
+                .get("FileName"));
         int sa1Row = Integer.parseInt(sa1HhDistCsvProperties.get("SA1Row"));
         int numberOfPersonsColumn = Integer.parseInt(sa1HhDistCsvProperties.get("NumberOfPersonsColumn"));
         int familyHouseholdTypeColumn = Integer.parseInt(sa1HhDistCsvProperties.get("FamilyHouseholdTypeColumn"));
@@ -131,11 +155,13 @@ public class App {
         Map<String, List<Household>> householdsByType = null;
 
         sa1HouseholdCounts = DataReader.readSA1HouseholdDistribution(sa1HouseholdsFile, sa1Row, numberOfPersonsColumn,
-                familyHouseholdTypeColumn);// FIXME: add relatives back
+                                                                     familyHouseholdTypeColumn);// FIXME: add relatives back
         householdsByType = Survey.groupHouseholdsByHouseholdType(householdsOfSA2);
 
         SA1PopulationMaker sa1popMaker = new SA1PopulationMaker(rand);
-        Map<String, List<Household>> householdsBySA1 = sa1popMaker.distributePopulationToSA1s(sa1HouseholdCounts, householdsByType, rand);
+        Map<String, List<Household>> householdsBySA1 = sa1popMaker.distributePopulationToSA1s(sa1HouseholdCounts,
+                                                                                              householdsByType,
+                                                                                              rand);
         // sa1popMaker.assignTENLLDtoHouseholds(tenlldLocation, tenlldFile, householdsBySA1);
         Survey.saveSA1Households(sa1outputLocation, householdsBySA1);
         Survey.saveSA1Families(sa1outputLocation, householdsBySA1);

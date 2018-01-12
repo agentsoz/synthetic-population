@@ -41,13 +41,13 @@ public class Utils {
             }
             map.put(hhRec.getFamilyCountPerHousehold() + "" + hhRec.getPrimaryFamilyType(), 0);
             if (hhRec.getPrimaryFamilyType() == FamilyType.COUPLE_ONLY) {
-                coupleOnly += (hhRec.hhCount);
+                coupleOnly += (hhRec.HH_COUNT);
             }
             if (hhRec.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN) {
-                coupleYesChild += hhRec.hhCount;
+                coupleYesChild += hhRec.HH_COUNT;
             }
             if (hhRec.getPrimaryFamilyType() == FamilyType.ONE_PARENT) {
-                oneParentFamily += hhRec.hhCount;
+                oneParentFamily += hhRec.HH_COUNT;
             }
         }
 
@@ -72,7 +72,7 @@ public class Utils {
             int stringLengthDifference = 62 - familyDescription.length();
             String tabSpace = new String(new char[stringLengthDifference]).replace("\0", " ");
 
-            print(numberOfPersons + "\t" + familyDescription + tabSpace + "\t" + hhrec.hhCount + "\t" + householdInfo
+            print(numberOfPersons + "\t" + familyDescription + tabSpace + "\t" + hhrec.HH_COUNT + "\t" + householdInfo
                     .get(numberOfPersons).get(hhrec.getFamilyCountPerHousehold() + "" + hhrec.getPrimaryFamilyType()));
         }
 
@@ -81,19 +81,19 @@ public class Utils {
     static void printIndSummary(List<IndRecord> indRecords) {
         int totalPersons = 0, marriedMale = 0, marriedFemale = 0, children = 0, lnp = 0;
         for (IndRecord indRec : indRecords) {
-            totalPersons += indRec.indCount;
-            if (indRec.sex == Sex.Female && indRec.relationshipStatus == RelationshipStatus.MARRIED) {
-                marriedFemale += indRec.indCount;
+            totalPersons += indRec.IND_COUNT;
+            if (indRec.SEX == Sex.Female && indRec.RELATIONSHIP_STATUS == RelationshipStatus.MARRIED) {
+                marriedFemale += indRec.IND_COUNT;
             }
-            if (indRec.relationshipStatus == RelationshipStatus.MARRIED && indRec.sex == Sex.Male) {
-                marriedMale += indRec.indCount;
+            if (indRec.RELATIONSHIP_STATUS == RelationshipStatus.MARRIED && indRec.SEX == Sex.Male) {
+                marriedMale += indRec.IND_COUNT;
             }
-            if (indRec.relationshipStatus == RelationshipStatus.U15_CHILD || indRec.relationshipStatus ==
-                    RelationshipStatus.STUDENT || indRec.relationshipStatus == RelationshipStatus.O15_CHILD) {
-                children += indRec.indCount;
+            if (indRec.RELATIONSHIP_STATUS == RelationshipStatus.U15_CHILD || indRec.RELATIONSHIP_STATUS ==
+                    RelationshipStatus.STUDENT || indRec.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD) {
+                children += indRec.IND_COUNT;
             }
-            if (indRec.relationshipStatus == RelationshipStatus.LONE_PERSON) {
-                lnp += indRec.indCount;
+            if (indRec.RELATIONSHIP_STATUS == RelationshipStatus.LONE_PERSON) {
+                lnp += indRec.IND_COUNT;
             }
         }
 
