@@ -135,6 +135,10 @@ public class Household {
         return this.familyHhType.getFamilyCount();
     }
 
+    public FamilyHouseholdType getFamilyHouseholdType() {
+        return familyHhType;
+    }
+
     public boolean validate() {
         if (this.getCurrentSize() != this.getExpectedSize() | this.familyCount() != this.getExpectedFamilyCount()) {
             Log.warn("Household validation: Current size: " + this.getCurrentSize() + " Expected size: " + this.getExpectedSize()
@@ -160,5 +164,9 @@ public class Household {
 
     public int getExpectedSize() {
         return expectedSize;
+    }
+
+    public Family getFamily(int i) {
+        return families.get(i);
     }
 }

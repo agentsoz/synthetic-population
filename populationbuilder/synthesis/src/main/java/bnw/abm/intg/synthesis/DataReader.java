@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -301,42 +302,31 @@ public class DataReader {
         throw new Error("Number of families could not be recognised");
     }
 
-    static List<HhRecord> getHhsByFamilyType(List<HhRecord> hhrecs, FamilyHouseholdType... familyTypes) {
-        List<HhRecord> shortlist = new ArrayList<>();
-        for (int j = 0; j < familyTypes.length; j++) {
-            for (int i = 0; i < hhrecs.size(); i++) {
-                if (hhrecs.get(i).getFamilyCountPerHousehold() == familyTypes[j].getFamilyCount() &&
-                        hhrecs.get(i).getPrimaryFamilyType() == familyTypes[j].getFamilyType()) {
-                    shortlist.add(hhrecs.get(i));
-                }
-            }
-        }
-        return shortlist;
+    static List<HhRecord> getHouseholdsRecordsByPrimaryFamilyType(List<HhRecord> hhRecs,
+                                                                  FamilyHouseholdType... familyHhTypes) {
+
+        return hhRecs.stream()
+                .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
+                .collect(Collectors.toList());
     }
 
-    static List<IndRecord> getAgentsByRelType(List<IndRecord> indrecs, RelationshipStatus... relStates) {
-        List<IndRecord> shortlist = new ArrayList<>();
-        for (int j = 0; j < relStates.length; j++) {
-            for (int i = 0; i < indrecs.size(); i++) {
-                if (indrecs.get(i).relationshipStatus == relStates[j]) {
-                    shortlist.add(indrecs.get(i));
-                }
-            }
-        }
-        return shortlist;
-
+    static List<IndRecord> getAgentsRecordsByRelationshipStatus(List<IndRecord> indRecs,
+                                                                RelationshipStatus... relStates) {
+        return indRecs.stream()
+                .filter(r -> Arrays.asList(relStates).contains(r.RELATIONSHIP_STATUS))
+                .collect(Collectors.toList());
     }
 
 }
 
 class HhRecord {
     public final int NUM_OF_PERSONS_PER_HH;
-    public final int hhCount;
+    public final int HH_COUNT;
     public final FamilyHouseholdType FAMILY_HOUSEHOLD_TYPE;
 
     public HhRecord(int nofPersons, int familyCountPerHh, FamilyType familyType, int hhcount) {
         this.NUM_OF_PERSONS_PER_HH = nofPersons;
-        this.hhCount = hhcount;
+        this.HH_COUNT = hhcount;
 
         FamilyHouseholdType tempFamilyHhtype = null;
         for (FamilyHouseholdType familyHouseholdType : FamilyHouseholdType.values()) {
@@ -360,18 +350,18 @@ class HhRecord {
 }
 
 class IndRecord {
-    final public RelationshipStatus relationshipStatus;
-    final public Sex sex;
-    final public AgeRange ageRange;
-    final public int indCount;
+    final public RelationshipStatus RELATIONSHIP_STATUS;
+    final public Sex SEX;
+    final public AgeRange AGE_RANGE;
+    final public int IND_COUNT;
 
     public IndRecord(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int individualsCount) {
-        this.ageRange = ageRange;
-        this.sex = sex;
-        this.relationshipStatus = relStatus;
-        this.indCount = individualsCount;
+        this.AGE_RANGE = ageRange;
+        this.SEX = sex;
+        this.RELATIONSHIP_STATUS = relStatus;
+        this.IND_COUNT = individualsCount;
         if (individualsCount > 0) {
-            this.ageRange.markNotEmpty(true);
+            this.AGE_RANGE.markNotEmpty(true);
         }
     }
 }

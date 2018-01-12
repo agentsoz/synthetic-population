@@ -30,11 +30,11 @@ public class Survey {
     static EnumMap<AgeRange, Integer> ageDistribution(List<IndRecord> records) {
         EnumMap<AgeRange, Integer> agedist = new EnumMap(AgeRange.class);
         for (IndRecord rec : records) {
-            if (agedist.containsKey(rec.ageRange)) {
-                int count = agedist.get(rec.ageRange);
-                agedist.put(rec.ageRange, count + rec.indCount);
+            if (agedist.containsKey(rec.AGE_RANGE)) {
+                int count = agedist.get(rec.AGE_RANGE);
+                agedist.put(rec.AGE_RANGE, count + rec.IND_COUNT);
             } else {
-                agedist.put(rec.ageRange, rec.indCount);
+                agedist.put(rec.AGE_RANGE, rec.IND_COUNT);
             }
         }
         return agedist;
@@ -114,7 +114,7 @@ public class Survey {
 
         Map<String, Integer> map = new LinkedHashMap<>();
         for (IndRecord inrec : indrecs) {
-            String key = inrec.relationshipStatus + "," + inrec.sex + "," + inrec.ageRange;
+            String key = inrec.RELATIONSHIP_STATUS + "," + inrec.SEX + "," + inrec.AGE_RANGE;
             map.put(key, 0);
         }
 

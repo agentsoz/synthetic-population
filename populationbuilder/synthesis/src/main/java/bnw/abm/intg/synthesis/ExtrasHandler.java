@@ -66,10 +66,10 @@ class ExtrasHandler {
         int personsInInds = 0;
         List<Person> extras = new ArrayList<>();
         for (HhRecord hhRec : hhrecs) {
-            personsInHh += (hhRec.hhCount * hhRec.NUM_OF_PERSONS_PER_HH);
+            personsInHh += (hhRec.HH_COUNT * hhRec.NUM_OF_PERSONS_PER_HH);
         }
         for (IndRecord inRec : indrecs) {
-            personsInInds += inRec.indCount;
+            personsInInds += inRec.IND_COUNT;
         }
 
         int extraPersons = personsInHh > personsInInds ? (personsInHh - personsInInds) : 0;
