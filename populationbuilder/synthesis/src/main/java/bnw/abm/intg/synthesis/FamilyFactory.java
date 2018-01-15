@@ -97,7 +97,7 @@ public class FamilyFactory {
 
     /**
      * Forms basic married couple units. Only consider heterosexual relationships. First sorts all males and females in
-     * age descending order. Then pair them in order they appear in respective lists. This ensure age wise natural
+     * age descending order. Then pair them in order they appear in respective lists. This ensures age wise natural
      * looking relationships. Method alters input lists.
      *
      * @param marriedMales   list of married males
