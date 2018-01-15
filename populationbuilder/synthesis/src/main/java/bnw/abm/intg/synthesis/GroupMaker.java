@@ -272,6 +272,38 @@ public class GroupMaker {
         Log.debug("Non-Primary Basic Families: Primary family distribution: couples:" + couples + " one.parent:" + oneParent + " other:" + other);
         Log.debug("Non-Primary Basic Families: Total non-primary families: " + totalNonPrimary);
 
+        int unknownFamilies = totalNonPrimary - unusedCoupleOnlyBasic.size() - unusedOneParentBasic.size();
+        int newCouplesCount = 0, newOneParentFamilyCount = 0, newOtherFamilyCount = 0;
+        if (unknownFamilies > 0) {
+            float divisor = (float) (couples + oneParent + other);
+            newCouplesCount = Math.round(unknownFamilies * couples / divisor);
+            newOneParentFamilyCount = Math.round(unknownFamilies * oneParent / divisor);
+            newOtherFamilyCount = unknownFamilies - (newCouplesCount + newOneParentFamilyCount);
+
+            if (unknownFamilies < (newCouplesCount + newOneParentFamilyCount + newOtherFamilyCount)) {
+                throw new IllegalStateException(
+                        "The sum of new non-primary couples, one parent units and other families is larger than the actual unknown family count");
+            }
+        }
+
+        //We have already used all known married males and females at this stage. So we have no other way but to use Extras.
+        List<Person> extraMarriedMales = extrasHander.spawnPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                             null,
+                                                                             Sex.Male,
+                                                                             newCouplesCount);
+        List<Person> extraMarriedFemales = extrasHander.spawnPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                               null,
+                                                                               Sex.Female,
+                                                                               newCouplesCount);
+        List<Family> newBasicCouples = familyFactory.makeAllMarriedCouples(extraMarriedMales, extraMarriedFemales);
+
+        //We have already used all Lone Parents. So using extras.
+        List<Person> newLoneParents = extrasHander.spawnPersonsFromExtras(RelationshipStatus.LONE_PARENT,
+                                                                          null,
+                                                                          null,
+                                                                          newOneParentFamilyCount);
+        int neededChildren = (children.size() >= newOneParentFamilyCount)?0:newOneParentFamilyCount - children.size();
+//        List<Person> newChildren = extrasHander.spawnPersonsFromExtras()
         if (!unusedOneParentBasic.isEmpty()) {
             assignKnownNonPrimaryFamilies(households,
                                           FamilyType.ONE_PARENT,//Type of the newly added family
@@ -302,8 +334,6 @@ public class GroupMaker {
                                           FamilyType.COUPLE_ONLY,
                                           FamilyType.OTHER_FAMILY);
         }
-
-        int unknownFamilies = totalNonPrimary - unusedCoupleOnlyBasic.size() - unusedOneParentBasic.size();
 
 
         //        int totalRequiredNonPrimaryFamilies = f2SecondCount + f3SecondCount + f3ThirdCount;
@@ -458,7 +488,7 @@ public class GroupMaker {
                 .stream()
                 .filter(e -> Arrays.asList(eligibleFamilyTypes).contains(e.getKey().getFamilyType()) && e.getKey()
                         .getFamilyCount() > 1) //Filter hhs that belong to specified family types and have multiple families
-                .map(e -> e.getValue()) //Get the value list from each hash map entry
+                .map(e -> e.getValue()) //Get the values list from each hash map entry
                 .flatMap(List::stream) //flatten list of value lists to one large list
                 .filter(h -> h.getExpectedSize() - h.getCurrentSize() > basicUnits.get(0).size()) //has enough vacancies
                 .collect(Collectors.toList()); //Convert to an actual list
