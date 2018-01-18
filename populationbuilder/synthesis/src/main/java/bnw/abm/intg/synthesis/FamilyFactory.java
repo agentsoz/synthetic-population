@@ -39,7 +39,8 @@ public class FamilyFactory {
         for (int i = 0; i < loneParentsCount; i++) {
             if (children.isEmpty()) {
                 Log.warn("One Parent Basic: Discarded lone parents: " + loneParents.size());
-                throw new NotEnoughPersonsException("One Parent Basic: Not enough children"); //TODO: implement taking children from extras
+                throw new NotEnoughPersonsException("One Parent Basic: Not enough children"); //TODO: implement
+                // taking children from extras
             }
 
             int childIndex = PopulationRules.selectChild(loneParents.get(0), children);
@@ -49,7 +50,8 @@ public class FamilyFactory {
                 f.addMember(children.remove(childIndex));
                 lnParentBasic.add(f);
             } else {
-                // Cannot find a suitable child. Move parent to end of the list so the remaining ones after the loop are the ones that couldn't find children
+                // Cannot find a suitable child. Move parent to end of the list so the remaining ones after the loop
+                // are the ones that couldn't find children
                 loneParents.add(loneParents.remove(0));
             }
         }
@@ -80,7 +82,8 @@ public class FamilyFactory {
         for (int i = 0; i < count; i++) {
             if (relatives.size() < 2) {
                 throw new NotEnoughPersonsException(
-                        "Other Family Basic Primary Families: Not enough Relatives to form more Basic Other Family structures");
+                        "Other Family Basic Primary Families: Not enough Relatives to form more Basic Other Family " +
+                                "structures");
             }
             Family f = new Family(FamilyType.OTHER_FAMILY);
             f.addMember(relatives.remove(0));
@@ -90,7 +93,9 @@ public class FamilyFactory {
 
 
         Log.info("Other Family Basic Primary Families: Structures formed: " + otherFamilyBasic.size());
-        Log.info("Other Family Basic Primary Families: All structures created");
+        if (otherFamilyBasic.size() == count) {
+            Log.info("Other Family Basic Primary Families: All structures created");
+        }
 
         return otherFamilyBasic;
     }
@@ -126,7 +131,8 @@ public class FamilyFactory {
         if (diff > 0) {
             Log.warn("Forming Married couples: " + diff + " young married males discarded. Population may be biased");
         } else if (diff < 0) {
-            Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females discarded. Population may be biased");
+            Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females discarded. Population may " +
+                             "be biased");
         } else {
             Log.info("Forming Married couples: no issues");
         }
@@ -173,51 +179,10 @@ public class FamilyFactory {
         }
 
         Log.info("Couple With Children Basic Primary Families: formed structures: " + coupleWithChildFamilies.size());
-        Log.info("Couple With Children Basic Primary Families: All structures created");
+        if (coupleWithChildFamilies.size() == count) {
+            Log.info("Couple With Children Basic Primary Families: All structures created");
+        }
 
         return coupleWithChildFamilies;
-    }
-
-    List<Family> makePrimaryCoupleOnlyFamilyBasicStructs(List<HhRecord> coupleOnlyRecords,
-                                                         List<Person> marriedMales,
-                                                         List<Person> marriedFemales) {
-
-        List<Family> cplOnly = new ArrayList<>();
-        int unformed = 0;
-        for (HhRecord hhrec : coupleOnlyRecords) {
-            if (marriedMales.isEmpty()) {
-                unformed += hhrec.HH_COUNT;
-                continue;
-            }
-            if (marriedFemales.isEmpty()) {
-                unformed += hhrec.HH_COUNT;
-                continue;
-            }
-            for (int i = 0; i < hhrec.HH_COUNT; i++) {
-                if (marriedMales.isEmpty()) {
-                    Log.warn("Couple Only Primary Families: Not enough married males");
-                    unformed += (hhrec.HH_COUNT - i);
-                    break;
-                }
-                if (marriedFemales.isEmpty()) {
-                    Log.warn("Couple Only Primary Families: Not enough married females");
-                    unformed += (hhrec.HH_COUNT - i);
-                    break;
-                }
-
-                Family f = new Family(FamilyType.COUPLE_ONLY);
-                f.addMember(marriedMales.remove(0));
-                f.addMember(marriedFemales.remove(0));
-
-                cplOnly.add(f);
-            }
-        }
-        Log.info("Couple Only Primary Families: formed structures: " + cplOnly.size());
-        if (unformed > 0) {
-            Log.warn("Couple Only Primary Families: Unformed structers: " + unformed);
-        } else {
-            Log.info("Couple Only Primary Families: All strucures created");
-        }
-        return cplOnly;
     }
 }
