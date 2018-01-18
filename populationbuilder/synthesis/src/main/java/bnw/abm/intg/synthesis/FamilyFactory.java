@@ -104,7 +104,7 @@ public class FamilyFactory {
      * @param marriedFemales list of married females
      * @return list of couples
      */
-    List<Family> makeAllMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
+    List<Family> makeMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
 
         //Sort two lists in age descending order
 

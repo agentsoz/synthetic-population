@@ -119,7 +119,7 @@ public class Household {
      *
      * @return number of families
      */
-    public int familyCount() {
+    public int getCurrentFamilyCount() {
         return families.size();
     }
 
@@ -140,21 +140,21 @@ public class Household {
     }
 
     public boolean validate() {
-        if (this.getCurrentSize() != this.getExpectedSize() | this.familyCount() != this.getExpectedFamilyCount()) {
+        if (this.getCurrentSize() != this.getExpectedSize() | this.getCurrentFamilyCount() != this.getExpectedFamilyCount()) {
             Log.warn("Household validation: Current size: " + this.getCurrentSize() + " Expected size: " + this.getExpectedSize()
-                    + " Current families: " + familyCount() + " Expected families: " + this.getExpectedFamilyCount());
+                    + " Current families: " + getCurrentFamilyCount() + " Expected families: " + this.getExpectedFamilyCount());
             return false;
         }
-        if (getFamilies().get(0).getType() != FamilyType.COUPLE_WITH_CHILDREN
+        if (getPrimaryFamilyType() != FamilyType.COUPLE_WITH_CHILDREN
                 & getFamilies().stream().filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN).count() > 0) {
             Log.warn(
-                    "Household validation: Primary family: " + getFamilies().get(0).getType() + " Secondary: " + getFamilies().get(1).getType());
+                    "Household validation: Primary family: " + getPrimaryFamilyType() + " Secondary: " + getFamily(1).getType());
             return false;
         }
 
-        if(this.getFamilies().get(0).getType() != this.familyHhType.getFamilyType()){
+        if(getPrimaryFamilyType() != this.familyHhType.getFamilyType()){
             Log.warn(
-                    "Household validation: Expected primary family: " +this.familyHhType.getFamilyType() + " Actual primary family: "+getFamilies().get(0).getType());
+                    "Household validation: Expected primary family: " +this.familyHhType.getFamilyType() + " Actual primary family: "+getPrimaryFamilyType());
             return false;
         }
 
@@ -168,5 +168,17 @@ public class Household {
 
     public Family getFamily(int i) {
         return families.get(i);
+    }
+
+    public FamilyType getPrimaryFamilyType(){
+        return families.get(0).getType();
+    }
+
+    public void setPrimaryFamilyType(FamilyType familyType){
+        families.get(0).setType(familyType);
+    }
+
+    public Family getPrimaryFamily(){
+        return families.get(0);
     }
 }
