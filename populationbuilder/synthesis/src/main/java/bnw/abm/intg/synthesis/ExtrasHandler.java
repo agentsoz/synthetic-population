@@ -1,6 +1,7 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.synthesis.models.*;
+import bnw.abm.intg.util.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ class ExtrasHandler {
     final List<HhRecord> hhRecords;
     final List<IndRecord> indRecords;
     final private List<Person> extras;
+    private List<Person> extraMarried = null;
 
     ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, double sexRatio, Random random) {
         this.extras = this.getExtras(hhRecords, indRecords);
@@ -89,6 +91,7 @@ class ExtrasHandler {
     }
 
     Person getPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex) {
+
         Person person = extras.remove(0);
         person.setAgeRange(ageRange);
         person.setRelationshipStatus(relStatus);
@@ -104,34 +107,82 @@ class ExtrasHandler {
      * agents based on distribution of age categories within the specified relStatus and sex category.
      *
      * @param relStatus The RelationshipStatus of the persons
-     * @param ageRange  The AgeRange of the persons
      * @param sex       The Sex of the persons
+     * @param ageRange  The AgeRange of the persons
      * @param count     The number of persons to create
      * @return The list of newly created persons persons
      */
-    List<Person> spawnPersonsFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex, int count) {
-        List<IndRecord> dist = indRecords.stream()
-                .filter(r -> (relStatus == null || r.RELATIONSHIP_STATUS == relStatus)) //Filter by relationship status. If relationship status is null get all records
-                .filter(r -> (ageRange == null || r.AGE_RANGE == ageRange)) // Filter by age range, or get all if not specified
-                .filter(r -> (sex == null || r.SEX == sex))// Filter by sex, or get all if not specified
-                .collect(Collectors.toList());
-
-        int sum = dist.stream().mapToInt(r -> r.IND_COUNT).sum();
+    List<Person> getPersonsFromExtras(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int count) {
 
         List<Person> persons = new ArrayList<>(count);
 
-        for (int i = 0; i < count; i++) {
-            int offset = random.nextInt(sum);
-            int s = 0;
-            for (IndRecord r : dist) {
-                s += r.IND_COUNT;
-                if (offset < s) {
-                    persons.add(getPersonFromExtras(r.RELATIONSHIP_STATUS, r.AGE_RANGE, r.SEX));
+        //If we want extra married persons, try to use them from previously saved extraMarried persons list.
+        if (relStatus == RelationshipStatus.MARRIED) {
+            persons.addAll(getFromExtraMarried(sex, ageRange, count));
+        }
+        count = count - persons.size();
+        if (count > 0) {
+            //Spawn the persons we want from Extras.
+            List<IndRecord> dist = indRecords.stream()
+                    .filter(r -> (relStatus == null || r.RELATIONSHIP_STATUS == relStatus)) //Filter by relationship status. If relationship status is null get all records
+                    .filter(r -> (ageRange == null || r.AGE_RANGE == ageRange)) // Filter by age range, or get all if not specified
+                    .filter(r -> (sex == null || r.SEX == sex))// Filter by sex, or get all if not specified
+                    .collect(Collectors.toList());
+
+            int sum = dist.stream().mapToInt(r -> r.IND_COUNT).sum();
+
+            for (int i = 0; i < count; i++) {
+                int offset = random.nextInt(sum);
+                int s = 0;
+                for (IndRecord r : dist) {
+                    s += r.IND_COUNT;
+                    if (offset < s) {
+                        persons.add(getPersonFromExtras(r.RELATIONSHIP_STATUS, r.AGE_RANGE, r.SEX));
+                        break;
+                    }
                 }
             }
         }
-
         return persons;
+    }
+
+    List<Person> getFromExtraMarried(Sex sex, AgeRange ageRange, int count) {
+        List<Person> persons = new ArrayList<>(count);
+        if (!(extraMarried.isEmpty() || extraMarried == null)) {
+            List<Person> temp = extraMarried.stream()
+                    .filter(p -> (ageRange == null || ageRange == p.getAgeRange()) && (sex == null || sex == p.getSex()))
+                    .collect(
+                            Collectors.toList());
+            if(temp.size()>= count){
+                persons.addAll(temp.subList(0, count));
+                extraMarried.removeAll(persons);
+            } else {
+                //We may want more married persons than we have. If so, get what we can and spawn the reset from Extras.
+                persons.addAll(temp);
+                extraMarried.removeAll(temp);
+            }
+
+
+        }
+        return persons;
+    }
+
+    /**
+     * Saves extra married persons for later use. These persons will be used to construct more couple relationships if
+     * originally formed couples are not enough to complete the population. This method copies the list of persons
+     * passed to a new list and clears the original list avoid errors.
+     *
+     * @param extraMarried The list of extra married persons. The list is expected to contain either male or female
+     *                     persons, not both.
+     */
+    void setExtraMarriedPersons(List<Person> extraMarried) {
+        this.extraMarried = new ArrayList<>(extraMarried);
+        extraMarried.clear();
+        Log.info("Saved extra married " + this.extraMarried.get(0).getSex() + " for later use");
+    }
+
+    int remainingExtraMarried() {
+        return extraMarried.size();
     }
 
 
