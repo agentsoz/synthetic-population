@@ -138,10 +138,9 @@ public class GroupMaker {
             completeHouseholdsWithRelatives(basicHouseholds, relatives, FamilyHouseholdType.F1_OTHER_FAMILY);
             Log.debug("Remaining relatives: " + relatives.size());
             Log.debug("Remaining extras: " + extrasHandler.remainingExtras());
-            //We don't complete 1 family one parent and couple with children families at this stage because those
-            // families
-            //can have both children and relatives. We are not sure what to use at this stage. So, will complete them
-            // later.
+            //  We don't complete 1 family one parent and couple with children families at this stage because those
+            // families can have both children and relatives. We are not sure what to use at this stage. So, will
+            // complete them later.
 
             //Add 2nd and 3rd families to multi-family households.
             Log.info("Starting to add non-primary families to multi-family households");
@@ -158,13 +157,22 @@ public class GroupMaker {
                                                    relatives,
                                                    nonPrimaryCoupleWithChildProbability,
                                                    familyFactory);
-            //            Log.debug("Remaining primary couple only family basic structures: " +
-            // primaryCoupleOnlyFamilyBasic.size());
-            Log.debug("Remaining married males (not expected to change): " + marriedMales.size());
-            Log.debug("Remaining married females (not expected to change): " + marriedFemales.size());
+
             Log.debug("Remaining relatives: " + relatives.size());
+            Log.debug("Remaining children: " + children.size());
             Log.debug("Remaining extras: " + extrasHandler.remainingExtras());
 
+            Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler
+                    .convertAllExtrasToChildrenAndRelatives(
+                    true);
+            completeHouseholdsWithChildren(basicHouseholds, children, childrenAndRelativesFromExtras, familyFactory);
+            completeHouseholdsWithRelatives(basicHouseholds, relatives, null);
+
+            allHouseholds.addAll(basicHouseholds.values().stream().flatMap(List::stream).collect(Collectors.toList()));
+
+            Log.debug("Remaining Relatives: " + relatives.size());
+            Log.debug("Remaining Children: " + children.size());
+            Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
         } catch (NotEnoughPersonsException npex) {
             Log.debug("Remaining Couples basic: " + basicCouples.size());
             Log.debug("Remaining Relatives: " + relatives.size());
@@ -175,8 +183,101 @@ public class GroupMaker {
             Log.errorAndExit("Family households construction failed", npex, ExitCode.DATA_ERROR);
         }
 
+
         Utils.summary(allHouseholds);
         return allHouseholds;
+    }
+
+    /**
+     * Adds children to the primary family of the households that can have children.
+     *
+     * @param households         Map of all households in the population
+     * @param knownChildren      The list of children known in input data
+     * @param childrenFromExtras The children extracted from the Extras
+     * @param familyFactory      FamilyFactory instance
+     */
+    private void completeHouseholdsWithChildren(Map<FamilyHouseholdType, List<Household>> households,
+                                                List<Person> knownChildren,
+                                                Map<RelationshipStatus, List<Person>> childrenFromExtras,
+                                                FamilyFactory familyFactory) {
+
+        List<Household> incompleteHhs = households.values().stream().flatMap(List::stream).collect(Collectors.toList());
+        for (RelationshipStatus childType : Arrays.asList(RelationshipStatus.O15_CHILD,
+                                                          RelationshipStatus.STUDENT,
+                                                          RelationshipStatus.U15_CHILD)) {
+            List<Person> allChildren = knownChildren.stream()
+                    .filter(c -> c.getRelationshipStatus() == childType)
+                    .collect(Collectors.toList());
+            Log.debug("Known " + childType + ": " + allChildren.size());
+            if (childrenFromExtras != null) {
+                allChildren.addAll(childrenFromExtras.get(childType));
+            }
+            Log.debug("All " + childType + ": " + allChildren.size());
+
+
+            Collections.shuffle(allChildren, random);
+            while(!allChildren.isEmpty()){
+                Person child = allChildren.get(0);
+                Collections.shuffle(incompleteHhs, random);
+                int hhIndex = PopulationRules.selectHouseholdWithSuitablePrimaryFamilyForChild(child, incompleteHhs);
+                if(hhIndex >= 0){
+                    Family pf = incompleteHhs.get(hhIndex).getPrimaryFamily();
+                    pf.addMember(child);
+                    allChildren.remove(child);
+                    knownChildren.remove(child);
+                }else{
+                    throw new NoSuitableHouseholdException("Cannot find a household for "+child.getRelationshipStatus());
+                }
+
+            }
+        }
+
+    }
+
+    /**
+     * Completes households by adding relatives to the families that are larger than 2 members. If there is not
+     * enough relatives Extras are converted to relatives. This method does not check the number of families in the
+     * household. This method modifies the input lists.
+     *
+     * @param householdsMap       The one family households map to complete by only adding relatives
+     * @param relatives           The list of relatives in the population
+     * @param familyHouseholdType FamilyHouseholdType of the households to be completed. All households are selected
+     *                            if null
+     */
+    private void completeHouseholdsWithRelatives(Map<FamilyHouseholdType, List<Household>> householdsMap,
+                                                 List<Person> relatives,
+                                                 FamilyHouseholdType familyHouseholdType) {
+        Collections.shuffle(relatives, random);
+        //Filter the household that match the family household type.
+        List<Household> availableHhs = householdsMap.entrySet()
+                .stream()
+                .filter(e -> e.getKey() == familyHouseholdType || familyHouseholdType == null)
+                .map(e -> e.getValue())
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        Log.debug(familyHouseholdType != null? familyHouseholdType.name():"All" + ": Available households: " + availableHhs.size());
+
+        int formed = 0;
+        for (Household h : availableHhs) {
+            int diff = h.getExpectedSize() - h.getCurrentSize();
+            if (diff > 0) {
+                Family f = h.getPrimaryFamily();
+                if (relatives.size() > diff) {
+                    f.addMembers(relatives.subList(0, diff));
+                    relatives.subList(0, diff).clear();
+                } else {
+                    f.addMembers(extrasHandler.getPersonsFromExtras(RelationshipStatus.RELATIVE,
+                                                                    null,
+                                                                    null,
+                                                                    diff - relatives.size()));
+                }
+                formed++;
+            }
+
+        }
+
+        Log.info(familyHouseholdType != null? familyHouseholdType.name():"All" + ": Updated households: " + formed);
+        Log.info(familyHouseholdType != null? familyHouseholdType.name():"All" + ": All households created");
     }
 
     /**
@@ -262,7 +363,7 @@ public class GroupMaker {
             newOneParentFamilyCount = Math.round(unknownFamilies * oneParent / divisor);
             counts.put(FamilyType.ONE_PARENT, newOneParentFamilyCount);
 
-            newOtherFamilyCount = unknownFamilies - (newCouplesCount + newCoupleWithChildCount + 
+            newOtherFamilyCount = unknownFamilies - (newCouplesCount + newCoupleWithChildCount +
                     newOneParentFamilyCount);
             counts.put(FamilyType.OTHER_FAMILY, newOtherFamilyCount);
 
@@ -493,7 +594,7 @@ public class GroupMaker {
                                  FamilyType.COUPLE_ONLY,
                                  FamilyType.OTHER_FAMILY);
 
-
+        // TODO: remove this
         households.values().stream().flatMap(List::stream).forEach(h -> {
             if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
                 throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + ":" + h
@@ -537,8 +638,7 @@ public class GroupMaker {
                 .filter(h -> h.getExpectedSize() - h.getCurrentSize() >= basicUnits.get(0)
                         .size()) //has enough vacancies
                 .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount())
-                .collect(Collectors.toList());
-        //Convert to an actual list
+                .collect(Collectors.toList()); //Convert to an actual list
 
         Log.debug(nonPrimaryFamilyType + ": total eligible households: " + eligibleHhs.size());
 
@@ -614,8 +714,7 @@ public class GroupMaker {
                 for (int i = 0; i < hhRec.HH_COUNT; i++) {
                     if (primaryFamilyUnitsList.isEmpty()) {
                         throw new NotEnoughPersonsException(hhRec.FAMILY_HOUSEHOLD_TYPE + ": Not enough basic family " +
-                                                                    "" + "" + "" + "" + "" + "" + "" + "" + "" + "" +
-                                                                    "" + "" + "" + "" + "" + "" + "" + "units ");
+                                                                    "units ");
                     }
                     Household household = new Household(hhRec.NUM_OF_PERSONS_PER_HH,
                                                         hhRec.FAMILY_HOUSEHOLD_TYPE,
@@ -638,57 +737,6 @@ public class GroupMaker {
         return basicHouseholds;
     }
 
-
-    /**
-     * Completes householdsMap by adding relatives to the families that are larger than 2 members. If there is not
-     * enough relatives Extras are converted to relatives. This method does not check the number of families in the
-     * household. This method modifies the input lists.
-     *
-     * @param householdsMap       The one family households map to complete by only adding relatives
-     * @param relatives           The list of relatives in the population
-     * @param familyHouseholdType FamilyHouseholdType of the households to be completed
-     */
-    private void completeHouseholdsWithRelatives(Map<FamilyHouseholdType, List<Household>> householdsMap,
-                                                 List<Person> relatives,
-                                                 FamilyHouseholdType familyHouseholdType) {
-        Collections.shuffle(relatives, random);
-        Log.debug(familyHouseholdType + ": Available households: " + householdsMap.get(familyHouseholdType).size());
-        int formed = 0;
-        for (Household h : householdsMap.get(familyHouseholdType)) {
-            int diff = h.getExpectedSize() - h.getCurrentSize();
-            if (diff > 0) {
-                Family f = h.getPrimaryFamily();
-                if (relatives.size() > diff) {
-                    f.addMembers(relatives.subList(0, diff));
-                    relatives.subList(0, diff).clear();
-                } else {
-                    extrasHandler.addMembersToFamilyFromExtras(f, RelationshipStatus.RELATIVE, diff - relatives.size());
-                }
-                formed++;
-            }
-
-        }
-
-        Log.info(familyHouseholdType + ": Updated households: " + formed);
-        Log.info(familyHouseholdType + ": All households created");
-    }
-
-    //    /**
-    //     * Add a specified number of members to the family from a list of persons. The persons are selected
-    //     * from the source list from top to bottom. After adding the members the members are removed from
-    //     * the source list.
-    //     *
-    //     * @param family     The family instance to which members are added
-    //     * @param sourceList The persons list from which members are selected
-    //     * @param count      The number of persons to add
-    //     */
-    //    private void addMembersToFamily(Family family, List<Person> sourceList, int count) {
-    //        List<Person> selected = sourceList.subList(0, count);
-    //        family.addMembers(selected);
-    //        selected.clear();
-    //    }
-    //
-    //
 
     /**
      * Creates all lone person households and add them to the global list of households.
