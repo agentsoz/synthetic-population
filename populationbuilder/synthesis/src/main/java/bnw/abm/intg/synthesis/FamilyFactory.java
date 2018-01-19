@@ -1,9 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.synthesis.models.AgeRange;
-import bnw.abm.intg.synthesis.models.Family;
-import bnw.abm.intg.synthesis.models.FamilyType;
-import bnw.abm.intg.synthesis.models.Person;
+import bnw.abm.intg.synthesis.models.*;
 import bnw.abm.intg.util.Log;
 
 import java.util.ArrayList;
@@ -43,11 +40,11 @@ public class FamilyFactory {
                 // taking children from extras
             }
 
-            int childIndex = PopulationRules.selectChild(loneParents.get(0), children);
-            if (childIndex >= 0) {
+            int cIndex = PopulationRules.selectChild(loneParents.get(0), children);
+            if (cIndex >= 0) {
                 Family f = new Family(FamilyType.BASIC);
                 f.addMember(loneParents.remove(0));
-                f.addMember(children.remove(childIndex));
+                f.addMember(children.remove(cIndex));
                 lnParentBasic.add(f);
             } else {
                 // Cannot find a suitable child. Move parent to end of the list so the remaining ones after the loop
@@ -167,10 +164,10 @@ public class FamilyFactory {
             }
 
             Person youngestParent = Collections.min(couples.get(0).getMembers(), ageComparator);
-            int childIndex = PopulationRules.selectChild(youngestParent, children);
-            if (childIndex >= 0) {
+            int cIndex = PopulationRules.selectChild(youngestParent, children);
+            if (cIndex >=0 ) {
                 Family f = couples.remove(0);
-                f.addMember(children.remove(0));
+                f.addMember(children.remove(cIndex));
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
                 coupleWithChildFamilies.add(f);
             } else {
@@ -184,5 +181,32 @@ public class FamilyFactory {
         }
 
         return coupleWithChildFamilies;
+    }
+
+    /**
+     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and
+     * added to the family. Returns false of a suitable child was not found.
+     *
+     * @param family   The family to add a child
+     * @param children The list of children to select a child from
+     * @return True if a suitable child was found and added to the child, else false.
+     */
+    boolean addChildToFamily(Family family, List<Person> children) {
+        Person youngestParent = family.getMembers()
+                .stream()
+                .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                        m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                .min(new AgeRange.AgeComparator())
+                .get();
+
+        int cIndex = PopulationRules.selectChild(youngestParent, children);
+        if (cIndex >= 0) {
+            family.addMember(children.remove(cIndex));
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 }
