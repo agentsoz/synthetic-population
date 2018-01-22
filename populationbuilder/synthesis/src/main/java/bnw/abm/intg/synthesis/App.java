@@ -97,12 +97,6 @@ public class App {
                                                     Paths.get(outlocationForThisSA2 + File.separator + "GroupSummary.csv"));
                     Survey.savePersonsSummary2csv(indrec.get(sa2), householdsOfSA2,
                                                   Paths.get(outlocationForThisSA2 + File.separator + "AgentSummary.csv"));
-                    savePopulationToSA1s(sa2,
-                                         sa1HhDistCsvProperties,
-                                         sa2InputDirectory,
-                                         sa1OutputDirectory,
-                                         householdsOfSA2,
-                                         rand);
                 }
 
             }

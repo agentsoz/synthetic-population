@@ -13,13 +13,12 @@ import java.util.Map;
 public class Household {
 
 
+    private static long IDCounter = 0;
+    private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
     private final int expectedSize;
     private final FamilyHouseholdType familyHhType;
     private final String SA2_NAME;
-
     private final List<Family> families;
-    private static long IDCounter = 0;
-    private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
     private String householdID;
 
     private String tenlld;
@@ -131,7 +130,7 @@ public class Household {
         return members;
     }
 
-    public int getExpectedFamilyCount(){
+    public int getExpectedFamilyCount() {
         return this.familyHhType.getFamilyCount();
     }
 
@@ -142,19 +141,21 @@ public class Household {
     public boolean validate() {
         if (this.getCurrentSize() != this.getExpectedSize() | this.getCurrentFamilyCount() != this.getExpectedFamilyCount()) {
             Log.warn("Household validation: Current size: " + this.getCurrentSize() + " Expected size: " + this.getExpectedSize()
-                    + " Current families: " + getCurrentFamilyCount() + " Expected families: " + this.getExpectedFamilyCount());
+                             + " Current families: " + getCurrentFamilyCount() + " Expected families: " + this.getExpectedFamilyCount());
             return false;
         }
         if (getPrimaryFamilyType() != FamilyType.COUPLE_WITH_CHILDREN
-                & getFamilies().stream().filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN).count() > 0) {
+                & getFamilies().stream()
+                .filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN)
+                .count() > 0) {
             Log.warn(
                     "Household validation: Primary family: " + getPrimaryFamilyType() + " Secondary: " + getFamily(1).getType());
             return false;
         }
 
-        if(getPrimaryFamilyType() != this.familyHhType.getFamilyType()){
+        if (getPrimaryFamilyType() != this.familyHhType.getFamilyType()) {
             Log.warn(
-                    "Household validation: Expected primary family: " +this.familyHhType.getFamilyType() + " Actual primary family: "+getPrimaryFamilyType());
+                    "Household validation: Expected primary family: " + this.familyHhType.getFamilyType() + " Actual primary family: " + getPrimaryFamilyType());
             return false;
         }
 
@@ -170,15 +171,24 @@ public class Household {
         return families.get(i);
     }
 
-    public FamilyType getPrimaryFamilyType(){
+    public FamilyType getPrimaryFamilyType() {
         return families.get(0).getType();
     }
 
-    public void setPrimaryFamilyType(FamilyType familyType){
+    public void setPrimaryFamilyType(FamilyType familyType) {
         families.get(0).setType(familyType);
     }
 
-    public Family getPrimaryFamily(){
+    public Family getPrimaryFamily() {
         return families.get(0);
+    }
+
+    @Override
+    public String toString() {
+        return "Household id:" + this.getID() + " type:" + getExpectedSize() + "-" + getFamilyHouseholdType()
+                + " | Current: size:" + getCurrentSize() + " families:" + getCurrentFamilyCount()
+                + " 1st:" + getPrimaryFamilyType()
+                + " 2nd:" + ((getCurrentFamilyCount() > 1) ? getFamily(1).getType() : null)
+                + " 3rd:" + ((getCurrentFamilyCount() > 2) ? getFamily(2).getType() : null);
     }
 }

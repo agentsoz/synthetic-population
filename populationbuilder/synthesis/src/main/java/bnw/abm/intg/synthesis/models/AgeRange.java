@@ -47,11 +47,30 @@ public enum AgeRange {
         return this.max;
     }
 
-    public static class AgeComparator implements Comparator<Person>{
+    public static class AgeComparator implements Comparator<Person> {
 
         @Override
         public int compare(Person o1, Person o2) {
             return o1.getAgeRange().compareTo(o2.getAgeRange());
+        }
+    }
+
+    public static class YoungestParentAgeComparator implements Comparator<Family> {
+        @Override
+        public int compare(Family o1, Family o2) {
+            Person o1YoungestParent = o1.getMembers()
+                    .stream()
+                    .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                            m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                    .min(new AgeRange.AgeComparator())
+                    .get();
+            Person o2YoungestParent = o1.getMembers()
+                    .stream()
+                    .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                            m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                    .min(new AgeRange.AgeComparator())
+                    .get();
+            return o1YoungestParent.getAgeRange().compareTo(o2YoungestParent.getAgeRange());
         }
     }
 }
