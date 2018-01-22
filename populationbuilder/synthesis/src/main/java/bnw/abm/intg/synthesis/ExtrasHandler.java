@@ -1,6 +1,9 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.synthesis.models.*;
+import bnw.abm.intg.synthesis.models.AgeRange;
+import bnw.abm.intg.synthesis.models.Person;
+import bnw.abm.intg.synthesis.models.RelationshipStatus;
+import bnw.abm.intg.synthesis.models.Sex;
 import bnw.abm.intg.util.Log;
 
 import java.util.*;
@@ -107,6 +110,22 @@ class ExtrasHandler {
         return persons;
     }
 
+    /**
+     * Generates children based on specified sex and ageRange. RelationshipStatus of all children produced with this
+     * method is assumed to be U15_CHILD. If sex and ageRanges are given as null they are assigned probabilistically
+     * according to the observed population distributions. TODO: Determine RelatioshipStatus of children in a more
+     * realistic method.
+     *
+     * @param sex      Sex of the children
+     * @param ageRange AgeRange of the children
+     * @param count    Number children to form
+     * @return A list of children
+     */
+    List<Person> getChildrenFromExtras(Sex sex, AgeRange ageRange, int count) {
+        return getPersonsFromExtras(RelationshipStatus.U15_CHILD, sex, ageRange, count);
+    }
+
+
     List<Person> getFromExtraMarried(Sex sex, AgeRange ageRange, int count) {
         List<Person> persons = new ArrayList<>(count);
         if (!(extraMarried.isEmpty() || extraMarried == null)) {
@@ -140,7 +159,10 @@ class ExtrasHandler {
     void setExtraMarriedPersons(List<Person> extraMarried) {
         this.extraMarried = new ArrayList<>(extraMarried);
         extraMarried.clear();
-        Log.info("Saved extra-married " + this.extraMarried.get(0).getSex() + " for later use");
+        if(!extraMarried.isEmpty()){
+            Log.info("Number of extra-married " + this.extraMarried.get(0).getSex() + " saved for later use: "+extraMarried.size());
+        }
+
     }
 
     int remainingExtraMarried() {
@@ -180,7 +202,9 @@ class ExtrasHandler {
             for (IndRecord r : dist) {
                 s += r.IND_COUNT;
                 if (offset < s) {
-                    persons.computeIfAbsent(r.RELATIONSHIP_STATUS, v -> {return new ArrayList<>();})
+                    persons.computeIfAbsent(r.RELATIONSHIP_STATUS, v -> {
+                        return new ArrayList<>();
+                    })
                             .add(getPersonFromExtras(r.RELATIONSHIP_STATUS, r.AGE_RANGE, r.SEX));
                     totalNewPersons++;
                     break;

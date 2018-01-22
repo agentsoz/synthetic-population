@@ -40,16 +40,14 @@ public class FamilyFactory {
                 // taking children from extras
             }
 
-            int cIndex = PopulationRules.selectChild(loneParents.get(0), children);
-            if (cIndex >= 0) {
-                Family f = new Family(FamilyType.BASIC);
-                f.addMember(loneParents.remove(0));
-                f.addMember(children.remove(cIndex));
+            Family f = new Family(FamilyType.BASIC);
+            Person loneParent = loneParents.remove(0);
+            f.addMember(loneParent);
+            boolean success = addChildToFamily(f, children);
+            if (success) {
                 lnParentBasic.add(f);
             } else {
-                // Cannot find a suitable child. Move parent to end of the list so the remaining ones after the loop
-                // are the ones that couldn't find children
-                loneParents.add(loneParents.remove(0));
+                loneParents.add(loneParent);
             }
         }
 
@@ -124,14 +122,14 @@ public class FamilyFactory {
             fl.add(f);
         }
 
-        Log.info("Forming Married couples: Couples formed: " + cpls);
+        Log.info("Forming Married couples: units formed: " + cpls);
         if (diff > 0) {
             Log.warn("Forming Married couples: " + diff + " young married males discarded. Population may be biased");
         } else if (diff < 0) {
             Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females discarded. Population may " +
                              "be biased");
         } else {
-            Log.info("Forming Married couples: no issues");
+            Log.info("Forming Married couples: successful");
         }
         return fl;
     }
@@ -148,44 +146,44 @@ public class FamilyFactory {
     List<Family> makeCoupleWithChildFamilyBasicUnits(int count,
                                                      List<Family> couples,
                                                      List<Person> children) {
-        //Shuffle lists to avoid any bias
-        Collections.shuffle(couples, random);
-        Collections.shuffle(children, random);
+
+        // Get rid of O15 and Student children quickly. Otherwise we get stuck later.
+        Collections.sort(couples, new AgeRange.YoungestParentAgeComparator());
+        Collections.sort(children, new AgeRange.AgeComparator());
 
         List<Family> coupleWithChildFamilies = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             if (couples.isEmpty()) {
                 throw new NotEnoughPersonsException(
-                        "Couple With Children Basic Primary Families: Not enough couples");
+                        "Forming Basic Couple With Children Families: Not enough couples");
             }
             if (children.isEmpty()) {
-                new NotEnoughPersonsException("Couple With Children Basic Primary Families: Not enough children");
+                new NotEnoughPersonsException("Forming Basic Couple With Children Families: Not enough children");
             }
 
-            Person youngestParent = Collections.min(couples.get(0).getMembers(), ageComparator);
-            int cIndex = PopulationRules.selectChild(youngestParent, children);
-            if (cIndex >=0 ) {
-                Family f = couples.remove(0);
-                f.addMember(children.remove(cIndex));
+            Family f = couples.remove(0);
+            boolean success = addChildToFamily(f, children);
+            if (success) {
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
                 coupleWithChildFamilies.add(f);
             } else {
-                couples.add(couples.remove(0)); // move to end of the list to filter out failed couples
+                couples.add(f); // move to end of the list to filter out failed couples
             }
+
         }
 
-        Log.info("Couple With Children Basic Primary Families: formed structures: " + coupleWithChildFamilies.size());
+        Log.info("Forming Basic Couple With Children Families: units formed: " + coupleWithChildFamilies.size());
         if (coupleWithChildFamilies.size() == count) {
-            Log.info("Couple With Children Basic Primary Families: All structures created");
+            Log.info("Forming Basic Couple With Children Families: successful");
         }
 
         return coupleWithChildFamilies;
     }
 
     /**
-     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and
-     * added to the family. Returns false of a suitable child was not found.
+     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and added
+     * to the family. Returns false of a suitable child was not found, the family is not changed.
      *
      * @param family   The family to add a child
      * @param children The list of children to select a child from

@@ -164,8 +164,9 @@ public class GroupMaker {
 
             Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler
                     .convertAllExtrasToChildrenAndRelatives(
-                    true);
+                            true);
             completeHouseholdsWithChildren(basicHouseholds, children, childrenAndRelativesFromExtras, familyFactory);
+            relatives.addAll(childrenAndRelativesFromExtras.get(RelationshipStatus.RELATIVE));
             completeHouseholdsWithRelatives(basicHouseholds, relatives, null);
 
             allHouseholds.addAll(basicHouseholds.values().stream().flatMap(List::stream).collect(Collectors.toList()));
@@ -181,6 +182,12 @@ public class GroupMaker {
             Log.debug("Remaining Children: " + children.size());
             Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
             Log.errorAndExit("Family households construction failed", npex, ExitCode.DATA_ERROR);
+        } finally {
+            for (Household h : allHouseholds) {
+                if (!h.validate()) {
+                    Log.error("Bad state in" + h);
+                }
+            }
         }
 
 
@@ -216,17 +223,17 @@ public class GroupMaker {
 
 
             Collections.shuffle(allChildren, random);
-            while(!allChildren.isEmpty()){
+            while (!allChildren.isEmpty()) {
                 Person child = allChildren.get(0);
                 Collections.shuffle(incompleteHhs, random);
                 int hhIndex = PopulationRules.selectHouseholdWithSuitablePrimaryFamilyForChild(child, incompleteHhs);
-                if(hhIndex >= 0){
+                if (hhIndex >= 0) {
                     Family pf = incompleteHhs.get(hhIndex).getPrimaryFamily();
                     pf.addMember(child);
                     allChildren.remove(child);
                     knownChildren.remove(child);
-                }else{
-                    throw new NoSuitableHouseholdException("Cannot find a household for "+child.getRelationshipStatus());
+                } else {
+                    throw new NoSuitableHouseholdException("Cannot find a household for " + child.getRelationshipStatus());
                 }
 
             }
@@ -235,14 +242,14 @@ public class GroupMaker {
     }
 
     /**
-     * Completes households by adding relatives to the families that are larger than 2 members. If there is not
-     * enough relatives Extras are converted to relatives. This method does not check the number of families in the
-     * household. This method modifies the input lists.
+     * Completes households by adding relatives to the families that are larger than 2 members. If there is not enough
+     * relatives Extras are converted to relatives. This method does not check the number of families in the household.
+     * This method modifies the input lists.
      *
      * @param householdsMap       The one family households map to complete by only adding relatives
      * @param relatives           The list of relatives in the population
-     * @param familyHouseholdType FamilyHouseholdType of the households to be completed. All households are selected
-     *                            if null
+     * @param familyHouseholdType FamilyHouseholdType of the households to be completed. All households are selected if
+     *                            null
      */
     private void completeHouseholdsWithRelatives(Map<FamilyHouseholdType, List<Household>> householdsMap,
                                                  List<Person> relatives,
@@ -255,14 +262,15 @@ public class GroupMaker {
                 .map(e -> e.getValue())
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
-        Log.debug(familyHouseholdType != null? familyHouseholdType.name():"All" + ": Available households: " + availableHhs.size());
+        Log.debug(familyHouseholdType != null ? familyHouseholdType.name() : "All" + ": Available households: " + availableHhs
+                .size());
 
         int formed = 0;
         for (Household h : availableHhs) {
             int diff = h.getExpectedSize() - h.getCurrentSize();
             if (diff > 0) {
                 Family f = h.getPrimaryFamily();
-                if (relatives.size() > diff) {
+                if (relatives.size() >= diff) {
                     f.addMembers(relatives.subList(0, diff));
                     relatives.subList(0, diff).clear();
                 } else {
@@ -270,28 +278,31 @@ public class GroupMaker {
                                                                     null,
                                                                     null,
                                                                     diff - relatives.size()));
+                    f.addMembers(relatives);
+                    relatives.clear();
                 }
                 formed++;
             }
 
         }
 
-        Log.info(familyHouseholdType != null? familyHouseholdType.name():"All" + ": Updated households: " + formed);
-        Log.info(familyHouseholdType != null? familyHouseholdType.name():"All" + ": All households created");
+        Log.info(familyHouseholdType != null ? familyHouseholdType.name() : "All" + ": Updated households: " + formed);
+        Log.info(familyHouseholdType != null ? familyHouseholdType.name() : "All" + ": All households created");
     }
 
     /**
-     * Calculates the number of additional COUPLE_ONLY, COUPLE_WITH_CHILD, ONE_PARENT and OTHER_FAMILY basic units
-     * that needs to be created for non-primary families based on observed distribution of FamilyTypes in primary
-     * families. The calculation takes into account the number of remaining couple and one parent basic units.
+     * Calculates the number of additional COUPLE_ONLY, COUPLE_WITH_CHILD, ONE_PARENT and OTHER_FAMILY basic units that
+     * needs to be created for non-primary families based on observed distribution of FamilyTypes in primary families.
+     * The calculation takes into account the number of remaining couple and one parent basic units.
      * <p>
      * Though there is a large number of COUPLE_WITH_CHILDREN primary family households in the population we don't
      * expect a similar large number of COUPLE_WITH_CHILDREN non-primary families in households. Because of that we
-     * count both COUPLE_ONLY and COUPLE_WITH_CHILDREN primary families as COUPLE_ONLY basic units. Then we define
-     * parameter giving the portion of 1 Family and 2 Family COUPLE_WITH_CHILDREN household that have another
-     * COUPLE_WITH_CHILDREN family as a non-primary family. The number of COUPLE_WITH_CHILDREN non-primary families
-     * are calculate based on this parameter and the required families are created by converting existing COUPLE_ONLY
-     * units by adding a child.
+     * count both COUPLE_ONLY and COUPLE_WITH_CHILDREN primary families as COUPLE_ONLY basic units. Then we form all
+     * missing COUPLE_ONLY, ONE_PARENT and OTHER_FAMILY using extras. Next we define a parameter giving the portion of
+     * 1Family-COUPLE_WITH_CHILDREN and 2 Family-COUPLE_WITH_CHILDREN households that have another COUPLE_WITH_CHILDREN
+     * family as a non-primary family. The number of COUPLE_WITH_CHILDREN non-primary families are calculate based on
+     * this parameter and the required families are created by converting already formed COUPLE_ONLY units to
+     * COUPLE_WITH_CHILDREN by adding a child.
      *
      * @param households                          The map of households categorised by FamilyHouseholdType
      * @param unusedCoupleOnlyBasic               The list of remaining COUPLE_ONLY basic units
@@ -300,15 +311,16 @@ public class GroupMaker {
      *                                            primary family is a COUPLE_WITH_CHILD family
      * @return The number of additional family units to create by FamilyType
      */
-    private Map<FamilyType, Integer> calculateUnknownNonPrimaryFamilyDistribution(Map<FamilyHouseholdType,
-            List<Household>> households,
-                                                                                  List<Family> unusedCoupleOnlyBasic,
-                                                                                  List<Family> unusedOneParentBasic,
+    private Map<FamilyType, Integer> calculateUnknownNonPrimaryFamilyDistribution(Map<FamilyHouseholdType, List<Household>> households,
+                                                                                  final List<Family> unusedCoupleOnlyBasic,
+                                                                                  final List<Family> unusedOneParentBasic,
                                                                                   double nonPrimaryCoupleWithChildProportion) {
         int couples = 0, oneParent = 0, other = 0, totalNonPrimary = 0;
         for (FamilyHouseholdType fht : households.keySet()) {
-            totalNonPrimary += households.get(fht)
-                    .size() * (fht.getFamilyCount() - 1); //Count 1 for each 2 family hh and 2 for each 3 family hh
+
+            //The count of total missing non-primary families. For a 2F household we count 1 family and for a 3F household we count 2
+            totalNonPrimary += households.get(fht).size() * (fht.getFamilyCount() - 1);
+
             switch (fht.getFamilyType()) {
                 case COUPLE_ONLY:
                     couples += households.get(fht).size();
@@ -329,13 +341,17 @@ public class GroupMaker {
         }
         int unknownFamilies = totalNonPrimary - unusedCoupleOnlyBasic.size() - unusedOneParentBasic.size();
 
-        Log.debug("Non-Primary Basic Families: Primary family distribution: couples:" + couples + " one.parent:" +
+
+        Log.debug("Non-Primary Basic Families: Primary family distribution: married:" + couples + " one.parent: " +
                           oneParent + " other:" + other);
         Log.debug("Non-Primary Basic Families: Total non-primary families: " + totalNonPrimary);
-        Log.debug("Non-Primary Basic Families: new non-primary families to form: " + unknownFamilies);
+        Log.debug("Non-Primary Basic Families: Existing Basic Couple Only units: " + unusedCoupleOnlyBasic.size());
+        Log.debug("Non-Primary Basic Families: Existing Basic One Parent units: " + unusedOneParentBasic.size());
+        Log.debug("Non-Primary Basic Families: Unknown non-primary families: " + unknownFamilies);
 
         Map<FamilyType, Integer> counts = new HashMap<>(5, 1);
         int newCouplesCount = 0, newOneParentFamilyCount = 0, newOtherFamilyCount = 0, newCoupleWithChildCount = 0;
+
         if (unknownFamilies > 0) {
             float divisor = (float) (couples + oneParent + other);
             newCouplesCount = Math.round(unknownFamilies * couples / divisor);
@@ -345,13 +361,12 @@ public class GroupMaker {
             int coupleWithChildEligibleFamilyCount = (int) households.entrySet()
                     .stream()
                     .filter(e -> e.getKey() == FamilyHouseholdType.F2_COUPLE_WITH_CHILDREN || e.getKey() ==
-                            FamilyHouseholdType.F3_COUPLE_WITH_CHILDREN)
-                    .map(Map.Entry::getValue) //Get the a list of households lists (technically its a stream of
-                    // multiple lists)
-                    .flatMap(List::stream) // merge the lists
-                    .filter(hh -> hh.getExpectedSize() >= 6)//get the ones that can have at least 2 families each
-                    // with 3 members)
+                            FamilyHouseholdType.F3_COUPLE_WITH_CHILDREN) //Eligibility criteria
+                    .map(Map.Entry::getValue) //Get the household lists as a stream
+                    .flatMap(List::stream) // Merge the lists.
+                    .filter(hh -> hh.getExpectedSize() >= 6)//Get the ones that can have at least 2 families of 3 members.
                     .count();
+
             //Get the number of Hhs that actually have COUPLE_WITH_CHILDREN non-primary families based on proportion.
             newCoupleWithChildCount = (int) Math.round(coupleWithChildEligibleFamilyCount *
                                                                nonPrimaryCoupleWithChildProportion);
@@ -367,16 +382,36 @@ public class GroupMaker {
                     newOneParentFamilyCount);
             counts.put(FamilyType.OTHER_FAMILY, newOtherFamilyCount);
 
+            if (newOtherFamilyCount < 0) {
+                Log.warn("Non-Primary Basic Families: New Basic Other Family units needed: " + newOneParentFamilyCount + ". We expected a positive count. Setting new Basic Other Family units count to 0.");
+                newOtherFamilyCount = 0;
+            }
 
-            if (unknownFamilies < (newCouplesCount + newOneParentFamilyCount + newOtherFamilyCount +
+            if (unknownFamilies != (newCouplesCount + newOneParentFamilyCount + newOtherFamilyCount +
                     newCoupleWithChildCount)) {
                 throw new IllegalStateException(
-                        "The sum of new non-primary couples, one parent units and other families is larger than the " +
-                                "actual unknown family count");
+                        "Non-Primary Basic Families: The predicted sum of non-primary families is unequal to number of total non-primary families. \n"
+                                +"New Couples: "+newCouplesCount+"\n"
+                                +"New One Parent units: "+newOneParentFamilyCount+"\n"
+                                +"New Couple With Children units: "+ newCoupleWithChildCount+"\n"
+                                +"New Other Family units: "+newOtherFamilyCount+"\n"
+                                +"Existing Couples: "+unusedCoupleOnlyBasic.size()+"\n"
+                                +"Existing One Parent units: "+unusedOneParentBasic.size()+"\n"
+                                +"Total Non-Primary Families: "+totalNonPrimary
+                );
             }
+        } else if (unknownFamilies == 0) {
+            Log.info("Non-Primary Basic Families: Not forming new units: " +
+                             "Existing Basic Couple Only (" + unusedCoupleOnlyBasic.size() + ") and " +
+                             "Basic One Parent (" + unusedOneParentBasic.size() + ") matches " +
+                             "total required Non-Primary family count (" + totalNonPrimary + ")");
+
+        } else {
+            throw new IllegalStateException("Non-Primary Basic Families: To many unused Basic Couple Only (" + unusedCoupleOnlyBasic
+                    .size() + ") and Basic One Parent (" + unusedOneParentBasic.size() + ") units. Total Non-Primary family count: " + totalNonPrimary);
         }
-        Log.debug("Non-Primary Basic Families: new non-primary families distribution: couples:" + newCouplesCount +
-                          "couple.with.child: " +
+        Log.debug("Non-Primary Basic Families: new non-primary families distribution: married: " + newCouplesCount +
+                          " couple.with.child:" +
                           newCoupleWithChildCount + " one.parent:" + newOneParentFamilyCount + " other:" +
                           newOtherFamilyCount);
 
@@ -395,21 +430,23 @@ public class GroupMaker {
     private List<Family> makeNonPrimaryCoupleBasicUnits(int newCouplesCount, FamilyFactory familyFactory) {
         //We have already used all known married males and females at this stage. So we have no other way but to use
         // Extras.
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
         List<Person> extraMarriedMales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                             Sex.Male,
                                                                             null,
                                                                             newCouplesCount);
-        Log.debug("Non-Primary Basic Families: The number of married males from extras: " + extraMarriedMales.size());
-        Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
-        Log.debug("Non-Primary Basic Families: Remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        Log.debug("Non-Primary Basic Couple: Married males taken from extras: " + extraMarriedMales.size());
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
 
         List<Person> extraMarriedFemales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                               Sex.Female,
                                                                               null,
                                                                               newCouplesCount);
-        Log.debug("Non-Primary Basic Families: The number of married females from extras: " + extraMarriedMales.size());
-        Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
-        Log.debug("Non-Primary Basic Families: Remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        Log.debug("Non-Primary Basic Couple: Married females taken from extras: " + extraMarriedMales.size());
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
 
         return familyFactory.makeMarriedCouples(extraMarriedMales, extraMarriedFemales);
     }
@@ -426,26 +463,31 @@ public class GroupMaker {
     private List<Family> makeNonPrimaryOneParentBasicUnits(int newOneParentFamilyCount,
                                                            FamilyFactory familyFactory,
                                                            List<Person> children) {
+
         //We have already used all Lone Parents. So using extras.
+        Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
         List<Person> newLoneParents = extrasHandler.getPersonsFromExtras(RelationshipStatus.LONE_PARENT,
                                                                          null,
                                                                          null,
                                                                          newOneParentFamilyCount);
-        Log.debug("Non-Primary Basic Families: The number of lone parents from extras: " + newLoneParents.size());
-        Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic One-Parent: Lone Parents taken from extras: " + newLoneParents.size());
+        Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
 
-        int neededChildren = (children.size() >= newOneParentFamilyCount) ?
-                             0 :
-                             newOneParentFamilyCount - children.size();
-        //We assume all the needed children are U15
-        List<Person> newChildren = extrasHandler.getPersonsFromExtras(RelationshipStatus.U15_CHILD,
-                                                                      null,
-                                                                      null,
-                                                                      neededChildren);
-        Log.debug("Non-Primary Basic Families: The number of children from extras: " + newChildren.size());
-        Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
-        children.addAll(newChildren);
-        Log.debug("Non-Primary Basic Families: Remaining Children: " + children.size());
+        int childrenToForm = newOneParentFamilyCount <= children.size() ?
+                0 :
+                newOneParentFamilyCount - children.size();
+        Log.debug("Non-Primary Basic One-Parent: required Children: " + newOneParentFamilyCount);
+        Log.debug("Non-Primary Basic One-Parent: remaining Children: " + children.size());
+        if (childrenToForm > 0) {
+
+            Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
+            Log.debug("Non-Primary Basic One-Parent: adding U15 Children: " + childrenToForm);
+            //We assume all children are under 15
+            children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
+            Log.debug("Non-Primary Basic One-Parent: remaining Children: " + children.size());
+            Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
+        }
+
 
         return familyFactory.makeAllOneParentBasicUnits(newLoneParents, children);
     }
@@ -467,22 +509,29 @@ public class GroupMaker {
                                                                  List<Person> children) {
 
         int basicCouplesToForm = newCoupleWithChildFamilyCount <= basicCouples.size() ?
-                                 0 :
-                                 newCoupleWithChildFamilyCount - basicCouples.size();
+                0 :
+                newCoupleWithChildFamilyCount - basicCouples.size();
+        Log.debug("Non-Primary Basic Couple With Children: required Couples: " + newCoupleWithChildFamilyCount);
+        Log.debug("Non-Primary Basic Couple With Children: remaining Couples: " + basicCouples.size());
         if (basicCouplesToForm > 0) {
+            Log.debug("Non-Primary Basic Couple With Children: adding Couples: " + basicCouplesToForm);
             basicCouples.addAll(makeNonPrimaryCoupleBasicUnits(basicCouplesToForm, familyFactory));
+            Log.debug("Non-Primary Basic Couple With Children: remaining Couples: " + basicCouples.size());
         }
 
+
         int childrenToForm = newCoupleWithChildFamilyCount <= children.size() ?
-                             0 :
-                             newCoupleWithChildFamilyCount - children.size();
+                0 :
+                newCoupleWithChildFamilyCount - children.size();
+        Log.debug("Non-Primary Basic Couple With Children: required Children: " + newCoupleWithChildFamilyCount);
+        Log.debug("Non-Primary Basic Couple With Children: remaining Children: " + children.size());
         if (childrenToForm > 0) {
-            List<Person> newChildren = extrasHandler.getPersonsFromExtras(RelationshipStatus.U15_CHILD,
-                                                                          null,
-                                                                          null,
-                                                                          childrenToForm);
-            Log.debug("Non-Primary Basic Families: The number of children from extras: " + newChildren.size());
-            Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
+
+            Log.debug("Non-Primary Basic Couple With Children: remaining Extras: " + extrasHandler.remainingExtras());
+            Log.debug("Non-Primary Basic Couple With Children: adding U15 Children: " + childrenToForm);
+            children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
+            Log.debug("Non-Primary Basic Couple With Children: remaining Children: " + children.size());
+            Log.debug("Non-Primary Basic Couple With Children: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
         return familyFactory.makeCoupleWithChildFamilyBasicUnits(newCoupleWithChildFamilyCount, basicCouples, children);
@@ -491,21 +540,25 @@ public class GroupMaker {
     private List<Family> makeNonPrimaryOtherFamilyBasicUnits(int newOtherFamilyCount,
                                                              FamilyFactory familyFactory,
                                                              List<Person> relatives) {
-        Log.debug("Non-Primary Basic Families: The number of Other Families needed: " + newOtherFamilyCount);
-        Log.debug("Non-Primary Basic Families: The number of existing Relatives: " + relatives.size());
+
+        Log.debug("Non-Primary Basic Other Family: required Other Families: " + newOtherFamilyCount);
+        Log.debug("Non-Primary Basic Other Family: remaining Relatives: " + relatives.size());
+
         int neededRelatives = (relatives.size() >= 2 * newOtherFamilyCount) ?
-                              0 :
-                              (2 * newOtherFamilyCount) - relatives.size();
+                0 :
+                (2 * newOtherFamilyCount) - relatives.size();
 
-        List<Person> newRelatives = extrasHandler.getPersonsFromExtras(RelationshipStatus.RELATIVE,
-                                                                       null,
-                                                                       null,
-                                                                       neededRelatives);
-        Log.debug("Non-Primary Basic Families: The number of relatives from extras: " + newRelatives.size());
-        Log.debug("Non-Primary Basic Families: Remaining Extras: " + extrasHandler.remainingExtras());
-
-        relatives.addAll(newRelatives);
-        return familyFactory.makeOtherFamilyBasicUnits(1, relatives);
+        if (neededRelatives > 0) {
+            Log.debug("Non-Primary Basic Other Family: remaining Extras: " + extrasHandler.remainingExtras());
+            Log.debug("Non-Primary Basic Other Family: adding Relatives: " + neededRelatives);
+            relatives.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.RELATIVE,
+                                                                null,
+                                                                null,
+                                                                neededRelatives));
+            Log.debug("Non-Primary Basic Other Family: remaining Relatives: " + relatives.size());
+            Log.debug("Non-Primary Basic Other Family: remaining Extras: " + extrasHandler.remainingExtras());
+        }
+        return familyFactory.makeOtherFamilyBasicUnits(newOtherFamilyCount, relatives);
     }
 
     /**
@@ -532,6 +585,12 @@ public class GroupMaker {
                                                                                               unusedOneParentBasic,
                                                                                               nonPrimaryCoupleWithChildProbability);
 
+        // Create new non-primary couple only basic units
+        int totalCouples = newFamilyDist.get(FamilyType.COUPLE_ONLY) + newFamilyDist.get(FamilyType.COUPLE_WITH_CHILDREN);
+        Log.debug("Non-Primary Basic Families: Remaining Couple only basic: " + unusedCoupleOnlyBasic.size());
+        List<Family> newCouples = makeNonPrimaryCoupleBasicUnits(totalCouples,familyFactory);
+        unusedCoupleOnlyBasic.addAll(newCouples);
+        Log.debug("Non-Primary Basic Families: Remaining Couple only basic: " + unusedCoupleOnlyBasic.size());
 
         //Create couple with child non-primary families
         List<Family> coupleWithChildBasic = makeNonPrimaryCoupleWithChildBasicUnits(newFamilyDist.get(FamilyType
@@ -561,15 +620,9 @@ public class GroupMaker {
         assignNonPrimaryFamilies(households, FamilyType.ONE_PARENT,//Type of the newly added family
                                  unusedOneParentBasic, FamilyType.ONE_PARENT, //List of eligible families
                                  FamilyType.COUPLE_WITH_CHILDREN);
-
-
         Log.debug("Non-Primary Basic Families: Remaining One parent basic: " + unusedOneParentBasic.size());
 
-        //Create couple only non-primary families
-        Log.debug("Non-Primary Basic Families: Remaining Couple only basic: " + unusedCoupleOnlyBasic.size());
-        unusedCoupleOnlyBasic.addAll(makeNonPrimaryCoupleBasicUnits(newFamilyDist.get(FamilyType.COUPLE_ONLY),
-                                                                    familyFactory));
-        Log.debug("Non-Primary Basic Families: Remaining Couple only basic: " + unusedCoupleOnlyBasic.size());
+
         // Add couple only non-primary families to households
         assignNonPrimaryFamilies(households,
                                  FamilyType.COUPLE_ONLY,
@@ -635,8 +688,7 @@ public class GroupMaker {
                 // families
                 .map(e -> e.getValue()) //Get the values list from each hash map entry
                 .flatMap(List::stream) //flatten list of value lists to one large list
-                .filter(h -> h.getExpectedSize() - h.getCurrentSize() >= basicUnits.get(0)
-                        .size()) //has enough vacancies
+                .filter(h -> h.getExpectedSize() - h.getCurrentSize() >= nonPrimaryFamilyType.basicSize()) //has enough vacancies
                 .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount())
                 .collect(Collectors.toList()); //Convert to an actual list
 
