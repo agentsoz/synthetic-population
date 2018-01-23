@@ -20,9 +20,9 @@ import bnw.abm.intg.filemanager.zip.Zip;
  * @author Bhagya N. Wickramasinghe
  *
  */
-public class ABSDwellingPropertyCsv {
-	private static int sa1codeCol = 1, firstDataRow = 5, lastDataRow = 588484, valueCol = 6;
-	private static int beddCol = 2, strdCol = 3, tenlldCol = 4, nprdCol = 5;
+public class DwellingPropertyReader {
+	private static final int SA1_CODE_COL = 1, FIRST_DATA_ROW = 5, LAST_DATA_ROW = 588484, VALUE_COL = 6;
+	private static final int BEDD_COL = 2, STRD_COL = 3, TENLLD_COL = 4, NPRD_COL = 5;
 
 	public static Map<String, List<DwellingType>> read(Path filePath) throws IOException {
 		Map<String, List<DwellingType>> dwellingProperties = new HashMap<>();
@@ -33,28 +33,28 @@ public class ABSDwellingPropertyCsv {
 		int row = 0;
 		for (CSVRecord record : parser) {
 			row++;
-			if (row < firstDataRow | row > lastDataRow) {
+			if (row < FIRST_DATA_ROW | row > LAST_DATA_ROW) {
 				continue;
 			}
 
-			if (!record.get(sa1codeCol).equals("")) {
-				sa1code = record.get(sa1codeCol);
+			if (!record.get(SA1_CODE_COL).equals("")) {
+				sa1code = record.get(SA1_CODE_COL);
 			}
-			if (!record.get(beddCol).equals("")) {
-				bedd = record.get(beddCol).split("\\{")[0].trim();
+			if (!record.get(BEDD_COL).equals("")) {
+				bedd = record.get(BEDD_COL).split("\\{")[0].trim();
 			}
-			if (!record.get(strdCol).equals("")) {
-				strd = record.get(strdCol).split("\\{")[0].trim();
+			if (!record.get(STRD_COL).equals("")) {
+				strd = record.get(STRD_COL).split("\\{")[0].trim();
 			}
-			if (!record.get(tenlldCol).equals("")) {
-				tenlld = record.get(tenlldCol).split("\\{")[0].trim();
+			if (!record.get(TENLLD_COL).equals("")) {
+				tenlld = record.get(TENLLD_COL).split("\\{")[0].trim();
 			}
-			if (!record.get(nprdCol).equals("")) {
-				nprd = record.get(nprdCol).split("\\{")[0].trim();
+			if (!record.get(NPRD_COL).equals("")) {
+				nprd = record.get(NPRD_COL).split("\\{")[0].trim();
 			}
 
 			DwellingType property = new DwellingType(bedd + ":" + strd + ":" + tenlld + ":" + nprd,
-					record.get(valueCol));
+					record.get(VALUE_COL));
 
 			if (dwellingProperties.containsKey(sa1code)) {
 				dwellingProperties.get(sa1code).add(property);

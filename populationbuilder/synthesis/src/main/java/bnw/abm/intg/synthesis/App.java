@@ -1,6 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
+import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
 import bnw.abm.intg.synthesis.models.Household;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
@@ -35,14 +35,12 @@ public class App {
         Path allHouseholdsCsv = props.readFileOrDirectoryPath("AllHouseholdsCsv");
         Path allFamiliesCsv = props.readFileOrDirectoryPath("AllFamiliesCsv");
         Path allAgentsCsv = props.readFileOrDirectoryPath("AllAgentsCsv");
-        Path sa1OutputDirectory = props.readFileOrDirectoryPath("SA1OutputLocation");
         Path sa2InputDirectory = props.readFileOrDirectoryPath("SA2InputDataDirectory");
-        Map<String, String> sa1HhDistCsvProperties = props.readKeyValuePairs("SA1HhDistFileProperties");
         long randomSeed = Long.parseLong(props.getProperty("RandomSeed"));
         Path saCodesZip = props.readFileOrDirectoryPath("SACodesZip");
-        String SACodesCsvInSACodesZip = props.getProperty("SACodesCsvInSACodesZip");
-        String ReferenceColumnHeader = props.getProperty("ReferenceColumnHeader");
-        String TargetColumnHeader = props.getProperty("TargetColumnHeader");
+        String saCodesFileInSACodesZip = props.getProperty("SACodesCsvInSACodesZip");
+        String referenceColumnHeader = props.getProperty("ReferenceColumnHeader");
+        String targetColumnHeader = props.getProperty("TargetColumnHeader");
         boolean enableSummaryReports = props.getProperty("EnableSummaryReports").trim().toLowerCase().equals("true");
         double sexRatio = Double.parseDouble(props.getProperty("SexRatio"));
         double relativesProbability = Double.parseDouble(props.getProperty("RelativesProbability"));
@@ -58,25 +56,25 @@ public class App {
 
             for (String sa2 : sa2List) {
                 Log.info("Starting SA2: " + sa2);
-                Path hhfileinfo = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Hh.csv");
-                Path indfileinfo = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Indiv.csv");
+                Path hhFile = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Hh.csv");
+                Path indFile = Paths.get(sa2InputDirectory + File.separator + sa2 + File.separator + "Indiv.csv");
 
-                GroupMaker grpmaker = new GroupMaker(sexRatio, relativesProbability, maleLoneParentProbability);
+                GroupMaker groupMaker = new GroupMaker(sexRatio, relativesProbability, maleLoneParentProbability);
 
                 /* Data fields */
-                Map<String, List<HhRecord>> hhrecs = null;
-                Map<String, List<IndRecord>> indrec = null;
+                Map<String, List<HhRecord>> hhRecs = null;
+                Map<String, List<IndRecord>> indRecs = null;
 
                 // Read input CSVs
-                hhrecs = DataReader.readHouseholdRecords(hhfileinfo);
-                indrec = DataReader.readPersonRecords(indfileinfo);
+                hhRecs = DataReader.readHouseholdRecords(hhFile);
+                indRecs = DataReader.readPersonRecords(indFile);
 
                 // Group persons into households considering person, household and family types
-                List<Household> householdsOfSA2 = grpmaker.makePopulation(hhrecs.get(sa2),
-                                                                          indrec.get(sa2),
-                                                                          rand,
-                                                                          sa2,
-                                                                          nonPrimaryCoupleWithChildProbability);
+                List<Household> householdsOfSA2 = groupMaker.makePopulation(hhRecs.get(sa2),
+                                                                            indRecs.get(sa2),
+                                                                            rand,
+                                                                            sa2,
+                                                                            nonPrimaryCoupleWithChildProbability);
 
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);
@@ -91,20 +89,26 @@ public class App {
 
                 if (enableSummaryReports) {
                     // Create the output directory for this SA2
-                    Path outlocationForThisSA2 = Paths.get(sa2OutputDirectory + File.separator + sa2 + File.separator);
-                    Files.createDirectories(outlocationForThisSA2);
-                    Survey.saveHouseholdSummary2csv(hhrecs.get(sa2), householdsOfSA2,
-                                                    Paths.get(outlocationForThisSA2 + File.separator + "GroupSummary.csv"));
-                    Survey.savePersonsSummary2csv(indrec.get(sa2), householdsOfSA2,
-                                                  Paths.get(outlocationForThisSA2 + File.separator + "AgentSummary.csv"));
+                    Path outputLocationForThisSA2 = Paths.get(sa2OutputDirectory + File.separator + sa2 + File
+                            .separator);
+                    Files.createDirectories(outputLocationForThisSA2);
+                    Survey.saveHouseholdSummary2csv(hhRecs.get(sa2),
+                                                    householdsOfSA2,
+                                                    Paths.get(outputLocationForThisSA2 + File.separator +
+                                                                      "GroupSummary.csv"));
+                    Survey.savePersonsSummary2csv(indRecs.get(sa2),
+                                                  householdsOfSA2,
+                                                  Paths.get(outputLocationForThisSA2 + File.separator + "AgentSummary" +
+                                                                    ".csv"));
                 }
 
             }
             convertToSA2MAINCODE(allHouseholds,
                                  saCodesZip,
-                                 SACodesCsvInSACodesZip,
-                                 ReferenceColumnHeader,
-                                 TargetColumnHeader);
+                                 saCodesFileInSACodesZip,
+                                 referenceColumnHeader,
+                                 targetColumnHeader);
+
             Log.info("Writing output files to: " + allHouseholdsCsv.getParent());
             Files.createDirectories(allHouseholdsCsv.getParent());
             Survey.saveAllHouseholds(allHouseholdsCsv, allHouseholds);
@@ -117,48 +121,18 @@ public class App {
         }
         double timeSpent = (System.currentTimeMillis() - startTime) / (double) 1000;
         Log.info("Done!");
-        Log.info("Execution time: " + timeSpent);
+        Log.info("Execution time: " + timeSpent + " secs");
     }
 
-    private static void convertToSA2MAINCODE(List<Household> allHouseolds,
+    private static void convertToSA2MAINCODE(List<Household> allHouseholds,
                                              Path zipWithCodesCsv,
                                              String csvFileInZip,
                                              String referenceColTitle,
                                              String targetColTitle) throws IOException {
-        Map<String, String> sa2CodeMap = ABSStatisticalAreaCodeConverter.loadCsvAndCreateMapWithAreaCode(zipWithCodesCsv,
-                                                                                                         csvFileInZip,
-                                                                                                         referenceColTitle,
-                                                                                                         targetColTitle);
-        for (Household household : allHouseolds) {
+        Map<String, String> sa2CodeMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode
+                (zipWithCodesCsv, csvFileInZip, referenceColTitle, targetColTitle);
+        for (Household household : allHouseholds) {
             household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
         }
-    }
-
-    private static void savePopulationToSA1s(String thisSA2,
-                                             Map<String, String> sa1HhDistCsvProperties,
-                                             Path inputLocation,
-                                             Path sa1outputLocation,
-                                             List<Household> householdsOfSA2,
-                                             Random rand) throws IOException {
-        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + thisSA2 + File.separator + sa1HhDistCsvProperties
-                .get("FileName"));
-        int sa1Row = Integer.parseInt(sa1HhDistCsvProperties.get("SA1Row"));
-        int numberOfPersonsColumn = Integer.parseInt(sa1HhDistCsvProperties.get("NumberOfPersonsColumn"));
-        int familyHouseholdTypeColumn = Integer.parseInt(sa1HhDistCsvProperties.get("FamilyHouseholdTypeColumn"));
-        Map<String, Map<String, Integer>> sa1HouseholdCounts = null;
-        Map<String, List<Household>> householdsByType = null;
-
-        sa1HouseholdCounts = DataReader.readSA1HouseholdDistribution(sa1HouseholdsFile, sa1Row, numberOfPersonsColumn,
-                                                                     familyHouseholdTypeColumn);// FIXME: add relatives back
-        householdsByType = Survey.groupHouseholdsByHouseholdType(householdsOfSA2);
-
-        SA1PopulationMaker sa1popMaker = new SA1PopulationMaker(rand);
-        Map<String, List<Household>> householdsBySA1 = sa1popMaker.distributePopulationToSA1s(sa1HouseholdCounts,
-                                                                                              householdsByType,
-                                                                                              rand);
-        // sa1popMaker.assignTENLLDtoHouseholds(tenlldLocation, tenlldFile, householdsBySA1);
-        Survey.saveSA1Households(sa1outputLocation, householdsBySA1);
-        Survey.saveSA1Families(sa1outputLocation, householdsBySA1);
-        Survey.saveSA1Persons(sa1outputLocation, householdsBySA1);
     }
 }
