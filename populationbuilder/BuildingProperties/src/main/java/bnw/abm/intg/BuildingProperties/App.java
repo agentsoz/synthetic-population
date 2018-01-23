@@ -1,7 +1,7 @@
 package bnw.abm.intg.BuildingProperties;
 
 import bnw.abm.intg.filemanager.csv.CSVWriter;
-import bnw.abm.intg.filemanager.csv.abs.ABSDwellingPropertyCsv;
+import bnw.abm.intg.filemanager.csv.abs.DwellingPropertyReader;
 import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
 import bnw.abm.intg.filemanager.csv.abs.models.DwellingType;
 import bnw.abm.intg.filemanager.json.JSONWriter;
@@ -108,7 +108,7 @@ public class App {
             }
 
             // Reading dwelling types distribution from file
-            dwellTypesDistribution = ABSDwellingPropertyCsv.read(dwellingPropertyFile);
+            dwellTypesDistribution = DwellingPropertyReader.read(dwellingPropertyFile);
 
             // For converting 7 digit SA1 code to main code
             saCodesMap = ABSStatisticalAreaCodeConverter.loadCsvAndCreateMapWithAreaCode(saCodeZipFile, saCodeCsvName,
