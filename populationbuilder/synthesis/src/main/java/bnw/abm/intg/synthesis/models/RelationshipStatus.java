@@ -42,5 +42,10 @@ public enum RelationshipStatus {
     /**
      * RLHP: Group household member under Non-family member category
      */
-    GROUP_HOUSEHOLD;
+    GROUP_HOUSEHOLD,
+
+    /**
+     * This is a custom type that combine U15_CHILD, STUDENT and O15_CHILD. Only to be used when generating summary reports.
+     */
+    CHILDREN;
 }
