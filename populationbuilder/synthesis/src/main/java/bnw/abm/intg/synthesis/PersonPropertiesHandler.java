@@ -1,9 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.synthesis.models.AgeRange;
-import bnw.abm.intg.synthesis.models.Family;
-import bnw.abm.intg.synthesis.models.Household;
-import bnw.abm.intg.synthesis.models.Person;
+import bnw.abm.intg.synthesis.models.*;
 import com.google.common.util.concurrent.AtomicDouble;
 
 import java.util.List;

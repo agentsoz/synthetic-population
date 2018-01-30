@@ -2,7 +2,7 @@ package bnw.abm.intg.BuildingProperties;
 
 import bnw.abm.intg.filemanager.csv.CSVWriter;
 import bnw.abm.intg.filemanager.csv.abs.DwellingPropertyReader;
-import bnw.abm.intg.filemanager.csv.abs.ABSStatisticalAreaCodeConverter;
+import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
 import bnw.abm.intg.filemanager.csv.abs.models.DwellingType;
 import bnw.abm.intg.filemanager.json.JSONWriter;
 import bnw.abm.intg.filemanager.zip.Zip;
@@ -76,12 +76,7 @@ public class App {
             dwellingPropertyFile = props.readFileOrDirectoryPath("DwellingPropertyFile");
 
             props.getProperty("NewForeignKeyInAddressRecord").trim();
-            // tempOutputDir =
-            // Paths.get(props.getProperty("TemporaryOutputDirectory").trim().equals("system")
-            // ? System
-            // .getProperty("java.io.tmpdir") :
-            // props.readFileOrDirectoryPath("TemporaryOutputDirectory") +
-            // File.separator);
+
             outputFile = props.readFileOrDirectoryPath("OutputFile");
 
             random = new Random(Long.parseLong(props.getProperty("RandomSeed")));
@@ -111,8 +106,8 @@ public class App {
             dwellTypesDistribution = DwellingPropertyReader.read(dwellingPropertyFile);
 
             // For converting 7 digit SA1 code to main code
-            saCodesMap = ABSStatisticalAreaCodeConverter.loadCsvAndCreateMapWithAreaCode(saCodeZipFile, saCodeCsvName,
-                    saConverterReferenceCol, saConverterTargetCol);
+            saCodesMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodeZipFile, saCodeCsvName,
+                                                                                   saConverterReferenceCol, saConverterTargetCol);
 
             // Marking residential buildings and assigning dwelling properties
             assignDwellingPropertiesToBuildings(allBuildingsBySA1, dwellTypesDistribution, saCodesMap);
@@ -333,8 +328,7 @@ public class App {
                     + noBuildigSA1s.values().stream().mapToInt(v -> v).sum());
         }
 
-        // Converting unallocated dwelling type data to a list and saving to a
-        // csv
+        // Converting unallocated dwelling type data to a list and saving to a csv
         if ((!unallocDwellTypes.isEmpty())) {
             Log.warn("Unallocated dwelling types are written to ./Unallocated.csv");
             List<List<String>> unallocatedList = new ArrayList<>();
