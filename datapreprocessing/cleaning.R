@@ -5,22 +5,67 @@ source("DataReadUltraShort.R")
 source("util.R")
 source("dwellingproperties.R")
 
-IndPossibles = c(1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0, #married
-                 1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0, #lone parent
-                 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1, #U15child
-                 0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0, #student
-                 1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0, #O15child
-                 1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0, #GrpHh
-                 1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0, #Lone person
-                 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1) #Relative
-HhPossibles = c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,
-                1,0,1,1,0,0,0,0,0,0,0,0,0,1,
-                1,1,1,1,0,0,0,0,0,0,0,0,0,1,
-                1,1,1,1,1,0,1,1,0,0,0,0,0,1,
-                1,1,1,1,1,1,1,1,0,0,0,0,0,1,
-                1,1,1,1,1,1,1,1,1,0,1,1,0,1,
-                1,1,1,1,1,1,1,1,1,1,1,1,0,1,
-                1,1,1,1,1,1,1,1,1,1,1,1,0,1)
+relStatus = c('Married', 'Lone parent', 'U15Child', 'Student', 'O15Child', 'GroupHhold','Lone person','Relatives')
+sexTypes = c('Male','Female')
+ageCats = c('0-14 years','15-24 years','25-39 years','40-54 years','55-69 years','70-84 years','85-99 years','100 years and over')
+marriedAge = c(0,1,1,1,1,1,1,1)
+loneparentAge = c(0,1,1,1,1,1,1,1)
+u15childAge = c(1,0,0,0,0,0,0,0)
+studentAge = c(0,1,0,0,0,0,0,0)
+o15Age = c(0,1,1,1,1,1,1,1)
+grouphhAge = c(0,1,1,1,1,1,1,1)
+lonepersonAge = c(0,1,1,1,1,1,1,1)
+relativesAge = c(1,1,1,1,1,1,1,1)
+
+IndPossibles = list()
+for(rel in relStatus){
+  IndPossibles[[rel]] = list()
+  for(sex in sexTypes){
+    IndPossibles[[rel]][[sex]] = list()
+    binaries = switch(which(relStatus == rel),marriedAge,loneparentAge,u15childAge,studentAge,o15Age,grouphhAge,lonepersonAge,relativesAge)
+    for(i in 1:length(ageCats)){
+      IndPossibles[[rel]][[sex]][[ageCats[i]]] = binaries[i]
+    }
+  }
+}
+
+familyTypes = c(
+'One family household: Couple family with no children',
+'One family household: Couple family with children',
+'One family household: One parent family',
+'One family household: Other family',
+'Two family household: Couple family with no children',
+'Two family household: Couple family with children',
+'Two family household: One parent family',
+'Two family household: Other family',
+'Three or more family household: Couple family with no children',
+'Three or more family household: Couple family with children',
+'Three or more family household: One parent family',
+'Three or more family household: Other family',
+'Lone person household',
+'Group household')
+
+
+hhSizes = c("One person","Two persons","Three persons","Four persons","Five persons","Six persons","Seven persons","Eight or more persons")
+
+onePerson = c(0,0,0,0,0,0,0,0,0,0,0,0,1,0)
+twoPersons = c(1,0,1,1,0,0,0,0,0,0,0,0,0,1)
+threePersons = c(1,1,1,1,0,0,0,0,0,0,0,0,0,1)
+fourPersons = c(1,1,1,1,1,0,1,1,0,0,0,0,0,1)
+fivePersons = c(1,1,1,1,1,1,1,1,0,0,0,0,0,1)
+sixPersons = c(1,1,1,1,1,1,1,1,1,0,1,1,0,1)
+sevenPersons = c(1,1,1,1,1,1,1,1,1,1,1,1,0,1)
+eightPersons = c(1,1,1,1,1,1,1,1,1,1,1,1,0,1)
+
+HhPossibles = list()
+for(size in hhSizes){
+  HhPossibles[[size]] = list()
+  binaries = switch(which(hhSizes == size), onePerson, twoPersons, threePersons, fourPersons, fivePersons, sixPersons, sevenPersons, eightPersons)
+  for(i in 1:length(binaries)){
+    HhPossibles[[size]][[familyTypes[i]]] = binaries[i]
+  }
+}
+
 
 fillAccording2Dist<- function(dataarray, amount){
   dist = dataarray/sum(dataarray)
@@ -71,31 +116,37 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   cat("Difference:",difference," - ",percentage,"%\n\n")
   
   cat("Removed impossible values:\n")
-  indPossibles = person[,pValColi]*IndPossibles
-  indDetectedImpossibles = person[,pValColi] - indPossibles
-  indImpossibleRwids = which(indDetectedImpossibles > 0)
-  cat("persons:")
-  if(length(indImpossibleRwids) > 0){
-    print(person[indImpossibleRwids,-1])
-  }else{
-    cat("none\n")
+  cat("persons:\n")
+  hasImpossibles = FALSE
+  for(i in 1:nrow(person)){
+    rel = person[i,pRelColi]
+    sex = person[i,pSexColi]
+    age = person[i,pAgeColi]
+    val = person[i,pValColi]
+    person[i,pValColi] = person[i,pValColi]*IndPossibles[[rel]][[sex]][[age]]
+    if(val != person[i,pValColi]){
+      print(person[i,])
+      hasImpossibles = TRUE
+    }
   }
-  
-  hhPossibles = hhold[,hValColi]*HhPossibles
-  hhDetectedImpossibles = hhold[,hValColi] - hhPossibles
-  hhImpossibleRwids = which(hhDetectedImpossibles > 0)
-  cat("Households:")
-  if(length(hhImpossibleRwids)>0){
-    cat("\n")
-    print(hhold[hhImpossibleRwids,-1])
-    cat("\n")
-  }else{
+  if(!hasImpossibles){
     cat("none\n\n")
   }
   
-  
-  person[,pValColi] <- person[,pValColi]*IndPossibles
-  hhold[,hValColi] <- hhold[,hValColi]*HhPossibles
+  cat("Households:\n")
+  for(i in 1:nrow(hhold)){
+    count = hhold[i,hPersonCountColi]
+    familyType = hhold[i,hFamilyTypeColi]
+    val = hhold[i,hValColi]
+    hhold[i,hValColi] = hhold[i,hValColi]*HhPossibles[[count]][[familyType]]
+    if(val != hhold[i,hValColi]){
+      print(hhold[i,])
+      hasImpossibles = TRUE
+    }
+  }
+  if(!hasImpossibles){
+    cat("none\n\n")
+  }
   
   
   extra = 0
@@ -113,7 +164,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   #Check grouphouseholds
   grpIndrwids = getMatchingRowIds(person, pRelColi, "GroupHhold")
   ttlgrpin = sum(person[grpIndrwids,pValColi])
-  cat("Group households: total persons in personiduals file",ttlgrpin,"\n")
+  cat("Group households: total persons in person file",ttlgrpin,"\n")
   grpHhsrwids = getMatchingRowIds(hhold,hFamilyTypeColi,"Group household");
   ttlgrphh = sum(hhold[grpHhsrwids,hValColi]*seq(1,8))
   cat("Group households: total persons in households file",ttlgrphh,"\n")
