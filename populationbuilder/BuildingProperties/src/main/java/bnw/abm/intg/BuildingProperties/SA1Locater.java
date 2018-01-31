@@ -25,7 +25,7 @@ import java.util.zip.DataFormatException;
  */
 public class SA1Locater {
 
-    private static LIFOLinkedHashSet<Feature> recentMatches = new LIFOLinkedHashSet<>(15);
+    private static LinkedHashSet<Feature> recentMatches = new LinkedHashSet<>(15);
 
     /**
      * Finds the SA1 each building belongs to based on geographical location
@@ -75,16 +75,15 @@ public class SA1Locater {
      * @return SA1_7DIG11 code of matching SA1
      * @throws SchemaException
      */
-    static String findSA1ofBuilding(SimpleFeature building, SimpleFeatureCollection targetSA1s) throws DataFormatException {
+    static String findSA1ofBuilding(SimpleFeature building, SimpleFeatureCollection targetSA1s, FeatureProcessing fp) throws DataFormatException {
 
         SimpleFeature matchingSA1 = null;
-        FeatureProcessing fp = new FeatureProcessing();
 
         if (!recentMatches.isEmpty()) {
-            matchingSA1 = (SimpleFeature) fp.getContainingPolygon(recentMatches, building);
+            matchingSA1 = fp.getContainingPolygon(recentMatches, building);
         }
         if (matchingSA1 == null) {
-            matchingSA1 = (SimpleFeature) fp.getContainingPolygon(targetSA1s, building);
+            matchingSA1 = fp.getContainingPolygon(targetSA1s, building);
         }
 
         if (matchingSA1 != null) {

@@ -6,6 +6,7 @@ import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
 import bnw.abm.intg.filemanager.csv.abs.models.DwellingType;
 import bnw.abm.intg.filemanager.json.JSONWriter;
 import bnw.abm.intg.filemanager.zip.Zip;
+import bnw.abm.intg.geo.FeatureProcessing;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -36,7 +37,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        Log.createLogger("BuildingProperties", "BuildingProperies.log");
+        Log.createLogger("BuildingProperties", "BuildingProperties.log");
 
         /* Read all the properties */
         Path sa1ShapefilePath = null, buildingShapeFilesHome = null, saCodeZipFile = null, dwellingPropertyFile = null;
@@ -59,8 +60,8 @@ public class App {
             props.getProperty("ReferenceKeyInSA1Shapefile").trim();
 
             // Buildings shape file properties
-            buildingShapeFilesHome = props.readFileOrDirectoryPath("BuildingsShapeFileHome");
-            buildingsShapeFileName = props.getProperty("BuildingsShapeFileName");
+            buildingShapeFilesHome = props.readFileOrDirectoryPath("BuildingsShapefileHome");
+            buildingsShapeFileName = props.getProperty("BuildingsShapefileName");
             buildingsFilterByProperty = props.getProperty("FilterBuildingsByProperty");
             buildingsFilterByValues = props.readCommaSepProperties("FilterBuildingsByValues");
             buildingUniqueKey = props.getProperty("BuildingUniqueKey");
@@ -98,7 +99,7 @@ public class App {
             // Find the SA1 of each building
             for (Path buildingShapeFile : buildingShapeFiles) {
                 buildings = Buildings.getBuildings(buildingShapeFile, buildingsFilterByProperty,
-                        buildingsFilterByValues, targetCRS);
+                                                   buildingsFilterByValues, targetCRS);
                 assignBuildingsToSA1s(buildings, targetSA1s, allBuildingsBySA1, buildingUniqueKey, lgaNameKey);
             }
 
@@ -106,8 +107,10 @@ public class App {
             dwellTypesDistribution = DwellingPropertyReader.read(dwellingPropertyFile);
 
             // For converting 7 digit SA1 code to main code
-            saCodesMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodeZipFile, saCodeCsvName,
-                                                                                   saConverterReferenceCol, saConverterTargetCol);
+            saCodesMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodeZipFile,
+                                                                                   saCodeCsvName,
+                                                                                   saConverterReferenceCol,
+                                                                                   saConverterTargetCol);
 
             // Marking residential buildings and assigning dwelling properties
             assignDwellingPropertiesToBuildings(allBuildingsBySA1, dwellTypesDistribution, saCodesMap);
@@ -120,8 +123,7 @@ public class App {
     /**
      * Gets a list of building shapefiles
      *
-     * @param shapefilesHome Location of the building shape files. This can be a directory
-     *                       or a zip file.
+     * @param shapefilesHome Location of the building shape files. This can be a directory or a zip file.
      * @param shapefileInZip Name of the shape file inside the home location
      * @return List of Paths containing ready to read shape files
      * @throws IOException
@@ -152,8 +154,8 @@ public class App {
     }
 
     /**
-     * Find to which SA1 each building belongs to and group them by their SA1.
-     * Convert the Buildings Shapefile features to JSON Objects
+     * Find to which SA1 each building belongs to and group them by their SA1. Convert the Buildings Shapefile features
+     * to JSON Objects
      *
      * @param buildings      All the buildings in the area (Shapefile feature objects)
      * @param targetSA1s     Polygons of all SA1s in the area
@@ -163,73 +165,71 @@ public class App {
      * @throws IOException
      */
     static Map<String, List<Building>> assignBuildingsToSA1s(SimpleFeatureCollection buildings,
-                                                             SimpleFeatureCollection targetSA1s, Map<String, List<Building>> buildingsBySA1, String buildingUniqueKey,
+                                                             SimpleFeatureCollection targetSA1s,
+                                                             Map<String, List<Building>> buildingsBySA1,
+                                                             String buildingUniqueKey,
                                                              String lgaNameKey) throws IOException, DataFormatException {
         // Bookkeeping
         int outsideBuildings = 0;
-        SimpleFeature tempOutsideBuilding = null;
+        SimpleFeature tempSimpleBuilding = null;
         int duplicates = 0;
 
-        // Duplicate removal
-        Map<String, SimpleFeature> existingAddresses = new HashMap<>();
+        FeatureProcessing fp = new FeatureProcessing();
+        Map<String, SimpleFeature> existingAddresses = new HashMap<>(); //To track duplicates
         try (SimpleFeatureIterator buildingsIterator = buildings.features()) {
             String sa1code = null;
             while (buildingsIterator.hasNext()) {
-                SimpleFeature building = buildingsIterator.next();
+                SimpleFeature simpleBuilding = buildingsIterator.next();
 
-                if (existingAddresses.containsKey(building.getAttribute(buildingUniqueKey))) {
+                // Duplicate removal
+                if (existingAddresses.containsKey(simpleBuilding.getAttribute(buildingUniqueKey))) {
                     duplicates++;
                     continue;
                 } else {
-                    existingAddresses.put((String) building.getAttribute(buildingUniqueKey), building);
+                    existingAddresses.put((String) simpleBuilding.getAttribute(buildingUniqueKey), simpleBuilding);
                 }
 
-                sa1code = SA1Locater.findSA1ofBuilding(building, targetSA1s);
+                sa1code = SA1Locater.findSA1ofBuilding(simpleBuilding, targetSA1s,fp);
                 if (sa1code != null) {
-                    Building buildingInJson = Buildings.map2POJO(building);
+                    Building pojoBuilding = Buildings.map2POJO(simpleBuilding);
 
                     if (buildingsBySA1.containsKey(sa1code)) {
-                        buildingsBySA1.get(sa1code).add(buildingInJson);
+                        buildingsBySA1.get(sa1code).add(pojoBuilding);
                     } else {
-                        buildingsBySA1.put(sa1code, new ArrayList<>(Arrays.asList(buildingInJson)));
+                        buildingsBySA1.put(sa1code, new ArrayList<>(Arrays.asList(pojoBuilding)));
                     }
-                    tempOutsideBuilding = building; // Just for extracting info
-                    // for logging purposes. No
-                    // real effect on overall
-                    // logic
+                    tempSimpleBuilding = simpleBuilding; // Only for logging purposes. No real effect on overall logic
                 } else {
-                    outsideBuildings++; // Counting number of buildings that are
-                    // outside the area - to log
+                    outsideBuildings++; // Counting number of buildings that are outside the area - to log
                 }
             }
         }
         Log.info(
-                "Assigning buildings in " + tempOutsideBuilding.getAttribute(lgaNameKey) + " to SA1s complete");
+                "Assigning buildings in " + tempSimpleBuilding.getAttribute(lgaNameKey) + " to SA1s complete");
         if (outsideBuildings > 0) {
             Log.warn("Shapes not belonging to any SA1 in "
-                    + tempOutsideBuilding.getAttribute(lgaNameKey) + ": " + outsideBuildings);
+                             + tempSimpleBuilding.getAttribute(lgaNameKey) + ": " + outsideBuildings);
         } else {
             Log.warn("Shapes not belonging to any SA1 in "
-                    + tempOutsideBuilding.getAttribute(lgaNameKey) + ": " + outsideBuildings);
+                             + tempSimpleBuilding.getAttribute(lgaNameKey) + ": " + outsideBuildings);
         }
 
-        Log.warn("Duplicates in " + tempOutsideBuilding.getAttribute(lgaNameKey) + ": " + duplicates);
+        Log.warn("Duplicates in " + tempSimpleBuilding.getAttribute(lgaNameKey) + ": " + duplicates);
 
         return buildingsBySA1;
     }
 
     /**
-     * Assigns dwelling properties to buildings according to the distribution
-     * specified in ABS census data. We also assigns SA1_MAINCODE_2011 to each
-     * dwelling
+     * Assigns dwelling properties to buildings according to the distribution specified in ABS census data. We also
+     * assigns SA1_MAINCODE_2011 to each dwelling
      *
      * @param buildingsBySA1  all buildings grouped by corresponding SA1
-     * @param dwellTypesBySA1 number of dwellings in a given dwelling type configuration in
-     *                        each SA1
+     * @param dwellTypesBySA1 number of dwellings in a given dwelling type configuration in each SA1
      * @param saCodesMap      SA1 7 digit code to main code map
      */
     static void assignDwellingPropertiesToBuildings(Map<String, List<Building>> buildingsBySA1,
-                                                    Map<String, List<DwellingType>> dwellTypesBySA1, Map<String, String> saCodesMap) {
+                                                    Map<String, List<DwellingType>> dwellTypesBySA1,
+                                                    Map<String, String> saCodesMap) {
         Map<String, Integer> requiredDwellings = new HashMap<>();
         Map<String, Integer> noBuildigSA1s = new HashMap<>();
         Map<String, Map<String, Integer>> unallocDwellTypes = new LinkedHashMap<>();
@@ -325,7 +325,7 @@ public class App {
                 Log.warn("SA1:" + ent.getKey() + " required:" + ent.getValue());
             }
             Log.warn("Total affected buildings because of empty SA1s: "
-                    + noBuildigSA1s.values().stream().mapToInt(v -> v).sum());
+                             + noBuildigSA1s.values().stream().mapToInt(v -> v).sum());
         }
 
         // Converting unallocated dwelling type data to a list and saving to a csv
@@ -377,7 +377,7 @@ public class App {
         }
         Map<String, Object> jsonStructure = new HashMap<>();
         jsonStructure.put("features",
-                buildingsBySA1.values().stream().flatMap(List::stream).collect(Collectors.toList()));
+                          buildingsBySA1.values().stream().flatMap(List::stream).collect(Collectors.toList()));
         jsonStructure.put("wkt", crs.toWKT());
         JsonPOJO jsonPOJO = new JsonPOJO();
         jsonPOJO.setFeatures(new ArrayList(buildingsBySA1.values()));
