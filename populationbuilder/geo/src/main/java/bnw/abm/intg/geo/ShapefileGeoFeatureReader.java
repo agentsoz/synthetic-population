@@ -48,6 +48,26 @@ public class ShapefileGeoFeatureReader extends GeoFeatureReader {
     //
     // }
 
+    /**
+     * Load features from a shapefile and assigns the specified CoordinateReferenceSystem
+     *
+     * @param target
+     *            File path to shapefile
+     * @param crs
+     *            target coordinate reference system
+     * @throws IOException
+     */
+    public void loadFeatures(Path target, CoordinateReferenceSystem crs) throws IOException {
+
+        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
+
+        Query query = new Query(null, null);
+        query.setCoordinateSystemReproject(crs);
+
+        FeatureCollection features = featureSource.getFeatures(query);
+        this.featureCollection = features;
+    }
+
     public void loadFeaturesByProperty(Path target, String property, String[] propertyValues) throws IOException {
 
         FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
@@ -79,7 +99,7 @@ public class ShapefileGeoFeatureReader extends GeoFeatureReader {
      *            target coordinate reference system
      * @throws IOException
      */
-    public void loadFeaturesByProperty(Path target, String property, String[] propertyValues, CoordinateReferenceSystem crs) throws IOException {
+    public void loadFeatures(Path target, String property, String[] propertyValues, CoordinateReferenceSystem crs) throws IOException {
 
         FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
 
@@ -90,7 +110,7 @@ public class ShapefileGeoFeatureReader extends GeoFeatureReader {
             match.add(aMatch);
         }
         Filter filter = ff.or(match);
-        Query query = new Query(property, filter);
+        Query query = new Query(property, null);
         // query.setCoordinateSystem(crs);
         query.setCoordinateSystemReproject(crs);
 

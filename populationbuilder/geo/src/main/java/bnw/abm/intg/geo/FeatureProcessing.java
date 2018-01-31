@@ -21,6 +21,7 @@ import org.opengis.referencing.operation.TransformException;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.zip.DataFormatException;
 
@@ -32,13 +33,12 @@ public class FeatureProcessing {
     /**
      * Returns the feature that contains the input point
      *
-     * @param featurePolygon Collection of feature polygons e.g. collection of potential
-     *                       SA1s
+     * @param simplefeaturePolygonCollection Collection of feature polygons e.g. collection of potential SA1s
      * @param point          The point which need to be checked e.g. Building location
      * @return The list of feature polygons which contain the point
      * @throws DataFormatException If CRS of featureCollection and point do not match
      */
-    public Feature getContainingPolygon(FeatureCollection featurePolygon, Feature point) throws DataFormatException {
+    public SimpleFeature getContainingPolygon(SimpleFeatureCollection simplefeaturePolygonCollection, Feature point) throws DataFormatException {
 
         // if (!point.getType().equals(featureCollection.getSchema())){
         // throw new DataFormatException("Coordinate Reference Systems of
@@ -46,17 +46,12 @@ public class FeatureProcessing {
         // CRS. ");
         // }
 
-        SimpleFeatureCollection sp = DataUtilities.simple(featurePolygon);
-        Feature containingPolygon = null;
-        try (FeatureIterator<SimpleFeature> featureIterator = sp.features()) {
+        SimpleFeature containingPolygon = null;
+        try (FeatureIterator<SimpleFeature> featureIterator = simplefeaturePolygonCollection.features()) {
             while (featureIterator.hasNext()) {
                 SimpleFeature fPolygon = featureIterator.next();
                 Geometry jtsGeoPolygon = (Geometry) fPolygon.getDefaultGeometry();
-                Geometry oPoint = (Geometry) ((SimpleFeature) point).getDefaultGeometry();
-
-                Point jtsPoint = ((Geometry) oPoint).getCentroid();
-                // Geometry pointGeom = (Geometry)
-                // ((SimpleFeature)point).getDefaultGeometry();
+                Point jtsPoint = (Point) point.getDefaultGeometryProperty().getValue();
 
                 if (jtsGeoPolygon.contains(jtsPoint)) {
                     containingPolygon = fPolygon;
@@ -68,15 +63,13 @@ public class FeatureProcessing {
         return containingPolygon;
     }
 
-    public Feature getContainingPolygon(LIFOLinkedHashSet<Feature> featurePolygons, Feature point) {
+    public SimpleFeature getContainingPolygon(LinkedHashSet<Feature> featurePolygons, SimpleFeature point) {
 
-        Iterator<Feature> itr = featurePolygons.lifoiterator();
+        Iterator<Feature> itr = featurePolygons.iterator();
         while (itr.hasNext()) {
             SimpleFeature polygon = (SimpleFeature) itr.next();
-            Geometry jtsGeoPolygon = (Geometry) ((SimpleFeature) polygon).getDefaultGeometry();
-            Geometry oPoint = (Geometry) ((SimpleFeature) point).getDefaultGeometry();
-
-            Point jtsPoint = ((Geometry) oPoint).getInteriorPoint();
+            Geometry jtsGeoPolygon = (Geometry) polygon.getDefaultGeometry();
+            Point jtsPoint = (Point) point.getDefaultGeometryProperty().getValue();
             // Geometry pointGeom = (Geometry)
             // ((SimpleFeature)point).getDefaultGeometry();
 
@@ -95,12 +88,10 @@ public class FeatureProcessing {
      */
 
     /**
-     * Transforms Coordinate Reference System (CRS) of the features in
-     * featureCollection
+     * Transforms Coordinate Reference System (CRS) of the features in featureCollection
      *
      * @param featureCollection features
-     * @param transformer       MathTransform object for converting feature's CRS to target
-     *                          CRS
+     * @param transformer       MathTransform object for converting feature's CRS to target CRS
      * @throws MismatchedDimensionException
      * @throws TransformException
      */
@@ -123,8 +114,7 @@ public class FeatureProcessing {
      * Transforms Coordinate Reference System (CRS) of the feature
      *
      * @param feature     Current Feature
-     * @param transformer MathTransform object for converting feature's CRS to target
-     *                    CRS
+     * @param transformer MathTransform object for converting feature's CRS to target CRS
      * @return
      * @throws MismatchedDimensionException
      * @throws TransformException
@@ -138,8 +128,7 @@ public class FeatureProcessing {
     }
 
     /**
-     * Add new attribute to a copy of the feature collection. Value of the new
-     * attribute is set to null
+     * Add new attribute to a copy of the feature collection. Value of the new attribute is set to null
      *
      * @param featureCollection Original feature collection
      * @param attributeName     String name of the attribute
