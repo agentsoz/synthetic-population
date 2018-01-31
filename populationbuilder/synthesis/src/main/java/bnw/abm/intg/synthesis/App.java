@@ -49,6 +49,9 @@ public class App {
                 "NonPrimaryCoupleWithChildProbability"));
         Map<String, String> ageDistributionParams = props.readKeyValuePairs("AgeDistributionFile");
 
+        Map<String, String> sa1HhDistCsvProperties = props.readKeyValuePairs("SA1HhDistFileProperties");
+        Path sa1OutputDirectory = props.readFileOrDirectoryPath("SA1OutputLocation");
+
         long startTime = System.currentTimeMillis();
         try {
             Random rand = new Random(randomSeed);
@@ -87,6 +90,7 @@ public class App {
 
                 allHouseholds.addAll(householdsOfSA2);
 
+
                 if (enableSummaryReports) {
                     // Create the output directory for this SA2
                     Path outputLocationForThisSA2 = Paths.get(sa2OutputDirectory + File.separator + sa2 + File
@@ -100,8 +104,15 @@ public class App {
                                                   householdsOfSA2,
                                                   Paths.get(outputLocationForThisSA2 + File.separator + "AgentSummary" +
                                                                     ".csv"));
+
                 }
 
+                Map<String, List<Household>> householdsBySA1 = savePopulationToSA1s(sa2,
+                                                                                    sa1HhDistCsvProperties,
+                                                                                    sa2InputDirectory,
+                                                                                    sa1OutputDirectory,
+                                                                                    householdsOfSA2,
+                                                                                    rand);
             }
             convertToSA2MAINCODE(allHouseholds,
                                  saCodesZip,
@@ -134,5 +145,33 @@ public class App {
         for (Household household : allHouseholds) {
             household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
         }
+    }
+
+    private static Map<String, List<Household>> savePopulationToSA1s(String thisSA2,
+                                                                     Map<String, String> sa1HhDistCsvProperties,
+                                                                     Path inputLocation,
+                                                                     Path sa1outputLocation,
+                                                                     List<Household> householdsOfSA2,
+                                                                     Random rand) throws IOException {
+        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + thisSA2 + File.separator + sa1HhDistCsvProperties
+                .get("FileName"));
+        int sa1Row = Integer.parseInt(sa1HhDistCsvProperties.get("SA1Row"));
+        int numberOfPersonsColumn = Integer.parseInt(sa1HhDistCsvProperties.get("NumberOfPersonsColumn"));
+        int familyHouseholdTypeColumn = Integer.parseInt(sa1HhDistCsvProperties.get("FamilyHouseholdTypeColumn"));
+        Map<String, Map<String, Integer>> sa1HouseholdCounts = null;
+        Map<String, List<Household>> householdsByType = null;
+
+        sa1HouseholdCounts = DataReader.readSA1HouseholdDistribution(sa1HouseholdsFile, sa1Row, numberOfPersonsColumn,
+                                                                     familyHouseholdTypeColumn);
+        householdsByType = Survey.groupHouseholdsByHouseholdType(householdsOfSA2);
+
+        SA1PopulationMaker sa1popMaker = new SA1PopulationMaker(rand);
+        Map<String, List<Household>> householdsBySA1 = sa1popMaker.distributePopulationToSA1s(sa1HouseholdCounts,
+                                                                                              householdsByType,
+                                                                                              rand);
+        Survey.saveSA1Households(sa1outputLocation, householdsBySA1);
+        Survey.saveSA1Families(sa1outputLocation, householdsBySA1);
+        Survey.saveSA1Persons(sa1outputLocation, householdsBySA1);
+        return householdsBySA1;
     }
 }

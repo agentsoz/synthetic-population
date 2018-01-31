@@ -33,417 +33,383 @@ import org.opengis.feature.simple.SimpleFeature;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Hello world!
- *
  */
 public class Traffic {
 
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Log.createLogger("Traffic", "Traffic.log");
-		Traffic ap = new Traffic();
-		Path addressJsonZip = null, popHome = null, rawDatHome = null, sa2Shape = null, hhAddrJson = null,
-				hhOutLoc = null, trafficXml = null;
-		String hHoldRegex = null, agentRegex = null;
-		String[] jsonPathToSA1code = null;
-		int randomSeed = 0;
-		/*
-		 * Read properties
-		 */
-		if (args.length > 0) {
-			BNWProperties props = null;
-			try {
+        Log.createLogger("Traffic", "Traffic.log");
+        Traffic ap = new Traffic();
+        Path addressJsonZip = null, popHome = null, rawDatHome = null, sa2Shape = null, hhAddrJson = null,
+                hhOutLoc = null, trafficXml = null;
+        String hHoldRegex = null, agentRegex = null;
+        String[] jsonPathToSA1code = null;
+        int randomSeed = 0;
+        /*
+         * Read properties
+         */
+        if (args.length > 0) {
+            BNWProperties props = null;
+            try {
 
-				props = new BNWProperties(args[0]);
-			} catch (IOException e) {
-				Log.error("When reading the innertraffic.properties file", e);
-			}
-			popHome = props.readFileOrDirectoryPath("PopulationHome");
-			hHoldRegex = props.getProperty("HholdFileRegex");
-			agentRegex = props.getProperty("AgentFileRegex");
-			addressJsonZip = props.readFileOrDirectoryPath("InputAddressJson");
-			hhAddrJson = props.readFileOrDirectoryPath("HhMappedAddressJson");
-			jsonPathToSA1code = props.getProperty("JsonPathToSA1Code").trim().split("\\\\");
-			rawDatHome = props.readFileOrDirectoryPath("RawDataHome");
-			sa2Shape = props.readFileOrDirectoryPath("SA2ShapeFile");
-			trafficXml = props.readFileOrDirectoryPath("TrafficPlan");
-			hhOutLoc = props.readFileOrDirectoryPath("UPDATEDHholdFile");
-			randomSeed = Integer.parseInt(props.getProperty("RandomSeed"));
-		} else {
-			System.err.println("Give path to config.properties as the first argument");
-		}
-		/*
-		 * Get all household data csvs
-		 */
-		List<Path> hHoldFiles = BNWFiles.find(popHome, hHoldRegex);
+                props = new BNWProperties(args[0]);
+            } catch (IOException e) {
+                Log.error("When reading the innertraffic.properties file", e);
+            }
+            popHome = props.readFileOrDirectoryPath("PopulationHome");
+            hHoldRegex = props.getProperty("HholdFileRegex");
+            agentRegex = props.getProperty("AgentFileRegex");
+            addressJsonZip = props.readFileOrDirectoryPath("InputAddressJson");
+            hhAddrJson = props.readFileOrDirectoryPath("HhMappedAddressJson");
+            jsonPathToSA1code = props.getProperty("JsonPathToSA1Code").trim().split("\\\\");
+            rawDatHome = props.readFileOrDirectoryPath("RawDataHome");
+            sa2Shape = props.readFileOrDirectoryPath("SA2ShapeFile");
+            trafficXml = props.readFileOrDirectoryPath("TrafficPlan");
+            hhOutLoc = props.readFileOrDirectoryPath("UPDATEDHholdFile");
+            randomSeed = Integer.parseInt(props.getProperty("RandomSeed"));
+        } else {
+            System.err.println("Give path to config.properties as the first argument");
+        }
+        /*
+         * Get all household data csvs
+         */
+        List<Path> hHoldFiles = BNWFiles.find(popHome, hHoldRegex);
 
-		/* attribute titles in AgentsList csvs */
-		String[] agentAttributes = { "AgentId", "AgentType", "PartnerId", "MotherId", "FatherId", "RelationshipStatus",
-				"ChildrenIds", "Gender", "GroupSize", "Age", "GroupId", "CareNeedLevel", "Travel2Work",
-				"PersonalIncome" };
-		/* attribute titles in Household data csvs */
-		String[] hholdAttributes = { "GroupId", "GroupType", "GroupSize", "Members", "Bedrooms", "DwellingStructure",
-				"FamilyIncome", "Tenure&Landlord" };
+        /* attribute titles in AgentsList csvs */
+        String[] agentAttributes = {"AgentId", "AgentType", "PartnerId", "MotherId", "FatherId", "RelationshipStatus",
+                "ChildrenIds", "Gender", "GroupSize", "Age", "GroupId", "CareNeedLevel", "Travel2Work",
+                "PersonalIncome"};
+        /* attribute titles in Household data csvs */
+        String[] hholdAttributes = {"GroupId", "GroupType", "GroupSize", "Members", "Bedrooms", "DwellingStructure",
+                "FamilyIncome", "Tenure&Landlord"};
 
-		try {
-			Random random = new Random(randomSeed);
-			CSVReader csvr = new CSVReader();
-			JSONReadable jsonR = new JacksonJSONReader();
-			Map addressMap = jsonR.readJSONGz(addressJsonZip);
+        try {
+            Random random = new Random(randomSeed);
+            CSVReader csvr = new CSVReader();
+            JSONReadable jsonR = new JacksonJSONReader();
+            Map addressMap = jsonR.readJSONGz(addressJsonZip);
 
-			// Group addresses by SA1. Addresses in addressesBySA1 still refer
-			// to instances in addressMap. So any change to addressesBySA1
-			// elements automatically reflected in addressMap
-			Map<String, List<Map>> addressesBySA1 = ap.groupAddressesBySA1(addressMap, jsonPathToSA1code);
+            // Group addresses by SA1. Addresses in addressesBySA1 still refer
+            // to instances in addressMap. So any change to addressesBySA1
+            // elements automatically reflected in addressMap
+            Map<String, List<Map>> addressesBySA1 = ap.groupAddressesBySA1(addressMap, jsonPathToSA1code);
 
-			Map<String, ArrayList<LinkedHashMap<String, Object>>> allAgents = new HashMap<>();
-			allAgents.put("Agents", new ArrayList<>());
-			Map<String, ArrayList<LinkedHashMap<String, Object>>> allHholds = new HashMap<>();
-			allHholds.put("Households", new ArrayList<>());
-			HashMap<String, LinkedHashMap<String, Object>> agents;
-			ArrayList<LinkedHashMap<String, Object>> hHolds;
+            Map<String, ArrayList<LinkedHashMap<String, Object>>> allAgents = new HashMap<>();
+            allAgents.put("Agents", new ArrayList<>());
+            Map<String, ArrayList<LinkedHashMap<String, Object>>> allHholds = new HashMap<>();
+            allHholds.put("Households", new ArrayList<>());
+            HashMap<String, LinkedHashMap<String, Object>> agents;
+            ArrayList<LinkedHashMap<String, Object>> hHolds;
 
-			// Initialise MATSim population construction
-			Scenario matsimScenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
-			PopulationFactory populationFactory = matsimScenario.getPopulation().getFactory();
+            // Initialise MATSim population construction
+            Scenario matsimScenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
+            PopulationFactory populationFactory = matsimScenario.getPopulation().getFactory();
 
-			/*
-			 * We do several things in this loop 1. Get the Household file of
-			 * each SA1 and allocate a building-address (dwelling) to each
-			 * household 2. Record starting address geometry location as
-			 * starting coordinate in matsim plan
-			 */
-			int filecount = 0;
-			for (Path hHoldFile : hHoldFiles) {
-				String sa1id = ap.getSA1code(hHoldFile);
-				Log.info( "Starting Household Data file: " + sa1id);
-				final Reader hholdReader = new InputStreamReader(new FileInputStream(hHoldFile.toFile()), "UTF-8");
-				hHolds = csvr.readCsvGroupByRow(hholdReader, hholdAttributes);
+            /*
+             * We do several things in this loop 1. Get the Household file of
+             * each SA1 and allocate a building-address (dwelling) to each
+             * household 2. Record starting address geometry location as
+             * starting coordinate in matsim plan
+             */
+            int filecount = 0;
+            for (Path hHoldFile : hHoldFiles) {
+                String sa1id = ap.getSA1code(hHoldFile);
+                Log.info("Starting Household Data file: " + sa1id);
+                final Reader hholdReader = new InputStreamReader(new FileInputStream(hHoldFile.toFile()), "UTF-8");
+                hHolds = csvr.readCsvGroupByRow(hholdReader, hholdAttributes);
 
-				allHholds.get("Households").addAll(hHolds);
-				/*
-				 * Read agents list of this SA1
-				 */
-				Path sa1dataloc = Paths.get(popHome + File.separator + sa1id);
-				List<Path> agentListLoc = BNWFiles.find(sa1dataloc, agentRegex);
-				agents = csvr.readCsvGroupByRow(new FileReader(agentListLoc.get(0).toFile()), "AgentId");
+                allHholds.get("Households").addAll(hHolds);
 
-				/*
-				 * Read work locations list of agents in this SA1
-				 */
-				Path workDestinationFile = Paths.get(rawDatHome + File.separator + sa1id + File.separator + "WL.csv");
-				List<String> workLocations = csvr.readCsvRows(new FileReader(workDestinationFile.toFile())).get(0);
-				workLocations = workLocations.subList(1, workLocations.size());
+                /*
+                 * 1. Allocate an address to each randomly selected household in
+                 * this SA1
+                 */
+                Collections.shuffle(hHolds);
+                for (int addressIndex = 0, hhIndex = 0; hhIndex < hHolds.size(); hhIndex++, addressIndex++) {
+                    if (!addressesBySA1.containsKey(sa1id)) {
+                        break;
+                    }
+                    if (addressesBySA1.get(sa1id).size() == addressIndex) {
+                        int diff = hHolds.size() - addressesBySA1.get(sa1id).size();
+                        Log.warn(
+                                "Not enough buildings in " + sa1id + ": Total Households:" + hHolds.size()
+                                        + " Total Buildings:" + addressesBySA1.get(sa1id).size());
+                        Log.warn("Not enough buildings in " + sa1id + ": " + " Assigning a second household to " + diff + " already occupied buildings");
+                        addressIndex = 0; // Start assigning a second household to already occupied building.
+                        // Shuffling the order of buildings in SA1.
+                        Collections.shuffle(addressesBySA1.get(sa1id), random);
+                    }
 
-				/*
-				 * Read geo feature of each SA2
-				 */
-				HashMap<String, Feature> sa2map = ap.getSA2Areas(sa2Shape.toAbsolutePath(), workLocations);
 
-				/*
-				 * 1. Allocate an address to each randomly selected household in
-				 * this SA1
-				 */
-				Collections.shuffle(hHolds);
-				for (int i = 0; i < hHolds.size(); i++) {
-					if (!addressesBySA1.containsKey(sa1id)) {
-						break;
-					}
-					if (addressesBySA1.get(sa1id).size() == i) {
-						System.err.println("Not enough buildings in " + sa1id + ". Total Households:" + hHolds.size()
-								+ " Total Buildings: " + addressesBySA1.get(sa1id).size());
-						Log.info(
-								"Not enough buildings in " + sa1id + ". Total Households:" + hHolds.size()
-										+ "Total Buildings: " + addressesBySA1.get(sa1id).size());
-						break;
-					}
+                    ((ArrayList) addressesBySA1.get(sa1id)
+                            .get(addressIndex)
+                            .computeIfAbsent("HOUSEHOLD_ID", v -> new ArrayList<>())).add(hHolds.get(hhIndex)
+                                                                                                  .get("GroupId"));
+                    hHolds.get(hhIndex).put("Address",
+                                            ((Map) addressesBySA1.get(sa1id)
+                                                    .get(addressIndex)
+                                                    .get("properties")).get(
+                                                    "EZI_ADD"));
 
-					addressesBySA1.get(sa1id).get(i).put("HOUSEHOLD_ID", hHolds.get(i).get("GroupId"));
-					hHolds.get(i).put("Address",
-							((Map) addressesBySA1.get(sa1id).get(i).get("properties")).get("EZI_ADD"));
+                }
+                ++filecount;
+                Log.info("Completed Household Data file: " + sa1id);
+                System.out.println("Data file: " + sa1id + "                                                       ");
+                ConsoleProgressBar.updateProgress("Completed ",
+                                                  filecount / (float) hHoldFiles.size(),
+                                                  filecount + "/" + hHoldFiles.size() + "\r");
+            }
 
-					/**
-					 * 2. Determine matsim start and end locations of members of
-					 * this household
-					 */
-					Map<String, Map<String, List<Object>>> addr = addressesBySA1.get(sa1id).get(i);
-					List<Object> addrCoords = addr.get("geometry").get("coordinates");
-					Map<String, Object> hHold = hHolds.get(i);
-					ap.assignTravel2WorkOriginAndDestinations(addressesBySA1,
-							sa1id,
-							hHold,
-							agents,
-							addrCoords,
-							matsimScenario,
-							sa2map,
-							populationFactory,
-							random);
+            // Finally, write this population to file
+            MatsimWriter popWriter = new org.matsim.api.core.v01.population.PopulationWriter(
+                    matsimScenario.getPopulation(), matsimScenario.getNetwork());
+            popWriter.write(trafficXml.toAbsolutePath().toString());
 
-				}
-				++filecount;
-				Log.info( "Completed Household Data file: " + sa1id);
-				System.out.println("Data file: " + sa1id + "                                                       ");
-				ConsoleProgressBar.updateProgress("Completed ",
-						filecount / (float) hHoldFiles.size(),
-						filecount + "/" + hHoldFiles.size() + "\r");
-			}
+            new JSONWriter().writeToJsonGzFile(addressMap, hhAddrJson);
 
-			// Finally, write this population to file
-			MatsimWriter popWriter = new org.matsim.api.core.v01.population.PopulationWriter(
-					matsimScenario.getPopulation(), matsimScenario.getNetwork());
-			popWriter.write(trafficXml.toAbsolutePath().toString());
+            CSVWriter csvWriter = new CSVWriter();
+            csvWriter.writeLinkedMapAsCsv(Files.newBufferedWriter(hhOutLoc), allHholds.get("Households"));
 
-			new JSONWriter().writeToJsonGzFile(addressMap, hhAddrJson);
+        } catch (JsonParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
 
-			CSVWriter csvWriter = new CSVWriter();
-			csvWriter.writeLinkedMapAsCsv(Files.newBufferedWriter(hhOutLoc), allHholds.get("Households"));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    }
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    private void assignTravel2WorkOriginAndDestinations(Map<String, List<Map>> addrssesBySA1,
+                                                        String sa1id,
+                                                        Map<String, Object> hHold,
+                                                        HashMap<String, LinkedHashMap<String, Object>> agents,
+                                                        List<Object> addrCoords,
+                                                        Scenario matsimScenario,
+                                                        Map<String, Feature> sa2map,
+                                                        PopulationFactory populationFactory,
+                                                        Random random) throws Exception {
 
-	}
+        List<String> members = null;
+        if (hHold.get("Members") instanceof List) {
+            members = (List<String>) hHold.get("Members");
+        } else if (hHold.get("Members") instanceof String) {
+            members = Arrays.asList((String) hHold.get("Members"));
+        } else {
+            throw new Exception("Unexpected value");
+        }
+        for (String memId : members) {
 
-	private void assignTravel2WorkOriginAndDestinations(Map<String, List<Map>> addrssesBySA1,
-			String sa1id,
-			Map<String, Object> hHold,
-			HashMap<String, LinkedHashMap<String, Object>> agents,
-			List<Object> addrCoords,
-			Scenario matsimScenario,
-			Map<String, Feature> sa2map,
-			PopulationFactory populationFactory,
-			Random random) throws Exception {
+            String travelMode = (String) agents.get(memId).get("Travel2Work");
+            if (travelMode.equals("CarAsDriver")) {
+                // List a = addr.get("geometry").get("coordinates");
+                double easting = (double) addrCoords.get(0);
+                double northing = (double) addrCoords.get(1);
+                Coord startCoord = matsimScenario.createCoord(easting, northing);
+                String sa2name = (String) agents.get(memId).get("Destination");
+                Coord endCoord = this.getCoordinates(matsimScenario, sa2map, sa2name, random);
+                Person person = this.createPersonWithPlan(populationFactory, startCoord, endCoord, memId, "car");
+                if (matsimScenario.getPopulation().getPersons().containsKey(memId)) {
+                    System.out.println(matsimScenario.getPopulation().getPersons().get(memId));
+                }
+                matsimScenario.getPopulation().addPerson(person);
 
-		List<String> members = null;
-		if (hHold.get("Members") instanceof List) {
-			members = (List<String>) hHold.get("Members");
-		} else if (hHold.get("Members") instanceof String) {
-			members = Arrays.asList((String) hHold.get("Members"));
-		} else {
-			throw new Exception("Unexpected value");
-		}
-		for (String memId : members) {
+            }
+        }
+    }
 
-			String travelMode = (String) agents.get(memId).get("Travel2Work");
-			if (travelMode.equals("CarAsDriver")) {
-				// List a = addr.get("geometry").get("coordinates");
-				double easting = (double) addrCoords.get(0);
-				double northing = (double) addrCoords.get(1);
-				Coord startCoord = matsimScenario.createCoord(easting, northing);
-				String sa2name = (String) agents.get(memId).get("Destination");
-				Coord endCoord = this.getCoordinates(matsimScenario, sa2map, sa2name, random);
-				Person person = this.createPersonWithPlan(populationFactory, startCoord, endCoord, memId, "car");
-				if (matsimScenario.getPopulation().getPersons().containsKey(memId)) {
-					System.out.println(matsimScenario.getPopulation().getPersons().get(memId));
-				}
-				matsimScenario.getPopulation().addPerson(person);
+    /**
+     * Group the residential addresses by SA1
+     *
+     * @param addressMap        The map of all addresses
+     * @param jsonMatchProperty The path to SA1 code in the json file
+     * @return A map of addresses by SA1 codes
+     * @throws IOException When reading addresses json file
+     */
+    private Map<String, List<Map>> groupAddressesBySA1(Map addressMap, String[] jsonMatchProperty) throws IOException {
 
-			}
-		}
-	}
+        /*
+         * We are expecting a list of elements after root element
+         */
+        if (!(addressMap.get(jsonMatchProperty[0]) instanceof List)) {
+            System.err.println("Root element must have an array of address elements, but this not an array");
+            Log.errorAndExit("Root element must have an array of address elements, but this not an array",
+                             GlobalConstants.ExitCode.USERINPUT);
+        }
+        List featuresList = (List) addressMap.get(jsonMatchProperty[0]);
 
-	/**
-	 * Group addresses in by SA1
-	 * 
-	 * @param addressMap
-	 *            The map of all addresses
-	 * @param jsonMatchProperty
-	 *            The path to SA1 code in the json file
-	 * @return A map of addresses by SA1 codes
-	 * @throws IOException
-	 *             When reading addresses json file
-	 */
-	private Map<String, List<Map>> groupAddressesBySA1(Map addressMap, String[] jsonMatchProperty) throws IOException {
+        if (!(featuresList.get(0) instanceof Map)) {
+            String errorStr = "Expecting a map after " + jsonMatchProperty[0] + "\\" + jsonMatchProperty[1]
+                    + " but you have something else in addressMap";
+            System.err.println(errorStr);
+            Log.errorAndExit(errorStr, GlobalConstants.ExitCode.USERINPUT);
+        }
+        /*
+         * Store all the residential addresses in JSON grouped by their SA1
+         */
+        Map<String, List<Map>> addrssesBySA1 = new HashMap();
+        for (Map<String,Map> feature : (List<Map<String,Map>>)featuresList) {
+            if (feature.get("properties").get("BUILDING_TYPE").equals("RESIDENTIAL")) {
+                String said = (String) ((HashMap) feature.get(jsonMatchProperty[1])).get(jsonMatchProperty[2]);
 
-		/*
-		 * We are expecting a list of elements after root element
-		 */
-		if (!(addressMap.get(jsonMatchProperty[0]) instanceof List)) {
-			System.err.println("Root element must have an array of address elements, but this not an array");
-			Log.errorAndExit("Root element must have an array of address elements, but this not an array", GlobalConstants.ExitCode.USERINPUT);
-		}
-		List featuresList = (List) addressMap.get(jsonMatchProperty[0]);
+                if (said != null) {
+                    if (addrssesBySA1.containsKey(said)) {
+                        addrssesBySA1.get(said).add(feature);
+                    } else {
+                        addrssesBySA1.put(said, new ArrayList<>(Arrays.asList(feature)));
+                    }
+                }
+            }
 
-		if (!(featuresList.get(0) instanceof Map)) {
-			String errorStr = "Expecting a map after " + jsonMatchProperty[0] + "\\" + jsonMatchProperty[1]
-					+ " but you have something else in addressMap";
-			System.err.println(errorStr);
-			Log.errorAndExit(errorStr, GlobalConstants.ExitCode.USERINPUT);
-		}
-		/*
-		 * Store all the addresses in JSON grouped by their SA1
-		 */
-		Map<String, List<Map>> addrssesBySA1 = new HashMap();
-		for (Object feature : featuresList) {
-			Map mFeature = (Map) feature;
-			String said = (String) ((HashMap) mFeature.get(jsonMatchProperty[1])).get(jsonMatchProperty[2]);
+        }
+        return addrssesBySA1;
+    }
 
-			if (said != null) {
-				if (addrssesBySA1.containsKey(said)) {
-					addrssesBySA1.get(said).add(mFeature);
-				} else {
-					addrssesBySA1.put(said, new ArrayList<Map>(Arrays.asList(mFeature)));
-				}
-			}
+    /**
+     * Generates a coordinate for a person
+     *
+     * @param matsimScenario
+     * @param sa2map         Map of SA2s
+     * @param area           The area code
+     * @return coordinate
+     */
+    private Coord getCoordinates(Scenario matsimScenario, Map<String, Feature> sa2map, String area, Random random) {
+        FeatureProcessing fp = new FeatureProcessing();
+        Feature workSA = sa2map.get(area);
+        if (workSA == null) { // No SA2 for - POW Capital city undefined
+            // (Greater Melbourne). Taking random SA2
+            int indx = (int) Math.random() * (sa2map.size() - 1);
+            area = (String) sa2map.keySet().toArray()[indx];
+            workSA = sa2map.get(area);
+        }
+        Geometry geom = fp.getRandomPointIn(sa2map.get(area), random);
+        Coordinate coord = geom.getCoordinate();
+        CoordinateConversion cc = new CoordinateConversion();
+        Map utm = cc.latLon2UTM(coord.y, coord.x);
+        return matsimScenario.createCoord((double) utm.get("easting"), (double) utm.get("northing"));
+    }
 
-		}
-		return addrssesBySA1;
-	}
+    /**
+     * Gets SA1 code using Population directory names. The first directory that has a number as name is taken as SA1
+     * code
+     *
+     * @param hHoldFile path to the file
+     * @return The SA1 code
+     */
+    private String getSA1code(Path hHoldFile) {
 
-	/**
-	 * Generates a coordinate for a person
-	 * 
-	 * @param matsimScenario
-	 * @param sa2map
-	 *            Map of SA2s
-	 * @param area
-	 *            The area code
-	 * @return coordinate
-	 */
-	private Coord getCoordinates(Scenario matsimScenario, Map<String, Feature> sa2map, String area, Random random) {
-		FeatureProcessing fp = new FeatureProcessing();
-		Feature workSA = sa2map.get(area);
-		if (workSA == null) { // No SA2 for - POW Capital city undefined
-								// (Greater Melbourne). Taking random SA2
-			int indx = (int) Math.random() * (sa2map.size() - 1);
-			area = (String) sa2map.keySet().toArray()[indx];
-			workSA = sa2map.get(area);
-		}
-		Geometry geom = fp.getRandomPointIn(sa2map.get(area), random);
-		Coordinate coord = geom.getCoordinate();
-		CoordinateConversion cc = new CoordinateConversion();
-		Map utm = cc.latLon2UTM(coord.y, coord.x);
-		return matsimScenario.createCoord((double) utm.get("easting"), (double) utm.get("northing"));
-	}
+        Pattern p = Pattern.compile("(?<=\\/)(.[0-9]+)(?=\\/)");
 
-	/**
-	 * Gets SA1 code using Population directory names. The first directory that
-	 * has a number as name is taken as SA1 code
-	 * 
-	 * @param hHoldFile path to the file
-	 * @return The SA1 code
-	 */
-	private String getSA1code(Path hHoldFile) {
+        Matcher m = p.matcher(hHoldFile.toString());
+        if (m.find()) {
+            return m.group(0);
+        }
 
-		Pattern p = Pattern.compile("[0-9]+");
+        return null;
+    }
 
-		Matcher m = p.matcher(hHoldFile.toString());
-		if (m.find()) {
-			return m.group(0);
-		}
+    /**
+     * Copied from outer traffic
+     *
+     * @param actType
+     * @return
+     */
+    private double activityEndTime(String actType) {
+        double endTime = 0.0;
+        if (actType.equals("work")) {
+            /*
+             * Allow people to leave work between 16.45 and 17.10
+             */
+            endTime = 60300 + (60 * 25 * Math.random());
+            return endTime;
+        }
+        return 21600;
+    }
 
-		return null;
-	}
+    /**
+     * Creates a person with a plan for MATSim
+     *
+     * @param populationFactory
+     * @param homeCoord
+     * @param workCoord
+     * @param personId
+     * @param travelMode
+     * @return
+     */
+    private Person createPersonWithPlan(PopulationFactory populationFactory,
+                                        Coord homeCoord,
+                                        Coord workCoord,
+                                        String personId,
+                                        String travelMode) {
 
-	/**
-	 * Copied from outer traffic
-	 * 
-	 * @param actType
-	 * @return
-	 */
-	private double activityEndTime(String actType) {
-		double endTime = 0.0;
-		if (actType.equals("work")) {
-			/*
-			 * Allow people to leave work between 16.45 and 17.10
-			 */
-			endTime = 60300 + (60 * 25 * Math.random());
-			return endTime;
-		}
-		return 21600;
-	}
+        Plan plan = populationFactory.createPlan();
 
-	/**
-	 * Creates a person with a plan for MATSim
-	 * 
-	 * @param populationFactory
-	 * @param homeCoord
-	 * @param workCoord
-	 * @param personId
-	 * @param travelMode
-	 * @return
-	 */
-	private Person createPersonWithPlan(PopulationFactory populationFactory,
-			Coord homeCoord,
-			Coord workCoord,
-			String personId,
-			String travelMode) {
+        // Create a new activity with the end time and add it to the plan
+        // Sleeping at home
+        Activity act = populationFactory.createActivityFromCoord("home", homeCoord);
+        act.setEndTime(this.activityEndTime("home"));
+        plan.addActivity(act);
 
-		Plan plan = populationFactory.createPlan();
+        // Go to work
+        plan.addLeg(populationFactory.createLeg(travelMode));
 
-		// Create a new activity with the end time and add it to the plan
-		// Sleeping at home
-		Activity act = populationFactory.createActivityFromCoord("home", homeCoord);
-		act.setEndTime(this.activityEndTime("home"));
-		plan.addActivity(act);
+        // Do work
+        act = populationFactory.createActivityFromCoord("work", workCoord);
+        act.setEndTime(this.activityEndTime("work"));
+        plan.addActivity(act);
 
-		// Go to work
-		plan.addLeg(populationFactory.createLeg(travelMode));
+        // Go home
+        plan.addLeg(populationFactory.createLeg(travelMode));
 
-		// Do work
-		act = populationFactory.createActivityFromCoord("work", workCoord);
-		act.setEndTime(this.activityEndTime("work"));
-		plan.addActivity(act);
+        // Go to sleep
+        act = populationFactory.createActivityFromCoord("home", homeCoord);
+        plan.addActivity(act);
 
-		// Go home
-		plan.addLeg(populationFactory.createLeg(travelMode));
+        Person person = populationFactory.createPerson(Id.createPersonId(personId));
+        person.addPlan(plan);
+        return person;
+    }
 
-		// Go to sleep
-		act = populationFactory.createActivityFromCoord("home", homeCoord);
-		plan.addActivity(act);
+    /**
+     * Read SA2 areas from shapefile to a map
+     *
+     * @param sa2File The shape file location
+     * @param sa2list The list of SA2 areas to read
+     * @return A map of SA2 id and features in each SA2
+     * @throws IOException When reading shapefiles
+     */
+    private HashMap<String, Feature> getSA2Areas(Path sa2File, List<String> sa2list) throws IOException {
 
-		Person person = populationFactory.createPerson(Id.createPersonId(personId));
-		person.addPlan(plan);
-		return person;
-	}
+        HashMap<String, Feature> sa2map = new HashMap<>(sa2list.size());
+        for (String loc : sa2list) {
+            sa2map.put(loc, null);
+        }
 
-	/**
-	 * Read SA2 areas from shapefile to a map
-	 * 
-	 * @param sa2File
-	 *            The shape file location
-	 * @param sa2list
-	 *            The list of SA2 areas to read
-	 * @return A map of SA2 id and features in each SA2
-	 * @throws IOException
-	 *             When reading shapefiles
-	 */
-	private HashMap<String, Feature> getSA2Areas(Path sa2File, List<String> sa2list) throws IOException {
+        String[] sa2names = sa2map.keySet().toArray(new String[0]);
+        String property = "SA2_NAME11";
+        ShapefileGeoFeatureReader geoReader = new ShapefileGeoFeatureReader();
+        geoReader.loadFeaturesByProperty(sa2File, property, sa2names);
 
-		HashMap<String, Feature> sa2map = new HashMap<>(sa2list.size());
-		for (String loc : sa2list) {
-			sa2map.put(loc, null);
-		}
-
-		String[] sa2names = sa2map.keySet().toArray(new String[0]);
-		String property = "SA2_NAME11";
-		ShapefileGeoFeatureReader geoReader = new ShapefileGeoFeatureReader();
-		geoReader.loadFeaturesByProperty(sa2File, property, sa2names);
-
-		try (FeatureIterator<Feature> featItr = geoReader.getFeatures().features()) {
-			while (featItr.hasNext()) {
-				SimpleFeature feature = (SimpleFeature) featItr.next();
-				sa2map.put((String) feature.getAttribute("SA2_NAME11"), feature);
-			}
-		}
-		return sa2map;
-	}
+        try (FeatureIterator<Feature> featItr = geoReader.getFeatures().features()) {
+            while (featItr.hasNext()) {
+                SimpleFeature feature = (SimpleFeature) featItr.next();
+                sa2map.put((String) feature.getAttribute("SA2_NAME11"), feature);
+            }
+        }
+        return sa2map;
+    }
 
 }
