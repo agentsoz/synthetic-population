@@ -24,13 +24,8 @@ public class Buildings {
      * Reads building shapes from input file
      *
      * @param inputFile        Path of file
-     * @param filterByProperty Reads only the shapes that matches given 'filterByValues' of
-     *                         this Property
-     * @param filterByValues   Reads only shapes that has this value for 'filterByProperty'
-     * @param targetCRS        Converts geometry to this coordinate reference system when
-     *                         reading
-     * @return SimpleFeatureCollection object of all the matching buildings in
-     * given file
+     * @param targetCRS        Converts geometry to this coordinate reference system when reading
+     * @return SimpleFeatureCollection object of all the buildings in given file
      * @throws IOException
      */
     static SimpleFeatureCollection getBuildings(Path inputFile,
@@ -39,7 +34,7 @@ public class Buildings {
                                                 CoordinateReferenceSystem targetCRS) throws IOException {
         SimpleFeatureCollection buildingsCollection = null;
         ShapefileGeoFeatureReader buildingPolygonsReader = new ShapefileGeoFeatureReader();
-        buildingPolygonsReader.loadFeaturesByProperty(inputFile, filterByProperty, filterByValues, targetCRS);
+        buildingPolygonsReader.loadFeatures(inputFile, targetCRS);
         buildingsCollection = DataUtilities.simple(buildingPolygonsReader.getFeatures());
 
         return buildingsCollection;
@@ -101,6 +96,7 @@ class Building {
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BuildingGeometry {
     private String type;
+    private List coordinates;
 
     public String getType() {
         return type;
@@ -109,8 +105,6 @@ class BuildingGeometry {
     public void setType(String type) {
         this.type = type;
     }
-
-    private List coordinates;
 
     public List getCoordinates() {
         return coordinates;
@@ -130,9 +124,7 @@ class BuildingGeometry {
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BuildingProperty {
 
-    public BuildingProperty() {
-    }
-
+    private String PFI; //Persistent Feature Identifier uniquely identifies each address record
     private String EZI_ADD; // e.g., "14 FAIRWAY COURT BUNDOORA 3083"
     private String STATE; // e.g., "VIC"
     private String POSTCODE; // e.g., "3083"
@@ -146,6 +138,10 @@ class BuildingProperty {
     private String BUILDING_TYPE;// residential or non residential
     private String CENSUS_HHSIZE;
     private String SA1_MAINCODE_2011;// SA1 longer code
+    private String DUPLICATE_OF; //PFI of the duplicate building with the same EZI_ADD
+
+    public BuildingProperty() {
+    }
 
     public String getBEDD() {
         return BEDD;
@@ -262,5 +258,23 @@ class BuildingProperty {
     @JsonProperty("SA1_7DIG11")
     public void setSA1_7DIG11(String sA1_7DIG11) {
         SA1_7DIG11 = sA1_7DIG11;
+    }
+
+    public String getDUPLICATE_OF() {
+        return DUPLICATE_OF;
+    }
+
+    @JsonProperty("DUPLICATE_OF")
+    public void setDUPLICATE(String DUPLICATE_OF) {
+        this.DUPLICATE_OF = DUPLICATE_OF;
+    }
+
+    public String getPFI() {
+        return PFI;
+    }
+
+    @JsonProperty("PFI")
+    public void setPFI(String PFI) {
+        this.PFI = PFI;
     }
 }

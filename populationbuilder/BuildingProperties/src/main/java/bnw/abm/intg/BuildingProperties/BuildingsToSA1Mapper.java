@@ -17,7 +17,6 @@ import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import javax.xml.transform.Result;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Hello world!
@@ -144,7 +142,7 @@ public class BuildingsToSA1Mapper {
                     ConsoleProgressBar.updateProgress(zipName.toString(),
                             add / (float) copyAddresses.size(),
                             (add++) + "/" + copyAddresses.size() + " addresses");
-                    Feature point = allPoints.next();
+                    SimpleFeature point = allPoints.next();
                     try {
                         if (!recentMatches.isEmpty()) {
                             matchingSA1 = (SimpleFeature) fp.getContainingPolygon(recentMatches, point);
@@ -210,7 +208,7 @@ public class BuildingsToSA1Mapper {
         SimpleFeatureCollection sa1Collection = null;
         ShapefileGeoFeatureReader geoFeatReader = new ShapefileGeoFeatureReader();
 
-        geoFeatReader.loadFeaturesByProperty(sa1Path, sa1FilterProp, sa1FilterVals, crs);
+        geoFeatReader.loadFeatures(sa1Path, sa1FilterProp, sa1FilterVals, crs);
         sa1Collection = DataUtilities.simple(geoFeatReader.getFeatures());
         new ShapefileGeoFeatureWriter().writeFeatures(sa1Collection, tempOutputDir.toAbsolutePath());
         String featureName = ((SimpleFeatureCollection) sa1Collection).getSchema().getName().toString();
