@@ -101,14 +101,14 @@ public class Traffic {
 			// Group addresses by SA1. Addresses in addressesBySA1 still refer
 			// to instances in addressMap. So any change to addressesBySA1
 			// elements automatically reflected in addressMap
-			Map<String, List<Map>> addrssesBySA1 = ap.groupAddressesBySA1(addressMap, jsonPathToSA1code);
+			Map<String, List<Map>> addressesBySA1 = ap.groupAddressesBySA1(addressMap, jsonPathToSA1code);
 
-			Map<String, ArrayList<LinkedHashMap<String, Object>>> allAgents = new HashMap<String, ArrayList<LinkedHashMap<String, Object>>>();
-			allAgents.put("Agents", new ArrayList<LinkedHashMap<String, Object>>());
-			Map<String, ArrayList<LinkedHashMap<String, Object>>> allHholds = new HashMap<String, ArrayList<LinkedHashMap<String, Object>>>();
-			allHholds.put("Households", new ArrayList<LinkedHashMap<String, Object>>());
+			Map<String, ArrayList<LinkedHashMap<String, Object>>> allAgents = new HashMap<>();
+			allAgents.put("Agents", new ArrayList<>());
+			Map<String, ArrayList<LinkedHashMap<String, Object>>> allHholds = new HashMap<>();
+			allHholds.put("Households", new ArrayList<>());
 			HashMap<String, LinkedHashMap<String, Object>> agents;
-			ArrayList<LinkedHashMap<String, Object>> hHolds = new ArrayList<>();
+			ArrayList<LinkedHashMap<String, Object>> hHolds;
 
 			// Initialise MATSim population construction
 			Scenario matsimScenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
@@ -153,30 +153,30 @@ public class Traffic {
 				 */
 				Collections.shuffle(hHolds);
 				for (int i = 0; i < hHolds.size(); i++) {
-					if (!addrssesBySA1.containsKey(sa1id)) {
+					if (!addressesBySA1.containsKey(sa1id)) {
 						break;
 					}
-					if (addrssesBySA1.get(sa1id).size() == i) {
-						System.err.println("Not engouh buildings in " + sa1id + ". Total Households:" + hHolds.size()
-								+ " Total Buildings: " + addrssesBySA1.get(sa1id).size());
+					if (addressesBySA1.get(sa1id).size() == i) {
+						System.err.println("Not enough buildings in " + sa1id + ". Total Households:" + hHolds.size()
+								+ " Total Buildings: " + addressesBySA1.get(sa1id).size());
 						Log.info(
-								"Not engouh buildings in " + sa1id + ". Total Households:" + hHolds.size()
-										+ "Total Buildings: " + addrssesBySA1.get(sa1id).size());
+								"Not enough buildings in " + sa1id + ". Total Households:" + hHolds.size()
+										+ "Total Buildings: " + addressesBySA1.get(sa1id).size());
 						break;
 					}
 
-					addrssesBySA1.get(sa1id).get(i).put("HOUSEHOLD_ID", hHolds.get(i).get("GroupId"));
+					addressesBySA1.get(sa1id).get(i).put("HOUSEHOLD_ID", hHolds.get(i).get("GroupId"));
 					hHolds.get(i).put("Address",
-							((Map) addrssesBySA1.get(sa1id).get(i).get("properties")).get("EZI_ADD"));
+							((Map) addressesBySA1.get(sa1id).get(i).get("properties")).get("EZI_ADD"));
 
 					/**
 					 * 2. Determine matsim start and end locations of members of
 					 * this household
 					 */
-					Map<String, Map<String, List<Object>>> addr = addrssesBySA1.get(sa1id).get(i);
+					Map<String, Map<String, List<Object>>> addr = addressesBySA1.get(sa1id).get(i);
 					List<Object> addrCoords = addr.get("geometry").get("coordinates");
 					Map<String, Object> hHold = hHolds.get(i);
-					ap.assignTravel2WorkOriginAndDestinations(addrssesBySA1,
+					ap.assignTravel2WorkOriginAndDestinations(addressesBySA1,
 							sa1id,
 							hHold,
 							agents,
@@ -276,8 +276,8 @@ public class Traffic {
 		 * We are expecting a list of elements after root element
 		 */
 		if (!(addressMap.get(jsonMatchProperty[0]) instanceof List)) {
-			System.err.println("Root element must have an arrray of address elements, but this not an array");
-			Log.errorAndExit("Root element must have an arrray of address elements, but this not an array", GlobalConstants.ExitCode.USERINPUT);
+			System.err.println("Root element must have an array of address elements, but this not an array");
+			Log.errorAndExit("Root element must have an array of address elements, but this not an array", GlobalConstants.ExitCode.USERINPUT);
 		}
 		List featuresList = (List) addressMap.get(jsonMatchProperty[0]);
 
