@@ -18,7 +18,7 @@ The downloaded data for this project are located in `buildpopulation/data/latch/
 
 Execute shell script in `buildpopulation/run`
 
-        > cd buildpopulation/run/
+        > cd run/
         > sh run.sh
 
 ### Individual Commands
@@ -39,15 +39,15 @@ Above `run` folder contains a shell script that calls R scripts to preprcess ABS
 
       Above command will produce a jar file in `buildpopulation/populationbuilder/latchpop/`. Construct the synthetic population by running followng command
    
-        > cd buildpopulation/populationbuilder/latchpop/
-        > java -jar target/latchpop.jar population.properties
+        > cd populationbuilder
+        > java -jar synthesis/target/synthesis.jar population.properties
    
       This will save the constructed population files to `buildpopulation/data/latch/locationaldata`
 
 3. Assign dwelling properties to buildinds based on ABS data by running following commands
 
-        > cd buildpopulation/populationbuilder/BuildingProperties
-        > java -jar target/buildingproperties.jar Buildings.properties
+        > cd populationbuilder
+        > java -jar BuildingProperties/target/buildingproperties.jar Buildings.properties
 
 
 ## Constructing a new population
