@@ -29,25 +29,25 @@ for(rel in relStatus){
   }
 }
 
-familyTypes = c(
-'One family household: Couple family with no children',
-'One family household: Couple family with children',
-'One family household: One parent family',
-'One family household: Other family',
-'Two family household: Couple family with no children',
-'Two family household: Couple family with children',
-'Two family household: One parent family',
-'Two family household: Other family',
-'Three or more family household: Couple family with no children',
-'Three or more family household: Couple family with children',
-'Three or more family household: One parent family',
-'Three or more family household: Other family',
-'Lone person household',
-'Group household')
+
 
 
 hhSizes = c("One person","Two persons","Three persons","Four persons","Five persons","Six persons","Seven persons","Eight or more persons")
-
+familyTypes = c(
+  'One family household: Couple family with no children',
+  'One family household: Couple family with children',
+  'One family household: One parent family',
+  'One family household: Other family',
+  'Two family household: Couple family with no children',
+  'Two family household: Couple family with children',
+  'Two family household: One parent family',
+  'Two family household: Other family',
+  'Three or more family household: Couple family with no children',
+  'Three or more family household: Couple family with children',
+  'Three or more family household: One parent family',
+  'Three or more family household: Other family',
+  'Lone person household',
+  'Group household')
 onePerson = c(0,0,0,0,0,0,0,0,0,0,0,0,1,0)
 twoPersons = c(1,0,1,1,0,0,0,0,0,0,0,0,0,1)
 threePersons = c(1,1,1,1,0,0,0,0,0,0,0,0,0,1)
@@ -65,7 +65,6 @@ for(size in hhSizes){
     HhPossibles[[size]][[familyTypes[i]]] = binaries[i]
   }
 }
-
 
 fillAccording2Dist<- function(dataarray, amount){
   dist = dataarray/sum(dataarray)
