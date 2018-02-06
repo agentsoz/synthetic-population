@@ -6,6 +6,7 @@ source("DataReadUltraShort.R")
 source("util.R")
 source("dwellingproperties.R")
 source("cleaning.R")
+source("estimateSA1HouseholdsUsingSA2.R")
 source("ipfpCalculation.R")
 
 #ABS csv file specifics
@@ -63,6 +64,11 @@ for (sa in sa2list) {
   indv = readBySA(indArr,sa)
   hhs = readBySA(hhArr,sa)
 
+  rawinput = paste(outLoc,sa,"/input/",sep="")
+  ifelse(!dir.exists(path=rawinput),dir.create(path=rawinput, showWarnings = T, recursive = T),FALSE)
+  write.csv(indv,paste(rawinput,"absIndiv.csv",sep=""))
+  write.csv(hhs,paste(rawinput,"absHh.csv",sep=""))
+  
   # Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
   # even after this
   outlist = cleanup(indv,pSAColi, pRelColi, pSexColi, pAgeColi,pValueColi, hhs, hPerCountColi, hFamilyTypeColi, hValueColi)
@@ -74,6 +80,46 @@ for (sa in sa2list) {
   ifelse(!dir.exists(path=saoutpath),dir.create(path=saoutpath, showWarnings = T, recursive = T),FALSE)
   write.csv(indv,paste(saoutpath,"Indiv.csv",sep=""))
   write.csv(hhs,paste(saoutpath,"Hh.csv",sep=""))
+  
+  # Secondly, we distirbute SA2 level data among SA1s.
+  
+  #Find the relavent file with SA1 data from list of SA1sbySA2 files list
+  saregex = paste(sa,".(csv|zip)",sep="")
+  SA1FileRow= grep(saregex,sa1DistFileslist)
+  sa1sfile = paste(sa1bysa2home,sa1DistFileslist[SA1FileRow,1],sep="")
+  # Load above selected SA1 info file
+  SA1HhsDist = readSA1HouseholdsInSA2(sa1sfile)
+  
+  #Following code iterates on hh types distributing them among SA1s. i.e each row represent a hh type
+  rowcount = nrow(hhs)
+  lastcol = ncol(SA1HhsDist)
+  for( i in 1:rowcount){
+    sa1hhs = SA1HhsDist[(i+1),3:lastcol] #get data cells by skipping row and col headers
+    sa1hhsttl = sum(sa1hhs)
+    sa2hhttl = hhs[i,4]
+    
+    #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
+    if(sa2hhttl == 0){
+      #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
+      adjustedSA1Hhs = (sa1hhs*0)
+    }else if((sa2hhttl-sa1hhsttl) > 0 & sum(sa1hhs) == 0){
+      #If there are extra hhs of current type in SA2, but none in the SA1s, distribute hhs among randomly selected SA1s
+      diff = (sa2hhttl-sa1hhsttl)
+      adjustedSA1Hhs = sa1hhs
+      adjustedSA1Hhs[1,sample(ncol(sa1hhs),size=diff,replace=FALSE)] = 1
+      warning(sa, " No households in SA1s, but SA2 has ",sa2hhttl," households - in ", SA1HhsDist[(i+1),1]," ",SA1HhsDist[(i+1),2]," : Placed each of them in a random SA1s")
+    } else{
+      #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
+      adjustedSA1Hhs =fillAccording2Dist(sa1hhs, (sa2hhttl-sa1hhsttl))
+    }
+    
+    SA1HhsDist[(i+1),3:lastcol] = adjustedSA1Hhs
+  }
+  #Save SA1 hh distribution
+  sa1hhsfile = paste(outLoc,sa,"/SA1Hhs.csv",sep="")
+  cat("SA1 distribution household distribution matched to SA2 households total\n")
+  cat("Updated SA1 household distribution saved to: ",sa1hhsfile,"\n")
+  write.csv(SA1HhsDist,sa1hhsfile)
 }
 cat("Output files are saved under: ",outLoc,"\n")
 warnings()
