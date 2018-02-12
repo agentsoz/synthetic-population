@@ -1,38 +1,39 @@
-readHouseholds <- function(inFile, nofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, personCountColi, familyTypeColi) {
-  
-  print("Reading households file")
-  if (file_ext(inFile) == "zip") {
-    csvname = paste(file_path_sans_ext(basename(inFile)),".csv",sep = "")
-    inputCsv = unz(inFile,csvname)
-  }else{
-    inputCsv = inFile
-  }
-  Hhs <-
-    read.csv(
-      inputCsv, header = F,sep = ",",fill = T,blank.lines.skip = F, stringsAsFactors =
-        FALSE,na.strings=c("","NA"), col.names = paste0("V",seq_len(nofCols))
-    )
 
-  dummyVec = 1:length(Hhs[,1])
-  SArowi = valuesStartingRow	# Row number for SA IDs
-  SAgap = 112  # Number of rows between each SA heading
-  seq =dummyVec[seq(SArowi, length(dummyVec), SAgap)]
-  SAlist = na.omit(as.character(Hhs[seq,SAColi])) #Array of SA headings
-  nSA = length(SAlist)
-  lastRow = (nSA * SAgap)+valuesStartingRow-1
-  
-  personCountRowi = valuesStartingRow
-  personCountGap = 14
-  seq =dummyVec[seq(personCountRowi, length(dummyVec), personCountGap)]
-  personCountList = na.omit((as.character(Hhs[seq,personCountColi]))) #Array of SA headings
-  nNop = length(personCountList)
-  
-  Hhs[valuesStartingRow:lastRow,SAColi] = rep(SAlist, each=SAgap)
-  Hhs[valuesStartingRow:lastRow,personCountColi] = rep(personCountList, each=personCountGap)
-  hhArr = Hhs[valuesStartingRow:lastRow,headerStartingCol:valueColi]
-  print("Reading households file complete")
-  return(hhArr)
-}
+  ReadHouseholds <- function(inFile, no_of_cols, header_start_col, value_col, values_start_row, sa_col, no_of_persons_col, family_hh_type_col ) {
+    
+    print("Reading households file")
+    if (file_ext(inFile) == "zip") {
+      csvname = paste(file_path_sans_ext(basename(inFile)),".csv",sep = "")
+      inputCsv = unz(inFile,csvname)
+    }else{
+      inputCsv = inFile
+    }
+    Hhs <-
+      read.csv(
+        inputCsv, header = F,sep = ",",fill = T,blank.lines.skip = F, stringsAsFactors =
+          FALSE,na.strings=c("","NA"), col.names = paste0("V",seq_len(no_of_cols))
+      )
+    
+    dummyVec = 1:length(Hhs[,1])
+    SArowi = values_start_row	# Row number for SA IDs
+    SAgap = 112  # Number of rows between each SA heading
+    seq =dummyVec[seq(SArowi, length(dummyVec), SAgap)]
+    SAlist = na.omit(as.character(Hhs[seq,sa_col])) #Array of SA headings
+    nSA = length(SAlist)
+    lastRow = (nSA * SAgap)+values_start_row-1
+    
+    personCountRowi = values_start_row
+    personCountGap = 14
+    seq =dummyVec[seq(personCountRowi, length(dummyVec), personCountGap)]
+    personCountList = na.omit((as.character(Hhs[seq,no_of_persons_col]))) #Array of SA headings
+    nNop = length(personCountList)
+    
+    Hhs[values_start_row:lastRow,sa_col] = rep(SAlist, each=SAgap)
+    Hhs[values_start_row:lastRow,no_of_persons_col] = rep(personCountList, each=personCountGap)
+    hhArr = Hhs[values_start_row:lastRow,header_start_col:value_col]
+    print("Reading households file complete")
+    return(hhArr)
+  }
 
 readPersons <- function(inFile, NofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, relColi, sexColi ) {
   print("Reading individuals file")

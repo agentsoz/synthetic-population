@@ -1,0 +1,20 @@
+"","p-value
+mu= 2","Equivalent
+alpha=0.025
+confidence=95%"
+"Alphington - Fairfield",2.09604111065796e-06,1
+"Northcote",0.212755667621732,0
+"Thornbury",0.0496143394851443,1
+"Bundoora - East",1.43337892293216e-10,1
+"Greensborough",0.000162109641940945,1
+"Heidelberg - Rosanna",0.000377478552463487,1
+"Heidelberg West",0.0673463134445007,0
+"Ivanhoe",3.63783614669793e-07,1
+"Ivanhoe East - Eaglemont",1.56335394502329e-08,1
+"Montmorency - Briar Hill",1.1387140030112e-07,1
+"Viewbank - Yallambie",1.42432326418958e-06,1
+"Watsonia",4.16455680052234e-07,1
+"Kingsbury",0.00266885091650046,1
+"Preston",0.540488290646943,0
+"Reservoir - East",0.0639825684025452,0
+"Reservoir - West",0.140713606766493,0
