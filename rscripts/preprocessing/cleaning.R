@@ -113,6 +113,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   cat("In households file:", totalpersonsNeededByHhs,"\n")
   cat("In persons file:",totalExistingpersons,"\n")
   cat("Difference:",difference," - ",percentage,"%\n\n")
+  starting_error = percentage
   
   cat("Removed impossible values:\n")
   cat("persons:\n")
@@ -376,5 +377,5 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   cat("In persons file:",totalExistingpersons,"\n")
   cat("Difference (unrecongnised missing persons):",difference," (",percentage,"%)\n\n")
 
-  return(list(person, hhold))
+  return(list(person, hhold,starting_error))
 }

@@ -36,10 +36,10 @@ hValueColi = 4
 
 
 option_list = list(
-  make_option(c("-hi", "--householdinput"), type="character", default="../data/latch/raw/SA2, NPRD HCFMD.csv", help="Household data from ABS[default= %default]",metavar="character"),
-  make_option(c("-ii", "--individualinput"), type="character", default="../data/latch/raw/SA2, RLHP SEXP AGE5P.csv", help="Individual data from ABS[default= %default]", metavar="character"),
-  make_option(c("-sa1tosa2", "--sa1bysa2home"), type="character", default="../data/latch/raw/Hh-SA1-in-each-SA2/", help="Household distribution in SA1 by SA2s [default= %default]",metavar="character"),
-  make_option(c("-o", "--output"), type="character", default="../data/latch/absprocessed/SA2/", help="output file location [default= %default]", metavar="character"),
+  make_option(c("-hi", "--householdinput"), type="character", default="../../data/latch/raw/SA2, NPRD HCFMD.csv", help="Household data from ABS[default= %default]",metavar="character"),
+  make_option(c("-ii", "--individualinput"), type="character", default="../../data/latch/raw/SA2, RLHP SEXP AGE5P.csv", help="Individual data from ABS[default= %default]", metavar="character"),
+  make_option(c("-sa1tosa2", "--sa1bysa2home"), type="character", default="../../data/latch/raw/Hh-SA1-in-each-SA2/", help="Household distribution in SA1 by SA2s [default= %default]",metavar="character"),
+  make_option(c("-o", "--output"), type="character", default="../../data/latch/absprocessed/SA2/", help="output file location [default= %default]", metavar="character"),
   make_option(c("-sa2", "--sa2list"), type="character", help="list of SA2s to process [default= %default]", metavar="character",
       default="Alphington - Fairfield,Northcote,Thornbury,Bundoora - East,Greensborough,Heidelberg - Rosanna,Heidelberg West,Ivanhoe,Ivanhoe East - Eaglemont,Montmorency - Briar Hill,Viewbank - Yallambie,Watsonia,Kingsbury,Preston,Reservoir - East,Reservoir - West")
   ); 
@@ -53,10 +53,11 @@ outLoc <- opt$output
 sa2list <- unlist(strsplit(opt$sa2list,","))
 
 #Load data from ABS csv files
-hhArr = readHouseholds(hhinput,hNofCols, hColHeaderStartingCol, hValueColi, hValuesStartingRow, hSAColi, hPerCountColi, hFamilyTypeColi)
+hhArr = ReadHouseholds(hhinput,hNofCols, hColHeaderStartingCol, hValueColi, hValuesStartingRow, hSAColi, hPerCountColi, hFamilyTypeColi)
 indArr = readPersons(indinput,pNofCols, pColHeaderStartingCol, pValueColi, pValuesStartingRow, pSAColi, pRelColi, pSexColi)
 sa1DistFileslist = matrix(list.files(sa1bysa2home)) # List of SA1 information files
 
+start_errors <- list()
 for (sa in sa2list) {
   cat("------------ Processing", sa," --------------\n")
 
@@ -69,19 +70,20 @@ for (sa in sa2list) {
   write.csv(indv,paste(rawinput,"absIndiv.csv",sep=""))
   write.csv(hhs,paste(rawinput,"absHh.csv",sep=""))
   
-  # Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
+  ### Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
   # even after this
   outlist = cleanup(indv,pSAColi, pRelColi, pSexColi, pAgeColi,pValueColi, hhs, hPerCountColi, hFamilyTypeColi, hValueColi)
   indv = outlist[[1]]
   hhs = outlist[[2]]
+  start_errors[[sa]] = outlist[[3]]
   
   #Save the cleaned data files
   saoutpath = paste(outLoc,"/",sa,"/",sep="")
   ifelse(!dir.exists(path=saoutpath),dir.create(path=saoutpath, showWarnings = T, recursive = T),FALSE)
   write.csv(indv,paste(saoutpath,"Indiv.csv",sep=""))
   write.csv(hhs,paste(saoutpath,"Hh.csv",sep=""))
-  
-  # Secondly, we distirbute SA2 level data among SA1s.
+
+  ### distirbute SA2 level data among SA1s.
   
   #Find the relavent file with SA1 data from list of SA1sbySA2 files list
   saregex = paste(sa,".(csv|zip)",sep="")
@@ -121,5 +123,6 @@ for (sa in sa2list) {
   cat("Updated SA1 household distribution saved to: ",sa1hhsfile,"\n")
   write.csv(SA1HhsDist,sa1hhsfile)
 }
+print(start_errors)
 cat("Output files are saved under: ",outLoc,"\n")
 warnings()
