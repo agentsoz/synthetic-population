@@ -57,18 +57,20 @@ sixPersons = c(1,1,1,1,1,1,1,1,1,0,1,1,0,1)
 sevenPersons = c(1,1,1,1,1,1,1,1,1,1,1,1,0,1)
 eightPersons = c(1,1,1,1,1,1,1,1,1,1,1,1,0,1)
 
-HhPossibles = list()
+hh_possibles = list()
 for(size in hhSizes){
-  HhPossibles[[size]] = list()
+  hh_possibles[[size]] = list()
   binaries = switch(which(hhSizes == size), onePerson, twoPersons, threePersons, fourPersons, fivePersons, sixPersons, sevenPersons, eightPersons)
   for(i in 1:length(binaries)){
-    HhPossibles[[size]][[familyTypes[i]]] = binaries[i]
+    hh_possibles[[size]][[familyTypes[i]]] = binaries[i]
   }
 }
 
-fillAccording2Dist<- function(dataarray, amount){
+FillAccording2Dist<- function(dataarray, amount){
   dist = dataarray/sum(dataarray)
   newAddition = dist*amount
+  
+  print(newAddition)
   if((round(sum(newAddition)) - sum(floor(newAddition))) != 0){
     newAddition = smart.round(newAddition)
   }
@@ -138,7 +140,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
     count = hhold[i,hPersonCountColi]
     familyType = hhold[i,hFamilyTypeColi]
     val = hhold[i,hValColi]
-    hhold[i,hValColi] = hhold[i,hValColi]*HhPossibles[[count]][[familyType]]
+    hhold[i,hValColi] = hhold[i,hValColi]*hh_possibles[[count]][[familyType]]
     if(val != hhold[i,hValColi]){
       print(hhold[i,])
       hasImpossibles = TRUE
@@ -172,14 +174,14 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = ttlgrphh - ttlgrpin
   if(diff > 0){
     percent = diff/ttlgrpin*100
-    person[grpIndrwids,pValColi] = fillAccording2Dist(person[grpIndrwids,pValColi], diff)
+    person[grpIndrwids,pValColi] = FillAccording2Dist(person[grpIndrwids,pValColi], diff)
     cat("Group households: less persons than households, adding new agents:", diff,"(",percent,"%)\n")
   }else if(diff == 0){
     cat("Group households: No difference\n")
   }else{
     percent = diff/ttlgrpin*100
     cat("Group households: more persons than households, removing extra agents", diff,"(",percent,"%)\n")
-    person[grpIndrwids,pValColi] = fillAccording2Dist(person[grpIndrwids,pValColi], diff)
+    person[grpIndrwids,pValColi] = FillAccording2Dist(person[grpIndrwids,pValColi], diff)
     extra = extra + diff
   }
   
@@ -193,14 +195,14 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = ttllnpersonhhs - ttllnpersons
   if(diff >0){
     percent = diff/ttllnpersons*100
-    person[lnpersonrwids,pValColi]= fillAccording2Dist(person[lnpersonrwids,pValColi],diff)
+    person[lnpersonrwids,pValColi]= FillAccording2Dist(person[lnpersonrwids,pValColi],diff)
     cat("Lone person: less persons than households, adding new agents:", diff,"(",percent,"%)\n")
   }else if(diff == 0){
     print("Lone person: No difference")
   }else{
     percent = diff/ttllnpersonhhs*100
     cat("Lone persons: more persons than households, removing extra agents:", diff,"(",percent,"%)\n")
-    person[lnpersonrwids,pValColi]= fillAccording2Dist(person[lnpersonrwids,pValColi],diff)
+    person[lnpersonrwids,pValColi]= FillAccording2Dist(person[lnpersonrwids,pValColi],diff)
     extra = extra + diff
   }
   
@@ -231,7 +233,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = minRequiredCpls - ttlMarriedFemales
   if(diff > 0){
     percent = diff/ttlMarriedFemales *100
-    person[marFemaleRwIds,pValColi] = fillAccording2Dist(person[marFemaleRwIds,pValColi], diff)
+    person[marFemaleRwIds,pValColi] = FillAccording2Dist(person[marFemaleRwIds,pValColi], diff)
     cat("Married Couples: there are not enough married females to form min required couples, increase married females by :", diff,"(",percent,"%)\n")
   }else if(diff ==0){
     cat("Married Couples: married females are equal to couple families\n")
@@ -242,7 +244,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = minRequiredCpls - ttlMarriedMales
   if(diff > 0){
     percent =  diff/ttlMarriedMales*100
-    person[marMaleRwIds,pValColi] = fillAccording2Dist(person[marMaleRwIds,pValColi], diff)
+    person[marMaleRwIds,pValColi] = FillAccording2Dist(person[marMaleRwIds,pValColi], diff)
     cat("Married Couples: there are not enough married males to form min required couples, increase married males by :", diff,"(",percent,"%)\n")
   }else if(diff ==0){
     cat("Married Couples: married males are equal to couple families\n")
@@ -263,7 +265,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = ttlOneParentFamilies - ttlLoneparents
   if(diff > 0){
     percent = diff/ttlLoneparents*100
-    person[loneParentRwIds,pValColi] = fillAccording2Dist(person[loneParentRwIds,pValColi], diff)
+    person[loneParentRwIds,pValColi] = FillAccording2Dist(person[loneParentRwIds,pValColi], diff)
     cat("Lone Parents: less lone parents than required by families, increasing lone parents by ",diff," (",percent,"%)\n")
   }else{
     cat("Lone Parents: more lone parents in persons file than Lone parent primary families in households file, no problem\n")
@@ -282,7 +284,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = ttlFamiliesWithChildren - ttlChlds
   if(diff > 0){
     percent = diff/ttlChlds*100
-    person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = fillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
+    person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = FillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
     cat("Children: less children than primary families requiring children, adding new agents:", diff,"(",percent,"%)\n")
     availableExtraChildren = 0
   }else{
@@ -310,7 +312,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   diff = hhrequiredreltives - ttlrelatives
   if(diff > 0){
     percent = diff/ttlrelatives*100
-    person[relrwids,pValColi] = fillAccording2Dist(person[relrwids,pValColi], diff)
+    person[relrwids,pValColi] = FillAccording2Dist(person[relrwids,pValColi], diff)
     cat("Relatives for Other families: less persons than households, adding new agents:", diff,"(",percent,"%)\n")
     availableExtraRelatives = 0
   }else{
@@ -340,7 +342,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
     diff = requiredExtraRels - availableExtraRelatives
     existingTtlrelatives = sum(person[relrwids,pValColi])
     percent = diff/existingTtlrelatives*100
-    person[relrwids,pValColi] = fillAccording2Dist(person[relrwids,pValColi], diff)
+    person[relrwids,pValColi] = FillAccording2Dist(person[relrwids,pValColi], diff)
     cat("Multi-family households with coule only and Other family: there are not enough relatives to complete these households, adding new relatives:",diff,"(",percent,"%)\n")
   }else{
     cat("Multi-family households with coule only and Other family: there are enough relatives to complete these households\n")
@@ -362,7 +364,7 @@ cleanup <- function(person, pSAColi, pRelColi, pSexColi, pAgeColi,pValColi, hhol
   if (requiredRelsAndChildSum > availableExtraChildren){
     diff = requiredRelsAndChildSum - availableExtraChildren
     precentage = diff/availableExtraChildren*100
-    person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = fillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
+    person[c(u15RwIds,stuRwIds,o15RwIds),pValColi] = FillAccording2Dist(person[c(u15RwIds,stuRwIds,o15RwIds),pValColi], diff)
     cat("Multi-family households Couple with children (1 family) and One parent family: there are not enough extra children to complete the households, adding new children:",diff,"(",percent,"%)\n")    
   }else{
     cat("Multi-family households Couple with children (1 family) and One parent family: there are enough extra children to complete the households\n")        
