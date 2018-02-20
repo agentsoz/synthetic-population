@@ -35,7 +35,7 @@
     return(hhArr)
   }
 
-readPersons <- function(inFile, NofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, relColi, sexColi ) {
+ReadPersons <- function(inFile, NofCols, headerStartingCol, valueColi,  valuesStartingRow, SAColi, relColi, sexColi ) {
   print("Reading individuals file")
 
   if (file_ext(inFile) == "zip") {
