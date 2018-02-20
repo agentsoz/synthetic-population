@@ -2,37 +2,12 @@
 library(stringr)
 library(tools)
 
-source("DataReadUltraShort.R")
+source("config.R")
+source("datareader.R")
 source("util.R")
 source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
-
-#ABS csv file specifics
-## Persons file
-pNofCols = 6
-pColHeaderStartingCol = 1
-pRowHeaderStartingRow = 11
-pValuesStartingRow = 12
-
-pSAColi = 1
-pRelColi = 2
-pSexColi = 3
-pAgeColi = 4
-pValueColi = 5
-
-## Households file
-hNofCols = 5
-hColHeaderStartingCol = 1
-hRowHeaderStartingRow  = 11
-hValuesStartingRow = 12
-
-hSAColi = 1
-hPerCountColi = 2
-hFamilyTypeColi = 3
-hValueColi = 4
-# End ABS csv file specifics
-
 
 option_list = list(
   make_option(
@@ -69,14 +44,14 @@ option_list = list(
   ),
   make_option(
     c("--sa1s"),
-    default = "../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_Inner.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_Inner_East.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_Inner_South.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_North_East.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_North_West.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_Outer_East.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_South_East.zip,
-    ../../data/melbourne/raw/Household_2016_by_SA2_Melbourne_West.zip",
+    default = "../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
+    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
     metavar = "LIST_FILES"
   )
@@ -89,36 +64,41 @@ opt_parser = OptionParser(option_list = option_list, description = script_descri
 opt = parse_args(opt_parser)
 
 #Load household distribution from ABS files
-hhinput <- opt$households
-print(hhinput)
+hh_input <- opt$households
+
 hhArr = ReadHouseholds(
-  hhinput,
-  hNofCols,
-  hColHeaderStartingCol,
-  hValueColi,
-  hValuesStartingRow,
-  hSAColi,
-  hPerCountColi,
-  hFamilyTypeColi
+  hh_input,
+  h_nof_cols,
+  h_header_start_col,
+  h_value_col,
+  h_values_start_row,
+  h_sa_col,
+  h_nof_persons_col,
+  h_family_hh_type_col,
+  family_hh_cats,
+  hh_sizes
 )
 
 #Load persons distribution from ABS files
-indinput <- opt$persons
+ind_input <- opt$persons
 indArr = ReadPersons(
-  indinput,
-  pNofCols,
-  pColHeaderStartingCol,
-  pValueColi,
-  pValuesStartingRow,
-  pSAColi,
-  pRelColi,
-  pSexColi
+  ind_input,
+  p_nof_cols,
+  p_header_start_col,
+  p_value_col,
+  p_value_start_row,
+  p_sa_col,
+  p_rel_col,
+  p_sex_col,
+  rel_status_cats,
+  sex_cats,
+  age_cats
 )
 
 #Read the list of SA2s
 isStar <- F
 if (opt$sa2s == "*") {
-  sa2_list <- unique(hhArr[hSAColi]$V1)
+  sa2_list <- unique(hhArr[h_sa_col]$V1)
   isStar <- T
 } else if (file.exists(opt$sa2s)) {
   d = read.table(opt$sa2s,
@@ -132,8 +112,8 @@ if (opt$sa2s == "*") {
 
 #Verify whether we have input data for the SA2 that we are going to process.
 ## Get the SA2 lists in persons distribution and households distribution
-pSA2s = unique(indArr[pSAColi]$V1)
-hSA2s = unique(hhArr[hSAColi]$V1)
+pSA2s = unique(indArr[p_sa_col]$V1)
+hSA2s = unique(hhArr[h_sa_col]$V1)
 
 ## Check wheather SA2s in the sa2_list are available in the households distribution. If the user has specifed * for --sa2list option, this will match anyway.
 not_found_sa2s = sa2_list[which(!(sa2_list %in% hSA2s))]
@@ -177,7 +157,8 @@ out_loc <- opt$output
 do_sa1 <- opt$a
 sa1_files <- unlist(strsplit(opt$sa1s, ","))
 
-start_errors <- list()
+errors <- matrix(NA, nrow = length(sa2_list), ncol = 2, dimnames = list(sa2_list, c("start_error", "end_error")))
+
 for (sa2 in sa2_list) {
   cat("------------ Processing", sa2, " --------------\n")
   
@@ -185,23 +166,26 @@ for (sa2 in sa2_list) {
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
   
+  if((sum(indv[,p_value_col])==0) & (sum(hhs[,h_value_col]) ==0) ){
+    
+  }else{
   ### Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
   # even after this
-  outlist = cleanup(
+  outlist = clean(
     indv,
-    pSAColi,
-    pRelColi,
-    pSexColi,
-    pAgeColi,
-    pValueColi,
+    p_sa_col,
+    p_rel_col,
+    p_sex_col,
+    p_age_col,
+    p_value_col,
     hhs,
-    hPerCountColi,
-    hFamilyTypeColi,
-    hValueColi
+    h_nof_persons_col,
+    h_family_hh_type_col,
+    h_value_col
   )
   indv = outlist[[1]]
   hhs = outlist[[2]]
-  start_errors[[sa2]] = outlist[[3]]
+  errors[sa2,] = c(outlist[[3]], outlist[[4]])
   
   #Save the cleaned data files
   saoutpath = paste(out_loc, "/", sa2, "/", sep = "")
@@ -215,15 +199,15 @@ for (sa2 in sa2_list) {
     FALSE
   )
   
-  colnames(indv)[pSAColi] <- "SA"
-  colnames(indv)[pRelColi] <- "Relationship status"
-  colnames(indv)[pSexColi] <- "Sex"
-  colnames(indv)[pAgeColi] <- "Age"
-  colnames(indv)[pValueColi] <- "Persons count"
-  colnames(hhs)[hSAColi] <- "SA"
-  colnames(hhs)[hPerCountColi] <- "Household Size"
-  colnames(hhs)[hFamilyTypeColi] <- "Family household type"
-  colnames(hhs)[hValueColi] <- "Households count"
+  colnames(indv)[p_sa_col] <- "SA"
+  colnames(indv)[p_rel_col] <- "Relationship status"
+  colnames(indv)[p_sex_col] <- "Sex"
+  colnames(indv)[p_age_col] <- "Age"
+  colnames(indv)[p_value_col] <- "Persons count"
+  colnames(hhs)[h_sa_col] <- "SA"
+  colnames(hhs)[h_nof_persons_col] <- "Household Size"
+  colnames(hhs)[h_family_hh_type_col] <- "Family household type"
+  colnames(hhs)[h_value_col] <- "Households count"
   
   pgz <- gzfile(paste(saoutpath, "persons.csv.gz", sep = ""))
   hgz <- gzfile(paste(saoutpath, "households.csv.gz", sep = ""))
@@ -234,7 +218,7 @@ for (sa2 in sa2_list) {
   ## distirbute SA2 level data among SA1s.
   if (do_sa1) {
     # Load above selected SA1 info file
-    SA1HhsDist = readSA1HouseholdsInSA2(sa1_files, sa2,14,8)
+    SA1HhsDist = ReadSA1HouseholdsInSA2(sa1_files, sa2,14,8)
     
     #Following code iterates on hh types distributing them among SA1s. i.e each row represent a hh type
     rowcount = nrow(hhs)
@@ -249,10 +233,9 @@ for (sa2 in sa2_list) {
         #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
         adjustedSA1Hhs = (sa1hhs * 0)
       } else if ((sa2hhttl - sa1hhsttl) > 0 & sum(sa1hhs) == 0) {
-        #If there are extra hhs of current type in SA2, but none in the SA1s, distribute hhs among randomly selected SA1s
-        diff = (sa2hhttl - sa1hhsttl)
-        adjustedSA1Hhs = sa1hhs
-        adjustedSA1Hhs[1, sample(ncol(sa1hhs), size = diff, replace = FALSE)] = 1
+        #There are extra hhs of current type in SA2, but none in the SA1s.
+        # In this case FillAccording2Dist function distributes hhs among randomly selected SA1s 
+        adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
         warning(
           sa2,
           " No households in SA1s, but SA2 has ",
@@ -265,7 +248,7 @@ for (sa2 in sa2_list) {
         )
       } else{
         #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
-        adjustedSA1Hhs = fillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
+        adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
       }
       
       SA1HhsDist[i, sa1_start_coli:lastcol] = adjustedSA1Hhs
@@ -275,10 +258,17 @@ for (sa2 in sa2_list) {
     cat("SA1 distribution household distribution matched to SA2 households total\n")
     cat("Updated SA1 household distribution saved to: ",
         sa1hhsfile,
+        
         "\n")
     write.csv(SA1HhsDist, sa1hhsfile)
   }
+  }
 }
-print(start_errors)
+cat("+++++++++++++++++++++++++++++++++++++++++++++++++\n")
+cat("\nEmpty SA2s\n")
+print(unlist(rownames(errors[is.na(errors[,"start_error"]),])))
+errors <- errors[!is.na(errors[,"start_error"]),]
+cat("\nSA2s above 5% error\n")
+print(errors[c(errors[,"start_error"] >= 5 & errors[,"end_error"] >= 5),])
 cat("Output files are saved under: ", out_loc, "\n")
 warnings()
