@@ -24,7 +24,7 @@ Usage: ./sa2preprocess.R [options]
 This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis. 
 1. Removes any impossible entries in household and person SA2 level population distributions based on population heuristics.
 2. Compares SA2 level household and person distributions, and cleans the data based on population heuristics. This part assumes household distribution as the accurate one of the two and person types distribution is updated to match the requirements of household types distribution.
-3. Calculates SA1 level household distribution based on the corresponding SA2 household distribution. The calculation ensures valid household types distributions at SA1 level, but not person type distributions.
+3. Calculates SA1 level household distribution based on the corresponding SA2 household distribution. The calculation ensures valid household types distributions at SA1 level, but not person type distributions. It may not be possible to calculate SA1 level household distribution in some cases due to lack of data.
 
 Options:
 	--households=FILE

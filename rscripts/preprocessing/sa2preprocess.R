@@ -24,7 +24,7 @@ option_list = list(
     metavar = "FILE"
   ),
   make_option(
-    c("-o","--output"),
+    c("-o", "--output"),
     default = "../../data/melbourne/processed/SA2/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
@@ -32,11 +32,11 @@ option_list = list(
   make_option(
     c("--sa2s"),
     help = "The list of SA2s to process. The parameter can be either \"*\" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
-    metavar = "LIST_IDS",
-    default = "*"
+    metavar = "LIST_NAMES",
+    default = "Port Melbourne Industrial"
   ),
   make_option(
-    c("-a","--a"),
+    c("-a", "--a"),
     action = "store_true",
     default = FALSE,
     help = "Set this flag to calculate SA1 level household distribution. [default= %default]",
@@ -56,10 +56,10 @@ option_list = list(
     metavar = "LIST_FILES"
   )
 )
-script_description = "This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis. 
+script_description = "This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis.
 1. Removes any impossible entries in household and person SA2 level population distributions based on population heuristics.
 2. Compares SA2 level household and person distribution, and cleans the data based on population heuristics. This part assumes household distribution as the accurate one of the two and person types distribution is updated to match household types distribution.
-3. Calculates SA1 level household distribution based on the corresponding SA2 household distribution. The calculation ensures valid household types distributions at SA1 level, but not person type distributions."
+3. Calculates SA1 level household distribution based on the corresponding SA2 household distribution. The calculation ensures valid household types distributions at SA1 level, but not person type distributions. It may not be possible to calculate SA1 level household distribution in some cases due to lack of data."
 opt_parser = OptionParser(option_list = option_list, description = script_description)
 opt = parse_args(opt_parser)
 
@@ -107,7 +107,7 @@ if (opt$sa2s == "*") {
                  strip.white = TRUE)
   sa2_list <- unique(d$V1)
 } else{
-  sa2_list <- unique(unlist(strsplit(opt$sa2list, ",")))
+  sa2_list <- unique(unlist(strsplit(opt$sa2s, ",")))
 }
 
 #Verify whether we have input data for the SA2 that we are going to process.
@@ -157,7 +157,14 @@ out_loc <- opt$output
 do_sa1 <- opt$a
 sa1_files <- unlist(strsplit(opt$sa1s, ","))
 
-errors <- matrix(NA, nrow = length(sa2_list), ncol = 2, dimnames = list(sa2_list, c("start_error", "end_error")))
+errors <-
+  matrix(
+    NA,
+    nrow = length(sa2_list),
+    ncol = 2,
+    dimnames = list(sa2_list, c("start_error", "end_error"))
+  )
+sa2s_with_no_sa1s = c() #Book-keeping SA2s that have all empty SA1s according to input data.
 
 for (sa2 in sa2_list) {
   cat("------------ Processing", sa2, " --------------\n")
@@ -166,109 +173,138 @@ for (sa2 in sa2_list) {
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
   
-  if((sum(indv[,p_value_col])==0) & (sum(hhs[,h_value_col]) ==0) ){
+  if ((sum(indv[, p_value_col]) == 0) &
+      (sum(hhs[, h_value_col]) == 0)) {
     
-  }else{
-  ### Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
-  # even after this
-  outlist = clean(
-    indv,
-    p_sa_col,
-    p_rel_col,
-    p_sex_col,
-    p_age_col,
-    p_value_col,
-    hhs,
-    h_nof_persons_col,
-    h_family_hh_type_col,
-    h_value_col
-  )
-  indv = outlist[[1]]
-  hhs = outlist[[2]]
-  errors[sa2,] = c(outlist[[3]], outlist[[4]])
-  
-  #Save the cleaned data files
-  saoutpath = paste(out_loc, "/", sa2, "/", sep = "")
-  ifelse(
-    !dir.exists(path = saoutpath),
-    dir.create(
-      path = saoutpath,
-      showWarnings = T,
-      recursive = T
-    ),
-    FALSE
-  )
-  
-  colnames(indv)[p_sa_col] <- "SA"
-  colnames(indv)[p_rel_col] <- "Relationship status"
-  colnames(indv)[p_sex_col] <- "Sex"
-  colnames(indv)[p_age_col] <- "Age"
-  colnames(indv)[p_value_col] <- "Persons count"
-  colnames(hhs)[h_sa_col] <- "SA"
-  colnames(hhs)[h_nof_persons_col] <- "Household Size"
-  colnames(hhs)[h_family_hh_type_col] <- "Family household type"
-  colnames(hhs)[h_value_col] <- "Households count"
-  
-  pgz <- gzfile(paste(saoutpath, "persons.csv.gz", sep = ""))
-  hgz <- gzfile(paste(saoutpath, "households.csv.gz", sep = ""))
-  write.csv(indv, pgz)
-  write.csv(hhs, hgz)
-  
-  sa1_start_coli = 4
-  ## distirbute SA2 level data among SA1s.
-  if (do_sa1) {
-    # Load above selected SA1 info file
-    SA1HhsDist = ReadSA1HouseholdsInSA2(sa1_files, sa2,14,8)
+  } else{
+    ### Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
+    # even after this
+    outlist = clean(
+      indv,
+      p_sa_col,
+      p_rel_col,
+      p_sex_col,
+      p_age_col,
+      p_value_col,
+      hhs,
+      h_nof_persons_col,
+      h_family_hh_type_col,
+      h_value_col
+    )
+    indv = outlist[[1]]
+    hhs = outlist[[2]]
+    errors[sa2,] = c(outlist[[3]], outlist[[4]])
     
-    #Following code iterates on hh types distributing them among SA1s. i.e each row represent a hh type
-    rowcount = nrow(hhs)
-    lastcol = ncol(SA1HhsDist)
-    for (i in 1:rowcount) {
-      sa1hhs = as.numeric(SA1HhsDist[i, sa1_start_coli:lastcol]) #get data cells by skipping row and col headers
-      sa1hhsttl = sum(sa1hhs)
-      sa2hhttl = hhs[i, 4]
+    #Save the cleaned data files
+    saoutpath = paste(out_loc, "/", sa2, "/", sep = "")
+    ifelse(
+      !dir.exists(path = saoutpath),
+      dir.create(
+        path = saoutpath,
+        showWarnings = T,
+        recursive = T
+      ),
+      FALSE
+    )
+    
+    colnames(indv)[p_sa_col] <- "SA"
+    colnames(indv)[p_rel_col] <- "Relationship status"
+    colnames(indv)[p_sex_col] <- "Sex"
+    colnames(indv)[p_age_col] <- "Age"
+    colnames(indv)[p_value_col] <- "Persons count"
+    colnames(hhs)[h_sa_col] <- "SA"
+    colnames(hhs)[h_nof_persons_col] <- "Household Size"
+    colnames(hhs)[h_family_hh_type_col] <- "Family household type"
+    colnames(hhs)[h_value_col] <- "Households count"
+    
+    pgz <- gzfile(paste(saoutpath, "persons.csv.gz", sep = ""))
+    hgz <- gzfile(paste(saoutpath, "households.csv.gz", sep = ""))
+    write.csv(indv, pgz)
+    write.csv(hhs, hgz)
+    
+    ## distirbute SA2 level data among SA1s.
+    if (do_sa1) {
+      # Load above selected SA1 info file
+      SA1HhsDist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
       
-      #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
-      if (sa2hhttl == 0) {
-        #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
-        adjustedSA1Hhs = (sa1hhs * 0)
-      } else if ((sa2hhttl - sa1hhsttl) > 0 & sum(sa1hhs) == 0) {
-        #There are extra hhs of current type in SA2, but none in the SA1s.
-        # In this case FillAccording2Dist function distributes hhs among randomly selected SA1s 
-        adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
-        warning(
-          sa2,
-          " No households in SA1s, but SA2 has ",
-          sa2hhttl,
-          " households - in ",
-          SA1HhsDist[i, 1],
-          " ",
-          SA1HhsDist[i, 2],
-          " : Placed each of them in a random SA1s"
-        )
+      #Following code iterates on hh types distributing them among SA1s. i.e each row represent a hh type
+      rowcount = nrow(hhs)
+      lastcol = ncol(SA1HhsDist)
+      
+      #If none of the SA1s have households in them, SA1HhDist only has 3 columns with SA2 name, hh size and
+      #family houshoeld type. So lastcol = 3 and sa1_start_col = 4
+      if (sa1_start_col < lastcol) {
+        #If this SA2's SA1 level distribution has any households we can approximate a suitable distribution.
+        #If there none of the SA1s have households according to the distribution we don't know where to put them.
+        #So we skip such SA2s
+        for (i in 1:rowcount) {
+          sa1hhs = as.numeric(SA1HhsDist[i, sa1_start_col:lastcol]) #get data cells by skipping row and col headers
+          sa1hhsttl = sum(sa1hhs)
+          sa2hhttl = hhs[i, 4]
+          
+          #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
+          if (sa2hhttl == 0) {
+            #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
+            adjustedSA1Hhs = (sa1hhs * 0)
+          } else if ((sa2hhttl - sa1hhsttl) > 0 &
+                     sum(sa1hhs) == 0) {
+            #There are extra hhs of current type in SA2, but none in the SA1s.
+            # In this case FillAccording2Dist function distributes hhs among randomly selected SA1s
+            adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
+            warning(
+              sa2,
+              " No households in SA1s, but SA2 has ",
+              sa2hhttl,
+              " households - in ",
+              SA1HhsDist[i, 1],
+              " ",
+              SA1HhsDist[i, 2],
+              " : Placed each of them in a random SA1s"
+            )
+          } else{
+            #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
+            adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
+          }
+          
+          SA1HhsDist[i, sa1_start_col:lastcol] = adjustedSA1Hhs
+        }
+        
+        #Save SA1 hh distribution
+        sa1hhsfile = paste(out_loc, sa2, "/SA1Hhs.csv", sep = "")
+        cat("SA1 distribution household distribution matched to SA2 households total\n")
+        cat("Updated SA1 household distribution saved to: ",
+            sa1hhsfile,
+            "\n")
+        write.csv(SA1HhsDist, sa1hhsfile)
       } else{
-        #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
-        adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
+        sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
       }
       
-      SA1HhsDist[i, sa1_start_coli:lastcol] = adjustedSA1Hhs
     }
-    #Save SA1 hh distribution
-    sa1hhsfile = paste(out_loc, sa2, "/SA1Hhs.csv", sep = "")
-    cat("SA1 distribution household distribution matched to SA2 households total\n")
-    cat("Updated SA1 household distribution saved to: ",
-        sa1hhsfile,
-        
-        "\n")
-    write.csv(SA1HhsDist, sa1hhsfile)
-  }
   }
 }
 cat("+++++++++++++++++++++++++++++++++++++++++++++++++\n")
 cat("\nEmpty SA2s\n")
-print(unlist(rownames(errors[is.na(errors[,"start_error"]),])))
-errors <- errors[!is.na(errors[,"start_error"]),]
+print(unlist(rownames(errors[is.na(errors[, "start_error"]),])))
+errors <- subset(errors, !is.na(errors[, "start_error"]))
 cat("\nSA2s above 5% error\n")
-print(errors[c(errors[,"start_error"] >= 5 & errors[,"end_error"] >= 5),])
-cat("Output files are saved under: ", out_loc, "\n")
+high_error <-
+  errors[c(abs(errors[, "start_error"]) >= 5 &
+             abs(errors[, "end_error"]) >= 5),]
+if (length(high_error) > 0) {
+  print(high_error)
+} else{
+  print(NULL)
+}
+
+if (do_sa1) {
+  cat("\nSA2s where all SA1s are empty, thus no SA1 distribution constructed\n")
+  if (length(sa2s_with_no_sa1s) > 0) {
+    print(sa2s_with_no_sa1s)
+  } else{
+    print(NULL)
+  }
+}
+
+cat("\nOutput files are saved under: ", out_loc, "\n")
 warnings()
