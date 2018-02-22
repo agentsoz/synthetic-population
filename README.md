@@ -7,46 +7,42 @@ LATCH populatin covers 613 SA1 areas that fall within Darebin (North, South) and
      - stringr
      - optparse
      - Metrics
-     - mipfp
+     - tools
+     - testthat
 
 - JAVA 8 (https://java.com/en/download/)
 - Maven (https://maven.apache.org/download.cgi)
 - ABS TableBuilder Pro access to download data
 
 ## Quick Run Guide (with already downloaded data)
-The downloaded data for this project are located in `buildpopulation/data/latch/raw/` directory.
-
-Execute shell script in `buildpopulation/run`
-
-        > cd run/
-        > sh run.sh
+The downloaded data for this project are located in `synthetic-population/data/melbourne/raw/` directory.
 
 ### Individual Commands
 
 Above `run` folder contains a shell script that calls R scripts to preprcess ABS data, build maven project and execute jar files. Below are the steps to follow to build the population manually.
 
-1. To preprocess ABS data, change directory to `buildpopulation/datapreprocessing/` and run below command,
+1. To preprocess ABS data, change directory to `synthetic-population/preprocessing/` and run below command,
 
         > ./sa2preprocess.R
 
-      This will preprocess ABS data and save the processed files to `buildpopulation/data/latch/absprocessed/SA2/`
+      This will preprocess ABS data and save the processed files to `synthetic-population/data/melbourne/processed/SA2/`
 
-2. To construct the synthetic population, chagne directory to `buildpopulation/populationbuilder/` and run following commands;
+2. To construct the synthetic population, change directory to `synthetic-population/populationbuilder/` and run following commands;
 
       Build the project,
       
         > mvn clean install
 
-      Above command will produce a jar file in `buildpopulation/populationbuilder/latchpop/`. Construct the synthetic population by running followng command
+      Above command will produce a jar file in `synthetic-population/populationbuilder/synthesis/`. Construct the synthetic population by running followng command
    
-        > cd populationbuilder
+        > cd synthetic-population
         > java -jar synthesis/target/synthesis.jar population.properties
    
-      This will save the constructed population files to `buildpopulation/data/latch/locationaldata`
+      This will save the constructed population files to `synthetic-population/data/melbourne/locationaldata`
 
 3. Assign dwelling properties to buildinds based on ABS data by running following commands
 
-        > cd populationbuilder
+        > cd synthetic-population
         > java -jar BuildingProperties/target/buildingproperties.jar Buildings.properties
 
 
@@ -58,7 +54,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
    * Number of persons by Relationship Status (RLHP) by Sex (SEXP) by Age group (AGE5P) by SA2. 
 
-     Construct the below table using "Counting Persons, Place of Enumeration" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `buildpopulation/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
+     Construct the below table using "Counting Persons, Place of Enumeration" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button if it is already selected, and save the table as `synthetic-population/data/latch/raw/SA2, RLHP Relationship in Household, SEXP and AGE5P.csv`.
 ```
 |---------------------------| Persons, Place of Enumeration     |
 | SA2 | RLHP | SEXP | AGE5P |                                   |
@@ -108,7 +104,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
        
    * Household composition distributions of each SA2 by SA1s in it. 
 
-     Construct below table in TableBuilder using "Counting Families, Place of Usual Residence" database for each SA2 and save the files in `buildpopulation/data/latch/raw/Hh-SA1-in-each-SA2/` directory. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
+     Construct below table in TableBuilder using "Counting Families, Place of Usual Residence" database for each SA2 and save the files in `synthetic-population/data/latch/raw/Hh-SA1-in-each-SA2/` directory. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
 
 ```
 |------| SA1s  | SA1_CODE1 | SA1_CODE2 | SA1_CODE3 |  ...  |
@@ -120,7 +116,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
   * Age distribution of persons in SA2s. 
 
-    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `buildpopulation/data/latch/raw/AGEP by SA3.csv`. Keep `Total` column shown in below structure and remove `Total` row from AGEP column.
+    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `synthetic-population/data/melbourne/raw/AGEP by SA3.csv`. Keep `Total` column shown in below structure and remove `Total` row from AGEP column.
 
 ```
 | SA3s | Darebin - South | Darebin - North | Banyule | Total |
@@ -132,7 +128,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
 ### 2. Download required Australian Statistical Geography Standard (ASGS) data cubes
 
-  Download following files from http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.001July%202011 . Save them in `data/latch/raw/All-Aus-SA1/`. Below two files cover all the SA1s in Australia, so do not need to be downloaded again for constructing a synthetic population in a new area.
+  Download following files from http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.001July%202011 . Save them in `data/melbourne/raw/`. Below two files cover all the SA1s in Australia, so do not need to be downloaded again for constructing a synthetic population in a new area.
   
    * [Statistical Area Level 1 (SA1) ASGS Ed 2011 Digital Boundaries in ESRI Shapefile Format](http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055001_sa1_2011_aust_shape.zip&1270.0.55.001&Data%20Cubes&24A18E7B88E716BDCA257801000D0AF1&0&July%202011&23.12.2010&Latest)
    * [Statistical Area Level 1 (SA1) ASGS Edition 2011 in .csv Format](http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055001_sa1_2011_aust_csv.zip&1270.0.55.001&Data%20Cubes&5AD36D669F284E70CA257801000C69BE&0&July%202011&23.12.2010&Latest)
@@ -141,7 +137,7 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
    1. Building Addresses shape files can be downloaded by selecting [Address](https://services.land.vic.gov.au/landchannel/content/vicmapdata?productID=1) from Vicmap Products list.
    
-   2. Default location for saving downloaded zip files is `buildpopulation/data/raw/address-shapefiles/`
+   2. Default location for saving downloaded zip files is `synthetic-population/data/raw/`
 
   This is used to construct the intial dwellings distribution in the area. Geographical coordinates are used to find the SA1 each building belongs to.
   
@@ -149,6 +145,6 @@ ABS TableBuilder tutorial is available at this [link](http://www.abs.gov.au/webs
 
 This will construct the new synthetic population. Further information is available in README files in each project directory
 
-  * `/buildpopulation/datapreprocessing/` - R scripts for preprocessing SA2 level population data csvs downloaded using ABS TableBuilder
-  * `/buildpopulation/populationbuilder/latchpop/` - Java project for constructing the synthetic population
-  * `/buildpopulation/populationbuilder/BuildingProperties/` - Java project for assiging dwelling properties to buildings in selecte area
+  * `/synthetic-population/preprocessing/` - R scripts for preprocessing SA2 level population data csvs downloaded using ABS TableBuilder
+  * `/synthetic-population/populationbuilder/synthesis/` - Java project for constructing the synthetic population
+  * `/synthetic-population/populationbuilder/BuildingProperties/` - Java project for assiging dwelling properties to buildings in selecte area
