@@ -71,33 +71,43 @@ eight_persons = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1)
 
 #ABS csv file specifics
 ## Persons file
-p_nof_cols = 6
-p_header_start_col = 1
-p_value_start_row = 12
+# Following three variables specify the data block that needs to be read from persons csv file
 
-p_sa_col = 1
-p_rel_col = 2
-p_sex_col = 3
-p_age_col = 4
-p_value_col = 5
+#number of columns
+p_nof_cols = 6 
+# The starting column including row headers in persons csv. Columns before this are skipped.
+p_header_start_col = 1
+# The first row where values start. The row above this is usually a header row, we are not interested in that 
+# row because p_sa_col, p_rel_col, p_sex_col, p_age_col and p_value_col variables below represent them
+p_value_start_row = 12 
+
+p_sa_col = 1 # SA names column index
+p_rel_col = 2 # Relationship categories column index
+p_sex_col = 3 # Sex categories column index
+p_age_col = 4 # Age categories column index
+p_value_col = 5 # The index of the colum with number of persons
 
 ## Households file
-h_nof_cols = 5
-h_header_start_col = 1
-h_values_start_row = 12
 
-h_sa_col = 1
-h_nof_persons_col = 2
-h_family_hh_type_col = 3
-h_value_col = 4
+#The data block
+h_nof_cols = 5 # number of relavent columns in households file.
+h_header_start_col = 1 # The starting column.
+h_values_start_row = 12 # The first row where values start. Same as above
+
+h_sa_col = 1 #SA names column index
+h_nof_persons_col = 2 #Number of persons in household column index
+h_family_hh_type_col = 3 #Family household type column index
+h_value_col = 4 #The number of households column index
 
 ## SA1 household distribution file
-sa2_col = 1
-family_hh_type_col = 3
-hh_size_col = 2
-sa1_start_col = 4
-sa1_row = 7
-colname_row = 8
-data_start_row = 9
+
+#R's read.csv failes to read this file properly
+sa2_col = 1 #SA1 codes column index
+family_hh_type_col = 3 # Family household type column index
+hh_size_col = 2 # Number of persons in household column index
+sa1_start_col = 4 # The starting column of SA1 codes 
+sa1_row = 7 # SA1 codes row
+colname_row = 8 # Column names row
+data_start_row = 9 # The row that data starts
 # End ABS csv file specifics
 
