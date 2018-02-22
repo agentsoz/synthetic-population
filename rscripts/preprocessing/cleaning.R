@@ -1,8 +1,4 @@
 library(Metrics)
-source("util.R")
-source("dwellingproperties.R")
-source("config.R")
-
 
 IndPossibles = list()
 for (rel in rel_status_cats) {

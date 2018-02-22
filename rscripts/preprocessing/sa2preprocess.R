@@ -33,7 +33,7 @@ option_list = list(
     c("--sa2s"),
     help = "The list of SA2s to process. The parameter can be either \"*\" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
     metavar = "LIST_NAMES",
-    default = "Port Melbourne Industrial"
+    default = "*"
   ),
   make_option(
     c("-a", "--a"),
@@ -64,8 +64,8 @@ opt_parser = OptionParser(option_list = option_list, description = script_descri
 opt = parse_args(opt_parser)
 
 #Load household distribution from ABS files
+print("Reading households file")
 hh_input <- opt$households
-
 hhArr = ReadHouseholds(
   hh_input,
   h_nof_cols,
@@ -80,6 +80,7 @@ hhArr = ReadHouseholds(
 )
 
 #Load persons distribution from ABS files
+print("Reading persons file")
 ind_input <- opt$persons
 indArr = ReadPersons(
   ind_input,
@@ -94,6 +95,7 @@ indArr = ReadPersons(
   sex_cats,
   age_cats
 )
+print("Persons and households file reading complete")
 
 #Read the list of SA2s
 isStar <- F
