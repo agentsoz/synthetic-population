@@ -1,4 +1,4 @@
-#Preprocessing ABS Data Files
+# Preprocessing ABS Data Files
 
 The data files downloaded from ABS contain random errors introduced to protect privacy. `sa2preprocess.R` script removes the errors using heuristics. We assume household information given in ABS data is more accurate than individual level information. First we adjust household level data to remove any discrepencies. Then individual data is adjusted to match household level data. There can still be differences between individual and household level data. Such cases are handled when constricuting the synthetic population.
 
@@ -8,6 +8,8 @@ Install following list of R libraries
 * Metrics
 * stringr
 * optparse
+* testthat
+* tools
 
 ## Run Instructions
 
