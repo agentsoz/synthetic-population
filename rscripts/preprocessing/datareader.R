@@ -1,7 +1,6 @@
 
 ReadHouseholds <- function(input_file, nof_cols, header_start_col, value_col, values_start_row, sa_col, nof_persons_col, family_hh_col, family_hh_cats, nof_persons_cats ) {
     
-    print("Reading households file")
     if (file_ext(input_file) == "zip") {
       csvname = paste(file_path_sans_ext(basename(input_file)),".csv",sep = "")
       inputCsv = unz(input_file,csvname)
@@ -32,13 +31,11 @@ ReadHouseholds <- function(input_file, nof_cols, header_start_col, value_col, va
     Hhs[values_start_row:lastRow,sa_col] = rep(SAlist, each=SAgap)
     
     hhArr = Hhs[values_start_row:lastRow,header_start_col:value_col]
-    print("Reading households file complete")
     return(hhArr)
   }
 
 ReadPersons <- function(input_file, nof_cols, heade_start_col, value_col,  values_start_row, sa_col, rel_col, sex_col, rel_cats, sex_cats, age_cats) {
-  print("Reading individuals file")
-
+  
   if (file_ext(input_file) == "zip") {
     csvname = paste(file_path_sans_ext(basename(input_file)),".csv",sep = "")
     inputCsv = unz(input_file,csvname)
@@ -76,7 +73,6 @@ ReadPersons <- function(input_file, nof_cols, heade_start_col, value_col,  value
   Inds[values_start_row:lastRow,rel_col] = rep(rellist, each = relgap)
   Inds[values_start_row:lastRow,sex_col] = rep(sexlist, each = sexgap)
   indArr = Inds[values_start_row:lastRow,heade_start_col:value_col]
-  print("Reading individuals file complete")
   return(indArr)
 }
 

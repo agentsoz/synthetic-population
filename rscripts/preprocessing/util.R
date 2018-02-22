@@ -1,4 +1,3 @@
-#!/usr/bin/env Rscript
 
 ReadBySA <- function(arr, SAid){
   rwids = which(arr[,1] == SAid)
