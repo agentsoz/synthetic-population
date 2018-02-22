@@ -1,0 +1,12 @@
+language: R
+sudo: false
+cache: packages
+warnings_are_errors: false
+
+r_binary_packages:
+  - stringr
+  - tools
+before_script:
+ - cd rscripts/tests
+script:
+ - Rscript run_tests.R
