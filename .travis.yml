@@ -7,4 +7,4 @@ install:
   - Rscript -e 'install.packages(c("devtools","testthat","stringr","tools","optparse","Metrics"))'
 
 script:
- - Rscript -e "library(testthat);invisible(source_dir('rscripts/',env=globalenv()));test_dir('tests');test_dir('tests',reporter='stop')"
+ - Rscript -e "library(testthat);invisible(source_dir('rscripts/preprocessing',env=globalenv()));test_dir('rscripts/tests');test_dir('rscripts/tests',reporter='stop')"
