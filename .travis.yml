@@ -9,3 +9,6 @@ r_binary_packages:
   - optparse
   - Metrics
   - testthat
+
+script:
+ - cd rscripts/tests && Rscript run_tests.R
