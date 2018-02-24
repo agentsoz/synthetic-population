@@ -10,5 +10,8 @@ r_binary_packages:
   - Metrics
   - testthat
 
+install:
+  - Rscript -e 'install.packages(c("devtools","testthat"))'
+
 script:
  - cd rscripts/tests && Rscript run_tests.R
