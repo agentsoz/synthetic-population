@@ -8,8 +8,4 @@ r_binary_packages:
   - tools
   - optparse
   - Metrics
-
-before_script:
- - cd rscripts/tests
-script:
- - Rscript run_tests.R
+  - testthat
