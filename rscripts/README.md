@@ -3,7 +3,7 @@
 The data files downloaded from ABS contain random errors introduced to protect privacy. `sa2preprocess.R` script removes the errors using heuristics. We assume household information given in ABS data is more accurate than individual level information. First we adjust household level data to remove any discrepencies. Then individual data is adjusted to match household level data. There can still be differences between individual and household level data. Such cases are handled when constricuting the synthetic population.
 
 ## Prerequisits
-Install following list of R libraries
+Install following list of R libraries:
 
 * Metrics
 * stringr
@@ -11,13 +11,20 @@ Install following list of R libraries
 * testthat
 * tools
 
+Libraries can be installed using the R shell using something like:
+```
+$ install.packages("Metrics")
+```
+
 ## Run Instructions
 
-To run with default settings, change directory to `synthetic-population/rscripts/` and run following command:
+To run with default settings, change directory to `./rscripts/preprocessing/` and run following command:
 
 ```
 > ./sa2preprocess.R
 ```
+
+**Add something about the format of the generated CSV files here. Include column headers and their meanings**
 
 Other commandline arguments
 
