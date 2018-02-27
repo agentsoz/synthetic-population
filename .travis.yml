@@ -4,7 +4,7 @@ cache: packages
 warnings_are_errors: false
 
 install:
-  - Rscript -e 'install.packages(c("devtools","testthat","stringr","tools","optparse","Metrics"))'
+ - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
 
 script:
- - Rscript -e "setwd('rscripts/tests');library('tools');test.dir('rscripts/tests')"
+ - Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
