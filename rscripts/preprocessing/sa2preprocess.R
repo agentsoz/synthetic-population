@@ -9,6 +9,7 @@ source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
 
+set.seed(randomSeed)
 option_list = list(
   make_option(
     c("--households"),
@@ -157,7 +158,7 @@ if (isStar) {
 
 out_loc <- opt$output
 do_sa1 <- opt$a
-sa1_files <- unlist(strsplit(opt$sa1s, ","))
+sa1_files <- unlist(strsplit(sub("\\n","",opt$sa1s), ","))
 
 errors <-
   matrix(
@@ -222,50 +223,11 @@ for (sa2 in sa2_list) {
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
       # Load above selected SA1 info file
-      SA1HhsDist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
+      raw_sa1_hh_dist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
       
-      #Following code iterates on hh types distributing them among SA1s. i.e each row represent a hh type
-      rowcount = nrow(hhs)
-      lastcol = ncol(SA1HhsDist)
+      adjusted_sa1_hh_dist = EstimateSA1HouseholdsDistribution(sa2,  hhs, raw_sa1_hh_dist)
       
-      #If none of the SA1s have households in them, SA1HhDist only has 3 columns with SA2 name, hh size and
-      #family houshoeld type. So lastcol = 3 and sa1_start_col = 4
-      if (sa1_start_col < lastcol) {
-        #If this SA2's SA1 level distribution has any households we can approximate a suitable distribution.
-        #If there none of the SA1s have households according to the distribution we don't know where to put them.
-        #So we skip such SA2s
-        for (i in 1:rowcount) {
-          sa1hhs = as.numeric(SA1HhsDist[i, sa1_start_col:lastcol]) #get data cells by skipping row and col headers
-          sa1hhsttl = sum(sa1hhs)
-          sa2hhttl = hhs[i, 4]
-          
-          #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
-          if (sa2hhttl == 0) {
-            #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
-            adjustedSA1Hhs = (sa1hhs * 0)
-          } else if ((sa2hhttl - sa1hhsttl) > 0 &
-                     sum(sa1hhs) == 0) {
-            #There are extra hhs of current type in SA2, but none in the SA1s.
-            # In this case FillAccording2Dist function distributes hhs among randomly selected SA1s
-            adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
-            warning(
-              sa2,
-              " No households in SA1s, but SA2 has ",
-              sa2hhttl,
-              " households - in ",
-              SA1HhsDist[i, 1],
-              " ",
-              SA1HhsDist[i, 2],
-              " : Placed each of them in a random SA1s"
-            )
-          } else{
-            #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
-            adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
-          }
-          
-          SA1HhsDist[i, sa1_start_col:lastcol] = adjustedSA1Hhs
-        }
-        
+      if(!is.null(adjusted_sa1_hh_dist)){
         #Save SA1 hh distribution
         sa1hhsgzfile <- gzfile(paste(saoutpath, sa1_households_file_name, sep = ""))
         cat("SA1 distribution household distribution matched to SA2 households total\n")
@@ -273,9 +235,8 @@ for (sa2 in sa2_list) {
             summary(sa1hhsgzfile)$description,
             "\n")
         CreateDir(dirname(summary(sa1hhsgzfile)$description))
-        write.csv(SA1HhsDist, sa1hhsgzfile, row.names = FALSE)
-        
-      } else{
+        write.csv(adjusted_sa1_hh_dist, sa1hhsgzfile, row.names = FALSE)
+      }else{
         sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
       }
       
