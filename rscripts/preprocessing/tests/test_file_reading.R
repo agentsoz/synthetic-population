@@ -1,19 +1,11 @@
 library(testthat)
 library(tools)
 
+source("configs_for_tests.R")
 source("../config.R")
 source("../datareader.R")
 source("../util.R")
-source("../cleaning.R")
 
-abs_persons_file = 'test_data/Persons_2016_Greater_Melbourne_SA2.zip'
-abs_households_file = 'test_data/Households_2016_Greater_Melbourne_SA2.zip'
-abs_sa1_households_file = 'test_data/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip'
-ref_persons_file = 'test_data/persons.rds'
-ref_households_file = 'test_data/households.rds'
-test_sa2 = "Brunswick"
-ref_cleaned_households_file = 'test_data/Brunswick_cleaned_households.rds'
-ref_cleaned_persons_file = 'test_data/Brunswick_cleaned_persons.rds'
 
 #Verifys whether households distribution is read properly
 func_hhArr = ReadHouseholds(
@@ -56,29 +48,11 @@ test_that("ABS Persons Distribution reading", {
   expect_equal(func_indArr, ref_indArr)
 })
 
-indv = ReadBySA(ref_indArr, test_sa2)
-hhs = ReadBySA(ref_hhArr, test_sa2)
+ref_sa1_hh_dist = readRDS(ref_sa1_households_file)
+func_sa1_hh_dist = ReadSA1HouseholdsInSA2(c(abs_sa1_households_file),test_sa2,length(family_hh_cats), length(hh_sizes))
 
-log <- capture.output({
-  outlist <- clean(
-    indv,
-    p_sa_col,
-    p_rel_col,
-    p_sex_col,
-    p_age_col,
-    p_value_col,
-    hhs,
-    h_nof_persons_col,
-    h_family_hh_type_col,
-    h_value_col
-  )
+test_that("SA1 household distribution reading", {
+  expect_equal(func_sa1_hh_dist, ref_sa1_hh_dist)
 })
 
 
-brunswick_cleaned_indv = readRDS(ref_cleaned_persons_file)
-brunswick_cleaned_hhs = readRDS(ref_cleaned_households_file)
-
-test_that("Data cleaning", {
-  expect_equal(outlist[[1]], brunswick_cleaned_indv)
-  expect_equal(outlist[[2]], brunswick_cleaned_hhs)
-})

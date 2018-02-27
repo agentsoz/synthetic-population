@@ -1,3 +1,5 @@
+randomSeed =  1
+
 #Person types
 rel_status_cats = c(
   'Married',
@@ -108,7 +110,8 @@ hh_size_col = 2 # Number of persons in household column index
 sa1_start_col = 4 # The starting column of SA1 codes 
 sa1_row = 7 # SA1 codes row
 colname_row = 8 # Column names row
-data_start_row = 9 # The row that data starts
+sa1_data_start_row = 9 # The row that data starts
+hh_types_count = length(hh_sizes)* length(family_hh_cats)
 # End ABS csv file specifics
 
 #Output file configurations

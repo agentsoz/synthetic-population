@@ -30,3 +30,28 @@ CreateDir <-function(directory_path){
     FALSE
   )
 }
+
+FillAccording2Dist <- function(dataarray, amount) {
+  if (sum(dataarray) == 0) {
+    #if all data array cells are 0, we cannot approximate a distribution. So we assign the amount to random cells assuming a uniform distribution.
+    idx = ceiling(runif(amount, 0, length(dataarray)))
+    for (i in idx) {
+      dataarray[i] <- dataarray[i] + 1
+    }
+  } else{
+    dist = dataarray / sum(dataarray)
+    newAddition = dist * amount
+    if ((round(sum(newAddition)) - sum(floor(newAddition))) != 0) {
+      newAddition = SmartRound(newAddition)
+    }
+    dataarray = dataarray + newAddition
+  }
+  return(dataarray)
+}
+
+SmartRound <- function(x) {
+  y <- floor(x)
+  indices <- tail(order(x - y), round(sum(x)) - sum(y))
+  y[indices] <- y[indices] + 1
+  return(y)
+}
