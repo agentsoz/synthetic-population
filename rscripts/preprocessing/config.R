@@ -111,3 +111,7 @@ colname_row = 8 # Column names row
 data_start_row = 9 # The row that data starts
 # End ABS csv file specifics
 
+#Output file configurations
+persons_file_name ="preprocessed/person_types.csv.gz"
+households_file_name = "preprocessed/household_types.csv.gz"
+sa1_households_file_name = "preprocessed/sa1_household_types.csv.gz"
