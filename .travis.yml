@@ -7,4 +7,4 @@ install:
   - Rscript -e 'install.packages(c("devtools","testthat","stringr","tools","optparse","Metrics"))'
 
 script:
- - Rscript -e "setwd('rscripts/tests');library('tools');source('test_file_reading.R')"
+ - Rscript -e "setwd('rscripts/tests');library('tools');test.dir('rscripts/tests')"
