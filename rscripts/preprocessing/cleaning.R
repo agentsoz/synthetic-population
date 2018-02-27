@@ -66,26 +66,6 @@ SmartRound <- function(x) {
   return(y)
 }
 
-
-
-
-#' Title
-#'
-#' @param person
-#' @param pSAColi
-#' @param pRelColi
-#' @param pSexColi
-#' @param pAgeColi
-#' @param pValColi
-#' @param hhold
-#' @param hPersonCountColi
-#' @param hFamilyTypeColi
-#' @param hValColi
-#'
-#' @return
-#' @export
-#'
-#' @examples
 clean <-
   function(person,
            pSAColi,

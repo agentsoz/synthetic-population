@@ -1,9 +1,10 @@
 library(testthat)
+library(tools)
 
-source("../preprocessing/config.R")
-source("../preprocessing/datareader.R")
-source("../preprocessing/util.R")
-source("../preprocessing/cleaning.R")
+source("../config.R")
+source("../datareader.R")
+source("../util.R")
+source("../cleaning.R")
 
 abs_persons_file = 'test_data/Persons_2016_Greater_Melbourne_SA2.zip'
 abs_households_file = 'test_data/Households_2016_Greater_Melbourne_SA2.zip'
