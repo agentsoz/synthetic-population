@@ -25,7 +25,7 @@ option_list = list(
   ),
   make_option(
     c("-o", "--output"),
-    default = "../../data/melbourne/processed/SA2/",
+    default = "../../data/melbourne/generated/SA2/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -197,32 +197,27 @@ for (sa2 in sa2_list) {
     hhs = outlist[[2]]
     errors[sa2,] = c(outlist[[3]], outlist[[4]])
     
-    #Save the cleaned data files
-    saoutpath = paste(out_loc, "/", sa2, "/", sep = "")
-    ifelse(
-      !dir.exists(path = saoutpath),
-      dir.create(
-        path = saoutpath,
-        showWarnings = T,
-        recursive = T
-      ),
-      FALSE
-    )
-    
     colnames(indv)[p_sa_col] <- "SA"
     colnames(indv)[p_rel_col] <- "Relationship status"
     colnames(indv)[p_sex_col] <- "Sex"
     colnames(indv)[p_age_col] <- "Age"
     colnames(indv)[p_value_col] <- "Persons count"
+    
     colnames(hhs)[h_sa_col] <- "SA"
     colnames(hhs)[h_nof_persons_col] <- "Household Size"
     colnames(hhs)[h_family_hh_type_col] <- "Family household type"
     colnames(hhs)[h_value_col] <- "Households count"
     
-    pgz <- gzfile(paste(saoutpath, "persons.csv.gz", sep = ""))
-    hgz <- gzfile(paste(saoutpath, "households.csv.gz", sep = ""))
-    write.csv(indv, pgz)
-    write.csv(hhs, hgz)
+    #Save the cleaned data files
+    saoutpath = paste(out_loc, sa2,"/", sep = "")
+    
+    pgz <- gzfile(paste(saoutpath, persons_file_name, sep = ""))
+    CreateDir(dirname(summary(pgz)$description))
+    write.csv(indv, pgz, row.names = FALSE)
+    
+    hgz <- gzfile(paste(saoutpath, households_file_name, sep = ""))
+    CreateDir(dirname(summary(hgz)$description))
+    write.csv(hhs, hgz, row.names = FALSE)
     
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
@@ -272,12 +267,14 @@ for (sa2 in sa2_list) {
         }
         
         #Save SA1 hh distribution
-        sa1hhsfile = paste(out_loc, sa2, "/SA1Hhs.csv", sep = "")
+        sa1hhsgzfile <- gzfile(paste(saoutpath, sa1_households_file_name, sep = ""))
         cat("SA1 distribution household distribution matched to SA2 households total\n")
         cat("Updated SA1 household distribution saved to: ",
-            sa1hhsfile,
+            sa1hhsgzfile,
             "\n")
-        write.csv(SA1HhsDist, sa1hhsfile)
+        CreateDir(dirname(summary(sa1hhsgzfile)$description))
+        write.csv(SA1HhsDist, sa1hhsgzfile, row.names = FALSE)
+        
       } else{
         sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
       }
@@ -296,7 +293,7 @@ high_error <-
 if (length(high_error) > 0) {
   print(high_error)
 } else{
-  print(NULL)
+  print("None")
 }
 
 if (do_sa1) {
@@ -304,7 +301,7 @@ if (do_sa1) {
   if (length(sa2s_with_no_sa1s) > 0) {
     print(sa2s_with_no_sa1s)
   } else{
-    print(NULL)
+    print("None")
   }
 }
 

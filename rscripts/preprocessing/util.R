@@ -18,3 +18,15 @@ GetMatchingColIds <- function(arr,row,key){
   colids = which(arr[row,] == key)
   return(colids)
 }
+
+CreateDir <-function(directory_path){
+  ifelse(
+    !dir.exists(path = directory_path),
+    dir.create(
+      path = directory_path,
+      showWarnings = T,
+      recursive = T
+    ),
+    FALSE
+  )
+}

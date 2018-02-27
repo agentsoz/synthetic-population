@@ -9,7 +9,6 @@ Install following list of R libraries:
 * stringr
 * optparse
 * testthat
-* tools
 
 Libraries can be installed using the R shell using something like:
 ```
@@ -43,7 +42,7 @@ Options:
 		Person data file from ABS. The file can be either a zip or a csv. [default= ../../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip]
 
 	-o DIR, --output=DIR
-		The path of the output directory. [default= ../../data/melbourne/processed/SA2/]
+		The path of the output directory. [default= ../../data/melbourne/generated/SA2/]
 
 	--sa2s=LIST_IDS
 		The list of SA2s to process. The parameter can be either "*" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= *]
@@ -65,9 +64,23 @@ Options:
 		Show this help message and exit
 ```
 
-## Input files from ABS TableBuilder
+## The generated files
 
-Default input files are located in `synthetic-population/data/melbourne/raw/` directory. Default location for the processed files is `synthetic-population/data/melbourne/processed/SA2/`.
+The script generates 3 output files describing person types and household types in the population. The generated files are located under `/data/melbourne/generated/SA2/<SA2 Name>/preprocessed` directory. `<SA2 Name>` represents one of the SA2s in the target area.
+* person_types.csv.gz  
+This file contains the distribution of persons types within an SA2. The person types are represented by following column   headers:
+   * SA2 - The name of the SA2 which persons belong to
+   * Relationsihp Status - The relationship to other members of the household. The relationship types are: Married, Lone parent, Dependent under 15 child (U15Child), Dependent student, Non-dependent over 15 child (O15Child), Group household, Lone person, Relative )
+   * Sex - The sex of the persons
+   * Age - Uses following age categories: 0-15, 16-24, 25-39, 40-54, 55-69, 70-84, 85-99, 100 or over
+   * Persons count - The number of persons
+   
+* household_types.csv.gz
+This file contains the distribution of household types within an SA2. The file has following columns
+   * SA2 - The name of the SA2 which households belong to
+   * Household size - The number of persons that can live in an household. The values range from one person to eight or more persons.
+   * Family Household type -  Describes the number of families in the household and the type of the primary family. There can be upto 3 families living the same household and the primar family can be eithe Couple family with child, Couple family with no child, One parent family or Other family. In addition to that household can fall under Group households or Lone person households.
+   * Households count - The number of households.
 
 ## Using different statistical areas
 
