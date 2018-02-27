@@ -270,7 +270,7 @@ for (sa2 in sa2_list) {
         sa1hhsgzfile <- gzfile(paste(saoutpath, sa1_households_file_name, sep = ""))
         cat("SA1 distribution household distribution matched to SA2 households total\n")
         cat("Updated SA1 household distribution saved to: ",
-            sa1hhsgzfile,
+            summary(sa1hhsgzfile)$description,
             "\n")
         CreateDir(dirname(summary(sa1hhsgzfile)$description))
         write.csv(SA1HhsDist, sa1hhsgzfile, row.names = FALSE)
