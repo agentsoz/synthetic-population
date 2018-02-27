@@ -28,7 +28,7 @@ public class DataReader {
                                          CSVFormat.EXCEL.withSkipHeaderRecord(false));
         int r = -1;
         String sa, hhSize, familyDesc, hhcount, currentSA = null;
-        int saCol = 1, hhSizeCol = 2, familyDescriptionCol = 3, hhCountCol = 4;
+        int saCol = 0, hhSizeCol = 1, familyDescriptionCol = 2, hhCountCol = 3;
         List<HhRecord> hhreclist = null;
         Map<String, List<HhRecord>> hhdata = new LinkedHashMap<>();
         for (CSVRecord rec : parser) {
@@ -67,7 +67,7 @@ public class DataReader {
         String sa, ageRangeStr, currentSA = null;
         RelationshipStatus relStatus;
         Sex sex;
-        int sacol = 1, relcol = 2, sexcol = 3, agecol = 4, nofagentscol = 5;
+        int sacol = 0, relcol = 1, sexcol = 2, agecol = 3, nofagentscol = 4;
         List<IndRecord> indreclist = new ArrayList<>();
         Map<String, List<IndRecord>> inddata = new LinkedHashMap<>();
         for (CSVRecord rec : parser) {
