@@ -107,7 +107,7 @@ public class FamilyFactory {
     List<Family> makeMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
 
         //Sort two lists in age descending order
-
+        //TODO: Younger married pesons may be over represented in married-extra list
         Collections.sort(marriedMales, ageComparator.reversed());
         Collections.sort(marriedFemales, ageComparator.reversed());
 
