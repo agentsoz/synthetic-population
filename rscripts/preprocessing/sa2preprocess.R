@@ -267,4 +267,4 @@ if (do_sa1) {
 }
 
 cat("\nOutput files are saved under: ", out_loc, "\n")
-warnings()
+cat("Done!")
