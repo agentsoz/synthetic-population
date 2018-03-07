@@ -2,6 +2,8 @@
 
 The data files downloaded from ABS contain random errors introduced to protect privacy. `sa2preprocess.R` script removes the errors using heuristics. We assume household information given in ABS data is more accurate than individual level information. First we adjust household level data to remove any discrepencies. Then individual data is adjusted to match household level data. There can still be differences between individual and household level data. Such cases are handled when constricuting the synthetic population.
 
+Given the SA1 level disaggregated household distribution within each SA2, the program can also be used to remove descrepencies between each SA2's aggregated household distribution and disaggregated SA1 level household distribution of the given SA2. In this case SA1 level household distribution is adjusted proportionally to match the total number of households in the corresponding SA2. This part of the program is triggered by setting `-a` flag and providing relavent inputs as described below.
+
 ## Prerequisits
 Install following list of R libraries:
 
