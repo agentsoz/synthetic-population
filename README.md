@@ -14,12 +14,8 @@ LATCH populatin covers 613 SA1 areas that fall within Darebin (North, South) and
 - Maven (https://maven.apache.org/download.cgi)
 - ABS TableBuilder Pro access to download data
 
-## Quick Run Guide (with already downloaded data)
-The downloaded data for this project are located in `synthetic-population/data/melbourne/raw/` directory.
-
-### Individual Commands
-
-Above `run` folder contains a shell script that calls R scripts to preprcess ABS data, build maven project and execute jar files. Below are the steps to follow to build the population manually.
+## How to run (with already downloaded data)
+The downloaded data for this project are located in `synthetic-population/data/melbourne/raw/` directory. To generate the population execute below commads.
 
 1. To preprocess ABS data, change directory to `synthetic-population/preprocessing/` and run below command,
 
