@@ -81,6 +81,13 @@ This file contains the distribution of household types within an SA2. The file h
    * Household size - The number of persons that can live in an household. The values range from one person to eight or more persons.
    * Family Household type -  Describes the number of families in the household and the type of the primary family. There can be upto 3 families living the same household and the primar family can be eithe Couple family with child, Couple family with no child, One parent family or Other family. In addition to that household can fall under Group households or Lone person households.
    * Households count - The number of households.
+   
+ * sa1_household_types.csv.gz
+ This files contains the distribution of household types by SA1s within an SA2. The file has following columns
+   * SA2 - The name of the SA2 which households belong to
+   * Household size - The number of persons that can live in an household. The values range from one person to eight or more persons.
+   * Family Household type -  Describes the number of families in the household and the type of the primary family. There can be upto 3 families living the same household and the primar family can be eithe Couple family with child, Couple family with no child, One parent family or Other family. In addition to that household can fall under Group households or Lone person households.
+   * List of SA1s - This is the list of SA1s in the SA2 that this file represents. The number of in each SA1 is given under these columns.
 
 ## Using different statistical areas
 
