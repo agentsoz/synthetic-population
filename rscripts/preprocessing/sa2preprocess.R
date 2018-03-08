@@ -251,7 +251,7 @@ cat("\nEmpty SA2s\n")
 print(unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 errors <- subset(errors, !is.na(errors[, "start_error%"]))
 cat("\nSA2s above 5% error\n")
-cat("The difference between the number of persons in household distirbution and persons in distributions as a percentage of persons in household distribution\n")
+cat("The difference between the number of persons in household distirbution and persons in distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n")
 high_error <-
   errors[c(abs(errors[, "start_error%"]) >= 5 &
              abs(errors[, "end_error%"]) >= 5),]
