@@ -165,7 +165,7 @@ errors <-
     NA,
     nrow = length(sa2_list),
     ncol = 2,
-    dimnames = list(sa2_list, c("start_error", "end_error"))
+    dimnames = list(sa2_list, c("start_error%", "end_error%"))
   )
 sa2s_with_no_sa1s = c() #Book-keeping SA2s that have all empty SA1s according to input data.
 sa2_count = 0
@@ -248,12 +248,13 @@ for (sa2 in sa2_list) {
 }
 cat("===============================================================\n")
 cat("\nEmpty SA2s\n")
-print(unlist(rownames(errors[is.na(errors[, "start_error"]),])))
-errors <- subset(errors, !is.na(errors[, "start_error"]))
+print(unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
+errors <- subset(errors, !is.na(errors[, "start_error%"]))
 cat("\nSA2s above 5% error\n")
+cat("The difference between the number of persons in household distirbution and persons in distributions as a percentage of persons in household distribution\n")
 high_error <-
-  errors[c(abs(errors[, "start_error"]) >= 5 &
-             abs(errors[, "end_error"]) >= 5),]
+  errors[c(abs(errors[, "start_error%"]) >= 5 &
+             abs(errors[, "end_error%"]) >= 5),]
 if (length(high_error) > 0) {
   print(high_error)
 } else{
