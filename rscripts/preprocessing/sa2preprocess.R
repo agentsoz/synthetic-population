@@ -158,7 +158,7 @@ if (isStar) {
 
 out_loc <- opt$output
 do_sa1 <- opt$a
-sa1_files <- unlist(strsplit(sub("\\n","",opt$sa1s), ","))
+sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1s), ","),trimws))
 
 errors <-
   matrix(
@@ -168,9 +168,10 @@ errors <-
     dimnames = list(sa2_list, c("start_error", "end_error"))
   )
 sa2s_with_no_sa1s = c() #Book-keeping SA2s that have all empty SA1s according to input data.
-
+sa2_count = 0
 for (sa2 in sa2_list) {
-  cat("------------ Processing", sa2, " --------------\n")
+  sa2_count = sa2_count + 1
+  cat("------------ Processing", sa2," (",sa2_count,"/",length(sa2_list),") --------------\n")
   
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
@@ -220,8 +221,10 @@ for (sa2 in sa2_list) {
     CreateDir(dirname(summary(hgz)$description))
     write.csv(hhs, hgz, row.names = FALSE)
     
+    cat("Processing  ",sa2_count,"/",length(sa2_list),"\r")
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
+      cat("Estimating SA1 households distribution ...\r")
       # Load above selected SA1 info file
       raw_sa1_hh_dist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
       
@@ -238,12 +241,12 @@ for (sa2 in sa2_list) {
         write.csv(adjusted_sa1_hh_dist, sa1hhsgzfile, row.names = FALSE)
       }else{
         sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
+        cat("All SA1s are empty in this SA2             \n")
       }
-      
     }
   }
 }
-cat("+++++++++++++++++++++++++++++++++++++++++++++++++\n")
+cat("===============================================================\n")
 cat("\nEmpty SA2s\n")
 print(unlist(rownames(errors[is.na(errors[, "start_error"]),])))
 errors <- subset(errors, !is.na(errors[, "start_error"]))
