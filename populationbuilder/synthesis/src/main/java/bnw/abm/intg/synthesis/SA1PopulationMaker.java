@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * @author Bhagya N. Wickramasinghe 2 Jun 2016
+ * @author wniroshan 2 Jun 2016
  */
 public class SA1PopulationMaker {
 
@@ -21,44 +21,45 @@ public class SA1PopulationMaker {
         this.random = random;
     }
 
-    Map<String, List<Household>> distributePopulationToSA1s(Map<String, Map<String, Integer>> householdsCountBySA1sByType,
-                                                            Map<String, List<Household>> householdsByType, Random random) {
+    /**
+     * Distributes households among the SA1s in the corresponding SA2
+     * @param hhDistBySA1sByType The number of households distribution by SA1 and type
+     * @param hhsByType The household instances distribution by household type
+     * @param random The random number generator.
+     */
+    void distributePopulationToSA1s(Map<String, Map<String, Integer>> hhDistBySA1sByType,
+                                                            Map<String, List<Household>> hhsByType,
+                                                            Random random) {
+        /*
+         * Iterated over the household types, assigning the households under each hh type to the SA1 that they will
+         * belong to.
+         */
+        for (String hhType : hhDistBySA1sByType.keySet()) {
+            List<Household> householdsOfSelectedType = hhsByType.get(hhType);
+            if (householdsOfSelectedType != null) { // If no Hhs in this type nothing to do.
 
-        for (String hhType : householdsCountBySA1sByType.keySet()) {
-            List<Household> householdsOfSelectedType = householdsByType.get(hhType);
-            if (householdsOfSelectedType == null) {
-                householdsOfSelectedType = new ArrayList<>();
-            }
-            Collections.shuffle(householdsOfSelectedType, random);
-            Map<String, Integer> householdCountOfSelectedTypeBySA1 = householdsCountBySA1sByType.get(hhType);
-            Map<String, List<Household>> tempHholdsOfSA1 = new LinkedHashMap<>();
-            for (String sa1 : householdCountOfSelectedTypeBySA1.keySet()) {
-                int hhCountOfSelectedTypeInThisSA1 = householdCountOfSelectedTypeBySA1.get(sa1);
-                List<Household> existingHouseholds = householdsBySA1.get(sa1);
-                // System.out.println(hhType+" "+sa1+" "+hhCountOfSelectedTypeInThisSA1);
-                List<Household> newHouseholds = householdsOfSelectedType.subList(0, hhCountOfSelectedTypeInThisSA1);
-                newHouseholds.stream().forEach(h -> h.setSA1Code(sa1));
-                if (existingHouseholds == null) {
-                    existingHouseholds = new ArrayList<>(newHouseholds);
-                    householdsBySA1.put(sa1, existingHouseholds);
-                } else {
-                    existingHouseholds.addAll(newHouseholds);
+                Collections.shuffle(householdsOfSelectedType, random);
+                //Get the number of households of the current hh type under each SA1
+                Map<String, Integer> hhsCountOfSelectedTypeBySA1 = hhDistBySA1sByType.get(hhType);
+                Map<String, List<Household>> tempHholdsOfSA1 = new LinkedHashMap<>();
+                for (String sa1 : hhsCountOfSelectedTypeBySA1.keySet()) {
+                    int hhCountInSA1 = hhsCountOfSelectedTypeBySA1.get(sa1);
+
+                    List<Household> newHouseholds = householdsOfSelectedType.subList(0, hhCountInSA1);
+                    newHouseholds.stream().forEach(h -> h.setSA1Code(sa1));
+                    householdsOfSelectedType.subList(0, hhCountInSA1).clear();
                 }
-                List<Household> allocatedHhs = new ArrayList<>(householdsOfSelectedType.subList(0, hhCountOfSelectedTypeInThisSA1));
-                tempHholdsOfSA1.put(sa1, allocatedHhs);
-                householdsOfSelectedType.subList(0, hhCountOfSelectedTypeInThisSA1).clear();
-                // householdsBySA1.put(sa1, householdsOfSelectedType.subList(0, hhCountOfSelectedTypeInThisSA1));
-                // System.out.println();
             }
-            householdsBySA1ByType.put(hhType, tempHholdsOfSA1);
         }
-        return householdsBySA1;
     }
 
-    void assignTENLLDtoHouseholds(Path tenlldLocation, String tenlldFileName, Map<String, List<Household>> householdsBySA1) throws IOException {
+    void assignTENLLDtoHouseholds(Path tenlldLocation,
+                                  String tenlldFileName,
+                                  Map<String, List<Household>> householdsBySA1) throws IOException {
         for (String sa1 : householdsBySA1.keySet()) {
             List<List<String>> tenlldProps = DataReader
-                    .readTenlldDistribution(Paths.get(tenlldLocation + File.separator + sa1 + File.separator + tenlldFileName));
+                    .readTenlldDistribution(Paths.get(tenlldLocation + File.separator + sa1 + File.separator +
+                                                              tenlldFileName));
             List<Household> hholds = householdsBySA1.get(sa1);
             int hholdsCount = hholds.size();
             Collections.shuffle(hholds, random);
@@ -76,7 +77,8 @@ public class SA1PopulationMaker {
                 hholds.subList(start, end).stream().forEach(h -> h.setTenlld(tenlldName));
             }
             if (end < hholds.size()) {
-                hholds.subList(end, hholds.size()).stream().forEach(h -> h.setTenlld(tenlldProps.get(random.nextInt(4)).get(0)));
+                hholds.subList(end, hholds.size()).stream().forEach(h -> h.setTenlld(tenlldProps.get(random.nextInt(4))
+                                                                                             .get(0)));
             }
         }
     }

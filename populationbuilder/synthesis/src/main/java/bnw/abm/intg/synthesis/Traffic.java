@@ -1,6 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.filemanager.BNWFiles;
+import bnw.abm.intg.filemanager.FileUtils;
 import bnw.abm.intg.filemanager.csv.CSVReader;
 import bnw.abm.intg.filemanager.csv.CSVWriter;
 import bnw.abm.intg.filemanager.json.JSONReadable;
@@ -80,7 +80,7 @@ public class Traffic {
         /*
          * Get all household data csvs
          */
-        List<Path> hHoldFiles = BNWFiles.find(popHome, hHoldRegex);
+        List<Path> hHoldFiles = FileUtils.find(popHome, hHoldRegex);
 
         /* attribute titles in AgentsList csvs */
         String[] agentAttributes = {"AgentId", "AgentType", "PartnerId", "MotherId", "FatherId", "RelationshipStatus",
