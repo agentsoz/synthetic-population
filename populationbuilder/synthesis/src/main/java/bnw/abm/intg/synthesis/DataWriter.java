@@ -1,15 +1,15 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.CSVWriter;
-import bnw.abm.intg.synthesis.models.*;
+import bnw.abm.intg.synthesis.models.Family;
+import bnw.abm.intg.synthesis.models.Household;
+import bnw.abm.intg.synthesis.models.Person;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
@@ -55,7 +55,7 @@ public class DataWriter {
                                      List<Household> allHouseholds,
                                      Path csvFilePath) throws IOException {
 
-        Map<String, List<Household>> householdsByType = groupHouseholdsByHouseholdType(allHouseholds);
+        Map<String, List<Household>> householdsByType = HouseholdSummary.groupHouseholdsByHouseholdType(allHouseholds);
 
         List<List<String>> fullHhSummary = new ArrayList<>();
         List<String> record1 = new ArrayList<>();
@@ -73,7 +73,8 @@ public class DataWriter {
 
             record.add(hhRec.getPrimaryFamilyType().description());
             int nofHhs = 0;
-            List<Household> hhs = householdsByType.get(hhRec.NUM_OF_PERSONS_PER_HH + ":" + hhRec.getFamilyCountPerHousehold() + ":"
+            List<Household> hhs = householdsByType.get(hhRec.NUM_OF_PERSONS_PER_HH + ":" + hhRec
+                    .getFamilyCountPerHousehold() + ":"
                                                                + hhRec.getPrimaryFamilyType());
             if (hhs != null) {
                 nofHhs = hhs.size();
@@ -84,7 +85,8 @@ public class DataWriter {
         }
 
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(csvFilePath)))), fullHhSummary);
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
+                csvFilePath)))), fullHhSummary);
     }
 
     static void savePersonsSummary(List<IndRecord> indRecs,
@@ -101,7 +103,8 @@ public class DataWriter {
         for (Household household : allHouseholds) {
             for (Family family : household.getFamilies()) {
                 for (Person person : family.getMembers()) {
-                    String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person.getAgeRange();
+                    String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person
+                            .getAgeRange();
                     int currentCount = map.get(searchKey);
                     map.put(searchKey, currentCount + 1);
                 }
@@ -123,41 +126,29 @@ public class DataWriter {
         }
 
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(csvFilePath)))), fullPersonSummary);
-    }
-
-    private static Map<String, List<Household>> groupHouseholdsByHouseholdType(List<Household> allHouseholds) throws IOException {
-
-        Map<String, List<Household>> householdsByType = new HashMap<>();
-
-        for (Household household : allHouseholds) {
-            Family primaryFamily = household.getPrimaryFamily();
-            String key = household.getCurrentSize() + ":" + household.getCurrentFamilyCount() + ":" + primaryFamily.getType();
-            if (householdsByType.containsKey(key)) {
-                householdsByType.get(key).add(household);
-            } else {
-                householdsByType.put(key, new ArrayList<>(Arrays.asList(household)));
-            }
-        }
-        return householdsByType;
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
+                csvFilePath)))), fullPersonSummary);
     }
 
     static void saveHouseholds(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
         List<List<String>> csvReadyHhs = householdAsList(allHouseholds);
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputCsvFile)))), csvReadyHhs);
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
+                outputCsvFile)))), csvReadyHhs);
     }
 
     static void saveFamilies(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
         List<List<String>> csvReadyFamilies = familiesAsList(allHouseholds);
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputCsvFile)))), csvReadyFamilies);
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
+                outputCsvFile)))), csvReadyFamilies);
     }
 
     static void savePersons(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
         List<List<String>> csvReadyPersons = personsAsList(allHouseholds);
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputCsvFile)))), csvReadyPersons);
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
+                outputCsvFile)))), csvReadyPersons);
     }
 
     private static List<List<String>> personsAsList(List<Household> allHouseholds) {
@@ -252,7 +243,7 @@ public class DataWriter {
     }
 
     private static List<List<String>> householdAsList(List<Household> allHouseholds) {
-        // Map<String,String> sa2CodeMap = ABSStatisticalAreaCodeConverter.
+
         List<List<String>> outputHouseholds = new ArrayList<>();
         outputHouseholds.add(HOUSEHOLDS_OUTPUT_COLS);
         for (Household household : allHouseholds) {
@@ -285,175 +276,4 @@ public class DataWriter {
 
         return outputHouseholds;
     }
-
-    static void saveSA1Households(Path csvFilesLocation,
-                                  Map<String, List<Household>> householdsBySA1) throws IOException {
-
-        for (String sa1 : householdsBySA1.keySet()) {
-            List<Household> households = householdsBySA1.get(sa1);
-            List<List<String>> outputHouseholds = new ArrayList<>();
-            List<String> titles = new ArrayList<>(Arrays.asList("GroupId",
-                                                                "GroupType",
-                                                                "GroupSize",
-                                                                "Members",
-                                                                "Bedrooms",
-                                                                "DwellingStructure",
-                                                                "FamilyIncome",
-                                                                "Tenure&Landlord",
-                                                                "FamilyIds",
-                                                                "SA1_7DIG"));
-            outputHouseholds.add(titles);
-            for (Household household : households) {
-                if (household.getPrimaryFamilyType() == FamilyType.OTHER_FAMILY) {// FIXME: add relatives back
-                    continue;
-                }
-                List<String> hhData = new ArrayList<>();
-                hhData.add(household.getID());
-                hhData.add(String.valueOf(household.getExpectedSize()));
-                hhData.add(String.valueOf(household.getCurrentSize()));
-
-                List<String> memberIds = household.getMembers()
-                        .stream()
-                        .map(Person::getID)
-                        .collect(Collectors.toList());
-                hhData.add(memberIds.toString());
-                hhData.add(null);
-                hhData.add(null);
-                hhData.add(null);
-                hhData.add(household.getTenlld());
-
-                List<String> familyIds = household.getFamilies()
-                        .stream()
-                        .map(Family::getID)
-                        .collect(Collectors.toList());
-                hhData.add(familyIds.toString());
-                hhData.add(household.getSA1Code());
-                outputHouseholds.add(hhData);
-            }
-
-            Path sa1dir = Paths.get(csvFilesLocation + File.separator + sa1);
-            Files.createDirectories(sa1dir);
-            Path outputFile = Paths.get(sa1dir + File.separator + "HouseholdData.csv");
-            CSVWriter csvWriter = new CSVWriter();
-            csvWriter.writeAsCsv(Files.newBufferedWriter(outputFile), outputHouseholds);
-        }
-    }
-
-    static void saveSA1Persons(Path csvFilesLocation, Map<String, List<Household>> householdsBySA1) throws IOException {
-        for (String sa1 : householdsBySA1.keySet()) {
-            List<List<String>> outputPersons = new ArrayList<>();
-            List<String> titles = new ArrayList<>(Arrays.asList("AgentId",
-                                                                "PartnerId",
-                                                                "MotherId",
-                                                                "FatherId",
-                                                                "ChildrenIds",
-                                                                "RelativeIds",
-                                                                "RelationshipStatus",
-                                                                "Gender",
-                                                                "GroupSize",
-                                                                "Age",
-                                                                "GroupId",
-                                                                "Travel2Work",
-                                                                "Destination",
-                                                                "PersonalIncome"));
-            outputPersons.add(titles);
-            for (Household household : householdsBySA1.get(sa1)) {
-                // if (!household.validate()) {
-                // throw new Error("Validation failed");
-                // }
-                for (Family family : household.getFamilies()) {
-                    // if (!family.validate()) {
-                    // throw new Error("Validation failed");
-                    // }
-                    for (Person person : family.getMembers()) {
-                        // if (!person.validate()) {
-                        // throw new Error("Validation failed");
-                        // }
-                        List<String> pdata = new ArrayList<>();
-                        pdata.add(String.valueOf(person.getID()));
-                        if (person.getPartner() != null) {
-                            pdata.add(String.valueOf(person.getPartner().getID()));
-                        } else {
-                            pdata.add(null);
-                        }
-                        if (person.getMother() != null) {
-                            pdata.add(String.valueOf(person.getMother().getID()));
-                        } else {
-                            pdata.add(null);
-                        }
-                        if (person.getFather() != null) {
-                            pdata.add(String.valueOf(person.getFather().getID()));
-                        } else {
-                            pdata.add(null);
-                        }
-                        if (person.getChildren() != null) {
-                            List<String> childrenIds = person.getChildren()
-                                    .stream()
-                                    .map(Person::getID)
-                                    .collect(Collectors.toList());
-                            pdata.add(childrenIds.toString());
-                        } else {
-                            pdata.add(null);
-                        }
-                        pdata.add(null);
-                        if (person.getRelatives() != null) {
-                            List<String> relativeIds = person.getRelatives()
-                                    .stream()
-                                    .map(Person::getID)
-                                    .collect(Collectors.toList());
-                            pdata.add(relativeIds.toString());
-                        } else {
-                            pdata.add(null);
-                        }
-
-                        pdata.add(String.valueOf(person.getRelationshipStatus()));
-                        pdata.add(String.valueOf(person.getSex()));
-                        pdata.add(String.valueOf(household.getCurrentSize()));
-                        pdata.add(String.valueOf(person.getAge()));
-                        pdata.add(household.getID());
-                        outputPersons.add(pdata);
-                    }
-                }
-            }
-            Path sa1dir = Paths.get(csvFilesLocation + File.separator + sa1);
-            Files.createDirectories(sa1dir);
-            Path outputFile = Paths.get(sa1dir + File.separator + "Persons.csv");
-            CSVWriter csvWriter = new CSVWriter();
-            csvWriter.writeAsCsv(Files.newBufferedWriter(outputFile), outputPersons);
-        }
-    }
-
-    static void saveSA1Families(Path csvFilesLocation,
-                                Map<String, List<Household>> householdsBySA1) throws IOException {
-        for (String sa1 : householdsBySA1.keySet()) {
-            List<List<String>> outputFamilies = new ArrayList<>();
-            List<String> titles = new ArrayList<>(Arrays.asList("FamilyId",
-                                                                "FamilyType",
-                                                                "FamilySize",
-                                                                "Members",
-                                                                "HouseholdId"));
-            outputFamilies.add(titles);
-            for (Household household : householdsBySA1.get(sa1)) {
-                for (Family family : household.getFamilies()) {
-                    List<String> fData = new ArrayList<>();
-                    fData.add(String.valueOf(family.getID()));
-                    fData.add(String.valueOf(family.getType()));
-                    fData.add(String.valueOf(family.size()));
-                    List<String> memberIds = family.getMembers()
-                            .stream()
-                            .map(Person::getID)
-                            .collect(Collectors.toList());
-                    fData.add(memberIds.toString());
-                    fData.add(household.getID());
-                    outputFamilies.add(fData);
-                }
-            }
-            Path sa1dir = Paths.get(csvFilesLocation + File.separator + sa1);
-            Files.createDirectories(sa1dir);
-            Path outputFile = Paths.get(sa1dir + File.separator + "FamilyData.csv");
-            CSVWriter csvWriter = new CSVWriter();
-            csvWriter.writeAsCsv(Files.newBufferedWriter(outputFile), outputFamilies);
-        }
-    }
-
 }

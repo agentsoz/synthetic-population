@@ -13,7 +13,6 @@ import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.ConsoleProgressBar;
 import bnw.abm.intg.util.GlobalConstants;
 import bnw.abm.intg.util.Log;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import org.geotools.feature.FeatureIterator;
@@ -30,7 +29,10 @@ import org.matsim.core.scenario.ScenarioUtils;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -84,11 +86,12 @@ public class Traffic {
 
         /* attribute titles in AgentsList csvs */
         String[] agentAttributes = {"AgentId", "AgentType", "PartnerId", "MotherId", "FatherId", "RelationshipStatus",
-                "ChildrenIds", "Gender", "GroupSize", "Age", "GroupId", "CareNeedLevel", "Travel2Work",
-                "PersonalIncome"};
+                                    "ChildrenIds", "Gender", "GroupSize", "Age", "GroupId", "CareNeedLevel",
+                                    "Travel2Work",
+                                    "PersonalIncome"};
         /* attribute titles in Household data csvs */
         String[] hholdAttributes = {"GroupId", "GroupType", "GroupSize", "Members", "Bedrooms", "DwellingStructure",
-                "FamilyIncome", "Tenure&Landlord"};
+                                    "FamilyIncome", "Tenure&Landlord"};
 
         try {
             Random random = new Random(randomSeed);
@@ -141,7 +144,8 @@ public class Traffic {
                         Log.warn(
                                 "Not enough buildings in " + sa1id + ": Total Households:" + hHolds.size()
                                         + " Total Buildings:" + addressesBySA1.get(sa1id).size());
-                        Log.warn("Not enough buildings in " + sa1id + ": " + " Assigning a second household to " + diff + " already occupied buildings");
+                        Log.warn("Not enough buildings in " + sa1id + ": " + " Assigning a second household to " +
+                                         diff + " already occupied buildings");
                         addressIndex = 0; // Start assigning a second household to already occupied building.
                         // Shuffling the order of buildings in SA1.
                         Collections.shuffle(addressesBySA1.get(sa1id), random);
@@ -177,17 +181,7 @@ public class Traffic {
             CSVWriter csvWriter = new CSVWriter();
             csvWriter.writeLinkedMapAsCsv(Files.newBufferedWriter(hhOutLoc), allHholds.get("Households"));
 
-        } catch (JsonParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -261,7 +255,7 @@ public class Traffic {
          * Store all the residential addresses in JSON grouped by their SA1
          */
         Map<String, List<Map>> addrssesBySA1 = new HashMap();
-        for (Map<String,Map> feature : (List<Map<String,Map>>)featuresList) {
+        for (Map<String, Map> feature : (List<Map<String, Map>>) featuresList) {
             if (feature.get("properties").get("BUILDING_TYPE").equals("RESIDENTIAL")) {
                 String said = (String) ((HashMap) feature.get(jsonMatchProperty[1])).get(jsonMatchProperty[2]);
 
