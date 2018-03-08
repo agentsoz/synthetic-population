@@ -1,5 +1,12 @@
 package bnw.abm.intg.filemanager.csv.abs;
 
+import bnw.abm.intg.filemanager.FileUtils;
+import bnw.abm.intg.filemanager.csv.abs.models.DwellingType;
+import bnw.abm.intg.filemanager.zip.Zip;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
@@ -7,14 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
-import bnw.abm.intg.filemanager.BNWFiles;
-import bnw.abm.intg.filemanager.csv.abs.models.DwellingType;
-import bnw.abm.intg.filemanager.zip.Zip;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -27,7 +26,7 @@ public class DwellingPropertyReader {
 	public static Map<String, List<DwellingType>> read(Path filePath) throws IOException {
 		Map<String, List<DwellingType>> dwellingProperties = new HashMap<>();
 		String bedd = "", strd = "", tenlld = "", nprd = "", sa1code = "";
-		Reader extractedCsvReader = Zip.read(filePath, BNWFiles.getFileName(filePath) + ".csv");
+		Reader extractedCsvReader = Zip.read(filePath, FileUtils.getFileName(filePath) + ".csv");
 
 		CSVParser parser = new CSVParser(extractedCsvReader, CSVFormat.DEFAULT.withSkipHeaderRecord());
 		int row = 0;
