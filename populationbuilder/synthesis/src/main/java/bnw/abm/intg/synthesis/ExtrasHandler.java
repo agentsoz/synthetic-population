@@ -14,16 +14,14 @@ import java.util.stream.Collectors;
  */
 class ExtrasHandler {
 
-    final double maleProbability;
     final Random random;
     final List<HhRecord> hhRecords;
     final List<IndRecord> indRecords;
     final private List<Person> extras;
     private List<Person> extraMarried = null;
 
-    ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, double sexRatio, Random random) {
+    ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, Random random) {
         this.extras = this.getExtras(hhRecords, indRecords);
-        this.maleProbability = sexRatio;
         this.random = random;
         this.hhRecords = hhRecords;
         this.indRecords = indRecords;
@@ -159,8 +157,9 @@ class ExtrasHandler {
     void setExtraMarriedPersons(List<Person> extraMarried) {
         this.extraMarried = new ArrayList<>(extraMarried);
         extraMarried.clear();
-        if(!extraMarried.isEmpty()){
-            Log.info("Number of extra-married " + this.extraMarried.get(0).getSex() + " saved for later use: "+extraMarried.size());
+        if (!extraMarried.isEmpty()) {
+            Log.info("Number of extra-married " + this.extraMarried.get(0)
+                    .getSex() + " saved for later use: " + extraMarried.size());
         }
 
     }
