@@ -22,15 +22,7 @@ public class GroupMaker {
     private List<Household> allHouseholds = new ArrayList<>();
     private Random random = null;
     private String sa2name;
-
-    private double maleProbability, relativeProbability, maleLoneParentProbability;
     private ExtrasHandler extrasHandler;
-
-    public GroupMaker(double maleProbability, double relativeProbability, double femaleLoneParentProbability) {
-        this.maleProbability = maleProbability;
-        this.relativeProbability = relativeProbability;
-        this.maleLoneParentProbability = femaleLoneParentProbability;
-    }
 
     List<Household> makePopulation(List<HhRecord> hhRecs,
                                    List<IndRecord> indrecs,
@@ -42,7 +34,7 @@ public class GroupMaker {
         // printIndSummary(indrecs);
 
         this.random = rand;
-        extrasHandler = new ExtrasHandler(hhRecs, indrecs, maleProbability, random);
+        extrasHandler = new ExtrasHandler(hhRecs, indrecs, random);
         Log.info("Extras (difference between households and persons files): " + extrasHandler.remainingExtras());
 
         makeLonePersonsHhs(hhRecs, indrecs);
@@ -660,7 +652,7 @@ public class GroupMaker {
     }
 
     /**
-     * * Assigns the available basic units to multi-family households as non-primary families. This method filters in
+     * Assigns the available basic units to multi-family households as non-primary families. This method filters in
      * the households where the primary family belong to any of the eligible FamilyType(s) specified. Then households
      * are randomly selected for each assignment. A household may be selected multiple times if it can contain multiple
      * non-primary families (e.g. 3 family households). The FamilyType of the newly added family is set to FamilyType
