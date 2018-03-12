@@ -305,8 +305,8 @@ public class DataReader {
         throw new Error("Number of families could not be recognised");
     }
 
-    static List<HhRecord> getHouseholdsRecordsByPrimaryFamilyType(List<HhRecord> hhRecs,
-                                                                  FamilyHouseholdType... familyHhTypes) {
+    static List<HhRecord> getHhRecordsByPrimaryFamilyType(List<HhRecord> hhRecs,
+                                                          FamilyHouseholdType... familyHhTypes) {
 
         return hhRecs.stream()
                 .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
