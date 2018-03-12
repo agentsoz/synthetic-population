@@ -12,7 +12,7 @@ import java.nio.file.Path;
  * @author Bhagya N. Wickramasinghe
  *
  */
-public class SA1Reader {
+public class SAReader {
 
 	static SimpleFeatureCollection getSA1Collection(Path sa1Path, String sa1FilterProp, String[] sa1FilterVals) {
 		SimpleFeatureCollection sa1Collection = null;

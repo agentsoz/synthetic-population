@@ -1,6 +1,6 @@
 package bnw.abm.intg.BuildingProperties;
 
-import bnw.abm.intg.filemanager.BNWFiles;
+import bnw.abm.intg.filemanager.FileUtils;
 import bnw.abm.intg.filemanager.zip.Zip;
 import bnw.abm.intg.geo.FeatureProcessing;
 import bnw.abm.intg.geo.ShapefileGeoFeatureReader;
@@ -71,7 +71,7 @@ public class BuildingsToSA1Mapper {
 
         String zipPattern = "*zip";
         List<Path> shpZipPaths = null;
-        shpZipPaths = BNWFiles.find(zipDir, zipPattern);
+        shpZipPaths = FileUtils.find(zipDir, zipPattern);
 
         for (Path zipFile : shpZipPaths) {
 
@@ -175,7 +175,7 @@ public class BuildingsToSA1Mapper {
                 e.printStackTrace();
             }
             String outFileName = outFile.getFileName().toString();
-            List<Path> filesToZip = BNWFiles.find(tempOutputDir.toAbsolutePath(), outFileName.split("\\.")[0] + ".*");
+            List<Path> filesToZip = FileUtils.find(tempOutputDir.toAbsolutePath(), outFileName.split("\\.")[0] + ".*");
             try {
                 Zip.create(Paths.get(ResultOutputDir + zipName).toAbsolutePath(), filesToZip);
                 Log.info("Completed Address zip: " + zipName.toString());
@@ -212,7 +212,7 @@ public class BuildingsToSA1Mapper {
         sa1Collection = DataUtilities.simple(geoFeatReader.getFeatures());
         new ShapefileGeoFeatureWriter().writeFeatures(sa1Collection, tempOutputDir.toAbsolutePath());
         String featureName = ((SimpleFeatureCollection) sa1Collection).getSchema().getName().toString();
-        List<Path> filesToZip = BNWFiles.find(tempOutputDir.toAbsolutePath(), featureName + ".*");
+        List<Path> filesToZip = FileUtils.find(tempOutputDir.toAbsolutePath(), featureName + ".*");
 
         Path sa1OutLoc = Paths.get(dirToSaveSelectedSA1Features + featureName + "_Selected_SA1s.zip").toAbsolutePath();
         Zip.create(sa1OutLoc, filesToZip);

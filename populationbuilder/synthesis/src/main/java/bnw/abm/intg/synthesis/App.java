@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -32,37 +30,37 @@ public class App {
         // Read in the config properties
         Path inputDirectory = props.readFileOrDirectoryPath("InputDirectory");
         Path outputDirectory = props.readFileOrDirectoryPath("OutputDirectory");
-        String[] sa2List = props.readCommaSepProperties("SA2List");
+        String sa2s = props.getProperty("SA2List");
 
         long randomSeed = Long.parseLong(props.getProperty("RandomSeed"));
         Path saCodesZip = props.readFileOrDirectoryPath("SACodesZip");
-        String saCodesFileInSACodesZip = props.getProperty("SACodesCsvInSACodesZip");
         String referenceColumnHeader = props.getProperty("ReferenceColumnHeader");
         String targetColumnHeader = props.getProperty("TargetColumnHeader");
         boolean enableSummaryReports = props.getProperty("EnableSummaryReports").trim().toLowerCase().equals("true");
-        double sexRatio = Double.parseDouble(props.getProperty("SexRatio"));
-        double relativesProbability = Double.parseDouble(props.getProperty("RelativesProbability"));
-        double maleLoneParentProbability = Double.parseDouble(props.getProperty("MaleLoneParentProbability"));
         double nonPrimaryCoupleWithChildProbability = Double.parseDouble(props.getProperty(
                 "NonPrimaryCoupleWithChildProbability"));
         Map<String, String> ageDistributionParams = props.readKeyValuePairs("AgeDistributionFile");
 
         Map<String, String> sa1HhDistCsvProperties = props.readKeyValuePairs("SA1HhDistFileProperties");
-        Path sa1OutputDirectory = props.readFileOrDirectoryPath("SA1OutputLocation");
 
         long startTime = System.currentTimeMillis();
+
         try {
+            List<String> sa2List = getSA2List(sa2s, inputDirectory);
+            Map<String, String> sa2CodeMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodesZip,
+                                                                                                       referenceColumnHeader,
+                                                                                                       targetColumnHeader);
             Random rand = new Random(randomSeed);
             List<Household> allHouseholds = new ArrayList<>();
 
             for (String sa2 : sa2List) {
                 Log.info("Starting SA2: " + sa2);
-                Path hhFile = Paths.get(inputDirectory + File.separator + "SA2" + File.separator + sa2 + File
+                Path hhFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/household_types.csv.gz");
-                Path indFile = Paths.get(inputDirectory + File.separator + "SA2" + File.separator + sa2 + File
+                Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/person_types.csv.gz");
 
-                GroupMaker groupMaker = new GroupMaker(sexRatio, relativesProbability, maleLoneParentProbability);
+                GroupMaker groupMaker = new GroupMaker();
 
                 /* Data fields */
                 Map<String, List<HhRecord>> hhRecs = null;
@@ -88,20 +86,15 @@ public class App {
                 // overall age distribution
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
 
-                convertToSA2MAINCODE(allHouseholds,
-                                     saCodesZip,
-                                     saCodesFileInSACodesZip,
-                                     referenceColumnHeader,
-                                     targetColumnHeader);
+                convertToSA2MAINCODE(allHouseholds, sa2CodeMap);
                 assignSA1sToHouseholds(sa2,
                                        sa1HhDistCsvProperties,
                                        inputDirectory,
-                                       sa1OutputDirectory,
                                        householdsOfSA2,
                                        rand);
 
                 Log.info("Writing output files to: " + outputDirectory);
-                Path outputSA2Location = Paths.get(outputDirectory + File.separator + "SA2" + File.separator + sa2 +
+                Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +
                                                            File.separator + "population");
                 Files.createDirectories(outputSA2Location);
                 DataWriter.saveHouseholds(Paths.get(outputSA2Location + File.separator + "households.csv.gz"),
@@ -134,12 +127,7 @@ public class App {
     }
 
     private static void convertToSA2MAINCODE(List<Household> allHouseholds,
-                                             Path zipWithCodesCsv,
-                                             String csvFileInZip,
-                                             String referenceColTitle,
-                                             String targetColTitle) throws IOException {
-        Map<String, String> sa2CodeMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode
-                (zipWithCodesCsv, csvFileInZip, referenceColTitle, targetColTitle);
+                                             Map<String, String> sa2CodeMap) throws IOException {
         for (Household household : allHouseholds) {
             household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
         }
@@ -148,10 +136,9 @@ public class App {
     private static void assignSA1sToHouseholds(String thisSA2,
                                                Map<String, String> sa1HhDistCsvProperties,
                                                Path inputLocation,
-                                               Path sa1outputLocation,
                                                List<Household> householdsOfSA2,
                                                Random rand) throws IOException {
-        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + "SA2" + File.separator + thisSA2 + File
+        Path sa1HouseholdsFile = Paths.get(inputLocation + File.separator + thisSA2 + File
                 .separator + "preprocessed" + File.separator +
                                                    sa1HhDistCsvProperties.get("FileName"));
         int numberOfPersonsColumn = Integer.parseInt(sa1HhDistCsvProperties.get("NumberOfPersonsColumn"));
@@ -164,4 +151,30 @@ public class App {
 
         SA1PopulationMaker.distributePopulationToSA1s(sa1HhCounts, hhsByType, rand);
     }
+
+    /**
+     * Reads SA2 names list from user input
+     *
+     * @param sa2Param       SA2list property
+     * @param inputDirectory The input data directory
+     * @return List of SA2s
+     * @throws IOException File reading
+     */
+    private static List<String> getSA2List(String sa2Param,
+                                           Path inputDirectory) throws IOException {
+        List<String> sa2List = null;
+        if (sa2Param.equals("*")) {
+            sa2List = Files.list(inputDirectory)
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+        } else if (Files.exists(Paths.get(sa2Param))) {
+            sa2List = Files.readAllLines(Paths.get(sa2Param));
+        } else {
+            sa2List = Arrays.asList(sa2Param.split(","));
+        }
+        return sa2List;
+    }
+
 }
+
