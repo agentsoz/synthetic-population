@@ -93,7 +93,7 @@ public class App {
         Map<String, String> saCodesMap;
         try {
             List<Path> buildingShapeFiles = getBuildingsShapeFiles(buildingShapeFilesHome, buildingsShapeFileName);
-            targetSA1s = SA1Reader.getSA1Collection(sa1ShapefilePath, sa1FilterByProperty, sa1FilterByValues);
+            targetSA1s = SAReader.getSA1Collection(sa1ShapefilePath, sa1FilterByProperty, sa1FilterByValues);
             CoordinateReferenceSystem targetCRS = targetSA1s.getSchema().getCoordinateReferenceSystem();
 
             // Find the SA1 of each building
@@ -108,7 +108,6 @@ public class App {
 
             // For converting 7 digit SA1 code to main code
             saCodesMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodeZipFile,
-                                                                                   saCodeCsvName,
                                                                                    saConverterReferenceCol,
                                                                                    saConverterTargetCol);
 
