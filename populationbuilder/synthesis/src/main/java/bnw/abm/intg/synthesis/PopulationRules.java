@@ -40,7 +40,8 @@ public class PopulationRules {
     static int selectHouseholdWithSuitablePrimaryFamilyForChild(Person child, List<Household> households) {
         for (int i = 0; i < households.size(); i++) {
             Household h = households.get(i);
-            if ((h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN)
+            if ((h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType
+                    .COUPLE_WITH_CHILDREN)
                     && h.getExpectedSize() > h.getCurrentSize()) {
                 Family pf = h.getPrimaryFamily();
 
@@ -56,6 +57,44 @@ public class PopulationRules {
                 }
 
 
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Finds a suitable wife for the given husband considering their age. The rule applied here is: The female
+     * partner's age category must be same of one below as the male partner's age
+     *
+     * @param husband The male married person
+     * @param wives Potential partners list containing female married persons
+     * @return The index of the selected female partner. Returns -1 if a suitable partner was not found.
+     */
+    static int selectWife(Person husband, List<Person> wives) {
+        for (int i = 0; i < wives.size(); i++) {
+            Person wife = wives.get(i);
+            if (husband.getAgeRange().compareTo(wife.getAgeRange()) == 0 || husband.getAgeRange()
+                    .compareTo(wife.getAgeRange()) == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Finds a suitable husband for the given wife considering their age. The rule applied here is: The female
+     * partner's age category must be same of one below as the male partner's age
+     *
+     * @param wife The female married person
+     * @param husbands Potential partners list containing male married persons
+     * @return The index of the selected male partner. Returns -1 if a suitable partner was not found.
+     */
+    static int selectHusband(Person wife, List<Person> husbands) {
+        for (int i = 0; i < husbands.size(); i++) {
+            Person husband = husbands.get(i);
+            if (wife.getAgeRange().compareTo(husband.getAgeRange()) == 0 || wife.getAgeRange()
+                    .compareTo(husband.getAgeRange()) == -1) {
+                return i;
             }
         }
         return -1;

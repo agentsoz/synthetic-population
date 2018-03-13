@@ -8,6 +8,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+@FunctionalInterface
+interface makeFamilyFunction<F1, F2, F3, R> {
+    public R apply(F1 f1, F2 f2, F3 f3);
+}
+
+
 public class FamilyFactory {
 
     final private Random random;
@@ -15,6 +21,108 @@ public class FamilyFactory {
 
     FamilyFactory(Random random) {
         this.random = random;
+    }
+
+    /**
+     * Forms a married couple by pairing a male and a female according to population rules. This updates the two
+     * input lists.
+     *
+     * @param marriedMales   The list of married males
+     * @param marriedFemales The list of married females
+     * @return The new couple family unit
+     */
+    Family makeBasicMarriedCouple(List<Person> marriedMales, List<Person> marriedFemales) {
+
+        //Find a suitable husband and a wife. There can be more married persons in one gender than the other. So we
+        // pick the first person from the smaller list, because it is easier (probabilistically) to find a partners
+        // in correct age category from the larger list.
+        Person wife, husband;
+
+        if (marriedMales.size() >= marriedFemales.size()) {
+            husband = marriedMales.remove(random.nextInt(marriedMales.size()));
+            int wifeIndex = PopulationRules.selectWife(husband, marriedFemales);
+            if (wifeIndex >= 0) {
+                wife = marriedFemales.remove(wifeIndex);
+            } else {
+                Log.debug("Remaining - Married males: "+marriedMales.size());
+                Log.debug("Remaining - Married females: "+marriedFemales.size());
+                throw new NoSuitablePersonException("Cannot find a suitable wife for husband in age " + husband
+                        .getAgeRange());
+            }
+        } else {
+            wife = marriedFemales.remove(random.nextInt(marriedFemales.size()));
+            int husbandIndex = PopulationRules.selectWife(wife, marriedMales);
+            if (husbandIndex >= 0) {
+                husband = marriedMales.remove(husbandIndex);
+            } else {
+                throw new NoSuitablePersonException("Cannot find a suitable husband for wife in age " + wife
+                        .getAgeRange());
+            }
+        }
+
+        Family f = new Family(FamilyType.COUPLE_ONLY);
+        f.addMember(husband);
+        f.addMember(wife);
+        return f;
+    }
+
+    /**
+     * Creates a basic couple with child family with two parents and a child.
+     *
+     * @param marriedMales   The list of married males
+     * @param marriedFemales The list of married females
+     * @param children       The list of children
+     * @return A couple with child basic family instance
+     */
+    Family makeBasicCoupleWithChildFamily(List<Person> marriedMales,
+                                          List<Person> marriedFemales,
+                                          List<Person> children) {
+        Family family = makeBasicMarriedCouple(marriedMales, marriedFemales);
+        boolean success = addChildToFamily(family, children);
+        if (!success) {
+            throw new NoSuitablePersonException("Cannot find a suitable child for family: " + family);
+        } else {
+            family.setType(FamilyType.COUPLE_WITH_CHILDREN);
+            return family;
+        }
+    }
+
+    /**
+     * Pairs a lone parent with a suitable child. This alters input lists.
+     *
+     * @param loneParents The list of lone parents in the population
+     * @param children    The list of children
+     * @return The basic one parent family unit
+     */
+    Family makeBasicOneParentFamily(List<Person> loneParents, List<Person> children) {
+
+        Family family = new Family(FamilyType.ONE_PARENT);
+        Person loneParent = loneParents.remove(random.nextInt(loneParents.size()));
+        family.addMember(loneParent);
+        boolean success = addChildToFamily(family, children);
+        if (!success) {
+            throw new NoSuitablePersonException("Cannot find a suitable child for family: " + family);
+        } else {
+            return family;
+        }
+    }
+
+    /**
+     * Creates a new Other Family unit by pairing two relatives
+     *
+     * @param relatives The list of relatives
+     * @return The new other family unit
+     */
+    Family makeBasicOtherFamily(List<Person> relatives) {
+        if (relatives.size() < 2) {
+            throw new NotEnoughPersonsException(
+                    "Other Family Basic Primary Families: Not enough Relatives to form more Basic Other Family " +
+                            "structures");
+        }
+        Family family = new Family(FamilyType.OTHER_FAMILY);
+        family.addMember(relatives.remove(random.nextInt(relatives.size())));
+        family.addMember(relatives.remove(random.nextInt(relatives.size())));
+        return family;
     }
 
 
