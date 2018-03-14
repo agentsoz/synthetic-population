@@ -50,8 +50,12 @@ class ExtrasHandler {
     }
 
     Person getPersonFromExtras(RelationshipStatus relStatus, AgeRange ageRange, Sex sex) {
-
-        Person person = extras.remove(0);
+        Person person = null;
+        try {
+            person = extras.remove(0);
+        } catch (IndexOutOfBoundsException ex) {
+            throw new NotEnoughPersonsException("Not enough extras to create: (" + relStatus + "," + sex + "," + ageRange + ")");
+        }
         person.setAgeRange(ageRange);
         person.setRelationshipStatus(relStatus);
         person.setSex(sex);
@@ -60,11 +64,10 @@ class ExtrasHandler {
     }
 
     /**
-     * Generates persons from the Extras based on specified RelationshipStatus, AgeRange and Sex characteristics. If a
-     * characteristic is set to null, value for that particular characteristic is selected according to the observed
-     * probability distribution of all categories under that characteristic. For example, if ageRange is null, but
-     * relStatus and sex is given, ages are assigned to agents probabilistically based on the age distribution of
-     * persons in the specified relStatus and sex category.
+     * Generates persons from the Extras based on specified RelationshipStatus, AgeRange and Sex characteristics. If a characteristic is set
+     * to null, value for that particular characteristic is selected according to the observed probability distribution of all categories
+     * under that characteristic. For example, if ageRange is null, but relStatus and sex is given, ages are assigned to agents
+     * probabilistically based on the age distribution of persons in the specified relStatus and sex category.
      *
      * @param relStatus The RelationshipStatus of the persons
      * @param sex       The Sex of the persons
@@ -84,12 +87,12 @@ class ExtrasHandler {
         if (count > 0) {
             //Spawn the persons we want from Extras.
             List<IndRecord> dist = indRecords.stream()
-                    .filter(r -> (relStatus == null || r.RELATIONSHIP_STATUS == relStatus)) //Filter by relationship
-                    // status. If relationship status is null get all records
-                    .filter(r -> (ageRange == null || r.AGE_RANGE == ageRange)) // Filter by age range, or get all if
-                    // not specified
-                    .filter(r -> (sex == null || r.SEX == sex))// Filter by sex, or get all if not specified
-                    .collect(Collectors.toList());
+                                             .filter(r -> (relStatus == null || r.RELATIONSHIP_STATUS == relStatus)) //Filter by relationship
+                                             // status. If relationship status is null get all records
+                                             .filter(r -> (ageRange == null || r.AGE_RANGE == ageRange)) // Filter by age range, or get all if
+                                             // not specified
+                                             .filter(r -> (sex == null || r.SEX == sex))// Filter by sex, or get all if not specified
+                                             .collect(Collectors.toList());
 
             int sum = dist.stream().mapToInt(r -> r.IND_COUNT).sum();
 
@@ -109,10 +112,9 @@ class ExtrasHandler {
     }
 
     /**
-     * Generates children based on specified sex and ageRange. RelationshipStatus of all children produced with this
-     * method is assumed to be U15_CHILD. If sex and ageRanges are given as null they are assigned probabilistically
-     * according to the observed population distributions. TODO: Determine RelatioshipStatus of children in a more
-     * realistic method.
+     * Generates children based on specified sex and ageRange. RelationshipStatus of all children produced with this method is assumed to be
+     * U15_CHILD. If sex and ageRanges are given as null they are assigned probabilistically according to the observed population
+     * distributions. TODO: Determine RelatioshipStatus of children in a more realistic method.
      *
      * @param sex      Sex of the children
      * @param ageRange AgeRange of the children
@@ -128,10 +130,10 @@ class ExtrasHandler {
         List<Person> persons = new ArrayList<>(count);
         if (!(extraMarried.isEmpty() || extraMarried == null)) {
             List<Person> temp = extraMarried.stream()
-                    .filter(p -> (ageRange == null || ageRange == p.getAgeRange()) && (sex == null || sex == p.getSex
-                            ()))
-                    .collect(
-                            Collectors.toList());
+                                            .filter(p -> (ageRange == null || ageRange == p.getAgeRange()) && (sex == null || sex == p.getSex
+                                                    ()))
+                                            .collect(
+                                                    Collectors.toList());
             if (temp.size() >= count) {
                 persons.addAll(temp.subList(0, count));
                 extraMarried.removeAll(persons);
@@ -147,19 +149,18 @@ class ExtrasHandler {
     }
 
     /**
-     * Saves extra married persons for later use. These persons will be used to construct more couple relationships if
-     * originally formed couples are not enough to complete the population. This method copies the list of persons
-     * passed to a new list and clears the original list avoid errors.
+     * Saves extra married persons for later use. These persons will be used to construct more couple relationships if originally formed
+     * couples are not enough to complete the population. This method copies the list of persons passed to a new list and clears the
+     * original list avoid errors.
      *
-     * @param extraMarried The list of extra married persons. The list is expected to contain either male or female
-     *                     persons, not both.
+     * @param extraMarried The list of extra married persons. The list is expected to contain either male or female persons, not both.
      */
     void setExtraMarriedPersons(List<Person> extraMarried) {
         this.extraMarried = new ArrayList<>(extraMarried);
         extraMarried.clear();
         if (!extraMarried.isEmpty()) {
             Log.info("Number of extra-married " + this.extraMarried.get(0)
-                    .getSex() + " saved for later use: " + extraMarried.size());
+                                                                   .getSex() + " saved for later use: " + extraMarried.size());
         }
 
     }
@@ -170,8 +171,8 @@ class ExtrasHandler {
 
 
     /**
-     * Converts all the remaining extras to Children and Relatives. The characteristics of persons are determined
-     * probabilistically based on observed distribution of children categories and relatives.
+     * Converts all the remaining extras to Children and Relatives. The characteristics of persons are determined probabilistically based on
+     * observed distribution of children categories and relatives.
      *
      * @param includeExtraMarried indicates whether extra-married persons should also be converted to children.
      * @return Map of children and relatives by RelationshipStatus
@@ -185,11 +186,11 @@ class ExtrasHandler {
         }
 
         List<IndRecord> dist = indRecords.stream()
-                .filter(r -> (r.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD
-                        || r.RELATIONSHIP_STATUS == RelationshipStatus.STUDENT
-                        || r.RELATIONSHIP_STATUS == RelationshipStatus.U15_CHILD
-                        || r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE))
-                .collect(Collectors.toList());
+                                         .filter(r -> (r.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD
+                                                 || r.RELATIONSHIP_STATUS == RelationshipStatus.STUDENT
+                                                 || r.RELATIONSHIP_STATUS == RelationshipStatus.U15_CHILD
+                                                 || r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE))
+                                         .collect(Collectors.toList());
 
         int sum = dist.stream().mapToInt(r -> r.IND_COUNT).sum();
         Map<RelationshipStatus, List<Person>> persons = new HashMap<>(5, 1);
@@ -204,21 +205,30 @@ class ExtrasHandler {
                     persons.computeIfAbsent(r.RELATIONSHIP_STATUS, v -> {
                         return new ArrayList<>();
                     })
-                            .add(getPersonFromExtras(r.RELATIONSHIP_STATUS, r.AGE_RANGE, r.SEX));
+                           .add(getPersonFromExtras(r.RELATIONSHIP_STATUS, r.AGE_RANGE, r.SEX));
                     totalNewPersons++;
                     break;
                 }
             }
         }
         Log.info("The Children and Relatives formed by converting extras: " + totalNewPersons);
-        Log.debug("Extra O15_CHILD: " + persons.get(RelationshipStatus.O15_CHILD).size());
-        Log.debug("Extra STUDENT: " + persons.get(RelationshipStatus.STUDENT).size());
-        Log.debug("Extra U15_CHILD: " + persons.get(RelationshipStatus.U15_CHILD).size());
-        Log.debug("Extra RELATIVE: " + persons.get(RelationshipStatus.RELATIVE).size());
+        persons.entrySet().stream().forEach(e -> Log.debug("Extra "+e.getKey()+": "+e.getValue().size()));
 
         Log.debug("Remaining extras: " + remainingExtras());
         Log.debug("Remaining extra-married: " + remainingExtraMarried());
 
         return persons;
+    }
+
+    /**
+     * Add persons to extras list. Each persons relationship status is set to null. Age and Sex is not changed. The input person list is
+     * cleared.
+     *
+     * @param persons The list of persons to add to extras
+     */
+    void addToExtras(List<Person> persons) {
+        persons.forEach(p -> p.setRelationshipStatus(null));
+        this.extras.addAll(persons);
+        persons.clear();
     }
 }

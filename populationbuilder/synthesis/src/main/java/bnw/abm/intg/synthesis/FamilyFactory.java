@@ -215,7 +215,7 @@ public class FamilyFactory {
     List<Family> makeMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
 
         //Sort two lists in age descending order
-        //TODO: Younger married pesons may be over represented in married-extra list
+        //TODO: Younger married persons may be over represented in married-extra list
         Collections.sort(marriedMales, ageComparator.reversed());
         Collections.sort(marriedFemales, ageComparator.reversed());
 
@@ -232,9 +232,9 @@ public class FamilyFactory {
 
         Log.info("Forming Married couples: units formed: " + cpls);
         if (diff > 0) {
-            Log.warn("Forming Married couples: " + diff + " young married males discarded. Population may be biased");
+            Log.warn("Forming Married couples: " + diff + " young married males not used for couple families. Population may be biased");
         } else if (diff < 0) {
-            Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females discarded. Population may " +
+            Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females not used for couple families. Population may " +
                              "be biased");
         } else {
             Log.info("Forming Married couples: successful");
