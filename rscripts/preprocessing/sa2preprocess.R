@@ -32,7 +32,7 @@ option_list = list(
   ),
   make_option(
     c("--sa2s"),
-    help = "The list of SA2s to process. The parameter can be either \"*\" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
+    help = "The list of SA2s that constitutes the area for which the population is to be generated. The parameter can be either \"*\" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
     metavar = "LIST_NAMES",
     default = "*"
   ),
@@ -144,7 +144,7 @@ if (length(not_found_sa2s) > 0) {
 ## we take SA2s in household file as the sa2_list)
 if (isStar) {
   not_found_sa2s = hSA2s[which(!(pSA2s %in% hSA2s))]
-  
+
   if (length(not_found_sa2s) > 0) {
     not_found_sa2s_str = paste(not_found_sa2s, collapse = ", ")
     stop(
@@ -172,14 +172,14 @@ sa2_count = 0
 for (sa2 in sa2_list) {
   sa2_count = sa2_count + 1
   cat("------------ Processing", sa2," (",sa2_count,"/",length(sa2_list),") --------------\n")
-  
+
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
-  
+
   if ((sum(indv[, p_value_col]) == 0) &
       (sum(hhs[, h_value_col]) == 0)) {
-    
+
   } else{
     ### Clean the data - this function removes descrepancies between individuals file and households file as much as we can. There can be differences
     # even after this
@@ -198,38 +198,38 @@ for (sa2 in sa2_list) {
     indv = outlist[[1]]
     hhs = outlist[[2]]
     errors[sa2,] = c(outlist[[3]], outlist[[4]])
-    
+
     colnames(indv)[p_sa_col] <- "SA"
     colnames(indv)[p_rel_col] <- "Relationship status"
     colnames(indv)[p_sex_col] <- "Sex"
     colnames(indv)[p_age_col] <- "Age"
     colnames(indv)[p_value_col] <- "Persons count"
-    
+
     colnames(hhs)[h_sa_col] <- "SA"
     colnames(hhs)[h_nof_persons_col] <- "Household Size"
     colnames(hhs)[h_family_hh_type_col] <- "Family household type"
     colnames(hhs)[h_value_col] <- "Households count"
-    
+
     #Save the cleaned data files
     saoutpath = paste(out_loc, sa2,"/", sep = "")
-    
+
     pgz <- gzfile(paste(saoutpath, persons_file_name, sep = ""))
     CreateDir(dirname(summary(pgz)$description))
     write.csv(indv, pgz, row.names = FALSE)
-    
+
     hgz <- gzfile(paste(saoutpath, households_file_name, sep = ""))
     CreateDir(dirname(summary(hgz)$description))
     write.csv(hhs, hgz, row.names = FALSE)
-    
+
     cat("Processing  ",sa2_count,"/",length(sa2_list),"\r")
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
       cat("Estimating SA1 households distribution ...\r")
       # Load above selected SA1 info file
       raw_sa1_hh_dist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
-      
+
       adjusted_sa1_hh_dist = EstimateSA1HouseholdsDistribution(sa2,  hhs, raw_sa1_hh_dist)
-      
+
       if(!is.null(adjusted_sa1_hh_dist)){
         #Save SA1 hh distribution
         sa1hhsgzfile <- gzfile(paste(saoutpath, sa1_households_file_name, sep = ""))
