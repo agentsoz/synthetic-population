@@ -11,8 +11,9 @@ import java.util.List;
  */
 public class PersonsFactory {
 
-    static List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indrec, RelationshipStatus... relType) {
-        List<IndRecord> indRecs = DataReader.getAgentsRecordsByRelationshipStatus(indrec, relType);
+
+    static List<Person> makeAllPersonsByRelationshipType(List<IndRecord> indRecords, RelationshipStatus... relType) {
+        List<IndRecord> indRecs = DataReader.getAgentsRecordsByRelationshipStatus(indRecords, relType);
         List<Person> persons = new ArrayList<>();
         for (IndRecord rec : indRecs) {
             for (int i = 0; i < rec.IND_COUNT; i++) {

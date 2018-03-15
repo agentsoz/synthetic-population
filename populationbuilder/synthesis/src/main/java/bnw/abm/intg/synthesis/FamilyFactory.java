@@ -8,19 +8,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-@FunctionalInterface
-interface makeFamilyFunction<F1, F2, F3, R> {
-    public R apply(F1 f1, F2 f2, F3 f3);
-}
-
-
 public class FamilyFactory {
 
-    final private Random random;
+    private final  Random random;
+    private final ExtrasHandler extrasHandler;
     AgeRange.AgeComparator ageComparator = new AgeRange.AgeComparator();
 
-    FamilyFactory(Random random) {
+    FamilyFactory(Random random, ExtrasHandler extrasHandler) {
         this.random = random;
+        this.extrasHandler = extrasHandler;
     }
 
     /**
@@ -287,6 +283,37 @@ public class FamilyFactory {
         }
 
         return coupleWithChildFamilies;
+    }
+
+    /**
+     * Make extra married couples for non-primary COUPLE_ONLY and COUPLE_WITH_CHILDREN family units. This method uses the persons in Extras
+     * and MarriedExtras list.
+     *
+     * @param newCouplesCount The number of new couples needed
+     * @return The list of newly formed couple families
+     */
+    List<Family> makeNonPrimaryBasicCoupleUnits(int newCouplesCount) {
+        //We have already used all known married males and females at this stage. So we have no other way but to use
+        // Extras.
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        List<Person> extraMarriedMales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                            Sex.Male,
+                                                                            null,
+                                                                            newCouplesCount);
+        Log.debug("Non-Primary Basic Couple: Married males taken from extras: " + extraMarriedMales.size());
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+
+        List<Person> extraMarriedFemales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                              Sex.Female,
+                                                                              null,
+                                                                              newCouplesCount);
+        Log.debug("Non-Primary Basic Couple: Married females taken from extras: " + extraMarriedMales.size());
+        Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+
+        return makeMarriedCouples(extraMarriedMales, extraMarriedFemales);
     }
 
     /**

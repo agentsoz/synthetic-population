@@ -168,6 +168,7 @@ public class GroupMaker {
             Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
         } catch (Exception npex) {
             Log.error("Family households construction failed", npex);
+            Log.debug("Persons snapshot when error occurred");
             Log.debug("Remaining Couples basic: " + basicCouples.size());
             Log.debug("Remaining Relatives: " + relatives.size());
             Log.debug("Remaining Couple with children basic: " + primaryCoupleWChildFamilyBasic.size());
@@ -341,42 +342,7 @@ public class GroupMaker {
         return null;
     }
 
-    /**
-     * Find the distribution of basic family types in primary families
-     *
-     * @param hhRecords HhRecords
-     * @return The distribution
-     */
-    private Map<FamilyType, Integer> getPrimaryFamilyDistribution(List<HhRecord> hhRecords) {
-        Map<FamilyType, Integer> distribution = new HashMap<>(3, 1);
-        int couples = 0, oneParent = 0, otherFamily = 0;
-        for (HhRecord hhRecord : hhRecords) {
-            switch (hhRecord.FAMILY_HOUSEHOLD_TYPE.getFamilyType()) {
-                case COUPLE_WITH_CHILDREN:
-                    couples += hhRecord.HH_COUNT;
-                    break;
-                case COUPLE_ONLY:
-                    couples += hhRecord.HH_COUNT;
-                    break;
-                case ONE_PARENT:
-                    oneParent += hhRecord.HH_COUNT;
-                    break;
-                case OTHER_FAMILY:
-                    otherFamily += hhRecord.HH_COUNT;
-                    break;
-                case LONE_PERSON:
-                    break;
-                case GROUP_HOUSEHOLD:
-                    break;
-                default:
-                    throw new IllegalStateException("Unrecognised Family Type: " + hhRecord.FAMILY_HOUSEHOLD_TYPE.getFamilyType());
-            }
-        }
-        distribution.put(FamilyType.COUPLE_ONLY, couples);
-        distribution.put(FamilyType.ONE_PARENT, oneParent);
-        distribution.put(FamilyType.OTHER_FAMILY, otherFamily);
-        return distribution;
-    }
+
 
     /**
      * Calculates the distribution of COUPLE_ONLY, COUPLE_WITH_CHILD, ONE_PARENT and OTHER_FAMILY basic units in non-primary families based
@@ -545,7 +511,6 @@ public class GroupMaker {
                           newOtherFamilyCount);
 
         return counts;
-
     }
 
     /**
