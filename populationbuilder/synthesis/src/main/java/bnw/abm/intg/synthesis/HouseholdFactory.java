@@ -120,9 +120,9 @@ public class HouseholdFactory {
      * @param coupleWithChildrenBasic couple with children basic family units
      * @param oneParentBasicFamilies  one parent basic family units
      * @param otherFamilyBasic        other family basic family unis
-     * @return Map of all partially formed family households mapped by the FamilyType of the primary family
+     * @return All households with their primary family
      */
-    Map<FamilyType, List<Household>> formAllFamilyHouseholdsWithPrimaryFamilies(
+    List<Household> formAllFamilyHouseholdsWithPrimaryFamilies(
             List<Family> coupleOnlyBasic,
             List<Family> coupleWithChildrenBasic,
             List<Family> oneParentBasicFamilies,
@@ -134,7 +134,7 @@ public class HouseholdFactory {
         Collections.shuffle(oneParentBasicFamilies, random);
         Collections.shuffle(otherFamilyBasic, random);
 
-        Map<FamilyType, List<Household>> basicHouseholds = new HashMap<>();
+        List<Household> basicHouseholds = new ArrayList<>();
 
         for (HhRecord hhRec : hhRecs) {
 
@@ -156,8 +156,6 @@ public class HouseholdFactory {
                     continue;
             }
 
-            int formed = 0;
-            List<Household> familyHouseholds = new ArrayList<>();
             if (hhRec.HH_COUNT > 0) {
                 for (int i = 0; i < hhRec.HH_COUNT; i++) {
                     if (primaryFamilyUnitsList.isEmpty()) {
@@ -169,15 +167,10 @@ public class HouseholdFactory {
                                                         hhRec.SA);
                     household.addFamily(primaryFamilyUnitsList.remove(0));
                     household.setPrimaryFamilyType(hhRec.getPrimaryFamilyType());
-                    familyHouseholds.add(household);
-                    formed++;
+                    basicHouseholds.add(household);
                 }
 
-                basicHouseholds.computeIfAbsent(hhRec.getPrimaryFamilyType(), v -> {
-                    return new ArrayList<>();
-                }).addAll(familyHouseholds);
-
-                Log.info(hhRec.NUM_OF_PERSONS_PER_HH + " " + hhRec.FAMILY_HOUSEHOLD_TYPE + ": formed households: " + formed);
+                Log.info(hhRec.NUM_OF_PERSONS_PER_HH + " " + hhRec.FAMILY_HOUSEHOLD_TYPE + ": formed households: " + basicHouseholds.size());
             }
         }
         Log.info("All households populated with primary families");
@@ -188,14 +181,30 @@ public class HouseholdFactory {
         return basicHouseholds;
     }
 
-    void addNonPrimaryFamiliesToHouseholds(List<Household> familyHhs,
+    /**
+     * Adds second and third families to multi family households.
+     *
+     * @param households                    The list of households
+     * @param unusedCouples                remaining basic couple families
+     * @param unusedBasicOneParentFamilies Remaining basic one parent families
+     * @param children                     remaining children
+     * @param relatives                    remaining relatives
+     * @param marriedMales                 remaining married males
+     * @param marriedFemales               remaining married females
+     * @param nonPrimaryCwcProb            The proportion of household that have Couple With child secondary and tertiary families out of
+     *                                     all eligible households
+     * @param familyFactory                FamilyFactory instance.
+     */
+    void addNonPrimaryFamiliesToHouseholds(List<Household> households,
                                            List<Family> unusedCouples,
                                            List<Family> unusedBasicOneParentFamilies,
                                            List<Person> children,
                                            List<Person> relatives,
+                                           List<Person> marriedMales,
+                                           List<Person> marriedFemales,
                                            double nonPrimaryCwcProb,
                                            FamilyFactory familyFactory) {
-        assignNonPrimaryFamilies(familyHhs,
+        assignNonPrimaryFamilies(households,
                                  FamilyType.ONE_PARENT,
                                  unusedBasicOneParentFamilies,
                                  FamilyType.ONE_PARENT,
@@ -209,15 +218,13 @@ public class HouseholdFactory {
                                             .filter(p -> p.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
                                             .collect(Collectors.toList()));
             children.addAll(memSup.get()
-                                  .filter(p -> p.getRelationshipStatus() == RelationshipStatus.U15_CHILD ||
-                                          p.getRelationshipStatus() == RelationshipStatus.STUDENT ||
-                                          p.getRelationshipStatus() == RelationshipStatus.O15_CHILD)
+                                  .filter(p -> p.getRelationshipStatus() != RelationshipStatus.LONE_PARENT)
                                   .collect(Collectors.toList()));
         }
-
-        int coupleWithChildFamilies = getCoupleWithChildrenInNonPrimary(familyHhs, nonPrimaryCwcProb);
-        List<Family> basicCoupleWithChildFamilies = familyFactory.makeCoupleWithChildFamilyBasicUnits(coupleWithChildFamilies, )
-        assignCouplesAsNonPrimaryFamilies(familyHhs, unusedCouples, children, nonPrimaryCwcProb, familyFactory);
+        assignCouplesAsNonPrimaryFamilies(households, unusedCouples, children, nonPrimaryCwcProb, familyFactory);
+        if(!unusedCouples.isEmpty()){
+            extrasHandler.addToExtras(unusedCouples.stream().map(f -> f.getMembers()).flatMap(List::stream).collect(Collectors.toList()));
+        }
 
 
     }
@@ -229,25 +236,38 @@ public class HouseholdFactory {
      * @param nonPrimaryCwcProb The user defined portion of Couple With Children families among non-primary families
      * @return The number of families
      */
-    int assignCoupleWithChildAsNonPrimaryFamilies(List<Household> households,
-                                                  double nonPrimaryCwcProb,
-                                                  List<Family> couples,
-                                                  List<Person> children,
-                                                  FamilyFactory familyFactory) {
+    void assignCoupleWithChildAsNonPrimaryFamilies(List<Household> households,
+                                                   double nonPrimaryCwcProb,
+                                                   List<Family> couples,
+                                                   List<Person> children,
+                                                   List<Person> marriedMales,
+                                                   List<Person> marriedFemales,
+                                                   FamilyFactory familyFactory) {
 
-        int eligibleCount = (int)Math.round(households.stream()
-                                                  .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount() &&
-                                                          h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN &&
-                                                          h.getExpectedSize() >= h.getCurrentSize() + 3)
-                                                  .count() * nonPrimaryCwcProb);
-        if(couples.size() < eligibleCount){
-            couples.addAll(familyFactory.makeNonPrimaryBasicCoupleUnits(eligibleCount - couples.size()));
+        int eligibleCount = (int) Math.round(households.stream()
+                                                       .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount() &&
+                                                               h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN &&
+                                                               h.getExpectedSize() - h.getCurrentSize() >= FamilyType.COUPLE_WITH_CHILDREN.basicSize())
+                                                       .count() * nonPrimaryCwcProb);
+        if (eligibleCount > couples.size()) {
+            couples.addAll(familyFactory.formCoupleFamilyBasicUnits(eligibleCount - couples.size(), marriedMales, marriedFemales));
         }
-        List<Family> basicCoupleWithChildFamilies = familyFactory.makeCoupleWithChildFamilyBasicUnits(eligibleCount,
-                                                                                                      couples,
-                                                                                                      children);
+        List<Family> basicCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(eligibleCount, couples, children);
+        assignNonPrimaryFamilies(households,
+                                 FamilyType.COUPLE_WITH_CHILDREN,
+                                 basicCoupleWithChildFamilies,
+                                 FamilyType.COUPLE_WITH_CHILDREN);
     }
 
+    /**
+     * Assigns couples as second and third families to households
+     *
+     * @param households        The list of households
+     * @param couples           Remaining couples
+     * @param children          Remaining children
+     * @param nonPrimaryCwcProb
+     * @param familyFactory
+     */
     void assignCouplesAsNonPrimaryFamilies(List<Household> households,
                                            List<Family> couples,
                                            List<Person> children,
@@ -256,10 +276,12 @@ public class HouseholdFactory {
         Log.info("Adding " + FamilyType.COUPLE_ONLY + " as non primary");
         Log.debug(FamilyType.COUPLE_ONLY + ": available family units: " + couples.size());
         Log.debug(FamilyType.COUPLE_ONLY + ": Remaining children: " + children.size());
+
         List<Household> eligible = households.parallelStream()
                                              .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount() && h.getExpectedSize() >= h
                                                      .getCurrentSize() + 2)
                                              .collect(Collectors.toList());
+
         Log.debug(FamilyType.COUPLE_ONLY + ": total eligible households: " + eligible.size());
         Collections.shuffle(eligible, random);
         Household selectedHh;
@@ -293,13 +315,13 @@ public class HouseholdFactory {
      * of the newly added family is set to FamilyType specified as nonPrimaryFamilyType. This method alters the list of available basic
      * family units. This method assumes primary family of a multifamily household only consists of its basic members.
      *
-     * @param householdsMap        The map of households by FamilyHouseholdType
+     * @param households           All the households
      * @param nonPrimaryFamilyType The FamilyType of the newly added non primary families
      * @param basicUnits           The list of basic family units to be added as non-primary families to multi-family (must contain families
      *                             of only one FamilyType) households in @param households
      * @param eligibleFamilyTypes  The array of FamilyType(s) that the primary family of the household can belong to.
      */
-    private void assignNonPrimaryFamilies(List<Household> householdsMap,
+    private void assignNonPrimaryFamilies(List<Household> households,
                                           FamilyType nonPrimaryFamilyType,
                                           List<Family> basicUnits,
                                           FamilyType... eligibleFamilyTypes) {
@@ -307,11 +329,11 @@ public class HouseholdFactory {
         Log.info("Adding " + nonPrimaryFamilyType + " as non primary");
         Log.debug(nonPrimaryFamilyType + ": available family units: " + basicUnits.size());
 
-        List<Household> eligibleHhs = householdsMap.stream()
-                                                   .filter(h -> (Arrays.asList(eligibleFamilyTypes).contains(h.getPrimaryFamilyType())) &&
-                                                           (h.getExpectedFamilyCount() > h.getCurrentFamilyCount()) &&
-                                                           (h.getExpectedSize() - h.getCurrentSize() >= nonPrimaryFamilyType.basicSize())) //has enough vacancies
-                                                   .collect(Collectors.toList()); //Convert to an actual list
+        List<Household> eligibleHhs = households.stream()
+                                                .filter(h -> (Arrays.asList(eligibleFamilyTypes).contains(h.getPrimaryFamilyType())) &&
+                                                        (h.getExpectedFamilyCount() > h.getCurrentFamilyCount()) &&
+                                                        (h.getExpectedSize() - h.getCurrentSize() >= nonPrimaryFamilyType.basicSize())) //has enough vacancies
+                                                .collect(Collectors.toList()); //Convert to an actual list
 
         Log.debug(nonPrimaryFamilyType + ": total eligible households: " + eligibleHhs.size());
 
@@ -338,11 +360,11 @@ public class HouseholdFactory {
      * Completes households by adding relatives to the families that are larger than 2 members. If there is not enough relatives Extras are
      * converted to relatives. This method does not check the number of families in the household. This method modifies the input lists.
      *
-     * @param householdsMap       The one family households map to complete by only adding relatives
+     * @param households          The households in the population
      * @param relatives           The list of relatives in the population
      * @param familyHouseholdType FamilyHouseholdType of the households to be completed. All households are selected if null
      */
-    void completeHouseholdsWithRelatives(Map<FamilyType, List<Household>> householdsMap,
+    void completeHouseholdsWithRelatives(List<Household> households,
                                          List<Person> relatives,
                                          FamilyHouseholdType familyHouseholdType) {
         Log.info("Fill " + familyHouseholdType + " households with relatives");
@@ -351,12 +373,9 @@ public class HouseholdFactory {
 
         Collections.shuffle(relatives, random);
         //Filter the household that match the family household type.
-        List<Household> availableHhs = householdsMap.entrySet()
-                                                    .stream()
-                                                    .map(e -> e.getValue())
-                                                    .flatMap(List::stream)
-                                                    .filter(hh -> hh.getFamilyHouseholdType() == familyHouseholdType || familyHouseholdType == null)
-                                                    .collect(Collectors.toList());
+        List<Household> availableHhs = households.stream()
+                                                 .filter(hh -> hh.getFamilyHouseholdType() == familyHouseholdType || familyHouseholdType == null)
+                                                 .collect(Collectors.toList());
         Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Available households: " + availableHhs.size());
 
         int formed = 0;

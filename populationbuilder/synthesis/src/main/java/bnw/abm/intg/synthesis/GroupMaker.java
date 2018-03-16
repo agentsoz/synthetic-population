@@ -87,7 +87,7 @@ public class GroupMaker {
                                                                                      FamilyHouseholdType
                                                                                              .F3_COUPLE_WITH_CHILDREN);
         int fCount = coupleWChildRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
-        List<Family> primaryCoupleWChildFamilyBasic = familyFactory.makeCoupleWithChildFamilyBasicUnits(fCount,
+        List<Family> primaryCoupleWChildFamilyBasic = familyFactory.formCoupleWithChildFamilyBasicUnits(fCount,
                                                                                                         basicCouples,
                                                                                                         children);
         Log.debug("Remaining Basic couples: " + basicCouples.size());
@@ -343,7 +343,6 @@ public class GroupMaker {
     }
 
 
-
     /**
      * Calculates the distribution of COUPLE_ONLY, COUPLE_WITH_CHILD, ONE_PARENT and OTHER_FAMILY basic units in non-primary families based
      * on observed distribution of FamilyTypes in primary families. The calculation takes into account the number of remaining couple and
@@ -525,14 +524,14 @@ public class GroupMaker {
         //We have already used all known married males and females at this stage. So we have no other way but to use
         // Extras.
         Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
         List<Person> extraMarriedMales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                             Sex.Male,
                                                                             null,
                                                                             newCouplesCount);
         Log.debug("Non-Primary Basic Couple: Married males taken from extras: " + extraMarriedMales.size());
         Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
 
         List<Person> extraMarriedFemales = extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                               Sex.Female,
@@ -540,7 +539,7 @@ public class GroupMaker {
                                                                               newCouplesCount);
         Log.debug("Non-Primary Basic Couple: Married females taken from extras: " + extraMarriedMales.size());
         Log.debug("Non-Primary Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingExtraMarried());
+        Log.debug("Non-Primary Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
 
         return familyFactory.makeMarriedCouples(extraMarriedMales, extraMarriedFemales);
     }
@@ -551,35 +550,33 @@ public class GroupMaker {
      *
      * @param newOneParentFamilyCount The number of new one parent units needed
      * @param familyFactory           The FamilyFactory instance to use when forming families
+     * @param loneParents             The existing list of Lone Parents
      * @param children                The existing list of children in the family
      * @return The list of newly formed one parent basic units
      */
     private List<Family> makeNonPrimaryOneParentBasicUnits(int newOneParentFamilyCount,
                                                            FamilyFactory familyFactory,
+                                                           List<Person> loneParents,
                                                            List<Person> children) {
 
+        int newLoneParentsCount = (loneParents.)
         //We have already used all Lone Parents. So using extras.
-        Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
         List<Person> newLoneParents = extrasHandler.getPersonsFromExtras(RelationshipStatus.LONE_PARENT,
                                                                          null,
                                                                          null,
                                                                          newOneParentFamilyCount);
-        Log.debug("Non-Primary Basic One-Parent: Lone Parents taken from extras: " + newLoneParents.size());
-        Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Basic One-Parent: Lone Parents taken from extras: " + newLoneParents.size());
+        Log.debug("Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
 
         int childrenToForm = newOneParentFamilyCount <= children.size() ?
                              0 :
                              newOneParentFamilyCount - children.size();
-        Log.debug("Non-Primary Basic One-Parent: required Children: " + newOneParentFamilyCount);
-        Log.debug("Non-Primary Basic One-Parent: remaining Children: " + children.size());
+        Log.debug("Basic One-Parent: required Children: " + newOneParentFamilyCount);
+        Log.debug("Basic One-Parent: remaining Children: " + children.size());
         if (childrenToForm > 0) {
-
-            Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
-            Log.debug("Non-Primary Basic One-Parent: adding U15 Children: " + childrenToForm);
             //We assume all children are under 15
             children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
-            Log.debug("Non-Primary Basic One-Parent: remaining Children: " + children.size());
-            Log.debug("Non-Primary Basic One-Parent: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
 
@@ -628,7 +625,7 @@ public class GroupMaker {
             Log.debug("Non-Primary Basic Couple With Children: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
-        return familyFactory.makeCoupleWithChildFamilyBasicUnits(newCoupleWithChildFamilyCount, basicCouples, children);
+        return familyFactory.formCoupleWithChildFamilyBasicUnits(newCoupleWithChildFamilyCount, basicCouples, children);
     }
 
     private List<Family> makeNonPrimaryOtherFamilyBasicUnits(int newOtherFamilyCount,

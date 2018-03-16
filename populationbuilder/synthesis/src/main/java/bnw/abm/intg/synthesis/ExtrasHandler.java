@@ -165,7 +165,7 @@ class ExtrasHandler {
 
     }
 
-    int remainingExtraMarried() {
+    int remainingMarriedExtras() {
         return extraMarried.size();
     }
 
@@ -180,7 +180,7 @@ class ExtrasHandler {
     Map<RelationshipStatus, List<Person>> convertAllExtrasToChildrenAndRelatives(boolean includeExtraMarried) {
 
         if (includeExtraMarried) {
-            Log.debug("Remaining extra-married: " + remainingExtraMarried());
+            Log.debug("Remaining extra-married: " + remainingMarriedExtras());
             Log.debug("Remaining extras after adding extra-married: " + remainingExtras());
             extras.addAll(extraMarried);
         }
@@ -215,7 +215,7 @@ class ExtrasHandler {
         persons.entrySet().stream().forEach(e -> Log.debug("Extra "+e.getKey()+": "+e.getValue().size()));
 
         Log.debug("Remaining extras: " + remainingExtras());
-        Log.debug("Remaining extra-married: " + remainingExtraMarried());
+        Log.debug("Remaining extra-married: " + remainingMarriedExtras());
 
         return persons;
     }

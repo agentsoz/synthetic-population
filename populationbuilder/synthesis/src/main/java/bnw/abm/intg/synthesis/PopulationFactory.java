@@ -5,7 +5,6 @@ import bnw.abm.intg.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class PopulationFactory {
         this.nonPrimaryCwcProbability = nonPrimaryCoupleWithChildProbability;
 
         extrasHandler = new ExtrasHandler(hhRecs, indRecs, random);
-        familyFactory = new FamilyFactory(random);
+        familyFactory = new FamilyFactory(random, extrasHandler);
         householdFactory = new HouseholdFactory(hhRecs, random, extrasHandler);
     }
 
@@ -83,7 +82,9 @@ public class PopulationFactory {
 
     private void formAllKnownFamilies() {
 
-        basicCouples = familyFactory.makeMarriedCouples(marriedMales, marriedFemales);
+        basicCouples = familyFactory.formCoupleFamilyBasicUnits(Math.min(marriedMales.size(), marriedFemales.size()),
+                                                                marriedMales,
+                                                                marriedFemales);
         Log.debug("Remaining Married males: " + marriedMales.size());
         Log.debug("Remaining Married females: " + marriedFemales.size());
         Log.debug("Remaining Basic couples: " + basicCouples.size());
@@ -91,7 +92,7 @@ public class PopulationFactory {
         // otherwise we had extra males, because makeMarriedCouples() function keeps forming couples until one list exhausts.
         extrasHandler.setExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
 
-        basicOneParentFamilies = familyFactory.makeAllOneParentBasicUnits(loneParents, children);
+        basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
         Log.debug("Remaining Lone parent persons: " + loneParents.size());
         Log.debug("Remaining Children: " + children.size());
 
@@ -104,7 +105,7 @@ public class PopulationFactory {
                                                                                      FamilyHouseholdType.F2_COUPLE_WITH_CHILDREN,
                                                                                      FamilyHouseholdType.F3_COUPLE_WITH_CHILDREN);
         int fCount = coupleWChildRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
-        basicPrimaryCoupleWithChildFamilies = familyFactory.makeCoupleWithChildFamilyBasicUnits(fCount, basicCouples, children);
+        basicPrimaryCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(fCount, basicCouples, children);
         Log.debug("Remaining Basic couples: " + basicCouples.size());
         Log.debug("Remaining Children: " + children.size());
 
@@ -114,7 +115,7 @@ public class PopulationFactory {
                                                                                       FamilyHouseholdType.F2_OTHER_FAMILY,
                                                                                       FamilyHouseholdType.F3_OTHER_FAMILY);
         fCount = otherFamiliesRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
-        basicPrimaryOtherFamilies = familyFactory.makeOtherFamilyBasicUnits(fCount, relatives);
+        basicPrimaryOtherFamilies = familyFactory.formOtherFamilyBasicUnits(fCount, relatives);
         Log.debug("Remaining Relatives: " + relatives.size());
 
 
@@ -124,10 +125,10 @@ public class PopulationFactory {
 
         List<Household> lonePersonHhs = householdFactory.formLonePersonHouseholds(lonePersons);
         List<Household> groupHouseholds = householdFactory.formGroupHouseholds(groupHhPersons);
-        Map<FamilyType, List<Household>> familyHhs = householdFactory.formAllFamilyHouseholdsWithPrimaryFamilies(basicCouples,
-                                                                                                                 basicPrimaryCoupleWithChildFamilies,
-                                                                                                                 basicOneParentFamilies,
-                                                                                                                 basicPrimaryOtherFamilies);
+        List<Household> familyHhs = householdFactory.formAllFamilyHouseholdsWithPrimaryFamilies(basicCouples,
+                                                                                                basicPrimaryCoupleWithChildFamilies,
+                                                                                                basicOneParentFamilies,
+                                                                                                basicPrimaryOtherFamilies);
         //Fill 1 family couple only households with relatives
         householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, FamilyHouseholdType.F1_COUPLE_ONLY);
         //Fill 1 family other family households with relatives
@@ -138,6 +139,8 @@ public class PopulationFactory {
                                                            basicOneParentFamilies,
                                                            children,
                                                            relatives,
+                                                           marriedMales,
+                                                           marriedFemales,
                                                            nonPrimaryCwcProbability,
                                                            familyFactory);
 
