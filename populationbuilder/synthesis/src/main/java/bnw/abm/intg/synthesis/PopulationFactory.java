@@ -3,9 +3,8 @@ package bnw.abm.intg.synthesis;
 import bnw.abm.intg.synthesis.models.*;
 import bnw.abm.intg.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -47,9 +46,13 @@ public class PopulationFactory {
 
         formAllPersons();
         formAllKnownFamilies();
-        formHouseholds();
-
-        return null;
+        List<Household> allHouseholds = formHouseholds();
+        //        for (Household h : allHouseholds) {
+        //            if (!h.validate()) {
+        //                Log.error("Bad state in" + h);
+        //            }
+        //        }
+        return allHouseholds;
     }
 
     private void formAllPersons() {
@@ -121,10 +124,10 @@ public class PopulationFactory {
 
     }
 
-    private void formHouseholds() {
-
-        List<Household> lonePersonHhs = householdFactory.formLonePersonHouseholds(lonePersons);
-        List<Household> groupHouseholds = householdFactory.formGroupHouseholds(groupHhPersons);
+    private List<Household> formHouseholds() {
+        List<Household> allHouseholds = new ArrayList<>();
+        allHouseholds.addAll(householdFactory.formLonePersonHouseholds(lonePersons));
+        allHouseholds.addAll(householdFactory.formGroupHouseholds(groupHhPersons));
         List<Household> familyHhs = householdFactory.formAllFamilyHouseholdsWithPrimaryFamilies(basicCouples,
                                                                                                 basicPrimaryCoupleWithChildFamilies,
                                                                                                 basicOneParentFamilies,
@@ -141,9 +144,68 @@ public class PopulationFactory {
                                                            relatives,
                                                            marriedMales,
                                                            marriedFemales,
+                                                           loneParents,
                                                            nonPrimaryCwcProbability,
+                                                           getRelationshipDistInPrimaryFamilies(hhRecs),
                                                            familyFactory);
+        familyHhs.stream().forEach(h -> {
+            if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
+                throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + " person:" + h
+                        .getFamilyHouseholdType() + " has only " + h
+                        .getCurrentFamilyCount() + " families");
+            }
+        });
+
+        Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler.convertAllExtrasToChildrenAndRelatives(true);
+        householdFactory.completeHouseholdsWithChildren(familyHhs, children, childrenAndRelativesFromExtras);
+        if (childrenAndRelativesFromExtras.containsKey(RelationshipStatus.RELATIVE)) {
+            relatives.addAll(childrenAndRelativesFromExtras.get(RelationshipStatus.RELATIVE));
+        }
+        householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, null);
+
+        allHouseholds.addAll(familyHhs);
+        return allHouseholds;
 
 
+    }
+
+    private Map<FamilyType, Double> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {
+        int couples = 0, oneParent = 0, other = 0, totalNonPrimary = 0;
+
+        //lambda function to get primary family count, which is the number of relationships of a given type
+        Function<HhRecord, Integer> getFamilyCount = (HhRecord hhRec) -> {
+            return hhRec.HH_COUNT * (hhRec.getFamilyCountPerHousehold() - 1);
+        };
+
+        for (HhRecord hhRec : hhRecords) {
+
+            //The count of total missing non-primary families. For a 2F household we count 1 family and for a 3F household we count 2
+            switch (hhRec.getPrimaryFamilyType()) {
+                case COUPLE_ONLY:
+                    couples += getFamilyCount.apply(hhRec);
+                    break;
+                case COUPLE_WITH_CHILDREN:
+                    couples += getFamilyCount.apply(hhRec);
+                    break;
+                case ONE_PARENT:
+                    oneParent += getFamilyCount.apply(hhRec);
+                    break;
+                case OTHER_FAMILY:
+                    other += getFamilyCount.apply(hhRec);
+                    break;
+                case LONE_PERSON:
+                    break;
+                case GROUP_HOUSEHOLD:
+                    break;
+                default:
+                    throw new IllegalStateException("Unrecognised family type: " + hhRec.getPrimaryFamilyType());
+            }
+        }
+        totalNonPrimary = couples + oneParent + other;
+        Map<FamilyType, Double> dist = new HashMap<>(4, 1);
+        dist.put(FamilyType.COUPLE_ONLY, couples / (double) totalNonPrimary);
+        dist.put(FamilyType.ONE_PARENT, oneParent / (double) totalNonPrimary);
+        dist.put(FamilyType.OTHER_FAMILY, other / (double) totalNonPrimary);
+        return dist;
     }
 }

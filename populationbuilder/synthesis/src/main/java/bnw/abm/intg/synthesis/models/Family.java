@@ -87,8 +87,9 @@ public class Family {
      * @param type the type to set
      */
     public void setType(FamilyType type) {
-        if (this.type == null || this.type == FamilyType.BASIC || this.type == FamilyType.UNDEFINED | this.type ==
-                type) {
+        if (type == FamilyType.COUPLE_WITH_CHILDREN && this.getType() == FamilyType.COUPLE_ONLY) {
+            this.type = type;
+        } else if (this.type == null | this.type == type) {
             this.type = type;
         } else {
             throw new Error("Trying to overwrite " + this.type + " with " + type);
@@ -136,8 +137,8 @@ public class Family {
 
     private boolean hasALoneParent() {
         return members.stream()
-                .filter(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
-                .count() == 1;
+                      .filter(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                      .count() == 1;
     }
 
     private boolean noLoneParents() {
@@ -154,8 +155,8 @@ public class Family {
 
     private boolean hasMarriedCouple() {
         return members.stream()
-                .filter(person -> person.getRelationshipStatus() == RelationshipStatus.MARRIED)
-                .count() == 2;
+                      .filter(person -> person.getRelationshipStatus() == RelationshipStatus.MARRIED)
+                      .count() == 2;
     }
 
     private boolean onlyRelatives() {
@@ -164,20 +165,20 @@ public class Family {
 
     private boolean onlyGroupHouseholds() {
         return members.stream()
-                .allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD);
+                      .allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD);
     }
 
     private boolean noGroupOrLonePersons() {
         return members.stream()
-                .noneMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD | person
-                        .getRelationshipStatus() == RelationshipStatus.LONE_PERSON);
+                      .noneMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD | person
+                              .getRelationshipStatus() == RelationshipStatus.LONE_PERSON);
     }
 
     private boolean onlyALonePerson() {
         return members.size() == 1 && members.stream()
-                .filter(person -> person.getRelationshipStatus() == RelationshipStatus
-                        .LONE_PERSON)
-                .count() == 1;
+                                             .filter(person -> person.getRelationshipStatus() == RelationshipStatus
+                                                     .LONE_PERSON)
+                                             .count() == 1;
     }
 
     @Override

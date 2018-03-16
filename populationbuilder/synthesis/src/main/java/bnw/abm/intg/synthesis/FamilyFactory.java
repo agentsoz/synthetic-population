@@ -173,7 +173,7 @@ public class FamilyFactory {
                 throw new NotEnoughPersonsException("One Parent Basic: Not enough children - units successfully formed: " + lnParentBasic.size());
             }
 
-            Family f = new Family(FamilyType.BASIC);
+            Family f = new Family(FamilyType.ONE_PARENT);
             Person loneParent = loneParents.remove(0);
             f.addMember(loneParent);
             boolean success = addChildToFamily(f, children);
@@ -299,7 +299,7 @@ public class FamilyFactory {
 
         List<Family> couples = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            Family f = new Family(FamilyType.BASIC);
+            Family f = new Family(FamilyType.COUPLE_ONLY);
             f.addMember(marriedMales.remove(0));
             f.addMember(marriedFemales.remove(0));
             couples.add(f);

@@ -60,7 +60,7 @@ public class App {
                 Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/person_types.csv.gz");
 
-                GroupMaker groupMaker = new GroupMaker();
+//                GroupMaker groupMaker = new GroupMaker();
 
                 /* Data fields */
                 Map<String, List<HhRecord>> hhRecs = null;
@@ -71,11 +71,9 @@ public class App {
                 indRecs = DataReader.readPersonRecords(indFile);
 
                 // Group persons into households considering person, household and family types
-                List<Household> householdsOfSA2 = groupMaker.makePopulation(hhRecs.get(sa2),
-                                                                            indRecs.get(sa2),
-                                                                            rand,
-                                                                            sa2,
-                                                                            nonPrimaryCoupleWithChildProbability);
+                PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2), indRecs.get(sa2),nonPrimaryCoupleWithChildProbability, rand);
+                List<Household> householdsOfSA2 = populationFactory.makePopulation();
+
 
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);

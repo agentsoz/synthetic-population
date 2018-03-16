@@ -196,6 +196,7 @@ class ExtrasHandler {
         Map<RelationshipStatus, List<Person>> persons = new HashMap<>(5, 1);
         int totalNewPersons = 0;
         int remainingExtras = remainingExtras();
+
         for (int i = 0; i < remainingExtras; i++) {
             int offset = random.nextInt(sum);
             int s = 0;
