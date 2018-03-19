@@ -1,6 +1,7 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.synthesis.models.*;
+import bnw.abm.intg.util.GlobalConstants;
 import bnw.abm.intg.util.Log;
 
 import java.util.*;
@@ -46,12 +47,27 @@ public class PopulationFactory {
 
         formAllPersons();
         formAllKnownFamilies();
-        List<Household> allHouseholds = formHouseholds();
-        //        for (Household h : allHouseholds) {
-        //            if (!h.validate()) {
-        //                Log.error("Bad state in" + h);
-        //            }
-        //        }
+        try {
+            List<Household> allHouseholds = formHouseholds();
+            for (Household h : allHouseholds) {
+                if (!h.validate()) {
+                    Log.error("Bad state in" + h);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.debug("Remaining Relatives: " + relatives.size());
+            Log.debug("Remaining Children: " + children.size());
+            Log.debug("Remaining Male Married: " + marriedMales.size());
+            Log.debug("Remaining Female Married: " + marriedFemales.size());
+            Log.debug("Remaining Lone Parents: " + loneParents.size());
+            Log.debug("Remaining Lone Persons: " + lonePersons.size());
+            Log.debug("Remaining GroupHousehold persons: " + groupHhPersons.size());
+            Log.debug("Remaining Basic Couples: " + basicCouples.size());
+            Log.debug("Remaining Basic One Parent units: " + basicOneParentFamilies.size());
+            Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
+            Log.errorAndExit("Household constrcuction failed", GlobalConstants.ExitCode.PROGERROR);
+        }
         return allHouseholds;
     }
 
@@ -93,7 +109,7 @@ public class PopulationFactory {
         Log.debug("Remaining Basic couples: " + basicCouples.size());
         //Save extra married persons for later use. If married females list is not empty we had extra females,
         // otherwise we had extra males, because makeMarriedCouples() function keeps forming couples until one list exhausts.
-        extrasHandler.setExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
+        extrasHandler.addToExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
 
         basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
         Log.debug("Remaining Lone parent persons: " + loneParents.size());
@@ -125,6 +141,7 @@ public class PopulationFactory {
     }
 
     private List<Household> formHouseholds() {
+
         List<Household> allHouseholds = new ArrayList<>();
         allHouseholds.addAll(householdFactory.formLonePersonHouseholds(lonePersons));
         allHouseholds.addAll(householdFactory.formGroupHouseholds(groupHhPersons));
@@ -148,25 +165,30 @@ public class PopulationFactory {
                                                            nonPrimaryCwcProbability,
                                                            getRelationshipDistInPrimaryFamilies(hhRecs),
                                                            familyFactory);
-        familyHhs.stream().forEach(h -> {
-            if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
-                throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + " person:" + h
-                        .getFamilyHouseholdType() + " has only " + h
-                        .getCurrentFamilyCount() + " families");
-            }
-        });
+        //        familyHhs.forEach(h -> {
+        //            if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
+        //                throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + " person:" + h
+        //                        .getFamilyHouseholdType() + " has only " + h
+        //                        .getCurrentFamilyCount() + " families");
+        //            }
+        //        });
 
-        Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler.convertAllExtrasToChildrenAndRelatives(true);
-        householdFactory.completeHouseholdsWithChildren(familyHhs, children, childrenAndRelativesFromExtras);
+        completeHouseholdsWithChildrenAndRelatives(familyHhs);
+        allHouseholds.addAll(familyHhs);
+
+        return allHouseholds;
+    }
+
+    private void completeHouseholdsWithChildrenAndRelatives(List<Household> households) {
+        Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler.convertAllExtrasToChildrenAndRelatives();
+
+        householdFactory.completeHouseholdsWithChildren(households, children, childrenAndRelativesFromExtras);
         if (childrenAndRelativesFromExtras.containsKey(RelationshipStatus.RELATIVE)) {
             relatives.addAll(childrenAndRelativesFromExtras.get(RelationshipStatus.RELATIVE));
         }
-        householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, null);
+        householdFactory.completeHouseholdsWithRelatives(households, relatives, null);
 
-        allHouseholds.addAll(familyHhs);
-        return allHouseholds;
-
-
+        allHouseholds.addAll(households);
     }
 
     private Map<FamilyType, Double> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {

@@ -71,7 +71,7 @@
 //        //Save extra married persons for later use. If married females list is not empty we had extra females,
 //        // otherwise we had extra males,
 //        //because makeMarriedCouples() function keeps forming couples until one list exhausts.
-//        extrasHandler.setExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
+//        extrasHandler.addToExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
 //
 //
 //        List<Family> oneParentBasic = familyFactory.makeAllOneParentBasicUnits(loneParents, children);
