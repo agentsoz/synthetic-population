@@ -130,11 +130,7 @@ public class FamilyFactory {
      * @return A list of basic one parent family units with one lone parent and a child
      */
     List<Family> formOneParentBasicUnits(int count, List<Person> loneParents, List<Person> children) {
-        Log.debug("Basic One Parent: required units: " + count);
         if (count > loneParents.size()) {
-            Log.debug("Basic One Parent: required Lone Parents: " + count);
-            Log.debug("Basic One Parent: remaining Lone Parents: " + loneParents.size());
-            Log.debug("Basic One Parent: remaining Extras: " + extrasHandler.remainingExtras());
 
             //We don't have enough Lone Parents. So using extras.
             int newLoneParentsCount = count - loneParents.size();
@@ -142,30 +138,19 @@ public class FamilyFactory {
                                                                   null, //Sex automatically decided by data distribution
                                                                   null, //Age automatically decided by data distribution
                                                                   newLoneParentsCount));
-
-            Log.debug("Basic One Parent: Lone Parents taken from extras: " + newLoneParentsCount);
-            Log.debug("Basic One Parent: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
 
         if (count > children.size()) {
-
-            Log.debug("Basic One Parent: required Children: " + count);
-            Log.debug("Basic One Parent: remaining Children: " + children.size());
-            Log.debug("Basic One Parent: remaining Extras: " + extrasHandler.remainingExtras());
-
             int childrenToForm = count - children.size();
             children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
-
-            Log.debug("Basic One Parent: Children taken from extras: " + childrenToForm);
-            Log.debug("Basic One Parent: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
 
         Collections.shuffle(loneParents, random); //Mixes male and females to remove any bias to parent's gender
-        Collections.sort(loneParents, ageComparator.reversed()); //Sort by age. Males and females are still mixed
+        loneParents.sort(ageComparator.reversed());//Sort by age. Males and females are still mixed
         Collections.shuffle(children, random); //Mixes children to remove any bias to a gender
-        Collections.sort(children, ageComparator.reversed());
+        children.sort(ageComparator.reversed());
 
         List<Family> lnParentBasic = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -183,13 +168,6 @@ public class FamilyFactory {
                 loneParents.add(loneParent);
             }
         }
-
-        Log.info("One Parent Basic: formed units: " + lnParentBasic.size());
-        if (count == lnParentBasic.size()) {
-            Log.info("One Parent Basic: successful");
-        } else {
-            Log.warn("One Parent Basic: Discarded lone parents: " + loneParents.size());
-        }
         return lnParentBasic;
     }
 
@@ -203,20 +181,13 @@ public class FamilyFactory {
      */
     List<Family> formOtherFamilyBasicUnits(int count, List<Person> relatives) {
 
-        Log.debug("Basic Other Family: required units: " + count);
-        if(count *2 > relatives.size()){
-            Log.debug("Basic Other Family: required Relatives: " + count*2);
-            Log.debug("Basic Other Family: remaining Relatives: " + relatives.size());
-            Log.debug("Basic Other Family: remaining Extras: " + extrasHandler.remainingExtras());
+        if (count * 2 > relatives.size()) {
 
-            int newRelativesCount = (count*2) - relatives.size();
+            int newRelativesCount = (count * 2) - relatives.size();
             relatives.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.RELATIVE,
                                                                 null,
                                                                 null,
                                                                 newRelativesCount));
-
-            Log.debug("Basic Other Family: Relatives taken from extras: " + newRelativesCount);
-            Log.debug("Basic Other Family: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
         List<Family> otherFamilyBasic = new ArrayList<>();
@@ -231,12 +202,6 @@ public class FamilyFactory {
             f.addMember(relatives.remove(0));
             f.addMember(relatives.remove(0));
             otherFamilyBasic.add(f);
-        }
-
-
-        Log.info("Basic Other Family: formed units: " + otherFamilyBasic.size());
-        if (otherFamilyBasic.size() == count) {
-            Log.info("Basic Other Family: successful");
         }
 
         return otherFamilyBasic;
@@ -254,40 +219,22 @@ public class FamilyFactory {
      */
     List<Family> formCoupleFamilyBasicUnits(int count, List<Person> marriedMales, List<Person> marriedFemales) {
 
-        Log.debug("Basic Couple: required units: " + count);
         if (count > marriedMales.size()) {
-            Log.debug("Basic Couple: required Married Males: " + count);
-            Log.debug("Basic Couple: remaining Married Males: " + marriedMales.size());
-            Log.debug("Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-            Log.debug("Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
 
             int newMalesCount = count - marriedMales.size();
             marriedMales.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                    Sex.Male,
                                                                    null,
                                                                    newMalesCount));
-
-            Log.debug("Basic Couple: Married Males taken from extras: " + newMalesCount);
-            Log.debug("Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-            Log.debug("Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
-
         }
 
         if (count > marriedFemales.size()) {
-            Log.debug("Basic Couple: required Married Females: " + count);
-            Log.debug("Basic Couple: remaining Married Females: " + marriedMales.size());
-            Log.debug("Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-            Log.debug("Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
 
             int newFemalesCount = count - marriedFemales.size();
             marriedFemales.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
                                                                      Sex.Female,
                                                                      null,
                                                                      newFemalesCount));
-
-            Log.debug("Basic Couple: Married Females taken from extras: " + newFemalesCount);
-            Log.debug("Basic Couple: remaining Extras: " + extrasHandler.remainingExtras());
-            Log.debug("Basic Couple: remaining Married Extras: " + extrasHandler.remainingMarriedExtras());
         }
 
         //Sort two lists in age descending order
@@ -303,16 +250,6 @@ public class FamilyFactory {
             f.addMember(marriedMales.remove(0));
             f.addMember(marriedFemales.remove(0));
             couples.add(f);
-        }
-
-        Log.info("Basic Couple: units formed: " + couples.size());
-        if (diff > 0) {
-            Log.warn("Basic couples: " + diff + " young married males not used for couple families. Population may be biased");
-        } else if (diff < 0) {
-            Log.warn("Basic couples: " + ((-1) * diff) + " young married females not used for couple families. Population may " +
-                             "be biased");
-        } else {
-            Log.info("Basic couples: successful");
         }
         return couples;
     }
@@ -330,23 +267,13 @@ public class FamilyFactory {
                                                      List<Family> couples,
                                                      List<Person> children) {
 
-        Log.debug("Basic Couple With Children: required units: " + count);
-
         if (count > couples.size()) {
-            throw new NotEnoughPersonsException("Basic Couple With Children: required units: "+count+" available couples: "+couples.size());
+            throw new NotEnoughPersonsException("Basic Couple With Children: required units: " + count + " available couples: " + couples.size());
         }
 
         if (count > children.size()) {
-
-            Log.debug("Basic Couple With Children: required Children: " + count);
-            Log.debug("Basic Couple With Children: remaining Children: " + children.size());
-            Log.debug("Basic Couple With Children: remaining Extras: " + extrasHandler.remainingExtras());
-
             int childrenToForm = count - children.size();
             children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
-
-            Log.debug("Basic Couple With Children: Children taken from extras: " + childrenToForm);
-            Log.debug("Basic Couple With Children: remaining Extras: " + extrasHandler.remainingExtras());
         }
 
 
@@ -359,10 +286,10 @@ public class FamilyFactory {
         for (int i = 0; i < count; i++) {
             if (couples.isEmpty()) {
                 throw new NotEnoughPersonsException(
-                        "Basic Couple With Children: not enough Couples - units successfully formed: "+cplWithChildUnits.size());
+                        "Basic Couple With Children: not enough Couples - units successfully formed: " + cplWithChildUnits.size());
             }
             if (children.isEmpty()) {
-                new NotEnoughPersonsException("Basic Couple With Children: not enough children - units successfully formed: "+children.size());
+                new NotEnoughPersonsException("Basic Couple With Children: not enough children - units successfully formed: " + children.size());
             }
 
             Family f = couples.remove(0);
@@ -374,11 +301,6 @@ public class FamilyFactory {
                 couples.add(f); // move to end of the list to filter out failed couples
             }
 
-        }
-
-        Log.info("Basic Couple With Children: units formed: " + cplWithChildUnits.size());
-        if (cplWithChildUnits.size() == count) {
-            Log.info("Basic Couple With Children: successful");
         }
 
         return cplWithChildUnits;

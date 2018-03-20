@@ -85,11 +85,11 @@ public class App {
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
 
                 convertToSA2MAINCODE(allHouseholds, sa2CodeMap);
-                assignSA1sToHouseholds(sa2,
-                                       sa1HhDistCsvProperties,
-                                       inputDirectory,
-                                       householdsOfSA2,
-                                       rand);
+//                assignSA1sToHouseholds(sa2,
+//                                       sa1HhDistCsvProperties,
+//                                       inputDirectory,
+//                                       householdsOfSA2,
+//                                       rand);
 
                 Log.info("Writing output files to: " + outputDirectory);
                 Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +

@@ -6,7 +6,9 @@ import bnw.abm.intg.util.Log;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author wniroshan 15 Mar 2018
@@ -19,7 +21,6 @@ public class PopulationFactory {
     private final ExtrasHandler extrasHandler;
     private final FamilyFactory familyFactory;
     private final HouseholdFactory householdFactory;
-    private List<Household> allHouseholds = new ArrayList<>();
     private List<Person> children;
     private List<Person> marriedMales;
     private List<Person> marriedFemales;
@@ -47,15 +48,16 @@ public class PopulationFactory {
 
         formAllPersons();
         formAllKnownFamilies();
+        List<Household> allHouseholds = null;
         try {
-            List<Household> allHouseholds = formHouseholds();
+            allHouseholds = new ArrayList<>(formHouseholds());
             for (Household h : allHouseholds) {
                 if (!h.validate()) {
                     Log.error("Bad state in" + h);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.error("Error detected",e);
             Log.debug("Remaining Relatives: " + relatives.size());
             Log.debug("Remaining Children: " + children.size());
             Log.debug("Remaining Male Married: " + marriedMales.size());
@@ -101,22 +103,19 @@ public class PopulationFactory {
 
     private void formAllKnownFamilies() {
 
+        Log.info("Forming Basic Couple families: " + Math.min(marriedMales.size(), marriedFemales.size()));
         basicCouples = familyFactory.formCoupleFamilyBasicUnits(Math.min(marriedMales.size(), marriedFemales.size()),
                                                                 marriedMales,
                                                                 marriedFemales);
         Log.debug("Remaining Married males: " + marriedMales.size());
         Log.debug("Remaining Married females: " + marriedFemales.size());
         Log.debug("Remaining Basic couples: " + basicCouples.size());
-        //Save extra married persons for later use. If married females list is not empty we had extra females,
-        // otherwise we had extra males, because makeMarriedCouples() function keeps forming couples until one list exhausts.
-        extrasHandler.addToExtraMarriedPersons((!marriedFemales.isEmpty()) ? marriedFemales : marriedMales);
 
+        Log.info("Forming Basic One Parent families: " + loneParents.size());
         basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
         Log.debug("Remaining Lone parent persons: " + loneParents.size());
         Log.debug("Remaining Children: " + children.size());
-
-        Log.debug("Remaining Lone parent persons: " + loneParents.size());
-        Log.debug("Remaining Children: " + children.size());
+        Log.debug("Remaining Basic One Parent families: " + basicOneParentFamilies.size());
 
         //Form basic family structures and removes couples from married males and females list
         List<HhRecord> coupleWChildRecs = DataReader.getHhRecordsByPrimaryFamilyType(hhRecs,
@@ -124,9 +123,11 @@ public class PopulationFactory {
                                                                                      FamilyHouseholdType.F2_COUPLE_WITH_CHILDREN,
                                                                                      FamilyHouseholdType.F3_COUPLE_WITH_CHILDREN);
         int fCount = coupleWChildRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
+        Log.info("Forming Basic Couple with Children families: " + fCount);
         basicPrimaryCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(fCount, basicCouples, children);
         Log.debug("Remaining Basic couples: " + basicCouples.size());
         Log.debug("Remaining Children: " + children.size());
+        Log.debug("Remaining Basic Couple with Children families: " + basicPrimaryCoupleWithChildFamilies.size());
 
         // Forms Other Family basic family structures
         List<HhRecord> otherFamiliesRecs = DataReader.getHhRecordsByPrimaryFamilyType(hhRecs,
@@ -134,9 +135,10 @@ public class PopulationFactory {
                                                                                       FamilyHouseholdType.F2_OTHER_FAMILY,
                                                                                       FamilyHouseholdType.F3_OTHER_FAMILY);
         fCount = otherFamiliesRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
+        Log.info("Forming Basic Other families: " + fCount);
         basicPrimaryOtherFamilies = familyFactory.formOtherFamilyBasicUnits(fCount, relatives);
         Log.debug("Remaining Relatives: " + relatives.size());
-
+        Log.debug("Remaining Basic Other families: " + basicPrimaryOtherFamilies.size());
 
     }
 
@@ -172,23 +174,54 @@ public class PopulationFactory {
         //                        .getCurrentFamilyCount() + " families");
         //            }
         //        });
-
+        convertAllUnusedPersonsToExtras();
         completeHouseholdsWithChildrenAndRelatives(familyHhs);
         allHouseholds.addAll(familyHhs);
 
         return allHouseholds;
     }
 
+    private void convertAllUnusedPersonsToExtras() {
+        List<Person> allRemaining = new ArrayList<>();
+        allRemaining.addAll(marriedFemales);
+        allRemaining.addAll(marriedMales);
+        allRemaining.addAll(loneParents);
+        allRemaining.addAll(basicCouples.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
+        allRemaining.addAll(basicOneParentFamilies.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
+        allRemaining.addAll(basicPrimaryCoupleWithChildFamilies.stream()
+                                                               .map(Family::getMembers)
+                                                               .flatMap(List::stream)
+                                                               .collect(Collectors.toList()));
+        allRemaining.addAll(basicPrimaryOtherFamilies.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
+
+        extrasHandler.addToExtras(allRemaining);
+
+        marriedFemales.clear();
+        marriedMales.clear();
+        loneParents.clear();
+        basicCouples.clear();
+        basicOneParentFamilies.clear();
+        basicPrimaryCoupleWithChildFamilies.clear();
+        basicPrimaryOtherFamilies.clear();
+
+    }
+
     private void completeHouseholdsWithChildrenAndRelatives(List<Household> households) {
         Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler.convertAllExtrasToChildrenAndRelatives();
 
+        Supplier<Stream<Household>> householdSupplier = () -> households.stream().filter(h -> h.getCurrentSize() < h.getExpectedSize());
+        Log.debug("Incomplete households: " + householdSupplier.get().count());
+
+        int reqPersons =householdSupplier.get().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum();
+        Log.debug("Required persons: "+reqPersons);
         householdFactory.completeHouseholdsWithChildren(households, children, childrenAndRelativesFromExtras);
         if (childrenAndRelativesFromExtras.containsKey(RelationshipStatus.RELATIVE)) {
             relatives.addAll(childrenAndRelativesFromExtras.get(RelationshipStatus.RELATIVE));
         }
+        Log.debug("Incomplete households: " + householdSupplier.get().count());
+        reqPersons =householdSupplier.get().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum();
+        Log.debug("Required persons: "+reqPersons);
         householdFactory.completeHouseholdsWithRelatives(households, relatives, null);
-
-        allHouseholds.addAll(households);
     }
 
     private Map<FamilyType, Double> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {

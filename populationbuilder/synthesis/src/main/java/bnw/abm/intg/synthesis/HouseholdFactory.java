@@ -171,8 +171,8 @@ public class HouseholdFactory {
         Log.info("All households populated with primary families");
         Log.debug("Remaining Couples basic: " + coupleOnlyBasic.size());
         Log.debug("Remaining Couple with children basic: " + coupleWithChildrenBasic.size());
-        Log.debug("Remaining Other family basic: " + oneParentBasicFamilies.size());
-        Log.debug("Remaining One parent basic: " + otherFamilyBasic.size());
+        Log.debug("Remaining Other family basic: " + otherFamilyBasic.size());
+        Log.debug("Remaining One parent basic: " + oneParentBasicFamilies.size());
         return basicHouseholds;
     }
 
@@ -204,13 +204,17 @@ public class HouseholdFactory {
                                            double nonPrimaryCwcProb,
                                            Map<FamilyType, Double> relDistInPrimaryFamilies,
                                            FamilyFactory familyFactory) {
+        Log.info("Assigning known Basic One Parent families to suitable households");
         assignNonPrimaryFamilies(households,
                                  FamilyType.ONE_PARENT,
                                  unusedBasicOneParentFamilies,
                                  FamilyType.ONE_PARENT,
                                  FamilyType.COUPLE_WITH_CHILDREN);
+        Log.debug("Non-primary known: Basic One Parent families: Unassigned families: " + unusedBasicOneParentFamilies.size());
         if (!unusedBasicOneParentFamilies.isEmpty()) {
-
+            Log.debug("Non-primary known: Basic One Parent families: Remaining Children : " + children.size());
+            Log.debug("Non-primary known: Basic One Parent families: Remaining Lone Parents : " + loneParents.size());
+            Log.debug("Non-primary known: Basic One Parent families: Adding unassigned persons to persons lists");
             Supplier<Stream<Person>> memSup = () -> unusedBasicOneParentFamilies.stream()
                                                                                 .map(Family::getMembers)
                                                                                 .flatMap(List::stream);
@@ -220,17 +224,40 @@ public class HouseholdFactory {
             List<Person> extraChildren = memSup.get()
                                                .filter(p -> p.getRelationshipStatus() != RelationshipStatus.LONE_PARENT)
                                                .collect(Collectors.toList());
-            extrasHandler.addToExtras(extraLoneParents);
+
+            extraLoneParents.forEach(Person::clearFamilyID);
+            loneParents.addAll(extraLoneParents);
 
             extraChildren.forEach(Person::clearFamilyID);
             children.addAll(extraChildren);
             unusedBasicOneParentFamilies.clear();
 
+            Log.debug("Non-primary known: Basic One Parent families: Remaining Children : " + children.size());
+            Log.debug("Non-primary known: Basic One Parent families: Remaining Lone Parents : " + loneParents.size());
+
         }
+
+        Log.info("Assigning known Basic Couple families to suitable households");
+
         assignCouplesAsNonPrimaryFamilies(households, unusedCouples, children, nonPrimaryCwcProb, familyFactory);
+        Log.debug("Non-primary known: Basic Couple families: Unassigned families: " + unusedCouples.size());
+
         if (!unusedCouples.isEmpty()) {
-            extrasHandler.addToExtras(unusedCouples.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
+            Log.debug("Non-primary known: Basic Couple families: Remaining Male Married : " + marriedMales.size());
+            Log.debug("Non-primary known: Basic Couple families: Remaining Female Married : " + marriedFemales.size());
+            Log.debug("Non-primary known: Basic Couple families: Adding unassigned persons to persons lists");
+
+            Supplier<Stream<Person>> familyMemberSupplier = () -> unusedCouples.stream().map(Family::getMembers).flatMap(List::stream);
+            familyMemberSupplier.get().forEach(Person::clearFamilyID);
+            marriedMales.addAll(familyMemberSupplier.get().filter(p -> p.getSex() == Sex.Male).collect(Collectors.toList()));
+            marriedFemales.addAll(familyMemberSupplier.get().filter(p -> p.getSex() == Sex.Female).collect(Collectors.toList()));
+            unusedCouples.clear();
+
+            Log.debug("Non-primary known: Basic Couple families: Remaining Male Married : " + marriedMales.size());
+            Log.debug("Non-primary known: Basic Couple families: Remaining Female Married : " + marriedFemales.size());
         }
+
+
         assignUnknownNonPrimaryFamilies(households,
                                         relDistInPrimaryFamilies,
                                         nonPrimaryCwcProb,
@@ -253,6 +280,18 @@ public class HouseholdFactory {
                                                  List<Person> marriedFemales,
                                                  List<Person> loneParents,
                                                  FamilyFactory familyFactory) {
+
+        Log.info("Assigning unknown non-primary families to households");
+        Log.debug("Non-primary unknown: Remaining Married males: " + marriedMales.size());
+        Log.debug("Non-primary unknown: Remaining Married females: " + marriedFemales.size());
+        Log.debug("Non-primary unknown: Remaining Relatives: " + relatives.size());
+        Log.debug("Non-primary unknown: Remaining Children: " + children.size());
+        Log.debug("Non-primary unknown: Remaining Lone Parents: " + loneParents.size());
+        Log.debug("Non-primary unknown: Remaining Extras: " + extrasHandler.remainingExtras());
+        Log.debug("Non-primary unknown: Families needed: " + households.stream()
+                                                                       .mapToInt(h -> h.getExpectedFamilyCount() - h.getCurrentFamilyCount())
+                                                                       .sum());
+
         Map<FamilyType, Integer> currentDist = new HashMap<>(4, 1);
         households.forEach(h -> {
             h.getFamilies().forEach(f -> {
@@ -298,30 +337,57 @@ public class HouseholdFactory {
             return newFamily;
         };
 
+        int formedCouples = 0, formedCwc = 0, formedOneParent = 0, formedOtherFamily = 0;
         for (Household h : households) {
-            if (h.getExpectedFamilyCount() > h.getCurrentFamilyCount()) {
+            int missingFamilies = h.getExpectedFamilyCount() - h.getCurrentFamilyCount();
+            for (int i = 0; i < missingFamilies; i++) {
                 FamilyType primaryFT = h.getPrimaryFamilyType();
+
                 if (primaryFT == FamilyType.COUPLE_ONLY || primaryFT == FamilyType.OTHER_FAMILY) {
 
                     Family newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY});
                     h.addFamily(newFamily);
+                    if (newFamily.getType() == FamilyType.COUPLE_ONLY) ++formedCouples;
+                    else ++formedOtherFamily;
 
                 } else if (primaryFT == FamilyType.ONE_PARENT) {
-                    Family newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY,
-                                                                                   FamilyType.ONE_PARENT});
+
+                    Family newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY, FamilyType.ONE_PARENT});
                     h.addFamily(newFamily);
+                    ++formedOneParent;
+
                 } else if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN) {
-                    Family newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY,
-                                                                                   FamilyType.ONE_PARENT});
-                    if (newFamily.getType() == FamilyType.COUPLE_ONLY && random.nextDouble() < coupleWithChildProb && h.getExpectedSize()
-                            - h
-                            .getCurrentSize() >= FamilyType.COUPLE_WITH_CHILDREN.basicSize()) {
-                        newFamily = familyFactory.formCoupleWithChildFamilyBasicUnits(1, Arrays.asList(newFamily), children).get(0);
+
+                    Family newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY, FamilyType.ONE_PARENT});
+
+                    if (newFamily.getType() == FamilyType.COUPLE_ONLY
+                            && random.nextDouble() < coupleWithChildProb
+                            && h.getExpectedSize() - h.getCurrentSize() >= FamilyType.COUPLE_WITH_CHILDREN.basicSize()) {
+
+                        newFamily = familyFactory.formCoupleWithChildFamilyBasicUnits(1,
+                                                                                      new ArrayList<>(Arrays.asList(newFamily)),
+                                                                                      children).get(0);
+                        ++formedCwc;
+                    } else {
+                        ++formedCouples;
                     }
+
                     h.addFamily(newFamily);
                 }
             }
         }
+        Log.debug("Non-primary unknown: Formed Couples: " + formedCouples);
+        Log.debug("Non-primary unknown: Formed Couple with Child: " + formedCwc);
+        Log.debug("Non-primary unknown: Formed Other Family: " + formedOtherFamily);
+        Log.debug("Non-primary unknown: Formed One Parent: " + formedOneParent);
+        Log.debug("Non-primary unknown: Remaining Married males: " + marriedMales.size());
+        Log.debug("Non-primary unknown: Remaining Married females: " + marriedFemales.size());
+        Log.debug("Non-primary unknown: Remaining Relatives: " + relatives.size());
+        Log.debug("Non-primary unknown: Remaining Children: " + children.size());
+        Log.debug("Non-primary unknown: Remaining Lone Parents: " + loneParents.size());
+        Log.debug("Non-primary unknown: Remaining Extras: " + extrasHandler.remainingExtras());
+
+        Log.info("Assigning unknown non-primary families completed");
     }
 
     /**
@@ -361,8 +427,8 @@ public class HouseholdFactory {
      * @param households        The list of households
      * @param couples           Remaining couples
      * @param children          Remaining children
-     * @param nonPrimaryCwcProb
-     * @param familyFactory
+     * @param nonPrimaryCwcProb The probability of having a Couple With Children family as non-primary family in an eligible household
+     * @param familyFactory     The FamilyFactory instance
      */
     void assignCouplesAsNonPrimaryFamilies(List<Household> households,
                                            List<Family> couples,
@@ -370,37 +436,52 @@ public class HouseholdFactory {
                                            double nonPrimaryCwcProb,
                                            FamilyFactory familyFactory) {
         Log.info("Adding " + FamilyType.COUPLE_ONLY + " as non primary");
-        Log.debug(FamilyType.COUPLE_ONLY + ": available family units: " + couples.size());
-        Log.debug(FamilyType.COUPLE_ONLY + ": Remaining children: " + children.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Available family units: " + couples.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Remaining Children: " + children.size());
 
         List<Household> eligible = households.parallelStream()
                                              .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount() && h.getExpectedSize() >= h
                                                      .getCurrentSize() + 2)
                                              .collect(Collectors.toList());
 
-        Log.debug(FamilyType.COUPLE_ONLY + ": total eligible households: " + eligible.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Total eligible households: " + eligible.size());
         Collections.shuffle(eligible, random);
         Household selectedHh;
+
         int added = 0, completed = 0, cwcAdded = 0;
+        Set<Household> cplAddedHhs = new HashSet<>(), cwcAddedHhs = new HashSet<>();
         while (!eligible.isEmpty() && !couples.isEmpty()) {
             selectedHh = eligible.get(0);
             Family f2 = couples.remove(0);
             if (selectedHh.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN && random.nextDouble() < nonPrimaryCwcProb) {
                 familyFactory.addChildToFamily(f2, children);
+                //bookkeeping
                 cwcAdded++;
+                if (cwcAddedHhs.add(selectedHh) == false && selectedHh.getExpectedFamilyCount() != 3) {
+                    throw new UnsupportedOperationException("Added a 3rd family to a 2 family household");
+                }
+
+            } else {
+                //bookkeeping
+                added++;
+                if (cplAddedHhs.add(selectedHh) == false && selectedHh.getExpectedFamilyCount() != 3) {
+                    throw new UnsupportedOperationException("Added a 3rd family to a 2 family household");
+                }
             }
             selectedHh.addFamily(f2);
-            added++;
+
             if (selectedHh.getExpectedFamilyCount() == selectedHh.getCurrentFamilyCount()) {
                 eligible.remove(selectedHh);
                 completed++;
             }
+
         }
 
-        Log.debug(FamilyType.COUPLE_ONLY + ": updated households: " + added);
-        Log.debug(FamilyType.COUPLE_ONLY + ": converted to " + FamilyType.COUPLE_WITH_CHILDREN + ": " + cwcAdded + " (out of updated)");
-        Log.debug(FamilyType.COUPLE_ONLY + ": family count completed households: " + completed);
-
+        Log.debug(FamilyType.COUPLE_ONLY + ": Used Couples: " + added + " Updated Households: " + cplAddedHhs.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Used Couples as Couple with Children: " + cwcAdded + " Updated Households: " + cwcAddedHhs.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Family count completed households: " + completed);
+        Log.debug(FamilyType.COUPLE_ONLY + ": Remaining eligible households: " + eligible.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Remaining Children: " + children.size());
     }
 
 
@@ -450,6 +531,9 @@ public class HouseholdFactory {
 
         Log.debug(nonPrimaryFamilyType + ": updated households: " + added);
         Log.debug(nonPrimaryFamilyType + ": family count completed households: " + completed);
+        Log.debug(nonPrimaryFamilyType + ": remaining eligible households: " + eligibleHhs.stream()
+                                                                                          .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount())
+                                                                                          .count());
     }
 
 
@@ -471,11 +555,14 @@ public class HouseholdFactory {
         Collections.shuffle(relatives, random);
         //Filter the household that match the family household type.
         List<Household> availableHhs = households.stream()
-                                                 .filter(hh -> hh.getFamilyHouseholdType() == familyHouseholdType || familyHouseholdType
-                                                         == null)
+                                                 .filter(hh -> (hh.getFamilyHouseholdType() == familyHouseholdType || familyHouseholdType
+                                                         == null) && (hh.getExpectedSize() > hh.getCurrentSize()))
                                                  .collect(Collectors.toList());
-        Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Available households: " + availableHhs.size());
-
+        Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Eligible households: " + availableHhs.size());
+        Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Slots to fill: " + availableHhs.stream()
+                                                                                                                         .mapToInt(h -> h.getExpectedSize() - h
+                                                                                                                                 .getCurrentSize())
+                                                                                                                         .sum());
         int formed = 0;
         for (Household h : availableHhs) {
             int diff = h.getExpectedSize() - h.getCurrentSize();
@@ -490,11 +577,12 @@ public class HouseholdFactory {
                     relatives.clear();
                 }
                 formed++;
+
             }
 
         }
 
-        Log.info(familyHouseholdType != null ? familyHouseholdType.name() : "All" + ": updated households: " + formed);
+        Log.info((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": updated households: " + formed);
         Log.debug("End remaining relatives: " + relatives.size());
         Log.debug("End remaining extras: " + extrasHandler.remainingExtras());
     }

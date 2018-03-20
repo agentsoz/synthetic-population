@@ -5,11 +5,10 @@ import bnw.abm.intg.synthesis.models.Person;
 import bnw.abm.intg.synthesis.models.RelationshipStatus;
 import bnw.abm.intg.synthesis.models.Sex;
 import bnw.abm.intg.util.Log;
+import com.sun.istack.internal.NotNull;
 
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author wniroshan 18 Dec 2017
@@ -19,8 +18,6 @@ class ExtrasHandler {
     final Random random;
     private final List<IndRecord> indRecords;
     final private List<Person> extras;
-    private List<Person> extraMarried = new ArrayList<>();
-    private List<Person> extraLoneParents = new ArrayList<>();
 
     ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, Random random) {
         this.extras = this.getExtras(hhRecords, indRecords);
@@ -66,43 +63,17 @@ class ExtrasHandler {
 
         List<Person> persons = new ArrayList<>(count);
 
-        //If we want extra married persons, try to use them from previously saved extraMarried persons list.
-        if (relStatus == RelationshipStatus.MARRIED) {
-            persons.addAll(getFromExtraMarried(sex, ageRange, count));
-        } else if (relStatus == RelationshipStatus.LONE_PARENT) {
-            persons.addAll(getFromExtraLoneParents(sex, ageRange, count));
-        }
-
-        count = count - persons.size();
-        Supplier<Stream<Person>> combinedKnowns = () -> Stream.concat(extraMarried.stream(), extraLoneParents.stream());
-        if (count > 0) {
-            List<Person> matched = combinedKnowns.get()
-                                                 .filter(p -> p.getAgeRange() == ageRange || p.getSex() == sex)
-                                                 .collect(Collectors.toList());
-            extraMarried.removeAll(matched);
-            extraLoneParents.removeAll(matched);
-            persons.addAll(matched);
-            count = count - matched.size();
-        }
-
-        if (this.extras.size() > count) {
-            persons.addAll(this.extras.subList(0, count));
-            this.extras.subList(0, count).clear();
-            count = 0;
+        if (this.extras.size() >= count) {
+            List<Person> selected = this.extras.subList(0, count);
+            persons.addAll(selected);
+            this.extras.removeAll(selected);
         } else {
-            count = count - this.extras.size();
-            persons.addAll(this.extras);
-            this.extras.clear();
-
-            List<Person> fromExtras =combinedKnowns.get().collect(Collectors.toList()).subList(0,count);
-            persons.addAll(fromExtras);
-            extraMarried.removeAll(fromExtras);
-            extraLoneParents.removeAll(fromExtras);
-
+            throw new NotEnoughPersonsException("There are not enough persons in extras. Requested: " + count + " available: " + this.extras
+                    .size());
         }
 
 
-        //Get the persons we want from Extras.
+        //Proportionally set the properties of persons we selected
         if (!persons.isEmpty()) {
             List<IndRecord> dist = indRecords.stream()
                                              .filter(r -> (relStatus == null || r.RELATIONSHIP_STATUS == relStatus) //filter by
@@ -146,18 +117,18 @@ class ExtrasHandler {
         return getPersonsFromExtras(RelationshipStatus.U15_CHILD, sex, ageRange, count);
     }
 
-
-    private List<Person> getFromExtraMarried(Sex sex, AgeRange ageRange, int count) {
-        return getFromExtraPropertyKnownLists(extraMarried, sex, ageRange, count);
-    }
-
-    private List<Person> getFromExtraLoneParents(Sex sex, AgeRange ageRange, int count) {
-        return getFromExtraPropertyKnownLists(extraLoneParents, sex, ageRange, count);
-    }
-
-    private List<Person> getFromExtraPropertyKnownLists(List<Person> knownList, Sex sex, AgeRange ageRange, int count) {
+    /**
+     * Get person instances from the specified list
+     *
+     * @param knownList The list of persons to take persons from
+     * @param sex       The sex of the persons
+     * @param ageRange  The age range of the persons
+     * @param count     The number of persons to take
+     * @return The list of new persons with properties already set.
+     */
+    private List<Person> getFromExtraPropertyKnownLists(@NotNull List<Person> knownList, Sex sex, AgeRange ageRange, int count) {
         List<Person> persons = new ArrayList<>(count);
-        if (!(knownList.isEmpty() || knownList == null)) {
+        if (!(knownList.isEmpty())) {
             List<Person> temp = knownList.stream()
                                          .filter(p -> (ageRange == null || ageRange == p.getAgeRange()) && (sex == null || sex == p
                                                  .getSex()))
@@ -178,46 +149,6 @@ class ExtrasHandler {
     }
 
     /**
-     * Saves extra married persons for later use. These persons will be used to construct more couple relationships if originally formed
-     * couples are not enough to complete the population. This method copies the list of persons passed to a new list and clears the
-     * original list avoid errors.
-     *
-     * @param extraMarried The list of extra married persons. The list is expected to contain either male or female persons, not both.
-     */
-    void addToExtraMarriedPersons(List<Person> extraMarried) {
-        this.extraMarried.addAll(extraMarried);
-        extraMarried.clear();
-        if (!extraMarried.isEmpty()) {
-            Log.info("Number of extra-married " + this.extraMarried.get(0)
-                                                                   .getSex() + " saved for later use: " + extraMarried.size());
-        }
-
-    }
-
-    /**
-     * Adds the specified list to extra lone parents list. This will be used later population construction
-     *
-     * @param loneParents The list of extra lone parents.
-     */
-    void addToExtraLoneParentPersons(List<Person> loneParents) {
-        this.extraLoneParents.addAll(loneParents);
-        extraLoneParents.clear();
-        if (!extraLoneParents.isEmpty()) {
-            Log.info("Number of extra Lone Parents saved for later use: " + extraLoneParents.size());
-        }
-
-    }
-
-    int remainingMarriedExtras() {
-        return extraMarried.size();
-    }
-
-    int remainingLoneParentExtras() {
-        return extraLoneParents.size();
-    }
-
-
-    /**
      * Converts all the remaining extras to Children and Relatives. The characteristics of persons are determined probabilistically based on
      * observed distribution of children categories and relatives.
      *
@@ -226,12 +157,6 @@ class ExtrasHandler {
     Map<RelationshipStatus, List<Person>> convertAllExtrasToChildrenAndRelatives() {
 
         Log.debug("Remaining extras: " + remainingExtras());
-        Log.debug("Remaining extra Married: " + remainingMarriedExtras());
-        Log.debug("Remaining extra Lone Parents: " + remainingLoneParentExtras());
-        extras.addAll(extraMarried);
-        extras.addAll(extraLoneParents);
-        Log.debug("Remaining extras after adding extra Married and Lone Parents: " + remainingExtras());
-
 
         List<IndRecord> dist = indRecords.stream()
                                          .filter(r -> (r.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD
@@ -265,7 +190,6 @@ class ExtrasHandler {
         persons.entrySet().stream().forEach(e -> Log.debug("Extra " + e.getKey() + ": " + e.getValue().size()));
 
         Log.debug("Remaining extras: " + remainingExtras());
-        Log.debug("Remaining extra-married: " + remainingMarriedExtras());
 
         return persons;
     }
