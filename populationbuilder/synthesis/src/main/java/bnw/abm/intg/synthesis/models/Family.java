@@ -182,6 +182,20 @@ public class Family {
                                              .count() == 1;
     }
 
+    /**
+     * Returns the youngest parent in the family if there is one, otherwise return null
+     *
+     * @return The youngest Person instance
+     */
+    public Person getYoungestParent() {
+        return this.getMembers()
+                   .stream()
+                   .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                           m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                   .min(new AgeRange.AgeComparator()).orElse(null);
+
+    }
+
     @Override
     public String toString() {
         return "Family id:" + this.getID() + " type:" + getType()

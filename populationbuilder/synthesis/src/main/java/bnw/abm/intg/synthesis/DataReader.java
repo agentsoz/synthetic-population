@@ -110,7 +110,8 @@ public class DataReader {
         Map<String, Map<String, Integer>> householdTypesBySA1 = new LinkedHashMap<>();
         try (CSVParser csvParser = new CSVParser(new InputStreamReader(new GZIPInputStream(new BufferedInputStream
                                                                                                    (Files.newInputStream(
-                csvFile)))), CSVFormat.EXCEL.withSkipHeaderRecord(false))) {
+                                                                                                           csvFile)))),
+                                                 CSVFormat.EXCEL.withSkipHeaderRecord(false))) {
             int row = -1;
             CSVRecord headerRow = null;
             for (CSVRecord csvRecord : csvParser) {
@@ -151,7 +152,7 @@ public class DataReader {
             row++;
             if (row >= dataRow) {
                 if ((csvRecord.size() - 1) < ageColumn || csvRecord.get(ageColumn) == null || csvRecord.get(ageColumn)
-                        .equals("")) {
+                                                                                                       .equals("")) {
                     break; // We have reached end
                 }
                 String age = csvRecord.get(ageColumn).split(" ")[0];
@@ -309,15 +310,15 @@ public class DataReader {
                                                           FamilyHouseholdType... familyHhTypes) {
 
         return hhRecs.stream()
-                .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
-                .collect(Collectors.toList());
+                     .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
+                     .collect(Collectors.toList());
     }
 
     static List<IndRecord> getAgentsRecordsByRelationshipStatus(List<IndRecord> indRecs,
                                                                 RelationshipStatus... relStates) {
         return indRecs.stream()
-                .filter(r -> Arrays.asList(relStates).contains(r.RELATIONSHIP_STATUS))
-                .collect(Collectors.toList());
+                      .filter(r -> Arrays.asList(relStates).contains(r.RELATIONSHIP_STATUS))
+                      .collect(Collectors.toList());
     }
 
 }

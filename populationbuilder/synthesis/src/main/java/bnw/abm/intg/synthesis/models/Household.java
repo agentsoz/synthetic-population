@@ -92,9 +92,17 @@ public class Household {
      * @param family the family to add
      */
     public void addFamily(Family family) {
+        if (this.getCurrentFamilyCount() == this.getExpectedFamilyCount()) {
+            throw new Error("The household already has " + this.getExpectedFamilyCount() + " families");
+        }
+        if (this.getCurrentSize() + family.size() > this.getExpectedSize()) {
+            throw new Error("Adding new family will exceed expected household size. expected size: " + this.getExpectedSize() + " current size: " + this
+                    .getCurrentSize() + " new family size: " + family.size());
+        }
         if (this.families.contains(family)) {
             throw new Error("Family already exists in this household");
         } else {
+
             this.families.add(family);
             Household.familiesAddedToHouseholds.put(family.getID(), family);
         }
@@ -146,8 +154,8 @@ public class Household {
         }
         if (getPrimaryFamilyType() != FamilyType.COUPLE_WITH_CHILDREN
                 & getFamilies().stream()
-                .filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN)
-                .count() > 0) {
+                               .filter(family -> family.getType() == FamilyType.COUPLE_WITH_CHILDREN)
+                               .count() > 0) {
             Log.warn(
                     "Household validation: Primary family: " + getPrimaryFamilyType() + " Secondary: " + getFamily(1).getType());
             return false;

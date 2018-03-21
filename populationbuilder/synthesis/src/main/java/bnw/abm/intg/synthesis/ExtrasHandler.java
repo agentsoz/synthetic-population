@@ -17,22 +17,21 @@ class ExtrasHandler {
 
     final Random random;
     private final List<IndRecord> indRecords;
-    final private List<Person> extras;
+    private List<Person> extras;
 
-    ExtrasHandler(List<HhRecord> hhRecords, List<IndRecord> indRecords, Random random) {
-        this.extras = this.getExtras(hhRecords, indRecords);
+    ExtrasHandler(List<IndRecord> indRecords, Random random) {
         this.random = random;
         this.indRecords = indRecords;
     }
 
-    private List<Person> getExtras(List<HhRecord> hhRecs, List<IndRecord> indRecs) {
+    void formExtras(List<HhRecord> hhRecs) {
         int personsInHh = 0;
         int personsInInd = 0;
         List<Person> extras = new ArrayList<>();
         for (HhRecord hhRec : hhRecs) {
             personsInHh += (hhRec.HH_COUNT * hhRec.NUM_OF_PERSONS_PER_HH);
         }
-        for (IndRecord inRec : indRecs) {
+        for (IndRecord inRec : indRecords) {
             personsInInd += inRec.IND_COUNT;
         }
 
@@ -40,7 +39,7 @@ class ExtrasHandler {
         for (int i = 0; i < extraPersons; i++) {
             extras.add(new Person());
         }
-        return extras;
+        this.extras = extras;
     }
 
     int remainingExtras() {
@@ -101,6 +100,24 @@ class ExtrasHandler {
             }
         }
         return persons;
+    }
+
+    /**
+     * Produces one person with properties in specified indRecord
+     *
+     * @param indRecord The IndRecord to take person properties
+     * @return The person instance
+     */
+    Person getPersonFromExtras(IndRecord indRecord) {
+        Person p = null;
+        if (!this.extras.isEmpty()) {
+            p = this.extras.remove(0);
+            setProperties(p, indRecord.RELATIONSHIP_STATUS, indRecord.SEX, indRecord.AGE_RANGE);
+        } else {
+            throw new NotEnoughPersonsException("There are no persons in extras");
+        }
+
+        return p;
     }
 
     /**

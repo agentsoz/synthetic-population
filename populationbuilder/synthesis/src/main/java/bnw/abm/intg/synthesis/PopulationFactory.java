@@ -39,7 +39,7 @@ public class PopulationFactory {
         this.random = random;
         this.nonPrimaryCwcProbability = nonPrimaryCoupleWithChildProbability;
 
-        extrasHandler = new ExtrasHandler(hhRecs, indRecs, random);
+        extrasHandler = new ExtrasHandler(indRecs, random);
         familyFactory = new FamilyFactory(random, extrasHandler);
         householdFactory = new HouseholdFactory(hhRecs, random, extrasHandler);
     }
@@ -57,7 +57,7 @@ public class PopulationFactory {
                 }
             }
         } catch (Exception e) {
-            Log.error("Error detected",e);
+            Log.error("Error detected", e);
             Log.debug("Remaining Relatives: " + relatives.size());
             Log.debug("Remaining Children: " + children.size());
             Log.debug("Remaining Male Married: " + marriedMales.size());
@@ -90,7 +90,7 @@ public class PopulationFactory {
                                                                    RelationshipStatus.O15_CHILD);
         lonePersons = PersonsFactory.makeAllPersonsByRelationshipType(indRecs, RelationshipStatus.LONE_PERSON);
         groupHhPersons = PersonsFactory.makeAllPersonsByRelationshipType(indRecs, RelationshipStatus.GROUP_HOUSEHOLD);
-
+        extrasHandler.formExtras(hhRecs);
         Log.info("Formed all person instances");
         Log.debug("Remaining Married males: " + marriedMales.size());
         Log.debug("Remaining Married females: " + marriedFemales.size());
@@ -99,6 +99,7 @@ public class PopulationFactory {
         Log.debug("Remaining Lone parents: " + loneParents.size());
         Log.debug("Remaining Lone persons: " + lonePersons.size());
         Log.debug("Remaining Group household persons: " + groupHhPersons.size());
+        Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
     }
 
     private void formAllKnownFamilies() {
@@ -167,65 +168,26 @@ public class PopulationFactory {
                                                            nonPrimaryCwcProbability,
                                                            getRelationshipDistInPrimaryFamilies(hhRecs),
                                                            familyFactory);
-        //        familyHhs.forEach(h -> {
-        //            if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
-        //                throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + " person:" + h
-        //                        .getFamilyHouseholdType() + " has only " + h
-        //                        .getCurrentFamilyCount() + " families");
-        //            }
-        //        });
-        convertAllUnusedPersonsToExtras();
-        completeHouseholdsWithChildrenAndRelatives(familyHhs);
+        familyHhs.forEach(h -> {
+            if (h.getExpectedFamilyCount() != h.getCurrentFamilyCount()) {
+                throw new IllegalStateException("Family count wrong: " + h.getExpectedSize() + " person:" + h
+                        .getFamilyHouseholdType() + " has only " + h
+                        .getCurrentFamilyCount() + " families");
+            }
+        });
+
+        householdFactory.completeHouseholdsWithChildren(familyHhs, children);
+        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs);
+        householdFactory.completeHouseholdsWithRelatives(familyHhs,relatives, null);
+
         allHouseholds.addAll(familyHhs);
 
         return allHouseholds;
     }
 
-    private void convertAllUnusedPersonsToExtras() {
-        List<Person> allRemaining = new ArrayList<>();
-        allRemaining.addAll(marriedFemales);
-        allRemaining.addAll(marriedMales);
-        allRemaining.addAll(loneParents);
-        allRemaining.addAll(basicCouples.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
-        allRemaining.addAll(basicOneParentFamilies.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
-        allRemaining.addAll(basicPrimaryCoupleWithChildFamilies.stream()
-                                                               .map(Family::getMembers)
-                                                               .flatMap(List::stream)
-                                                               .collect(Collectors.toList()));
-        allRemaining.addAll(basicPrimaryOtherFamilies.stream().map(Family::getMembers).flatMap(List::stream).collect(Collectors.toList()));
 
-        extrasHandler.addToExtras(allRemaining);
-
-        marriedFemales.clear();
-        marriedMales.clear();
-        loneParents.clear();
-        basicCouples.clear();
-        basicOneParentFamilies.clear();
-        basicPrimaryCoupleWithChildFamilies.clear();
-        basicPrimaryOtherFamilies.clear();
-
-    }
-
-    private void completeHouseholdsWithChildrenAndRelatives(List<Household> households) {
-        Map<RelationshipStatus, List<Person>> childrenAndRelativesFromExtras = extrasHandler.convertAllExtrasToChildrenAndRelatives();
-
-        Supplier<Stream<Household>> householdSupplier = () -> households.stream().filter(h -> h.getCurrentSize() < h.getExpectedSize());
-        Log.debug("Incomplete households: " + householdSupplier.get().count());
-
-        int reqPersons =householdSupplier.get().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum();
-        Log.debug("Required persons: "+reqPersons);
-        householdFactory.completeHouseholdsWithChildren(households, children, childrenAndRelativesFromExtras);
-        if (childrenAndRelativesFromExtras.containsKey(RelationshipStatus.RELATIVE)) {
-            relatives.addAll(childrenAndRelativesFromExtras.get(RelationshipStatus.RELATIVE));
-        }
-        Log.debug("Incomplete households: " + householdSupplier.get().count());
-        reqPersons =householdSupplier.get().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum();
-        Log.debug("Required persons: "+reqPersons);
-        householdFactory.completeHouseholdsWithRelatives(households, relatives, null);
-    }
-
-    private Map<FamilyType, Double> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {
-        int couples = 0, oneParent = 0, other = 0, totalNonPrimary = 0;
+    private Map<FamilyType, Integer> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {
+        int couples = 0, oneParent = 0, other = 0;
 
         //lambda function to get primary family count, which is the number of relationships of a given type
         Function<HhRecord, Integer> getFamilyCount = (HhRecord hhRec) -> {
@@ -256,11 +218,10 @@ public class PopulationFactory {
                     throw new IllegalStateException("Unrecognised family type: " + hhRec.getPrimaryFamilyType());
             }
         }
-        totalNonPrimary = couples + oneParent + other;
-        Map<FamilyType, Double> dist = new HashMap<>(4, 1);
-        dist.put(FamilyType.COUPLE_ONLY, couples / (double) totalNonPrimary);
-        dist.put(FamilyType.ONE_PARENT, oneParent / (double) totalNonPrimary);
-        dist.put(FamilyType.OTHER_FAMILY, other / (double) totalNonPrimary);
+        Map<FamilyType, Integer> dist = new HashMap<>(4, 1);
+        dist.put(FamilyType.COUPLE_ONLY, couples);
+        dist.put(FamilyType.ONE_PARENT, oneParent);
+        dist.put(FamilyType.OTHER_FAMILY, other);
         return dist;
     }
 }
