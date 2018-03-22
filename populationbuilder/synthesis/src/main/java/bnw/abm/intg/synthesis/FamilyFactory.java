@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FamilyFactory {
 
@@ -28,20 +30,29 @@ public class FamilyFactory {
      * @return A list of basic one parent family units with one lone parent and a child
      */
     List<Family> formOneParentBasicUnits(int count, List<Person> loneParents, List<Person> children) {
-        if (count > loneParents.size()) {
+        if (count > loneParents.size()) {//We don't have enough Lone Parents. So using extras.
 
-            //We don't have enough Lone Parents. So using extras.
+            //Form lone parents older than the oldest child. Otherwise we may not be able to find children for newly formed parents
+            children.sort(ageComparator.reversed());
+            List<AgeRange> loneParentAges = Stream.of(AgeRange.values())
+                                                  .filter(pa -> PopulationRules.validateParentChildAgeRule(pa,
+                                                                                                           children.get(0).getAgeRange()))
+                                                  .collect(Collectors.toList());
             int newLoneParentsCount = count - loneParents.size();
-            loneParents.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.LONE_PARENT,
+            loneParents.addAll(extrasHandler.getPersonsFromExtras(Collections.singletonList(RelationshipStatus.LONE_PARENT),
                                                                   null, //Sex automatically decided by data distribution
-                                                                  null, //Age automatically decided by data distribution
+                                                                  loneParentAges,
                                                                   newLoneParentsCount));
         }
 
 
         if (count > children.size()) {
+            loneParents.sort(ageComparator);
+            List<AgeRange> childAges = Stream.of(AgeRange.values())
+                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(loneParents.get(0).getAgeRange(), ca))
+                                             .collect(Collectors.toList());
             int childrenToForm = count - children.size();
-            children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
+            children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
         }
 
 
@@ -137,8 +148,8 @@ public class FamilyFactory {
 
         //Sort two lists in age descending order
         //TODO: Younger married persons may be over represented in married-extra list
-        Collections.sort(marriedMales, ageComparator.reversed());
-        Collections.sort(marriedFemales, ageComparator.reversed());
+        marriedMales.sort(ageComparator.reversed());
+        marriedFemales.sort(ageComparator.reversed());
 
         int diff = marriedMales.size() - marriedFemales.size();
 
@@ -170,12 +181,18 @@ public class FamilyFactory {
         }
 
         if (count > children.size()) {
+            couples.sort(new AgeRange.YoungestParentAgeComparator());
+            List<AgeRange> childAges = Stream.of(AgeRange.values())
+                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(couples.get(0)
+                                                                                                             .getYoungestParent()
+                                                                                                             .getAgeRange(), ca))
+                                             .collect(Collectors.toList());
             int childrenToForm = count - children.size();
-            children.addAll(extrasHandler.getChildrenFromExtras(null, null, childrenToForm));
+            children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
         }
 
-        Collections.sort(couples, new AgeRange.YoungestParentAgeComparator());
-        Collections.sort(children, new AgeRange.AgeComparator());
+        couples.sort(new AgeRange.YoungestParentAgeComparator().reversed());
+        children.sort(ageComparator.reversed());
 
         List<Family> cplWithChildUnits = new ArrayList<>();
 
@@ -183,9 +200,6 @@ public class FamilyFactory {
             if (couples.isEmpty()) {
                 throw new NotEnoughPersonsException(
                         "Basic Couple With Children: not enough Couples - units successfully formed: " + cplWithChildUnits.size());
-            }
-            if (children.isEmpty()) {
-                new NotEnoughPersonsException("Basic Couple With Children: not enough children - units successfully formed: " + children.size());
             }
 
             Family f = couples.remove(0);
@@ -211,17 +225,16 @@ public class FamilyFactory {
      * @param children The list of children to select a child from
      * @return True if a suitable child was found and added to the child, else false.
      */
-    boolean addChildToFamily(Family family, List<Person> children) {
+    private boolean addChildToFamily(Family family, List<Person> children) {
         Person youngestParent = family.getYoungestParent();
 
-        int cIndex = PopulationRules.selectChild(youngestParent, children);
-        if (cIndex >= 0) {
-            family.addMember(children.remove(cIndex));
-            return true;
-        } else {
-            return false;
+        for (int i = 0; i < children.size(); i++) {
+            if (PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(), children.get(i).getAgeRange())) {
+                family.addMember(children.remove(i));
+                return true;
+            }
         }
 
-
+        return false;
     }
 }

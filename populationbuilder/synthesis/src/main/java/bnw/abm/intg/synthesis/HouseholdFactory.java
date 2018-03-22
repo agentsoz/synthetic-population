@@ -17,6 +17,7 @@ public class HouseholdFactory {
     private final Random random;
     private final ExtrasHandler extrasHandler;
     private final List<HhRecord> hhRecs;
+    private final Comparator<Family> youngParentAgeComparator = new AgeRange.YoungestParentAgeComparator();
 
     HouseholdFactory(List<HhRecord> hhRecords, Random random, ExtrasHandler extrasHandler) {
         this.hhRecs = hhRecords;
@@ -116,22 +117,24 @@ public class HouseholdFactory {
      * @param otherFamilyBasic        other family basic family unis
      * @return All households with their primary family
      */
-    List<Household> formAllFamilyHouseholdsWithPrimaryFamilies(
-            List<Family> coupleOnlyBasic,
-            List<Family> coupleWithChildrenBasic,
-            List<Family> oneParentBasicFamilies,
-            List<Family> otherFamilyBasic) {
+    List<Household> formAllFamilyHouseholdsWithPrimaryFamilies(List<Family> coupleOnlyBasic,
+                                                               List<Family> coupleWithChildrenBasic,
+                                                               List<Family> oneParentBasicFamilies,
+                                                               List<Family> otherFamilyBasic) {
 
         Log.info("Populating all family households with primary families");
+
         Collections.shuffle(coupleOnlyBasic, random);
-        Collections.shuffle(coupleWithChildrenBasic, random);
-        Collections.shuffle(oneParentBasicFamilies, random);
         Collections.shuffle(otherFamilyBasic, random);
+
+        //Sort by age because younger families tend to be small. We assign these to households in household size descending order
+        coupleWithChildrenBasic.sort(youngParentAgeComparator);
+        oneParentBasicFamilies.sort(youngParentAgeComparator);
+        hhRecs.sort(Comparator.comparing(hhRec -> hhRec.NUM_OF_PERSONS_PER_HH));
 
         List<Household> basicHouseholds = new ArrayList<>();
         int cpl = 0, cwc = 0, other = 0, one = 0; //bookkeeping
         for (HhRecord hhRec : hhRecs) {
-
             List<Family> primaryFamilyUnitsList;
             switch (hhRec.getPrimaryFamilyType()) {
                 case COUPLE_ONLY:
@@ -157,8 +160,7 @@ public class HouseholdFactory {
             if (hhRec.HH_COUNT > 0) {
                 for (int i = 0; i < hhRec.HH_COUNT; i++) {
                     if (primaryFamilyUnitsList.isEmpty()) {
-                        throw new NotEnoughPersonsException(hhRec.FAMILY_HOUSEHOLD_TYPE + ": Not enough basic family " +
-                                                                    "units ");
+                        throw new NotEnoughPersonsException(hhRec.FAMILY_HOUSEHOLD_TYPE + ": Not enough basic family units");
                     }
                     Household household = new Household(hhRec.NUM_OF_PERSONS_PER_HH,
                                                         hhRec.FAMILY_HOUSEHOLD_TYPE,
@@ -279,7 +281,7 @@ public class HouseholdFactory {
     }
 
     private void assignUnknownNonPrimaryFamilies(List<Household> households,
-                                                 Map<FamilyType, Integer> relDist,
+                                                 Map<FamilyType, Integer> relTypeDist,
                                                  double coupleWithChildProb,
                                                  List<Person> relatives,
                                                  List<Person> children,
@@ -308,69 +310,99 @@ public class HouseholdFactory {
         });
 
 
-        Function<FamilyType[], Family> createSuitableFamily = (FamilyType[] fTypes) -> {
-            Arrays.sort(fTypes, Comparator.comparingInt((FamilyType ft) -> Utils.getAbsoluteError(relDist, currentDist, ft, 1)));
+        Function<FamilyType, FamilyType> probabilisticallySelectNewFamilyType = (FamilyType primaryFT) -> {
+            Map<FamilyType, Integer> cumRelationsDist = new LinkedHashMap<>();
+            int sum = 0;
+            if (extrasHandler.remainingExtras() >= 2) {
+                sum += relTypeDist.get(FamilyType.COUPLE_ONLY);
+                cumRelationsDist.put(FamilyType.COUPLE_ONLY, sum);
+                sum += relTypeDist.get(FamilyType.OTHER_FAMILY);
+                cumRelationsDist.put(FamilyType.OTHER_FAMILY, sum);
+                sum += relTypeDist.get(FamilyType.ONE_PARENT);
+                cumRelationsDist.put(FamilyType.ONE_PARENT, sum);
+            } else {
+                if (!(marriedFemales.isEmpty() && marriedMales.isEmpty())
+                        || (extrasHandler.remainingExtras() >= 1 && (!marriedFemales.isEmpty() | !marriedMales.isEmpty()))) {
+                    sum += relTypeDist.get(FamilyType.COUPLE_ONLY);
+                    cumRelationsDist.put(FamilyType.COUPLE_ONLY, sum);
+                }
 
-            Family newFamily = null;
-            switch (fTypes[0]) {
-                case COUPLE_ONLY:
-                    newFamily = familyFactory.formCoupleFamilyBasicUnits(1, marriedMales, marriedFemales).get(0);
-                    break;
-                case OTHER_FAMILY:
-                    newFamily = familyFactory.formOtherFamilyBasicUnits(1, relatives).get(0);
-                    break;
-                case ONE_PARENT:
-                    newFamily = familyFactory.formOneParentBasicUnits(1, loneParents, children).get(0);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected Family Type: " + fTypes[0]);
+                if (relatives.size() >= 2 || (!relatives.isEmpty() && extrasHandler.remainingExtras() >= 1)) {
+                    sum += relTypeDist.get(FamilyType.OTHER_FAMILY);
+                    cumRelationsDist.put(FamilyType.OTHER_FAMILY, sum);
+                }
+
+                if (!loneParents.isEmpty() && !children.isEmpty()) {
+                    sum += relTypeDist.get(FamilyType.ONE_PARENT);
+                    cumRelationsDist.put(FamilyType.ONE_PARENT, sum);
+                }
+
             }
-            return newFamily;
+
+            double offset = 0;
+            if (primaryFT == FamilyType.COUPLE_ONLY || primaryFT == FamilyType.OTHER_FAMILY) {
+                offset = random.nextInt(cumRelationsDist.get(FamilyType.OTHER_FAMILY));
+            } else if (primaryFT == FamilyType.ONE_PARENT) {
+                offset = random.nextInt(cumRelationsDist.get(FamilyType.ONE_PARENT));
+            } else if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN) {
+                offset = random.nextInt(cumRelationsDist.get(FamilyType.ONE_PARENT));
+            }
+
+            FamilyType newFamilyType = null;
+            for (FamilyType ft : cumRelationsDist.keySet()) {
+                if (offset < cumRelationsDist.get(ft)) {
+                    newFamilyType = ft;
+                    break;
+                }
+            }
+            return newFamilyType;
         };
 
         int formedCouples = 0, formedCwc = 0, formedOneParent = 0, formedOtherFamily = 0;
+
         for (Household h : households) {
 
             int missingFamilies = h.getExpectedFamilyCount() - h.getCurrentFamilyCount();
             for (int i = 0; i < missingFamilies; i++) {
+
                 FamilyType primaryFT = h.getPrimaryFamilyType();
+                FamilyType newFamilyType = probabilisticallySelectNewFamilyType.apply(primaryFT);
+
                 Family newFamily = null;
+                switch (newFamilyType) {
+                    case COUPLE_ONLY:
+                        newFamily = familyFactory.formCoupleFamilyBasicUnits(1, marriedMales, marriedFemales).get(0);
+                        formedCouples++;
+                        if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN
+                                //Adding a couple with child family must not block having required number of families. So check if there is room for all the possible persons
+                                && ((h.getExpectedFamilyCount() - h.getCurrentFamilyCount()) * 2) > (h.getExpectedSize() - h.getCurrentSize())
+                                && random.nextDouble() < coupleWithChildProb) {
+                            newFamily = familyFactory.formCoupleWithChildFamilyBasicUnits(1,
+                                                                                          new ArrayList<>(Collections.singletonList(
+                                                                                                  newFamily)),
+                                                                                          children).get(0);
+                            formedCwc++;
+                            formedCouples--;
+                        }
+                        break;
+                    case ONE_PARENT:
+                        newFamily = familyFactory.formOneParentBasicUnits(1, loneParents, children).get(0);
+                        formedOneParent++;
+                        break;
+                    case OTHER_FAMILY:
+                        newFamily = familyFactory.formOtherFamilyBasicUnits(1, relatives).get(0);
+                        formedOtherFamily++;
+                        break;
+                    default:
+                        throw new Error("Unexpected FamilyType when forming Unknown Non-primary families: " + newFamilyType);
 
-                if (primaryFT == FamilyType.COUPLE_ONLY || primaryFT == FamilyType.OTHER_FAMILY) {
-
-                    newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY});
-                    h.addFamily(newFamily);
-                    if (newFamily.getType() == FamilyType.COUPLE_ONLY) ++formedCouples;
-                    else ++formedOtherFamily;
-
-
-                } else if (primaryFT == FamilyType.ONE_PARENT) {
-
-                    newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY, FamilyType.ONE_PARENT});
-                    h.addFamily(newFamily);
-                    ++formedOneParent;
-
-                } else if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN) {
-
-                    newFamily = createSuitableFamily.apply(new FamilyType[]{FamilyType.COUPLE_ONLY, FamilyType.OTHER_FAMILY, FamilyType.ONE_PARENT});
-
-                    if (newFamily.getType() == FamilyType.COUPLE_ONLY
-                            && random.nextDouble() < coupleWithChildProb
-                            && h.getExpectedSize() - h.getCurrentSize() >= FamilyType.COUPLE_WITH_CHILDREN.basicSize()) {
-
-                        newFamily = familyFactory.formCoupleWithChildFamilyBasicUnits(1,
-                                                                                      new ArrayList<>(Arrays.asList(newFamily)),
-                                                                                      children).get(0);
-                        ++formedCwc;
-                    } else {
-                        ++formedCouples;
-                    }
-
-                    h.addFamily(newFamily);
                 }
-                currentDist.compute(newFamily.getType(), (k, v) -> v == 0 ? 1 : v + 1);
+                h.addFamily(newFamily);
             }
+
         }
+
+
         Log.debug("Non-primary unknown: Formed Couples: " + formedCouples);
         Log.debug("Non-primary unknown: Formed Couple with Child: " + formedCwc);
         Log.debug("Non-primary unknown: Formed Other Family: " + formedOtherFamily);
@@ -385,36 +417,6 @@ public class HouseholdFactory {
         Log.info("Assigning unknown non-primary families completed");
     }
 
-    /**
-     * Converts a portion of Couple only units to Couple With Children families and assigns them as non-primary families
-     *
-     * @param households        The list of all households
-     * @param nonPrimaryCwcProb The user defined portion of Couple With Children families among non-primary families
-     * @return The number of families
-     */
-    void assignCoupleWithChildAsNonPrimaryFamilies(List<Household> households,
-                                                   double nonPrimaryCwcProb,
-                                                   List<Family> couples,
-                                                   List<Person> children,
-                                                   List<Person> marriedMales,
-                                                   List<Person> marriedFemales,
-                                                   FamilyFactory familyFactory) {
-
-        int eligibleCount = (int) Math.round(households.stream()
-                                                       .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount() &&
-                                                               h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN &&
-                                                               h.getExpectedSize() - h.getCurrentSize() >= FamilyType.COUPLE_WITH_CHILDREN
-                                                                       .basicSize())
-                                                       .count() * nonPrimaryCwcProb);
-        if (eligibleCount > couples.size()) {
-            couples.addAll(familyFactory.formCoupleFamilyBasicUnits(eligibleCount - couples.size(), marriedMales, marriedFemales));
-        }
-        List<Family> basicCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(eligibleCount, couples, children);
-        assignNonPrimaryFamilies(households,
-                                 FamilyType.COUPLE_WITH_CHILDREN,
-                                 basicCoupleWithChildFamilies,
-                                 FamilyType.COUPLE_WITH_CHILDREN);
-    }
 
     /**
      * Assigns couples as second and third families to households
@@ -441,41 +443,44 @@ public class HouseholdFactory {
 
         Log.debug(FamilyType.COUPLE_ONLY + ": Total eligible households: " + eligible.size());
         Collections.shuffle(eligible, random);
-        Household selectedHh;
+        Household h;
 
         int added = 0, completed = 0, cwcAdded = 0;
         Set<Household> cplAddedHhs = new HashSet<>(), cwcAddedHhs = new HashSet<>();
         while (!eligible.isEmpty() && !couples.isEmpty()) {
-            selectedHh = eligible.get(0);
-            Family f2 = couples.remove(0);
-            if (selectedHh.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN
-                    && (selectedHh.getExpectedSize() - selectedHh.getCurrentSize() >= 3)
+            h = eligible.get(0);
+            Family f = couples.remove(0);
+            if (h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN
+                    //To add couple with children family, the Hh must have more free slots than required by basic families
+                    && ((h.getExpectedFamilyCount() - h.getCurrentFamilyCount()) * 2 > h.getExpectedSize() - h.getCurrentSize())
                     && random.nextDouble() < nonPrimaryCwcProb) {
 
-                familyFactory.addChildToFamily(f2, children);
+                familyFactory.formCoupleWithChildFamilyBasicUnits(1, new ArrayList<>(Collections.singletonList(f)), children);
+
                 //bookkeeping
                 cwcAdded++;
-                if (cwcAddedHhs.add(selectedHh) == false && selectedHh.getExpectedFamilyCount() != 3) {
+                if (!cwcAddedHhs.add(h) && h.getExpectedFamilyCount() != 3) {
                     throw new UnsupportedOperationException("Added a 3rd family to a 2 family household");
                 }
 
             } else {
                 //bookkeeping
                 added++;
-                if (cplAddedHhs.add(selectedHh) == false && selectedHh.getExpectedFamilyCount() != 3) {
+                if (!cplAddedHhs.add(h) && h.getExpectedFamilyCount() != 3) {
                     throw new UnsupportedOperationException("Added a 3rd family to a 2 family household");
                 }
             }
-            selectedHh.addFamily(f2);
+            h.addFamily(f);
 
-            if (selectedHh.getExpectedFamilyCount() == selectedHh.getCurrentFamilyCount()) {
-                eligible.remove(selectedHh);
+            if (h.getExpectedFamilyCount() == h.getCurrentFamilyCount()) {
+                eligible.remove(h);
                 completed++;
             }
         }
 
         Log.debug(FamilyType.COUPLE_ONLY + ": Used Couples: " + added + " Updated Households: " + cplAddedHhs.size());
-        Log.debug(FamilyType.COUPLE_ONLY + ": Used Couples as Couple with Children: " + cwcAdded + " Updated Households: " + cwcAddedHhs.size());
+        Log.debug(FamilyType.COUPLE_ONLY + ": Used Couples as Couple with Children: " + cwcAdded + " Updated Households: " + cwcAddedHhs
+                .size());
         Log.debug(FamilyType.COUPLE_ONLY + ": Family count completed households: " + completed);
         Log.debug(FamilyType.COUPLE_ONLY + ": Remaining eligible households: " + eligible.size());
         Log.debug(FamilyType.COUPLE_ONLY + ": Remaining Children: " + children.size());
@@ -533,7 +538,6 @@ public class HouseholdFactory {
                                                                                           .count());
     }
 
-
     /**
      * Completes households by adding relatives to the families that are larger than 2 members. If there is not enough relatives Extras are
      * converted to relatives. This method does not check the number of families in the household. This method modifies the input lists.
@@ -557,7 +561,8 @@ public class HouseholdFactory {
                                                  .collect(Collectors.toList());
         Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Eligible households: " + availableHhs.size());
         Log.debug((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": Slots to fill: " + availableHhs.stream()
-                                                                                                                         .mapToInt(h -> h.getExpectedSize() - h
+                                                                                                                         .mapToInt(h -> h
+                                                                                                                                 .getExpectedSize() - h
                                                                                                                                  .getCurrentSize())
                                                                                                                          .sum());
         int formed = 0;
@@ -574,9 +579,7 @@ public class HouseholdFactory {
                     relatives.clear();
                 }
                 formed++;
-
             }
-
         }
 
         Log.info((familyHouseholdType != null ? familyHouseholdType.name() : "All") + ": updated households: " + formed);
@@ -588,68 +591,103 @@ public class HouseholdFactory {
      * Adds children to the primary family of the households that can have children.
      *
      * @param households    Map of all households in the population
-     * @param knownChildren The list of knwon children in input data
+     * @param knownChildren The list of known children in input data
      */
     void completeHouseholdsWithChildren(List<Household> households,
                                         List<Person> knownChildren) {
 
         Log.info("Adding all known children to households");
         Log.debug("Total known Children from data: " + knownChildren.size());
-        knownChildren.sort(new AgeRange.AgeComparator().reversed()); // Do older children first because its hard to find families for them
+        knownChildren.sort(new AgeRange.AgeComparator().reversed());
+        List<Household> parentHhs = households.stream()
+                                              .filter(h -> h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN)
+                                              .collect(Collectors.toList());
+        parentHhs.sort(Comparator.comparing(h -> h.getPrimaryFamily(), new AgeRange.YoungestParentAgeComparator().reversed()));
 
         int updated = 0, completed = 0;
+        List<Person> failedChildren = new ArrayList<>();
         while (!knownChildren.isEmpty()) {
+
             Person child = knownChildren.get(0);
-            Collections.shuffle(households, random);
-            int hhIndex = PopulationRules.selectHouseholdWithSuitablePrimaryFamilyForChild(child, households);
+
+            int hhIndex = selectHouseholdWithSuitablePrimaryFamilyForChild(child, parentHhs);
             if (hhIndex >= 0) {
-                Family pf = households.get(hhIndex).getPrimaryFamily();
+                Family pf = parentHhs.get(hhIndex).getPrimaryFamily();
                 try {
                     pf.addMember(child);
                 } catch (Error er) {
                     er.printStackTrace();
-                    Family current = households.stream()
-                                               .map(h -> h.getFamilies())
-                                               .flatMap(List::stream)
-                                               .filter(f -> f.getID()
-                                                             .equals(child.getFamilyID()))
-                                               .collect(Collectors.toList())
-                                               .get(0);
+                    Family current = parentHhs.stream()
+                                              .map(Household::getFamilies)
+                                              .flatMap(List::stream)
+                                              .filter(f -> f.getID()
+                                                            .equals(child.getFamilyID()))
+                                              .collect(Collectors.toList())
+                                              .get(0);
                     Log.error("Problematic family: " + current.toString());
                 }
                 knownChildren.remove(child);
                 updated++;
-                if (households.get(hhIndex).getExpectedSize() == households.get(hhIndex).getCurrentSize()) {
+                if (parentHhs.get(hhIndex).getExpectedSize() == parentHhs.get(hhIndex).getCurrentSize()) {
                     completed++;
                 }
             } else {
-                throw new NoSuitableHouseholdException("Cannot find a household for " + child.getRelationshipStatus());
+                failedChildren.add(child);
+                knownChildren.remove(child);
             }
         }
+
+        Log.debug("Children with no suitable primary family in any eligible household: " + failedChildren.size());
+        knownChildren.addAll(failedChildren); //Add them back to the list. So we can generate reports later
+
         Log.debug("Updated households: " + updated);
         Log.debug("Completed households: " + completed);
 
     }
 
-    void addExtrasAsChildrenAndRelatives(List<Household> households, List<IndRecord> indRecs) {
+    void addExtrasAsChildrenAndRelatives(List<Household> households,
+                                         List<IndRecord> indRecs,
+                                         List<Person> marriedMales,
+                                         List<Person> marriedFemales,
+                                         List<Person> loneParents,
+                                         List<Person> children) {
+        Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
+        Log.info("Converting unused Lone Parents, Married Males and Married Females to extras");
+        Log.debug("Remaining Married Males: " + marriedMales.size());
+        Log.debug("Remaining Married Females: " + marriedFemales.size());
+        Log.debug("Remaining Lone Parents: " + loneParents.size());
+        Log.debug("Remaining Children: " + children.size());
 
+        ArrayList<Person> unused = new ArrayList<>();
+        unused.addAll(marriedFemales);
+        unused.addAll(marriedMales);
+        unused.addAll(loneParents);
+        unused.addAll(children);
+        extrasHandler.addToExtras(unused);
+        Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
+
+        Log.info("Adding extras to households as children and relatives");
         List<Household> eligible = households.stream()
                                              .filter(h -> h.getExpectedSize() > h.getCurrentSize())
                                              .collect(Collectors.toList());
 
-        while (extrasHandler.remainingExtras() != 0) {
+        Log.debug("All: Eligible households: " + eligible.size());
+        Log.debug("All: Slots to fill: " + eligible.stream().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum());
+
+        List<IndRecord> relTypes = indRecs.stream()
+                                          .filter(r -> r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE)
+                                          .collect(Collectors.toList());
+        int updated = 0, completed = 0, newChildren = 0, newRelatives = 0;
+        while (extrasHandler.remainingExtras() != 0 && !eligible.isEmpty()) {
             int i = random.nextInt(eligible.size());
             Household h = eligible.get(i);
             Family primaryFamily = h.getPrimaryFamily();
 
             Person youngestParent = primaryFamily.getYoungestParent();
-            List<IndRecord> indTypes = new ArrayList<>();
+            List<IndRecord> indTypes = new ArrayList<>(relTypes);
             if (youngestParent != null) {
-                indTypes.addAll(PopulationRules.selectChildTypes(youngestParent, indRecs));
+                indTypes.addAll(selectChildTypes(youngestParent, indRecs));
             }
-            indTypes.addAll(indRecs.stream()
-                                   .filter(r -> r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE)
-                                   .collect(Collectors.toList()));
 
             int sum = indTypes.stream().mapToInt(r -> r.IND_COUNT).sum();
             int offset = random.nextInt(sum);
@@ -659,6 +697,11 @@ public class HouseholdFactory {
                 s += r.IND_COUNT;
                 if (offset < s) {
                     newPerson = extrasHandler.getPersonFromExtras(r);
+                    if(r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE){
+                        newRelatives++;
+                    }else{
+                        newChildren++;
+                    }
                     break;
                 }
             }
@@ -667,8 +710,58 @@ public class HouseholdFactory {
             if (h.getExpectedSize() == h.getCurrentSize()) {
                 h.validate();
                 eligible.remove(h);
+                completed++;
             }
-
+            updated++;
         }
+        Log.debug("New Children from extras: "+newChildren);
+        Log.debug("New Relatives from extras: "+newRelatives);
+        Log.debug("Updated households: " + updated);
+        Log.debug("Completed households: " + completed);
+        Log.debug("Remaining incomplete households: " + eligible.size());
+        Log.debug("End remaining extras: " + extrasHandler.remainingExtras());
+    }
+
+    /**
+     * Finds a suitable household that the given child can be added. Rule applied here is: a child must come from an age category with at
+     * least a 15 year age gap (younger) to the parent's.
+     *
+     * @param child      The child that needs a family household
+     * @param households The list of households to select from
+     * @return The index of the suitable household. Returns -1 if no suitable household was found
+     */
+    private int selectHouseholdWithSuitablePrimaryFamilyForChild(Person child, List<Household> households) {
+        for (int i = 0; i < households.size(); i++) {
+            Household h = households.get(i);
+            if ((h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType
+                    .COUPLE_WITH_CHILDREN)
+                    && h.getExpectedSize() > h.getCurrentSize()) {
+                Family pf = h.getPrimaryFamily();
+
+                Person youngestParent = pf.getYoungestParent();
+
+                if (PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(), child.getAgeRange())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns a suitable child types for the given parent. Rule applied here is: a child must come from an age category with at least a 15
+     * year age gap (younger) to the parent's.
+     *
+     * @param parent     The parent
+     * @param indRecords The list of IndRecords to choose children types from
+     * @return The list of suitable Child IndRecords
+     */
+    private List<IndRecord> selectChildTypes(Person parent, List<IndRecord> indRecords) {
+        return indRecords.stream()
+                         .filter(r -> (r.RELATIONSHIP_STATUS == RelationshipStatus.U15_CHILD
+                                 || r.RELATIONSHIP_STATUS == RelationshipStatus.STUDENT
+                                 || r.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD)
+                                 && (PopulationRules.validateParentChildAgeRule(parent.getAgeRange(), r.AGE_RANGE)))
+                         .collect(Collectors.toList());
     }
 }

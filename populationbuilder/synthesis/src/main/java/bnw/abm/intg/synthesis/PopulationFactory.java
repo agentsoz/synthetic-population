@@ -5,10 +5,7 @@ import bnw.abm.intg.util.GlobalConstants;
 import bnw.abm.intg.util.Log;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author wniroshan 15 Mar 2018
@@ -108,15 +105,9 @@ public class PopulationFactory {
         basicCouples = familyFactory.formCoupleFamilyBasicUnits(Math.min(marriedMales.size(), marriedFemales.size()),
                                                                 marriedMales,
                                                                 marriedFemales);
+        Log.debug("Formed Basic couples: " + basicCouples.size());
         Log.debug("Remaining Married males: " + marriedMales.size());
         Log.debug("Remaining Married females: " + marriedFemales.size());
-        Log.debug("Remaining Basic couples: " + basicCouples.size());
-
-        Log.info("Forming Basic One Parent families: " + loneParents.size());
-        basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
-        Log.debug("Remaining Lone parent persons: " + loneParents.size());
-        Log.debug("Remaining Children: " + children.size());
-        Log.debug("Remaining Basic One Parent families: " + basicOneParentFamilies.size());
 
         //Form basic family structures and removes couples from married males and females list
         List<HhRecord> coupleWChildRecs = DataReader.getHhRecordsByPrimaryFamilyType(hhRecs,
@@ -126,9 +117,15 @@ public class PopulationFactory {
         int fCount = coupleWChildRecs.stream().mapToInt(r -> r.HH_COUNT).sum();
         Log.info("Forming Basic Couple with Children families: " + fCount);
         basicPrimaryCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(fCount, basicCouples, children);
+        Log.debug("Formed Basic Couple with Children families: " + basicPrimaryCoupleWithChildFamilies.size());
         Log.debug("Remaining Basic couples: " + basicCouples.size());
         Log.debug("Remaining Children: " + children.size());
-        Log.debug("Remaining Basic Couple with Children families: " + basicPrimaryCoupleWithChildFamilies.size());
+
+        Log.info("Forming Basic One Parent families: " + loneParents.size());
+        basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
+        Log.debug("Formed Basic One Parent families: " + basicOneParentFamilies.size());
+        Log.debug("Remaining Lone parent persons: " + loneParents.size());
+        Log.debug("Remaining Children: " + children.size());
 
         // Forms Other Family basic family structures
         List<HhRecord> otherFamiliesRecs = DataReader.getHhRecordsByPrimaryFamilyType(hhRecs,
@@ -177,8 +174,12 @@ public class PopulationFactory {
         });
 
         householdFactory.completeHouseholdsWithChildren(familyHhs, children);
-        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs);
-        householdFactory.completeHouseholdsWithRelatives(familyHhs,relatives, null);
+        if(!children.isEmpty()){
+            System.out.println(1);
+        }
+        //TODO: Record children that are converted to extras
+        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs, marriedMales, marriedFemales, loneParents,new ArrayList<>());
+        householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, null);
 
         allHouseholds.addAll(familyHhs);
 
@@ -187,28 +188,23 @@ public class PopulationFactory {
 
 
     private Map<FamilyType, Integer> getRelationshipDistInPrimaryFamilies(List<HhRecord> hhRecords) {
-        int couples = 0, oneParent = 0, other = 0;
 
-        //lambda function to get primary family count, which is the number of relationships of a given type
-        Function<HhRecord, Integer> getFamilyCount = (HhRecord hhRec) -> {
-            return hhRec.HH_COUNT * (hhRec.getFamilyCountPerHousehold() - 1);
-        };
-
+        Map<FamilyType, Integer> dist = new HashMap<>(4, 1);
         for (HhRecord hhRec : hhRecords) {
 
-            //The count of total missing non-primary families. For a 2F household we count 1 family and for a 3F household we count 2
+            //The number of couple, lone parent and other relationships is similar to the number of primary families (i.e. households)
             switch (hhRec.getPrimaryFamilyType()) {
                 case COUPLE_ONLY:
-                    couples += getFamilyCount.apply(hhRec);
+                    dist.compute(FamilyType.COUPLE_ONLY, (k, v) -> (v == null) ? hhRec.HH_COUNT : v + hhRec.HH_COUNT);
                     break;
                 case COUPLE_WITH_CHILDREN:
-                    couples += getFamilyCount.apply(hhRec);
+                    dist.compute(FamilyType.COUPLE_ONLY, (k, v) -> (v == null) ? hhRec.HH_COUNT : v + hhRec.HH_COUNT);
                     break;
                 case ONE_PARENT:
-                    oneParent += getFamilyCount.apply(hhRec);
+                    dist.compute(FamilyType.ONE_PARENT, (k, v) -> (v == null) ? hhRec.HH_COUNT : v + hhRec.HH_COUNT);
                     break;
                 case OTHER_FAMILY:
-                    other += getFamilyCount.apply(hhRec);
+                    dist.compute(FamilyType.OTHER_FAMILY, (k, v) -> (v == null) ? hhRec.HH_COUNT : v + hhRec.HH_COUNT);
                     break;
                 case LONE_PERSON:
                     break;
@@ -218,10 +214,6 @@ public class PopulationFactory {
                     throw new IllegalStateException("Unrecognised family type: " + hhRec.getPrimaryFamilyType());
             }
         }
-        Map<FamilyType, Integer> dist = new HashMap<>(4, 1);
-        dist.put(FamilyType.COUPLE_ONLY, couples);
-        dist.put(FamilyType.ONE_PARENT, oneParent);
-        dist.put(FamilyType.OTHER_FAMILY, other);
         return dist;
     }
 }
