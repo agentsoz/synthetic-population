@@ -5,7 +5,6 @@ import bnw.abm.intg.synthesis.models.Person;
 import bnw.abm.intg.synthesis.models.RelationshipStatus;
 import bnw.abm.intg.synthesis.models.Sex;
 import bnw.abm.intg.util.Log;
-import com.sun.istack.internal.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -121,7 +120,7 @@ class ExtrasHandler {
      * @return The person instance
      */
     Person getPersonFromExtras(IndRecord indRecord) {
-        Person p = null;
+        Person p;
         if (!this.extras.isEmpty()) {
             p = this.extras.remove(0);
             setProperties(p, indRecord.RELATIONSHIP_STATUS, indRecord.SEX, indRecord.AGE_RANGE);
