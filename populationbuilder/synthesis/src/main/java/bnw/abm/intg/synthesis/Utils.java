@@ -66,7 +66,7 @@ public class Utils {
         for (HhRecord hhrec : hhrecs) {
             int numberOfPersons = hhrec.NUM_OF_PERSONS_PER_HH;
             String familyDescription = hhrec.getFamilyCountPerHousehold() + " Family: " + hhrec.getPrimaryFamilyType()
-                    .description();
+                                                                                               .description();
 
             /* Just aesthetics - nothing important */
             int stringLengthDifference = 62 - familyDescription.length();
@@ -113,8 +113,7 @@ public class Utils {
      * Randomly decides True or False. Occurrence of True can be biased by specifying the ratio for being True
      *
      * @param rand Random object
-     * @param bias By how much should occurrence of True be biased. e.g. if bias == 0.25, probability of method
-     *             returning True is 1/4.
+     * @param bias By how much should occurrence of True be biased. e.g. if bias == 0.25, probability of method returning True is 1/4.
      * @return true or false
      */
     static boolean tossCoinWithBias(Random rand, double bias) {
@@ -144,6 +143,33 @@ public class Utils {
     static <T> T getRandomlyWithoutShuffling(Random rand, List<T> values) {
         int r = rand.nextInt(values.size());
         return values.get(r);
+    }
+
+    /**
+     * Produces the absolute error between expected and current distributions if current distribution's property k is changed by v value
+     *
+     * @param expected The expected distribution
+     * @param current  The current distribution
+     * @param k        The property in the distribution to change (key)
+     * @param v        The magnitude of the change (can be -/+)
+     * @param <K>      The type of the Keys in distribution maps
+     * @return The absolute error
+     */
+    static <K> int getAbsoluteError(Map<K, Integer> expected, Map<K, Integer> current, K k, double v) {
+
+        double newCount = current.get(k) + 1;
+        int error = 0;
+
+        for (K ck : expected.keySet()) {
+            if (ck == k) {
+                error += Math.abs(expected.get(ck) - newCount);
+            } else {
+                error += Math.abs(expected.get(ck) - current.get(k));
+            }
+        }
+        return error;
+
+
     }
 
 }

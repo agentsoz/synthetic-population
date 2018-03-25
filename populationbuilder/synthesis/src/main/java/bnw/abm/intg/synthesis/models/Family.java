@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author wniroshan 19 May 2016
@@ -52,10 +53,9 @@ public class Family {
     public void addMember(Person member) {
         if (this.members.contains(member)) {
             throw new Error("This person already a member of this family");
-        }
-        else {
+        } else {
+            member.setFamilyID(this.getID());
             this.members.add(member);
-            Family.allMembersAlreadyInFamilies.put(member.getID(), member);
         }
     }
 
@@ -67,8 +67,8 @@ public class Family {
     public void addMembers(List<Person> members) {
         if (this.members.stream().anyMatch(e -> members.contains(e))) {
             throw new Error("At least one of the new members already exists in this family");
-        }
-        else {
+        } else {
+            members.forEach(m -> m.setFamilyID(this.getID()));
             this.members.addAll(members);
         }
     }
@@ -83,16 +83,16 @@ public class Family {
     }
 
     /**
-     * Sets the FamilType of this family
+     * Sets the FamilyType of this family
      *
      * @param type the type to set
      */
     public void setType(FamilyType type) {
-        if (this.type == null || this.type == FamilyType.BASIC || this.type == FamilyType.UNDEFINED | this.type ==
-                type) {
+        if (type == FamilyType.COUPLE_WITH_CHILDREN && this.getType() == FamilyType.COUPLE_ONLY) {
             this.type = type;
-        }
-        else {
+        } else if (this.type == null | this.type == type) {
+            this.type = type;
+        } else {
             throw new Error("Trying to overwrite " + this.type + " with " + type);
         }
     }
@@ -137,7 +137,9 @@ public class Family {
     }
 
     private boolean hasALoneParent() {
-        return members.stream().filter(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT).count() == 1;
+        return members.stream()
+                      .filter(member -> member.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                      .count() == 1;
     }
 
     private boolean noLoneParents() {
@@ -153,7 +155,9 @@ public class Family {
     }
 
     private boolean hasMarriedCouple() {
-        return members.stream().filter(person -> person.getRelationshipStatus() == RelationshipStatus.MARRIED).count() == 2;
+        return members.stream()
+                      .filter(person -> person.getRelationshipStatus() == RelationshipStatus.MARRIED)
+                      .count() == 2;
     }
 
     private boolean onlyRelatives() {
@@ -161,16 +165,42 @@ public class Family {
     }
 
     private boolean onlyGroupHouseholds() {
-        return members.stream().allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD);
+        return members.stream()
+                      .allMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD);
     }
 
     private boolean noGroupOrLonePersons() {
-        return members.stream().noneMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD | person
-                .getRelationshipStatus() == RelationshipStatus.LONE_PERSON);
+        return members.stream()
+                      .noneMatch(person -> person.getRelationshipStatus() == RelationshipStatus.GROUP_HOUSEHOLD | person
+                              .getRelationshipStatus() == RelationshipStatus.LONE_PERSON);
     }
 
     private boolean onlyALonePerson() {
-        return members.size() == 1 && members.stream().filter(person -> person.getRelationshipStatus() == RelationshipStatus
-                .LONE_PERSON).count() == 1;
+        return members.size() == 1 && members.stream()
+                                             .filter(person -> person.getRelationshipStatus() == RelationshipStatus
+                                                     .LONE_PERSON)
+                                             .count() == 1;
+    }
+
+    /**
+     * Returns the youngest parent in the family if there is one, otherwise return null
+     *
+     * @return The youngest Person instance
+     */
+    public Person getYoungestParent() {
+        return this.getMembers()
+                   .stream()
+                   .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                           m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                   .min(new AgeRange.AgeComparator()).orElse(null);
+
+    }
+
+    @Override
+    public String toString() {
+        return "Family id:" + this.getID() + " type:" + getType()
+                + " | Current: size:" + size() + " members:" + getMembers().stream().map(m -> "(" + m.getSex() + "," + m
+                .getRelationshipStatus() + "," + m.getAgeRange() + ")").collect(
+                Collectors.toList());
     }
 }

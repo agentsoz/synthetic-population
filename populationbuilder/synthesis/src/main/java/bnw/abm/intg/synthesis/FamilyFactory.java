@@ -1,46 +1,73 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.synthesis.models.*;
-import bnw.abm.intg.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FamilyFactory {
 
-    final private Random random;
-    AgeRange.AgeComparator ageComparator = new AgeRange.AgeComparator();
+    private final Random random;
+    private final ExtrasHandler extrasHandler;
+    private AgeRange.AgeComparator ageComparator = new AgeRange.AgeComparator();
 
-    FamilyFactory(Random random) {
+    FamilyFactory(Random random, ExtrasHandler extrasHandler) {
         this.random = random;
+        this.extrasHandler = extrasHandler;
     }
 
 
     /**
      * Pairs all the lone parents with a suitable child. This alters input lists.
      *
+     * @param count       The number of basic One Parent families to form
      * @param loneParents The list of lone parents in the population
      * @param children    The list of children
      * @return A list of basic one parent family units with one lone parent and a child
      */
-    List<Family> makeAllOneParentBasicUnits(List<Person> loneParents, List<Person> children) {
+    List<Family> formOneParentBasicUnits(int count, List<Person> loneParents, List<Person> children) {
+        if (count > loneParents.size()) {//We don't have enough Lone Parents. So using extras.
+
+            //Form lone parents older than the oldest child. Otherwise we may not be able to find children for newly formed parents
+            children.sort(ageComparator.reversed());
+            List<AgeRange> loneParentAges = Stream.of(AgeRange.values())
+                                                  .filter(pa -> PopulationRules.validateParentChildAgeRule(pa,
+                                                                                                           children.get(0).getAgeRange()))
+                                                  .collect(Collectors.toList());
+            int newLoneParentsCount = count - loneParents.size();
+            loneParents.addAll(extrasHandler.getPersonsFromExtras(Collections.singletonList(RelationshipStatus.LONE_PARENT),
+                                                                  null, //Sex automatically decided by data distribution
+                                                                  loneParentAges,
+                                                                  newLoneParentsCount));
+        }
+
+
+        if (count > children.size()) {
+            loneParents.sort(ageComparator);
+            List<AgeRange> childAges = Stream.of(AgeRange.values())
+                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(loneParents.get(0).getAgeRange(), ca))
+                                             .collect(Collectors.toList());
+            int childrenToForm = count - children.size();
+            children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
+        }
+
+
         Collections.shuffle(loneParents, random); //Mixes male and females to remove any bias to parent's gender
-        Collections.sort(loneParents, ageComparator.reversed()); //Sort by age. Males and females are still mixed
+        loneParents.sort(ageComparator.reversed());//Sort by age. Males and females are still mixed
         Collections.shuffle(children, random); //Mixes children to remove any bias to a gender
-        Collections.sort(children, ageComparator.reversed());
+        children.sort(ageComparator.reversed());
 
         List<Family> lnParentBasic = new ArrayList<>();
-        int loneParentsCount = loneParents.size();
-        for (int i = 0; i < loneParentsCount; i++) {
+        for (int i = 0; i < count; i++) {
             if (children.isEmpty()) {
-                Log.warn("One Parent Basic: Discarded lone parents: " + loneParents.size());
-                throw new NotEnoughPersonsException("One Parent Basic: Not enough children"); //TODO: implement
-                // taking children from extras
+                throw new NotEnoughPersonsException("One Parent Basic: Not enough children - units successfully formed: " + lnParentBasic.size());
             }
 
-            Family f = new Family(FamilyType.BASIC);
+            Family f = new Family(FamilyType.ONE_PARENT);
             Person loneParent = loneParents.remove(0);
             f.addMember(loneParent);
             boolean success = addChildToFamily(f, children);
@@ -50,26 +77,27 @@ public class FamilyFactory {
                 loneParents.add(loneParent);
             }
         }
-
-        Log.info("One Parent Basic: formed structures: " + lnParentBasic.size());
-        if (loneParents.isEmpty()) {
-            Log.info("One Parent Basic: All structures created");
-        } else {
-            Log.warn("One Parent Basic: Discarded lone parents: " + loneParents.size());
-        }
         return lnParentBasic;
     }
 
     /**
-     * Forms basic other family units need for households with an Other Family as the primary family. A family is
-     * created by randomly selecting two relatives.
+     * Forms basic other family units need for households with an Other Family as the primary family. A family is created by randomly
+     * selecting two relatives.
      *
      * @param count     The needed number of Other Family units
      * @param relatives The list of relatives in the population
      * @return The list of basic Other Family units
      */
-    List<Family> makeOtherFamilyBasicUnits(int count, List<Person> relatives) {
+    List<Family> formOtherFamilyBasicUnits(int count, List<Person> relatives) {
 
+        if (count * 2 > relatives.size()) {
+
+            int newRelativesCount = (count * 2) - relatives.size();
+            relatives.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.RELATIVE,
+                                                                null,
+                                                                null,
+                                                                newRelativesCount));
+        }
 
         List<Family> otherFamilyBasic = new ArrayList<>();
         Collections.shuffle(relatives, random);
@@ -77,8 +105,7 @@ public class FamilyFactory {
         for (int i = 0; i < count; i++) {
             if (relatives.size() < 2) {
                 throw new NotEnoughPersonsException(
-                        "Other Family Basic Primary Families: Not enough Relatives to form more Basic Other Family " +
-                                "structures");
+                        "Basic Other Family: Not enough Relatives - successfully formed units: " + otherFamilyBasic.size());
             }
             Family f = new Family(FamilyType.OTHER_FAMILY);
             f.addMember(relatives.remove(0));
@@ -86,125 +113,128 @@ public class FamilyFactory {
             otherFamilyBasic.add(f);
         }
 
-
-        Log.info("Other Family Basic Primary Families: Structures formed: " + otherFamilyBasic.size());
-        if (otherFamilyBasic.size() == count) {
-            Log.info("Other Family Basic Primary Families: All structures created");
-        }
-
         return otherFamilyBasic;
     }
 
     /**
-     * Forms basic married couple units. Only consider heterosexual relationships. First sorts all males and females in
-     * age descending order. Then pair them in order they appear in respective lists. This ensures age wise natural
-     * looking relationships. Method alters input lists.
+     * Forms basic married couple units. Only consider heterosexual relationships. First sorts all males and females in age descending
+     * order. Then pair them in order they appear in respective lists. This ensures age wise natural looking relationships. Method alters
+     * input lists. If there are not enough married males or females, new instances are created from extras.
      *
+     * @param count          The number of couples to make
      * @param marriedMales   list of married males
      * @param marriedFemales list of married females
      * @return list of couples
      */
-    List<Family> makeMarriedCouples(List<Person> marriedMales, List<Person> marriedFemales) {
+    List<Family> formCoupleFamilyBasicUnits(int count, List<Person> marriedMales, List<Person> marriedFemales) {
+
+        if (count > marriedMales.size()) {
+
+            int newMalesCount = count - marriedMales.size();
+            marriedMales.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                   Sex.Male,
+                                                                   null,
+                                                                   newMalesCount));
+        }
+
+        if (count > marriedFemales.size()) {
+
+            int newFemalesCount = count - marriedFemales.size();
+            marriedFemales.addAll(extrasHandler.getPersonsFromExtras(RelationshipStatus.MARRIED,
+                                                                     Sex.Female,
+                                                                     null,
+                                                                     newFemalesCount));
+        }
 
         //Sort two lists in age descending order
-        //TODO: Younger married pesons may be over represented in married-extra list
-        Collections.sort(marriedMales, ageComparator.reversed());
-        Collections.sort(marriedFemales, ageComparator.reversed());
+        //TODO: Younger married persons may be over represented in married-extra list
+        marriedMales.sort(ageComparator.reversed());
+        marriedFemales.sort(ageComparator.reversed());
 
-        int cpls = Math.min(marriedMales.size(), marriedFemales.size());
         int diff = marriedMales.size() - marriedFemales.size();
 
-        List<Family> fl = new ArrayList<>();
-        for (int i = 0; i < cpls; i++) {
-            Family f = new Family(FamilyType.BASIC);
+        List<Family> couples = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Family f = new Family(FamilyType.COUPLE_ONLY);
             f.addMember(marriedMales.remove(0));
             f.addMember(marriedFemales.remove(0));
-            fl.add(f);
+            couples.add(f);
         }
-
-        Log.info("Forming Married couples: units formed: " + cpls);
-        if (diff > 0) {
-            Log.warn("Forming Married couples: " + diff + " young married males discarded. Population may be biased");
-        } else if (diff < 0) {
-            Log.warn("Forming Married couples: " + ((-1) * diff) + " young married females discarded. Population may " +
-                             "be biased");
-        } else {
-            Log.info("Forming Married couples: successful");
-        }
-        return fl;
+        return couples;
     }
 
     /**
-     * Forms basic couple with children family units needed for households where a couple with children is the primary
-     * family. This method alters couples and children list
+     * Forms basic couple with children family units needed for households where a couple with children is the primary family. This method
+     * alters couples and children list
      *
      * @param count    The needed number of couple with children basic family units
      * @param couples  The couple units in the population
      * @param children The children in the population
      * @return Basic couple with children family units for primary families.
      */
-    List<Family> makeCoupleWithChildFamilyBasicUnits(int count,
+    List<Family> formCoupleWithChildFamilyBasicUnits(int count,
                                                      List<Family> couples,
                                                      List<Person> children) {
 
-        // Get rid of O15 and Student children quickly. Otherwise we get stuck later.
-        Collections.sort(couples, new AgeRange.YoungestParentAgeComparator());
-        Collections.sort(children, new AgeRange.AgeComparator());
+        if (count > couples.size()) {
+            throw new NotEnoughPersonsException("Basic Couple With Children: required units: " + count + " available couples: " + couples.size());
+        }
 
-        List<Family> coupleWithChildFamilies = new ArrayList<>();
+        if (count > children.size()) {
+            couples.sort(new AgeRange.YoungestParentAgeComparator());
+            List<AgeRange> childAges = Stream.of(AgeRange.values())
+                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(couples.get(0)
+                                                                                                             .getYoungestParent()
+                                                                                                             .getAgeRange(), ca))
+                                             .collect(Collectors.toList());
+            int childrenToForm = count - children.size();
+            children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
+        }
+
+        couples.sort(new AgeRange.YoungestParentAgeComparator().reversed());
+        children.sort(ageComparator.reversed());
+
+        List<Family> cplWithChildUnits = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             if (couples.isEmpty()) {
                 throw new NotEnoughPersonsException(
-                        "Forming Basic Couple With Children Families: Not enough couples");
-            }
-            if (children.isEmpty()) {
-                new NotEnoughPersonsException("Forming Basic Couple With Children Families: Not enough children");
+                        "Basic Couple With Children: not enough Couples - units successfully formed: " + cplWithChildUnits.size());
             }
 
             Family f = couples.remove(0);
             boolean success = addChildToFamily(f, children);
             if (success) {
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
-                coupleWithChildFamilies.add(f);
+                cplWithChildUnits.add(f);
             } else {
                 couples.add(f); // move to end of the list to filter out failed couples
             }
 
         }
 
-        Log.info("Forming Basic Couple With Children Families: units formed: " + coupleWithChildFamilies.size());
-        if (coupleWithChildFamilies.size() == count) {
-            Log.info("Forming Basic Couple With Children Families: successful");
-        }
-
-        return coupleWithChildFamilies;
+        return cplWithChildUnits;
     }
 
+
     /**
-     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and added
-     * to the family. Returns false of a suitable child was not found, the family is not changed.
+     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and added to the family.
+     * Returns false of a suitable child was not found, the family is not changed.
      *
      * @param family   The family to add a child
      * @param children The list of children to select a child from
      * @return True if a suitable child was found and added to the child, else false.
      */
-    boolean addChildToFamily(Family family, List<Person> children) {
-        Person youngestParent = family.getMembers()
-                .stream()
-                .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
-                        m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
-                .min(new AgeRange.AgeComparator())
-                .get();
+    private boolean addChildToFamily(Family family, List<Person> children) {
+        Person youngestParent = family.getYoungestParent();
 
-        int cIndex = PopulationRules.selectChild(youngestParent, children);
-        if (cIndex >= 0) {
-            family.addMember(children.remove(cIndex));
-            return true;
-        } else {
-            return false;
+        for (int i = 0; i < children.size(); i++) {
+            if (PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(), children.get(i).getAgeRange())) {
+                family.addMember(children.remove(i));
+                return true;
+            }
         }
 
-
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
 import bnw.abm.intg.synthesis.models.Household;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
+import org.omg.CORBA.INTERNAL;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class App {
                 Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/person_types.csv.gz");
 
-                GroupMaker groupMaker = new GroupMaker();
+//                GroupMaker groupMaker = new GroupMaker();
 
                 /* Data fields */
                 Map<String, List<HhRecord>> hhRecs = null;
@@ -71,11 +72,9 @@ public class App {
                 indRecs = DataReader.readPersonRecords(indFile);
 
                 // Group persons into households considering person, household and family types
-                List<Household> householdsOfSA2 = groupMaker.makePopulation(hhRecs.get(sa2),
-                                                                            indRecs.get(sa2),
-                                                                            rand,
-                                                                            sa2,
-                                                                            nonPrimaryCoupleWithChildProbability);
+                PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2), indRecs.get(sa2),nonPrimaryCoupleWithChildProbability, rand);
+                List<Household> householdsOfSA2 = populationFactory.makePopulation();
+
 
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);
@@ -87,11 +86,11 @@ public class App {
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
 
                 convertToSA2MAINCODE(allHouseholds, sa2CodeMap);
-                assignSA1sToHouseholds(sa2,
-                                       sa1HhDistCsvProperties,
-                                       inputDirectory,
-                                       householdsOfSA2,
-                                       rand);
+//                assignSA1sToHouseholds(sa2,
+//                                       sa1HhDistCsvProperties,
+//                                       inputDirectory,
+//                                       householdsOfSA2,
+//                                       rand);
 
                 Log.info("Writing output files to: " + outputDirectory);
                 Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +

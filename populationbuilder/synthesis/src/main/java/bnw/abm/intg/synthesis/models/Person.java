@@ -15,7 +15,8 @@ import java.util.List;
 public class Person {
 
     private static long IDCounter = 0;
-    private String personID;
+    private final String personID;
+    private String familyID;
     private RelationshipStatus type;
     private int age;
     private Sex sex;
@@ -69,6 +70,22 @@ public class Person {
         return this.personID;
     }
 
+    public void clearFamilyID() {
+        this.familyID = null;
+    }
+
+    public String getFamilyID() {
+        return this.familyID;
+    }
+
+    public void setFamilyID(String familyID) {
+        if (this.familyID != null) {
+            throw new Error("A person can only belong to one family");
+        } else {
+            this.familyID = familyID;
+        }
+    }
+
     public Person getPartner() {
         return partner;
     }
@@ -76,8 +93,7 @@ public class Person {
     public void setPartner(Person partner) {
         if (this.partner == null) {
             this.partner = partner;
-        }
-        else {
+        } else {
             throw new Error("Already has a partner");
         }
     }
@@ -99,8 +115,9 @@ public class Person {
      * @return True if this person is a child, else false
      */
     public boolean isChild() {
-        if (this.getRelationshipStatus() == RelationshipStatus.U15_CHILD || this.getRelationshipStatus() == RelationshipStatus.STUDENT || this
-                .getRelationshipStatus() == RelationshipStatus.O15_CHILD) {
+        if (this.getRelationshipStatus() == RelationshipStatus.U15_CHILD || this.getRelationshipStatus() == RelationshipStatus.STUDENT ||
+                this
+                        .getRelationshipStatus() == RelationshipStatus.O15_CHILD) {
             return true;
         }
         return false;
@@ -120,8 +137,7 @@ public class Person {
     public void setMother(Person mother) {
         if (this.mother == null) {
             this.mother = mother;
-        }
-        else {
+        } else {
             throw new Error("Child already has a mother");
         }
 
@@ -134,8 +150,7 @@ public class Person {
     public void setFather(Person father) {
         if (this.father == null) {
             this.father = father;
-        }
-        else {
+        } else {
             throw new Error("Child already has a father");
         }
 
@@ -156,15 +171,12 @@ public class Person {
         if (parent.type == RelationshipStatus.MARRIED | parent.type == RelationshipStatus.LONE_PARENT) {
             if (parent.sex == Sex.Male) {
                 setFather(parent);
-            }
-            else if (parent.sex == Sex.Female) {
+            } else if (parent.sex == Sex.Female) {
                 setMother(parent);
-            }
-            else {
+            } else {
                 throw new Error("Parent's Sex is not Male or Female: " + parent.sex);
             }
-        }
-        else {
+        } else {
             throw new Error("This person cannot be a parent: " + parent.type);
         }
     }
@@ -212,8 +224,7 @@ public class Person {
                         siblings == null & groupHouseholdMembers == null) {
 
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " Lone person");
                 }
                 break;
@@ -222,8 +233,7 @@ public class Person {
                         siblings == null & groupHouseholdMembers == null) {
 
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " RELATIVE");
                 }
                 break;
@@ -231,8 +241,7 @@ public class Person {
                 if (father == null & mother == null & partner != null & siblings == null & groupHouseholdMembers ==
                         null) {
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " MARRIED");
                 }
                 break;
@@ -243,8 +252,7 @@ public class Person {
                 if ((father != null | mother != null) & partner == null & children == null & groupHouseholdMembers ==
                         null) {
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " U15_CHILD | STUDENT | O15_CHILD");
                 }
                 break;
@@ -252,8 +260,7 @@ public class Person {
                 if (father == null & mother == null & partner == null & children != null & siblings == null &
                         groupHouseholdMembers == null) {
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " Lone parent");
                 }
                 break;
@@ -261,8 +268,7 @@ public class Person {
                 if (father == null & mother == null & partner == null & children == null & relatives == null &
                         siblings == null & groupHouseholdMembers != null) {
                     return true;
-                }
-                else {
+                } else {
                     Log.error(logPrefix + " Group household");
                 }
                 break;
@@ -270,6 +276,11 @@ public class Person {
                 throw new Error("An alian impersonating a person: " + this.type);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.getSex() + "," + this.getRelationshipStatus() + "," + this.getAgeRange() + ")";
     }
 
 }

@@ -59,17 +59,21 @@ public enum AgeRange {
         @Override
         public int compare(Family o1, Family o2) {
             Person o1YoungestParent = o1.getMembers()
-                    .stream()
-                    .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
-                            m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
-                    .min(new AgeRange.AgeComparator())
-                    .get();
-            Person o2YoungestParent = o1.getMembers()
-                    .stream()
-                    .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
-                            m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
-                    .min(new AgeRange.AgeComparator())
-                    .get();
+                                        .stream()
+                                        .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                                                m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                                        .min(new AgeRange.AgeComparator())
+                                        .orElse(null);
+            Person o2YoungestParent = o2.getMembers()
+                                        .stream()
+                                        .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                                                m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT)
+                                        .min(new AgeRange.AgeComparator())
+                                        .orElse(null);
+
+            if (o1YoungestParent == null || o2YoungestParent == null) {
+                throw new Error("Trying to order a family that has no parents");
+            }
             return o1YoungestParent.getAgeRange().compareTo(o2YoungestParent.getAgeRange());
         }
     }
