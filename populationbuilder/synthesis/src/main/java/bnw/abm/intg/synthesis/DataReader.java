@@ -58,7 +58,7 @@ public class DataReader {
                 int nofFamilies = getFamilyCountInHousehold(familyDesc);
                 FamilyType primaryFamilyType = getPrimaryFamilyType(familyDesc);
                 int nofHhs = Integer.parseInt(hhCount);
-                HhRecord hhr = new HhRecord(nop, nofFamilies, primaryFamilyType, nofHhs);
+                HhRecord hhr = new HhRecord(nop, nofFamilies, primaryFamilyType, nofHhs, sa);
                 hhRecList.add(hhr);
             }
         }
@@ -76,7 +76,7 @@ public class DataReader {
             RelationshipStatus relStatus;
             Sex sex;
             int sacol = 0, relcol = 1, sexcol = 2, agecol = 3, nofagentscol = 4;
-            List<IndRecord> indreclist = new ArrayList<>();
+            List<IndRecord> indRecList = new ArrayList<>();
 
             for (CSVRecord rec : parser) {
                 r++;
@@ -86,17 +86,17 @@ public class DataReader {
                 sa = rec.get(sacol);
                 if (!sa.equals(currentSA)) {
                     currentSA = sa;
-                    indreclist = new ArrayList<>();
-                    indData.put(sa, indreclist);
+                    indRecList = new ArrayList<>();
+                    indData.put(sa, indRecList);
                 }
 
                 relStatus = getRelationshipStatus(rec.get(relcol));
                 sex = getSex(rec.get(sexcol));
                 ageRangeStr = rec.get(agecol);
 
-                int personcount = Integer.parseInt(rec.get(nofagentscol));
-                IndRecord indr = new IndRecord(relStatus, sex, getAgeRange(ageRangeStr), personcount);
-                indreclist.add(indr);
+                int personCount = Integer.parseInt(rec.get(nofagentscol));
+                IndRecord indRec = new IndRecord(relStatus, sex, getAgeRange(ageRangeStr), personCount, sa);
+                indRecList.add(indRec);
             }
         }
         return indData;
@@ -110,7 +110,8 @@ public class DataReader {
         Map<String, Map<String, Integer>> householdTypesBySA1 = new LinkedHashMap<>();
         try (CSVParser csvParser = new CSVParser(new InputStreamReader(new GZIPInputStream(new BufferedInputStream
                                                                                                    (Files.newInputStream(
-                csvFile)))), CSVFormat.EXCEL.withSkipHeaderRecord(false))) {
+                                                                                                           csvFile)))),
+                                                 CSVFormat.EXCEL.withSkipHeaderRecord(false))) {
             int row = -1;
             CSVRecord headerRow = null;
             for (CSVRecord csvRecord : csvParser) {
@@ -151,7 +152,7 @@ public class DataReader {
             row++;
             if (row >= dataRow) {
                 if ((csvRecord.size() - 1) < ageColumn || csvRecord.get(ageColumn) == null || csvRecord.get(ageColumn)
-                        .equals("")) {
+                                                                                                       .equals("")) {
                     break; // We have reached end
                 }
                 String age = csvRecord.get(ageColumn).split(" ")[0];
@@ -305,19 +306,19 @@ public class DataReader {
         throw new Error("Number of families could not be recognised");
     }
 
-    static List<HhRecord> getHouseholdsRecordsByPrimaryFamilyType(List<HhRecord> hhRecs,
-                                                                  FamilyHouseholdType... familyHhTypes) {
+    static List<HhRecord> getHhRecordsByPrimaryFamilyType(List<HhRecord> hhRecs,
+                                                          FamilyHouseholdType... familyHhTypes) {
 
         return hhRecs.stream()
-                .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
-                .collect(Collectors.toList());
+                     .filter(r -> Arrays.asList(familyHhTypes).contains(r.FAMILY_HOUSEHOLD_TYPE))
+                     .collect(Collectors.toList());
     }
 
     static List<IndRecord> getAgentsRecordsByRelationshipStatus(List<IndRecord> indRecs,
                                                                 RelationshipStatus... relStates) {
         return indRecs.stream()
-                .filter(r -> Arrays.asList(relStates).contains(r.RELATIONSHIP_STATUS))
-                .collect(Collectors.toList());
+                      .filter(r -> Arrays.asList(relStates).contains(r.RELATIONSHIP_STATUS))
+                      .collect(Collectors.toList());
     }
 
 }
@@ -326,10 +327,12 @@ class HhRecord {
     public final int NUM_OF_PERSONS_PER_HH;
     public final int HH_COUNT;
     public final FamilyHouseholdType FAMILY_HOUSEHOLD_TYPE;
+    public final String SA;
 
-    public HhRecord(int nofPersons, int familyCountPerHh, FamilyType familyType, int hhcount) {
+    public HhRecord(int nofPersons, int familyCountPerHh, FamilyType familyType, int hhCount, String sa) {
         this.NUM_OF_PERSONS_PER_HH = nofPersons;
-        this.HH_COUNT = hhcount;
+        this.HH_COUNT = hhCount;
+        this.SA = sa;
 
         FamilyHouseholdType tempFamilyHhtype = null;
         for (FamilyHouseholdType familyHouseholdType : FamilyHouseholdType.values()) {
@@ -358,12 +361,14 @@ class IndRecord {
     final public Sex SEX;
     final public AgeRange AGE_RANGE;
     final public int IND_COUNT;
+    final public String SA;
 
-    public IndRecord(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int individualsCount) {
+    public IndRecord(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int individualsCount, String sa) {
         this.AGE_RANGE = ageRange;
         this.SEX = sex;
         this.RELATIONSHIP_STATUS = relStatus;
         this.IND_COUNT = individualsCount;
+        this.SA = sa;
         if (individualsCount > 0) {
             this.AGE_RANGE.markNotEmpty(true);
         }
