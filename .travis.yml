@@ -1,0 +1,10 @@
+language: R
+sudo: false
+cache: packages
+warnings_are_errors: false
+
+install:
+ - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
+
+script:
+ - Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"

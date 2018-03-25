@@ -1,0 +1,10 @@
+abs_persons_file = 'test_data/Persons_2016_Greater_Melbourne_SA2.zip'
+abs_households_file = 'test_data/Households_2016_Greater_Melbourne_SA2.zip'
+abs_sa1_households_file = 'test_data/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip'
+ref_persons_file = 'test_data/persons.rds'
+ref_households_file = 'test_data/households.rds'
+ref_sa1_households_file = 'test_data/Brunswick_raw_sa1_households_dist.rds'
+test_sa2 = "Brunswick"
+ref_cleaned_households_file = 'test_data/Brunswick_cleaned_households.rds'
+ref_cleaned_persons_file = 'test_data/Brunswick_cleaned_persons.rds'
+ref_adjusted_sa1_households_file = 'test_data/Brunswick_adjusted_sa1_hhs_dist.rds'
