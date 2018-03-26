@@ -1,9 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.synthesis.models.AgeRange;
-import bnw.abm.intg.synthesis.models.Person;
-import bnw.abm.intg.synthesis.models.RelationshipStatus;
-import bnw.abm.intg.synthesis.models.Sex;
+import bnw.abm.intg.synthesis.models.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,19 +16,17 @@ import java.util.*;
 public class ExtrasHandlerTest {
     private ExtrasHandler extrasHandler;
     private Random random = new Random(1);
-    private Map<String, List<IndRecord>> indRecords;
-    private Map<String, List<HhRecord>> hhRecords;
 
 
     @Before
     public void createExtrasHandlerInstance() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        File file1 = new File(classLoader.getResource("Armadale/preprocessed/person_types.csv.gz").getFile());
-        indRecords = DataReader.readPersonRecords(file1.toPath());
+        File file1 = new File(Objects.requireNonNull(classLoader.getResource("Armadale/preprocessed/person_types.csv.gz")).getFile());
+        Map<String, List<IndRecord>> indRecords = DataReader.readPersonRecords(file1.toPath());
 
-        File file2 = new File(classLoader.getResource("Armadale/preprocessed/household_types.csv.gz").getFile());
-        hhRecords = DataReader.readHouseholdRecords(file2.toPath());
+        File file2 = new File(Objects.requireNonNull(classLoader.getResource("Armadale/preprocessed/household_types.csv.gz")).getFile());
+        Map<String, List<HhRecord>> hhRecords = DataReader.readHouseholdRecords(file2.toPath());
 
         extrasHandler = new ExtrasHandler(indRecords.get("Armadale"), random);
         extrasHandler.formExtras(hhRecords.get("Armadale"));

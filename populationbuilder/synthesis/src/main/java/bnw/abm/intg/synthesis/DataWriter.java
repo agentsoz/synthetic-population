@@ -1,9 +1,7 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.CSVWriter;
-import bnw.abm.intg.synthesis.models.Family;
-import bnw.abm.intg.synthesis.models.Household;
-import bnw.abm.intg.synthesis.models.Person;
+import bnw.abm.intg.synthesis.models.*;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
