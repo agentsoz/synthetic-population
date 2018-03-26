@@ -1,5 +1,4 @@
-language: java
-jdk: oraclejdk8
+language: R
 
 sudo: false
 cache: packages
@@ -11,10 +10,6 @@ addons:
    - oracle-java8-installer
    - r-base
 
-install:
- - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"), repos="http://cloud.r-project.org/")'
-
 script:
  - cd populationbuilder/
  - mvn clean install
- - cd ../ && Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
