@@ -1,6 +1,7 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.synthesis.models.FamilyType;
+import bnw.abm.intg.synthesis.models.HhRecord;
 
 import java.util.HashMap;
 import java.util.List;

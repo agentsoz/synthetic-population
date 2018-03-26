@@ -12,7 +12,6 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -324,93 +323,3 @@ public class DataReader {
 
 }
 
-class HhRecord implements Serializable {
-    public final int NUM_OF_PERSONS_PER_HH;
-    public final int HH_COUNT;
-    public final FamilyHouseholdType FAMILY_HOUSEHOLD_TYPE;
-    public final String SA;
-
-    public HhRecord(int nofPersons, int familyCountPerHh, FamilyType familyType, int hhCount, String sa) {
-        this.NUM_OF_PERSONS_PER_HH = nofPersons;
-        this.HH_COUNT = hhCount;
-        this.SA = sa;
-
-        FamilyHouseholdType tempFamilyHhtype = null;
-        for (FamilyHouseholdType familyHouseholdType : FamilyHouseholdType.values()) {
-            if (familyHouseholdType.getFamilyCount() == familyCountPerHh && familyHouseholdType.getFamilyType() ==
-                    familyType) {
-                tempFamilyHhtype = familyHouseholdType;
-                break;
-            }
-        }
-        FAMILY_HOUSEHOLD_TYPE = tempFamilyHhtype;
-
-    }
-
-    public FamilyType getPrimaryFamilyType() {
-
-        return this.FAMILY_HOUSEHOLD_TYPE.getFamilyType();
-    }
-
-    public int getFamilyCountPerHousehold() {
-        return this.FAMILY_HOUSEHOLD_TYPE.getFamilyCount();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        HhRecord hhRecord = (HhRecord) o;
-        return NUM_OF_PERSONS_PER_HH == hhRecord.NUM_OF_PERSONS_PER_HH &&
-                HH_COUNT == hhRecord.HH_COUNT &&
-                FAMILY_HOUSEHOLD_TYPE == hhRecord.FAMILY_HOUSEHOLD_TYPE &&
-                Objects.equals(SA, hhRecord.SA);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(NUM_OF_PERSONS_PER_HH, HH_COUNT, FAMILY_HOUSEHOLD_TYPE, SA);
-    }
-
-}
-
-class IndRecord implements Serializable {
-    final public RelationshipStatus RELATIONSHIP_STATUS;
-    final public Sex SEX;
-    final public AgeRange AGE_RANGE;
-    final public int IND_COUNT;
-    final public String SA;
-
-    public IndRecord(RelationshipStatus relStatus, Sex sex, AgeRange ageRange, int individualsCount, String sa) {
-        this.AGE_RANGE = ageRange;
-        this.SEX = sex;
-        this.RELATIONSHIP_STATUS = relStatus;
-        this.IND_COUNT = individualsCount;
-        this.SA = sa;
-        if (individualsCount > 0) {
-            this.AGE_RANGE.markNotEmpty(true);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        IndRecord indRecord = (IndRecord) o;
-        return IND_COUNT == indRecord.IND_COUNT &&
-                RELATIONSHIP_STATUS == indRecord.RELATIONSHIP_STATUS &&
-                SEX == indRecord.SEX &&
-                AGE_RANGE == indRecord.AGE_RANGE &&
-                Objects.equals(SA, indRecord.SA);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(RELATIONSHIP_STATUS, SEX, AGE_RANGE, IND_COUNT, SA);
-    }
-}

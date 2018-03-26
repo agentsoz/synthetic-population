@@ -1,5 +1,6 @@
 package bnw.abm.intg.synthesis;
 
+import bnw.abm.intg.synthesis.models.IndRecord;
 import bnw.abm.intg.synthesis.models.Person;
 import bnw.abm.intg.synthesis.models.RelationshipStatus;
 

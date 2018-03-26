@@ -1,9 +1,6 @@
 package bnw.abm.intg.synthesis;
 
-import bnw.abm.intg.synthesis.models.AgeRange;
-import bnw.abm.intg.synthesis.models.Person;
-import bnw.abm.intg.synthesis.models.RelationshipStatus;
-import bnw.abm.intg.synthesis.models.Sex;
+import bnw.abm.intg.synthesis.models.*;
 import bnw.abm.intg.util.Log;
 
 import java.util.*;

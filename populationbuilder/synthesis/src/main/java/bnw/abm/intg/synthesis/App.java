@@ -1,7 +1,9 @@
 package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
+import bnw.abm.intg.synthesis.models.HhRecord;
 import bnw.abm.intg.synthesis.models.Household;
+import bnw.abm.intg.synthesis.models.IndRecord;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
 
