@@ -9,4 +9,5 @@ install:
 
 script:
  - Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
+ - cd populationbuilder/
  - mvn test -B
