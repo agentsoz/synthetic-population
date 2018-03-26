@@ -1,13 +1,19 @@
-language: R
+language: java
+jdk: oraclejdk8
+
 sudo: false
 cache: packages
 warnings_are_errors: false
+
+addons:
+ apt:
+  packages:
+   - oracle-java8-installer
 
 install:
  - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
 
 script:
- - Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
  - cd populationbuilder/
- - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
- - mvn test -B
+ - mvn clean install
+ - cd ../ && Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
