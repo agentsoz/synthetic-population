@@ -39,12 +39,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>bnw.abm.intg</groupId>
 			<artifactId>filemanager</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

@@ -12,4 +12,5 @@ public class AppTest {
         Assert.assertEquals("Junit test setup", 1,1);
     }
 
+
 }
