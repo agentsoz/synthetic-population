@@ -4,7 +4,6 @@ import bnw.abm.intg.filemanager.csv.abs.StatisticalAreaCodeReader;
 import bnw.abm.intg.synthesis.models.Household;
 import bnw.abm.intg.util.BNWProperties;
 import bnw.abm.intg.util.Log;
-import org.omg.CORBA.INTERNAL;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,20 +60,13 @@ public class App {
                 Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/person_types.csv.gz");
 
-//                GroupMaker groupMaker = new GroupMaker();
-
-                /* Data fields */
-                Map<String, List<HhRecord>> hhRecs = null;
-                Map<String, List<IndRecord>> indRecs = null;
-
                 // Read input CSVs
-                hhRecs = DataReader.readHouseholdRecords(hhFile);
-                indRecs = DataReader.readPersonRecords(indFile);
+                Map<String, List<HhRecord>> hhRecs = DataReader.readHouseholdRecords(hhFile);
+                Map<String, List<IndRecord>> indRecs  = DataReader.readPersonRecords(indFile);
 
                 // Group persons into households considering person, household and family types
                 PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2), indRecs.get(sa2),nonPrimaryCoupleWithChildProbability, rand);
                 List<Household> householdsOfSA2 = populationFactory.makePopulation();
-
 
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2, rand);
