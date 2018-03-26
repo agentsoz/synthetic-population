@@ -12,6 +12,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -323,7 +324,7 @@ public class DataReader {
 
 }
 
-class HhRecord {
+class HhRecord implements Serializable {
     public final int NUM_OF_PERSONS_PER_HH;
     public final int HH_COUNT;
     public final FamilyHouseholdType FAMILY_HOUSEHOLD_TYPE;
@@ -354,9 +355,28 @@ class HhRecord {
     public int getFamilyCountPerHousehold() {
         return this.FAMILY_HOUSEHOLD_TYPE.getFamilyCount();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        HhRecord hhRecord = (HhRecord) o;
+        return NUM_OF_PERSONS_PER_HH == hhRecord.NUM_OF_PERSONS_PER_HH &&
+                HH_COUNT == hhRecord.HH_COUNT &&
+                FAMILY_HOUSEHOLD_TYPE == hhRecord.FAMILY_HOUSEHOLD_TYPE &&
+                Objects.equals(SA, hhRecord.SA);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(NUM_OF_PERSONS_PER_HH, HH_COUNT, FAMILY_HOUSEHOLD_TYPE, SA);
+    }
+
 }
 
-class IndRecord {
+class IndRecord implements Serializable {
     final public RelationshipStatus RELATIONSHIP_STATUS;
     final public Sex SEX;
     final public AgeRange AGE_RANGE;
@@ -372,5 +392,25 @@ class IndRecord {
         if (individualsCount > 0) {
             this.AGE_RANGE.markNotEmpty(true);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        IndRecord indRecord = (IndRecord) o;
+        return IND_COUNT == indRecord.IND_COUNT &&
+                RELATIONSHIP_STATUS == indRecord.RELATIONSHIP_STATUS &&
+                SEX == indRecord.SEX &&
+                AGE_RANGE == indRecord.AGE_RANGE &&
+                Objects.equals(SA, indRecord.SA);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(RELATIONSHIP_STATUS, SEX, AGE_RANGE, IND_COUNT, SA);
     }
 }

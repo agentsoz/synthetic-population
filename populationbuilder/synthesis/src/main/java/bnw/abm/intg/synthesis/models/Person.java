@@ -7,6 +7,7 @@ import bnw.abm.intg.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -283,4 +284,43 @@ public class Person {
         return "(" + this.getSex() + "," + this.getRelationshipStatus() + "," + this.getAgeRange() + ")";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                Objects.equals(personID, person.personID) &&
+                Objects.equals(familyID, person.familyID) &&
+                type == person.type &&
+                sex == person.sex &&
+                ageRange == person.ageRange &&
+                Objects.equals(partner, person.partner) &&
+                Objects.equals(children, person.children) &&
+                Objects.equals(mother, person.mother) &&
+                Objects.equals(father, person.father) &&
+                Objects.equals(relatives, person.relatives) &&
+                Objects.equals(siblings, person.siblings) &&
+                Objects.equals(groupHouseholdMembers, person.groupHouseholdMembers);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(personID,
+                            familyID,
+                            type,
+                            age,
+                            sex,
+                            ageRange,
+                            partner,
+                            children,
+                            mother,
+                            father,
+                            relatives,
+                            siblings,
+                            groupHouseholdMembers);
+    }
 }

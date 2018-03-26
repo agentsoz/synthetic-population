@@ -3,8 +3,7 @@ package bnw.abm.intg.synthesis;
 import bnw.abm.intg.synthesis.models.AgeRange;
 
 /**
- * @author wniroshan
- * @date 11 Jan 2018
+ * @author wniroshan 11 Jan 2018
  */
 public class PopulationRules {
 

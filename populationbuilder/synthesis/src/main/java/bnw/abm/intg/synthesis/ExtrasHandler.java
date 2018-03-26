@@ -73,13 +73,28 @@ class ExtrasHandler {
 
         List<Person> persons = new ArrayList<>(count);
 
-        if (this.extras.size() >= count) {
-            List<Person> selected = this.extras.subList(0, count);
-            persons.addAll(selected);
-            this.extras.removeAll(selected);
-        } else {
-            throw new NotEnoughPersonsException("There are not enough persons in extras. Requested: " + count + " available: " + this.extras
-                    .size());
+        Iterator<Person> extrasIterator = this.extras.iterator();
+        while (extrasIterator.hasNext()) {
+            Person p = extrasIterator.next();
+            if (persons.size() < count) {
+                if (sex != null && ageRange != null && sex.contains(p.getSex()) && ageRange.contains(p.getAgeRange())) {
+                    persons.add(p);
+                    extrasIterator.remove();
+                }
+            }
+        }
+
+        count -= persons.size();
+        if (count > 0) {
+            if (this.extras.size() >= count) {
+                List<Person> selected = this.extras.subList(0, count);
+                persons.addAll(selected);
+                this.extras.removeAll(selected);
+            } else {
+                throw new NotEnoughPersonsException("There are not enough persons in extras. Requested: " + count + " available: " + this
+                        .extras
+                        .size());
+            }
         }
 
 
@@ -88,17 +103,14 @@ class ExtrasHandler {
             List<IndRecord> dist = indRecords.stream()
                                              .filter(r -> (relStatus == null || relStatus.contains(r.RELATIONSHIP_STATUS)) //filter by
                                                      // relationship. If relationship status is null get all records
-                                                     && (ageRange == null || ageRange.contains(r.AGE_RANGE))// Filter by age range, or get all
-                                                     // if not specified
+                                                     && (ageRange == null || ageRange.contains(r.AGE_RANGE))// Filter by age range, or
+                                                     // get all if not specified
                                                      && (sex == null || sex.contains(r.SEX)))// Filter by sex, or get all if not specified
                                              .collect(Collectors.toList());
 
             int sum = dist.stream().mapToInt(r -> r.IND_COUNT).sum();
 
             for (Person p : persons) {
-                if (p.getRelationshipStatus() != null && p.getSex() != null && p.getAgeRange() != null) {
-                    continue;
-                }
                 int offset = random.nextInt(sum);
                 int s = 0;
                 for (IndRecord r : dist) {
@@ -114,27 +126,9 @@ class ExtrasHandler {
     }
 
     /**
-     * Produces one person with properties in specified indRecord
-     *
-     * @param indRecord The IndRecord to take person properties
-     * @return The person instance
-     */
-    Person getPersonFromExtras(IndRecord indRecord) {
-        Person p;
-        if (!this.extras.isEmpty()) {
-            p = this.extras.remove(0);
-            setProperties(p, indRecord.RELATIONSHIP_STATUS, indRecord.SEX, indRecord.AGE_RANGE);
-        } else {
-            throw new NotEnoughPersonsException("There are no persons in extras");
-        }
-
-        return p;
-    }
-
-    /**
      * Generates children based on specified sex and ageRange. RelationshipStatus of all children produced with this method is assumed to be
      * U15_CHILD. If sex and ageRanges are given as null they are assigned probabilistically according to the observed population
-     * distributions. TODO: Determine RelatioshipStatus of children in a more realistic method.
+     * distributions.
      *
      * @param sex      Sex of the children
      * @param ageRange AgeRange of the children
