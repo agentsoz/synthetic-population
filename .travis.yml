@@ -11,7 +11,7 @@ addons:
    - oracle-java8-installer
 
 install:
- - apt install r-base
+ - apt-get install r-base
  - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"), repos="http://cloud.r-project.org/")'
 
 script:
