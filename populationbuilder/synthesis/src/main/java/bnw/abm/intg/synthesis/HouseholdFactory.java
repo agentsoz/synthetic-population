@@ -696,7 +696,7 @@ public class HouseholdFactory {
             for (IndRecord r : indTypes) {
                 s += r.IND_COUNT;
                 if (offset < s) {
-                    newPerson = extrasHandler.getPersonFromExtras(r);
+                    newPerson = extrasHandler.getPersonsFromExtras(r.RELATIONSHIP_STATUS,r.SEX,r.AGE_RANGE, 1).get(0);
                     if(r.RELATIONSHIP_STATUS == RelationshipStatus.RELATIVE){
                         newRelatives++;
                     }else{
