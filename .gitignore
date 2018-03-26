@@ -9,8 +9,6 @@
 .classpath
 .settings/
 *.log
-MyTests/
-test/
 *.png
 *.class
 *.iml
