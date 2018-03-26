@@ -5,9 +5,11 @@ warnings_are_errors: false
 
 install:
  - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
+ - cd populationbuilder/
  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
+ - cd ../
  - Rscript -e "library(testthat);setwd('rscripts/preprocessing/tests');test_dir('.');"
  - cd populationbuilder/
  - mvn test -B
