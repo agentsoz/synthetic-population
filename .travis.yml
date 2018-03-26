@@ -11,7 +11,8 @@ addons:
    - oracle-java8-installer
 
 install:
- - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
+ - apt install r-base
+ - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"), repos="http://cloud.r-project.org/")'
 
 script:
  - cd populationbuilder/
