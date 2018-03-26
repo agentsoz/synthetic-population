@@ -9,6 +9,6 @@ public class AppTest {
 
     @Test
     public void testSetupVerification(){
-        Assert.assertEquals("Junit test setup", 1,1);
+        Assert.assertEquals("Junit test setup", 1,0);
     }
 }
