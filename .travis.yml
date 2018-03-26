@@ -1,4 +1,5 @@
-language: R
+language: java
+jdk: oraclejdk8
 
 sudo: false
 cache: packages
