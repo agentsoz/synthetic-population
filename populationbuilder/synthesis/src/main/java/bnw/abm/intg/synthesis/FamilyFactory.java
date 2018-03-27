@@ -2,10 +2,7 @@ package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.synthesis.models.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -175,6 +172,9 @@ public class FamilyFactory {
     List<Family> formCoupleWithChildFamilyBasicUnits(int count,
                                                      List<Family> couples,
                                                      List<Person> children) {
+        if (count <= 0) {
+            return new ArrayList<>();
+        }
 
         if (count > couples.size()) {
             throw new NotEnoughPersonsException("Basic Couple With Children: required units: " + count + " available couples: " + couples.size());
@@ -191,26 +191,28 @@ public class FamilyFactory {
             children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
         }
 
-        couples.sort(new AgeRange.YoungestParentAgeComparator().reversed());
+        Collections.shuffle(couples, random);
         children.sort(ageComparator.reversed());
 
         List<Family> cplWithChildUnits = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
-            if (couples.isEmpty()) {
-                throw new NotEnoughPersonsException(
-                        "Basic Couple With Children: not enough Couples - units successfully formed: " + cplWithChildUnits.size());
-            }
-
-            Family f = couples.remove(0);
-            boolean success = addChildToFamily(f, children);
+        boolean success = false;
+        Iterator<Family> couplesItr = couples.iterator();
+        while (couplesItr.hasNext()) {
+            Family f = couplesItr.next();
+            success = addChildToFamily(f, children);
             if (success) {
+                couplesItr.remove();
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
                 cplWithChildUnits.add(f);
-            } else {
-                couples.add(f); // move to end of the list to filter out failed couples
+                if (count == cplWithChildUnits.size()) {
+                    break;
+                }
             }
-
+        }
+        if (cplWithChildUnits.size() != count) {
+            throw new NotEnoughPersonsException(
+                    "Basic Couple With Children: cannot not form all requested units - units successfully formed: " + cplWithChildUnits.size());
         }
 
         return cplWithChildUnits;
