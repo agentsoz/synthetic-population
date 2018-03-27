@@ -603,6 +603,8 @@ public class HouseholdFactory {
                                               .filter(h -> h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN)
                                               .collect(Collectors.toList());
         parentHhs.sort(Comparator.comparing(h -> h.getPrimaryFamily(), new AgeRange.YoungestParentAgeComparator().reversed()));
+        Log.debug("All: Eligible households: "+parentHhs.size());
+        Log.debug("All: Slots to fill: "+parentHhs.stream().mapToInt(h -> h.getExpectedSize() - h.getCurrentSize()).sum());
 
         int updated = 0, completed = 0;
         List<Person> failedChildren = new ArrayList<>();
