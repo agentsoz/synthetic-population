@@ -169,7 +169,15 @@ public class Utils {
         }
         return error;
 
+    }
 
+    static int getGaussianIndex(Random rand, int listSize){
+        double rd = rand.nextGaussian();
+        int listmid = (int)Math.round(listSize/(double)2);
+        int listquart = (int)Math.round(listSize/(double)6);
+
+        double index = rd*listquart+listmid;
+        return (index <0)? 0: (listSize <= index)? listSize -1: (int)Math.round(index);
     }
 
 }
