@@ -101,6 +101,12 @@ public class PopulationFactory {
 
     private void formAllKnownFamilies() {
 
+        Log.info("Forming Basic One Parent families: " + loneParents.size());
+        basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
+        Log.debug("Formed Basic One Parent families: " + basicOneParentFamilies.size());
+        Log.debug("Remaining Lone parent persons: " + loneParents.size());
+        Log.debug("Remaining Children: " + children.size());
+
         Log.info("Forming Basic Couple families: " + Math.min(marriedMales.size(), marriedFemales.size()));
         basicCouples = familyFactory.formCoupleFamilyBasicUnits(Math.min(marriedMales.size(), marriedFemales.size()),
                                                                 marriedMales,
@@ -119,12 +125,6 @@ public class PopulationFactory {
         basicPrimaryCoupleWithChildFamilies = familyFactory.formCoupleWithChildFamilyBasicUnits(fCount, basicCouples, children);
         Log.debug("Formed Basic Couple with Children families: " + basicPrimaryCoupleWithChildFamilies.size());
         Log.debug("Remaining Basic couples: " + basicCouples.size());
-        Log.debug("Remaining Children: " + children.size());
-
-        Log.info("Forming Basic One Parent families: " + loneParents.size());
-        basicOneParentFamilies = familyFactory.formOneParentBasicUnits(loneParents.size(), loneParents, children);
-        Log.debug("Formed Basic One Parent families: " + basicOneParentFamilies.size());
-        Log.debug("Remaining Lone parent persons: " + loneParents.size());
         Log.debug("Remaining Children: " + children.size());
 
         // Forms Other Family basic family structures
@@ -174,11 +174,8 @@ public class PopulationFactory {
         });
 
         householdFactory.completeHouseholdsWithChildren(familyHhs, children);
-        if(!children.isEmpty()){
-            System.out.println(1);
-        }
         //TODO: Record children that are converted to extras
-        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs, marriedMales, marriedFemales, loneParents,new ArrayList<>());
+        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs, marriedMales, marriedFemales, loneParents, new ArrayList<>());
         householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, null);
 
         allHouseholds.addAll(familyHhs);
