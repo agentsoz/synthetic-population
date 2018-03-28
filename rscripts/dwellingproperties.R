@@ -1,5 +1,4 @@
 #!/usr/bin/env Rscript
-library(optparse)
 library(tools)
 library(stringr)
 

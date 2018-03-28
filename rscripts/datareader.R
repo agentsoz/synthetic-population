@@ -4,7 +4,7 @@ ReadHouseholds <- function(input_file, nof_cols, header_start_col, value_col, va
     if (file_ext(input_file) == "zip") {
       csvname = paste(file_path_sans_ext(basename(input_file)),".csv",sep = "")
       inputCsv = unz(input_file,csvname)
-    }else{
+    } else{
       inputCsv = input_file
     }
     Hhs <-
