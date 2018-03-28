@@ -230,13 +230,19 @@ public class FamilyFactory {
     private boolean addChildToFamily(Family family, List<Person> children) {
         Person youngestParent = family.getYoungestParent();
 
-        for (int i = 0; i < children.size(); i++) {
-            if (PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(), children.get(i).getAgeRange())) {
-                family.addMember(children.remove(i));
-                return true;
-            }
+        List<Person> suitableChildren = children.stream()
+                                                .filter(c -> PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(),
+                                                                                                        c.getAgeRange()))
+                                                .sorted(ageComparator)
+                                                .collect(Collectors.toList());
+        if (suitableChildren.isEmpty()) {
+            return false;
+        } else {
+            int offset = Utils.getGaussianIndex(random, suitableChildren.size());
+            Person newChild = suitableChildren.get(offset);
+            children.remove(newChild);
+            family.addMember(newChild);
+            return true;
         }
-
-        return false;
     }
 }

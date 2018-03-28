@@ -56,6 +56,7 @@ public class App {
             List<Household> allHouseholds = new ArrayList<>();
 
             for (String sa2 : sa2List) {
+                sa2 = sa2.trim();
                 Log.info("Starting SA2: " + sa2);
                 Path hhFile = Paths.get(inputDirectory + File.separator + sa2 + File
                         .separator + "preprocessed/household_types.csv.gz");
@@ -65,6 +66,11 @@ public class App {
                 // Read input CSVs
                 Map<String, List<HhRecord>> hhRecs = DataReader.readHouseholdRecords(hhFile);
                 Map<String, List<IndRecord>> indRecs  = DataReader.readPersonRecords(indFile);
+
+                if(hhRecs.isEmpty() || indRecs.isEmpty()){
+                    Log.warn("Skipping "+sa2+": No data");
+                    continue;
+                }
 
                 // Group persons into households considering person, household and family types
                 PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2), indRecs.get(sa2),nonPrimaryCoupleWithChildProbability, rand);

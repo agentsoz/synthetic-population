@@ -5,6 +5,7 @@ package bnw.abm.intg.synthesis;
 
 import bnw.abm.intg.filemanager.csv.CSVReader;
 import bnw.abm.intg.synthesis.models.*;
+import bnw.abm.intg.util.Log;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -13,6 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -61,6 +63,8 @@ public class DataReader {
                 HhRecord hhr = new HhRecord(nop, nofFamilies, primaryFamilyType, nofHhs, sa);
                 hhRecList.add(hhr);
             }
+        }catch (NoSuchFileException nsfe){
+            Log.warn("No data file: "+hhFileInfo.toString());
         }
 
         return hhData;
@@ -98,6 +102,8 @@ public class DataReader {
                 IndRecord indRec = new IndRecord(relStatus, sex, getAgeRange(ageRangeStr), personCount, sa);
                 indRecList.add(indRec);
             }
+        }catch (NoSuchFileException nsfe){
+            Log.warn("No data file: "+indFileInfo.toString());
         }
         return indData;
     }
