@@ -19,7 +19,7 @@ $ install.packages("Metrics")
 
 ## Run Instructions
 
-To run with default settings, change directory to `./rscripts/preprocessing/` and run following command:
+To run with default settings, change directory to `./rscripts/` and run following command:
 
 ```
 > ./sa2preprocess.R
@@ -38,13 +38,13 @@ This script pre-processes the files downloaded from ABS TableBuilder in preparat
 
 Options:
 	--households=FILE
-		Household data file from ABS. The file can be either a zip or a csv. [default= ../../data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip]
+		Household data file from ABS. The file can be either a zip or a csv. [default= ../data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip]
 
 	--persons=FILE
-		Person data file from ABS. The file can be either a zip or a csv. [default= ../../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip]
+		Person data file from ABS. The file can be either a zip or a csv. [default= ../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip]
 
 	-o DIR, --output=DIR
-		The path of the output directory. [default= ../../data/melbourne/generated/SA2/]
+		The path of the output directory. [default= ../data/melbourne/generated/SA2/]
 
 	--sa2s=LIST_IDS
 		The list of SA2s to process. The parameter can be either "*" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= *]
@@ -53,14 +53,14 @@ Options:
 		Set this flag to calculate SA1 level household distribution. [default= FALSE]
 
 	--sa1s=LIST_FILES
-		A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip]
+		A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip]
 
 	-h, --help
 		Show this help message and exit

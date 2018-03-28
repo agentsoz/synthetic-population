@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 library(stringr)
 library(tools)
+library(optparse)
 
 source("config.R")
 source("datareader.R")
@@ -13,20 +14,19 @@ set.seed(randomSeed)
 option_list = list(
   make_option(
     c("--households"),
-    type = "character",
-    default = "../../data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--persons"),
-    default = "../../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("-o", "--output"),
-    default = "../../data/melbourne/generated/SA2/",
+    default = "../data/melbourne/generated/SA2/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -45,14 +45,14 @@ option_list = list(
   ),
   make_option(
     c("--sa1s"),
-    default = "../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
-    ../../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip",
+    default = "../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
     metavar = "LIST_FILES"
   )
