@@ -71,14 +71,14 @@ class ExtrasHandler {
         List<Person> persons = new ArrayList<>(count);
 
         Iterator<Person> extrasIterator = this.extras.iterator();
-        while (extrasIterator.hasNext()) {
+        while (extrasIterator.hasNext() && persons.size() < count) {
             Person p = extrasIterator.next();
-            if (persons.size() < count) {
-                if (sex != null && ageRange != null && sex.contains(p.getSex()) && ageRange.contains(p.getAgeRange())) {
-                    persons.add(p);
-                    extrasIterator.remove();
-                }
+
+            if (sex != null && ageRange != null && sex.contains(p.getSex()) && ageRange.contains(p.getAgeRange())) {
+                persons.add(p);
+                extrasIterator.remove();
             }
+
         }
 
         count -= persons.size();

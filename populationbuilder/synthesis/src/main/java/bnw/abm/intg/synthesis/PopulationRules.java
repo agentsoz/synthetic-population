@@ -16,8 +16,6 @@ public class PopulationRules {
      */
     public static boolean validateParentChildAgeRule(AgeRange parentAge, AgeRange childAge) {
         int ageGap = parentAge.min() - childAge.max();
-        return 0 < ageGap && ageGap <= 61 ;
-
-//        return 2 >= parentAge.compareTo(childAge) && parentAge.compareTo(childAge) > 0;
+        return 0 < ageGap && ageGap <= 46 ;
     }
 }

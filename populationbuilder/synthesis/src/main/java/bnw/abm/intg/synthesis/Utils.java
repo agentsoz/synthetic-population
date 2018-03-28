@@ -173,11 +173,11 @@ public class Utils {
 
     static int getGaussianIndex(Random rand, int listSize){
         double rd = rand.nextGaussian();
-        int listmid = (int)Math.round(listSize/(double)2);
-        int listquart = (int)Math.round(listSize/(double)6);
+        int listMean = (int)Math.round(listSize/(double)2);
+        int listMedian = (int)Math.round(listSize/(double)6);
 
-        double index = rd*listquart+listmid;
-        return (index <0)? 0: (listSize <= index)? listSize -1: (int)Math.round(index);
+        int index = (int)Math.round(rd*listMedian+listMean);
+        return (index <0)? 0: (listSize <= index)? listSize -1: index;
     }
 
 }

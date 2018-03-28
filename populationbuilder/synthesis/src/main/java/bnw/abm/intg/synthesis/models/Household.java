@@ -175,6 +175,12 @@ public class Household {
         return expectedSize;
     }
 
+    /**
+     * Get the family in the household by index
+     *
+     * @param i index
+     * @return i-th family
+     */
     public Family getFamily(int i) {
         return families.get(i);
     }
