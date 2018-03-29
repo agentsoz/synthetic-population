@@ -156,7 +156,7 @@ class ExtrasHandler {
     }
 
     /**
-     * Set properties of a person if they are not already set
+     * Set properties of a person. Overwrites already set properties.
      *
      * @param p         The person
      * @param relStatus Relationship Status
@@ -164,11 +164,8 @@ class ExtrasHandler {
      * @param ageRange  Age range
      */
     private void setProperties(Person p, RelationshipStatus relStatus, Sex sex, AgeRange ageRange) {
-        if (p.getRelationshipStatus() == null)
-            p.setRelationshipStatus(relStatus);
-        if (p.getAgeRange() == null)
-            p.setAgeRange(ageRange);
-        if (p.getSex() == null)
-            p.setSex(sex);
+        p.setRelationshipStatus(relStatus);
+        p.setAgeRange(ageRange);
+        p.setSex(sex);
     }
 }
