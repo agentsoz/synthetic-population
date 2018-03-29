@@ -42,12 +42,13 @@ public class HouseholdFactory {
         List<Household> hhList = new ArrayList<>();
 
         for (int i = 0; i < lnPersonHhs.get(0).HH_COUNT; i++) {
-            Family f = new Family(FamilyType.LONE_PERSON);
+            Family f = new Family();
             if (lonePersons.isEmpty()) {
                 throw new NotEnoughPersonsException(lnPersonHhs.get(0).FAMILY_HOUSEHOLD_TYPE + ": Not enough lone " +
                                                             "persons");
             }
             f.addMember(lonePersons.remove(0));
+            f.setType(FamilyType.LONE_PERSON);
             Household h = new Household(1, FamilyHouseholdType.LONE_PERSON, lnPersonHhs.get(0).SA);
             h.addFamily(f);
             hhList.add(h);
@@ -84,11 +85,12 @@ public class HouseholdFactory {
             int hhSize = hhRec.NUM_OF_PERSONS_PER_HH;
 
             for (int i = 0; i < hhCount; i++) {
-                Family f = new Family(FamilyType.GROUP_HOUSEHOLD);
+                Family f = new Family();
                 if (hhSize > groupHhPersons.size()) {
                     throw new NotEnoughPersonsException(hhRec.FAMILY_HOUSEHOLD_TYPE + ": Not enough group household persons");
                 }
                 f.addMembers(groupHhPersons.subList(0, hhSize));
+                f.setType(FamilyType.GROUP_HOUSEHOLD);
                 groupHhPersons.subList(0, hhSize).clear();
 
                 Household h = new Household(hhRec.NUM_OF_PERSONS_PER_HH, FamilyHouseholdType.GROUP_HOUSEHOLD, hhRec.SA);
@@ -729,11 +731,10 @@ public class HouseholdFactory {
             int i = random.nextInt(eligible.size());
             Household h = eligible.get(i);
             Family primaryFamily = h.getPrimaryFamily();
-
-            Person youngestParent = primaryFamily.getYoungestParent();
+            
             List<IndRecord> indTypes = new ArrayList<>(relTypes);
-            if (youngestParent != null) {
-                indTypes.addAll(selectChildTypes(youngestParent, indRecs));
+            if (primaryFamily.getType() == FamilyType.COUPLE_WITH_CHILDREN || primaryFamily.getType() == FamilyType.ONE_PARENT) {
+                indTypes.addAll(selectChildTypes(primaryFamily.getYoungestParent(), indRecs));
             }
 
             int sum = indTypes.stream().mapToInt(r -> r.IND_COUNT).sum();
