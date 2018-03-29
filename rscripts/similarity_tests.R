@@ -1,5 +1,6 @@
 library('lsa')
 library(optparse)
+library(tools)
 
 source("config.R")
 source("datareader.R")
