@@ -65,15 +65,18 @@ public class App {
 
                 // Read input CSVs
                 Map<String, List<HhRecord>> hhRecs = DataReader.readHouseholdRecords(hhFile);
-                Map<String, List<IndRecord>> indRecs  = DataReader.readPersonRecords(indFile);
+                Map<String, List<IndRecord>> indRecs = DataReader.readPersonRecords(indFile);
 
-                if(hhRecs.isEmpty() || indRecs.isEmpty()){
-                    Log.warn("Skipping "+sa2+": No data");
+                if (hhRecs.isEmpty() || indRecs.isEmpty()) {
+                    Log.warn("Skipping " + sa2 + ": No data");
                     continue;
                 }
 
                 // Group persons into households considering person, household and family types
-                PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2), indRecs.get(sa2),nonPrimaryCoupleWithChildProbability, rand);
+                PopulationFactory populationFactory = new PopulationFactory(hhRecs.get(sa2),
+                                                                            indRecs.get(sa2),
+                                                                            nonPrimaryCoupleWithChildProbability,
+                                                                            rand);
                 List<Household> householdsOfSA2 = populationFactory.makePopulation();
 
                 // Link the persons in each household
@@ -86,11 +89,11 @@ public class App {
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
 
                 convertToSA2MAINCODE(allHouseholds, sa2CodeMap);
-//                assignSA1sToHouseholds(sa2,
-//                                       sa1HhDistCsvProperties,
-//                                       inputDirectory,
-//                                       householdsOfSA2,
-//                                       rand);
+                //                assignSA1sToHouseholds(sa2,
+                //                                       sa1HhDistCsvProperties,
+                //                                       inputDirectory,
+                //                                       householdsOfSA2,
+                //                                       rand);
 
                 Log.info("Writing output files to: " + outputDirectory);
                 Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +
@@ -164,9 +167,9 @@ public class App {
         List<String> sa2List = null;
         if (sa2Param.equals("*")) {
             sa2List = Files.list(inputDirectory)
-                    .map(Path::getFileName)
-                    .map(Path::toString)
-                    .collect(Collectors.toList());
+                           .map(Path::getFileName)
+                           .map(Path::toString)
+                           .collect(Collectors.toList());
         } else if (Files.exists(Paths.get(sa2Param))) {
             sa2List = Files.readAllLines(Paths.get(sa2Param));
         } else {

@@ -117,8 +117,7 @@ public class Person {
      */
     public boolean isChild() {
         if (this.getRelationshipStatus() == RelationshipStatus.U15_CHILD || this.getRelationshipStatus() == RelationshipStatus.STUDENT ||
-                this
-                        .getRelationshipStatus() == RelationshipStatus.O15_CHILD) {
+                this.getRelationshipStatus() == RelationshipStatus.O15_CHILD) {
             return true;
         }
         return false;

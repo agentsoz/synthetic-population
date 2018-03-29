@@ -108,7 +108,6 @@ public class Utils {
         System.out.println(l.toString());
     }
 
-
     /**
      * Randomly decides True or False. Occurrence of True can be biased by specifying the ratio for being True
      *
@@ -171,13 +170,21 @@ public class Utils {
 
     }
 
-    static int getGaussianIndex(Random rand, int listSize){
+    /**
+     * Returns a random value sampled from a Gaussian distribution truncated between 0 and bound. The mean of the distribution is (bound/2) and
+     * standard deviation is (bound/8).
+     *
+     * @param rand  Random number generator
+     * @param bound Them upper bound of the Gaussian distribution
+     * @return index between 0 and bound
+     */
+    static int getGaussianIndex(Random rand, int bound) {
         double rd = rand.nextGaussian();
-        int listMean = (int)Math.round(listSize/(double)2);
-        int listMedian = (int)Math.round(listSize/(double)6);
+        int listMean = (int) Math.round(bound / (double) 2);
+        int listMedian = (int) Math.round(bound / (double) 8);
 
-        int index = (int)Math.round(rd*listMedian+listMean);
-        return (index <0)? 0: (listSize <= index)? listSize -1: index;
+        int index = (int) Math.round(rd * listMedian + listMean);
+        return (index < 0) ? 0 : (bound <= index) ? bound - 1 : index;
     }
 
 }
