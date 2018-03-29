@@ -50,7 +50,12 @@ public class PopulationFactory {
             allHouseholds = new ArrayList<>(formHouseholds());
             for (Household h : allHouseholds) {
                 if (!h.validate()) {
-                    Log.error("Bad state in" + h);
+                    Log.error("Bad state in household: " + h);
+                }
+                for(Family f: h.getFamilies()){
+                    if(!f.validate()){
+                        Log.error("Bad state in family: "+f+" in household: "+h);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -175,7 +180,7 @@ public class PopulationFactory {
 
         householdFactory.completeHouseholdsWithChildren(familyHhs, children);
         //TODO: Record children that are converted to extras
-        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs, marriedMales, marriedFemales, loneParents, new ArrayList<>());
+        householdFactory.addExtrasAsChildrenAndRelatives(familyHhs, indRecs, marriedMales, marriedFemales, loneParents, children);
         householdFactory.completeHouseholdsWithRelatives(familyHhs, relatives, null);
 
         allHouseholds.addAll(familyHhs);

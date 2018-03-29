@@ -64,11 +64,13 @@ public class FamilyFactory {
                 throw new NotEnoughPersonsException("One Parent Basic: Not enough children - units successfully formed: " + lnParentBasic.size());
             }
 
-            Family f = new Family(FamilyType.ONE_PARENT);
+            Family f = new Family();
             Person loneParent = loneParents.remove(0);
             f.addMember(loneParent);
-            boolean success = addChildToFamily(f, children);
-            if (success) {
+            Person child = getChildForFamily(f, children);
+            if (child != null) {
+                f.addMember(child);
+                f.setType(FamilyType.ONE_PARENT);
                 lnParentBasic.add(f);
             } else {
                 loneParents.add(loneParent);
@@ -104,9 +106,10 @@ public class FamilyFactory {
                 throw new NotEnoughPersonsException(
                         "Basic Other Family: Not enough Relatives - successfully formed units: " + otherFamilyBasic.size());
             }
-            Family f = new Family(FamilyType.OTHER_FAMILY);
+            Family f = new Family();
             f.addMember(relatives.remove(0));
             f.addMember(relatives.remove(0));
+            f.setType(FamilyType.OTHER_FAMILY);
             otherFamilyBasic.add(f);
         }
 
@@ -152,9 +155,10 @@ public class FamilyFactory {
 
         List<Family> couples = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            Family f = new Family(FamilyType.COUPLE_ONLY);
+            Family f = new Family();
             f.addMember(marriedMales.remove(0));
             f.addMember(marriedFemales.remove(0));
+            f.setType(FamilyType.COUPLE_ONLY);
             couples.add(f);
         }
         return couples;
@@ -200,10 +204,11 @@ public class FamilyFactory {
         Iterator<Family> couplesItr = couples.iterator();
         while (couplesItr.hasNext()) {
             Family f = couplesItr.next();
-            success = addChildToFamily(f, children);
-            if (success) {
+            Person child = getChildForFamily(f, children);
+            if (child != null) {
                 couplesItr.remove();
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
+                f.addMember(child);
                 cplWithChildUnits.add(f);
                 if (count == cplWithChildUnits.size()) {
                     break;
@@ -220,14 +225,14 @@ public class FamilyFactory {
 
 
     /**
-     * Adds a new child to the family considering population rules. Returns true if a suitable child is found and added to the family.
-     * Returns false of a suitable child was not found, the family is not changed.
+     * Returns a suitable child for the family considering population rules and removes the selected child from the children list. Returns
+     * null of a suitable child was not found.
      *
      * @param family   The family to add a child
      * @param children The list of children to select a child from
-     * @return True if a suitable child was found and added to the child, else false.
+     * @return Suitable child instance or null
      */
-    private boolean addChildToFamily(Family family, List<Person> children) {
+    private Person getChildForFamily(Family family, List<Person> children) {
         Person youngestParent = family.getYoungestParent();
 
         List<Person> suitableChildren = children.stream()
@@ -236,13 +241,12 @@ public class FamilyFactory {
                                                 .sorted(ageComparator)
                                                 .collect(Collectors.toList());
         if (suitableChildren.isEmpty()) {
-            return false;
+            return null;
         } else {
-            int offset = Utils.getGaussianIndex(random, suitableChildren.size());
+            int offset = random.nextInt(suitableChildren.size());
             Person newChild = suitableChildren.get(offset);
             children.remove(newChild);
-            family.addMember(newChild);
-            return true;
+            return newChild;
         }
     }
 }

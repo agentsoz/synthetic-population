@@ -19,9 +19,8 @@ public class Family {
     private FamilyType type;
     private String familyID;
 
-    public Family(FamilyType type) {
-        this.members = new ArrayList<Person>();
-        this.setType(type);
+    public Family() {
+        this.members = new ArrayList<>();
         this.familyID = String.valueOf(IDCounter++);
     }
 
@@ -57,6 +56,10 @@ public class Family {
             member.setFamilyID(this.getID());
             this.members.add(member);
         }
+
+        if(this.getType() != null && !this.validate()){
+            throw new Error("Malformed family: " + this);
+        }
     }
 
     /**
@@ -70,6 +73,9 @@ public class Family {
         } else {
             members.forEach(m -> m.setFamilyID(this.getID()));
             this.members.addAll(members);
+        }
+        if(this.getType() != null && !this.validate()){
+            throw new Error("Malformed family: " + this);
         }
     }
 
@@ -92,6 +98,9 @@ public class Family {
             this.type = type;
         } else if (this.type == null | this.type == type) {
             this.type = type;
+            if (!this.validate()) {
+                throw new Error("Malformed family: " + this);
+            }
         } else {
             throw new Error("Trying to overwrite " + this.type + " with " + type);
         }
@@ -120,11 +129,11 @@ public class Family {
     public boolean validate() {
         switch (this.type) {
             case COUPLE_WITH_CHILDREN:
-                return hasMarriedCouple() & hasChildren() & noLoneParents() & noGroupOrLonePersons();
+                return hasMarriedCouple() & hasChildren() & noLoneParents() & noGroupOrLonePersons() & childrenYoungerThanParents();
             case COUPLE_ONLY:
                 return (hasMarriedCouple() & !hasChildren() & noLoneParents() & noGroupOrLonePersons());
             case ONE_PARENT:
-                return (hasALoneParent() & hasChildren() & noneMarried() & noGroupOrLonePersons());
+                return hasALoneParent() & hasChildren() & noneMarried() & noGroupOrLonePersons() & childrenYoungerThanParents();
             case OTHER_FAMILY:
                 return onlyRelatives() & noGroupOrLonePersons();
             case LONE_PERSON:
@@ -134,6 +143,15 @@ public class Family {
             default:
                 throw new Error("An alien family: " + this.type);
         }
+    }
+
+    private boolean childrenYoungerThanParents() {
+        return members.stream()
+                      .filter(m -> m.getRelationshipStatus() == RelationshipStatus.U15_CHILD || m.getRelationshipStatus() == RelationshipStatus.STUDENT || m
+                              .getRelationshipStatus() == RelationshipStatus.O15_CHILD)
+                      .max(new AgeRange.AgeComparator().reversed())
+                      .orElseThrow(AssertionError::new)
+                      .getAgeRange().max() < this.getYoungestParent().getAgeRange().min();
     }
 
     private boolean hasALoneParent() {
