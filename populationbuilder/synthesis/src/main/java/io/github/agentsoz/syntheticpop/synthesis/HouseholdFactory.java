@@ -35,34 +35,34 @@ public class HouseholdFactory {
         List<HhRecord> lnPersonHhs = DataReader.getHhRecordsByPrimaryFamilyType(hhRecs,
                                                                                 FamilyHouseholdType
                                                                                         .LONE_PERSON);
-
-        int hhCount = lnPersonHhs.get(0).HH_COUNT;// Only 1 member households have lone persons
-        int diff = hhCount - lonePersons.size();
-
         List<Household> hhList = new ArrayList<>();
+        if (!lnPersonHhs.isEmpty()) {
+            int hhCount = lnPersonHhs.get(0).HH_COUNT;// Only 1 member households have lone persons
+            int diff = hhCount - lonePersons.size();
 
-        for (int i = 0; i < lnPersonHhs.get(0).HH_COUNT; i++) {
-            Family f = new Family();
-            if (lonePersons.isEmpty()) {
-                throw new NotEnoughPersonsException(lnPersonHhs.get(0).FAMILY_HOUSEHOLD_TYPE + ": Not enough lone " +
-                                                            "persons");
+            for (int i = 0; i < lnPersonHhs.get(0).HH_COUNT; i++) {
+                Family f = new Family();
+                if (lonePersons.isEmpty()) {
+                    throw new NotEnoughPersonsException(lnPersonHhs.get(0).FAMILY_HOUSEHOLD_TYPE + ": Not enough lone " +
+                                                                "persons");
+                }
+                f.addMember(lonePersons.remove(0));
+                f.setType(FamilyType.LONE_PERSON);
+                Household h = new Household(1, FamilyHouseholdType.LONE_PERSON, lnPersonHhs.get(0).SA);
+                h.addFamily(f);
+                hhList.add(h);
             }
-            f.addMember(lonePersons.remove(0));
-            f.setType(FamilyType.LONE_PERSON);
-            Household h = new Household(1, FamilyHouseholdType.LONE_PERSON, lnPersonHhs.get(0).SA);
-            h.addFamily(f);
-            hhList.add(h);
-        }
 
-        Log.info("Lone person households: Households formed: " + hhList.size());
-        if (diff > 0) {
-            Log.warn("Lone person households: Persons discarded: " + 0);
-            Log.warn("Lone person households: Unformed 1 member households: " + diff);
-        } else if (diff < 0) {
-            Log.warn("Lone person households: Persons discarded: " + ((-1) * diff));
-            Log.warn("Lone person households: Unformed 1 member households: " + 0);
-        } else {
-            Log.info("Lone person households: All required households created");
+            Log.info("Lone person households: Households formed: " + hhList.size());
+            if (diff > 0) {
+                Log.warn("Lone person households: Persons discarded: " + 0);
+                Log.warn("Lone person households: Unformed 1 member households: " + diff);
+            } else if (diff < 0) {
+                Log.warn("Lone person households: Persons discarded: " + ((-1) * diff));
+                Log.warn("Lone person households: Unformed 1 member households: " + 0);
+            } else {
+                Log.info("Lone person households: All required households created");
+            }
         }
         return hhList;
     }
