@@ -189,19 +189,19 @@ public class HouseholdFactory {
     /**
      * Adds second and third families to multi family households.
      *
-     * @param households                   The list of households
-     * @param unusedCouples                remaining basic couple families
-     * @param unusedBasicOneParentFamilies Remaining basic one parent families
-     * @param children                     remaining children
-     * @param relatives                    remaining relatives
-     * @param marriedMales                 remaining married males
-     * @param marriedFemales               remaining married females
-     * @param loneParents                  remaining lone parents
-     * @param nonPrimaryCwcProb            The proportion of household that have Couple With child secondary and tertiary families out of
-     *                                     all eligible households
-     * @param relDistInPrimaryFamilies     The probability distribution of couples, one parent families and other families among primary
-     *                                     families
-     * @param familyFactory                FamilyFactory instance.
+     * @param households                        The list of households
+     * @param unusedCouples                     remaining basic couple families
+     * @param unusedBasicOneParentFamilies      Remaining basic one parent families
+     * @param children                          remaining children
+     * @param relatives                         remaining relatives
+     * @param marriedMales                      remaining married males
+     * @param marriedFemales                    remaining married females
+     * @param loneParents                       remaining lone parents
+     * @param nonPrimaryCwcProb                 The proportion of household that have Couple With child secondary and tertiary families
+     *                                          out of all eligible households
+     * @param relationshipDistInPrimaryFamilies The probability distribution of couples, one parent families and other families among
+     *                                          primary families
+     * @param familyFactory                     FamilyFactory instance.
      */
     void addNonPrimaryFamiliesToHouseholds(List<Household> households,
                                            List<Family> unusedCouples,
@@ -212,14 +212,10 @@ public class HouseholdFactory {
                                            List<Person> marriedFemales,
                                            List<Person> loneParents,
                                            double nonPrimaryCwcProb,
-                                           Map<FamilyType, Integer> relDistInPrimaryFamilies,
+                                           Map<FamilyType, Integer> relationshipDistInPrimaryFamilies,
                                            FamilyFactory familyFactory) {
         Log.info("Assigning known Basic One Parent families to suitable households");
-        assignNonPrimaryFamilies(households,
-                                 FamilyType.ONE_PARENT,
-                                 unusedBasicOneParentFamilies,
-                                 FamilyType.ONE_PARENT,
-                                 FamilyType.COUPLE_WITH_CHILDREN);
+        assignOneParentUnitsAsNonPrimaryFamilies(households, unusedBasicOneParentFamilies);
         Log.debug("Non-primary known: Basic One Parent families: Unassigned families: " + unusedBasicOneParentFamilies.size());
         if (!unusedBasicOneParentFamilies.isEmpty()) {
             Log.debug("Non-primary known: Basic One Parent families: Remaining Children : " + children.size());
@@ -269,7 +265,7 @@ public class HouseholdFactory {
 
 
         assignUnknownNonPrimaryFamilies(households,
-                                        relDistInPrimaryFamilies,
+                                        relationshipDistInPrimaryFamilies,
                                         nonPrimaryCwcProb,
                                         relatives,
                                         children,
@@ -299,7 +295,8 @@ public class HouseholdFactory {
         Log.debug("Non-primary unknown: Remaining Lone Parents: " + loneParents.size());
         Log.debug("Non-primary unknown: Remaining Extras: " + extrasHandler.remainingExtras());
         Log.debug("Non-primary unknown: Families needed: " + households.stream()
-                                                                       .mapToInt(h -> h.getExpectedFamilyCount() - h.getCurrentFamilyCount())
+                                                                       .mapToInt(h -> h.getExpectedFamilyCount() - h
+                                                                               .getCurrentFamilyCount())
                                                                        .sum());
 
         Map<FamilyType, Integer> currentDist = new HashMap<>(4, 1);
@@ -375,8 +372,10 @@ public class HouseholdFactory {
                         newFamily = familyFactory.formCoupleFamilyBasicUnits(1, marriedMales, marriedFemales).get(0);
                         formedCouples++;
                         if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN
-                                //Adding a couple with child family must not block having required number of families. So check if there is room for all the possible persons
-                                && ((h.getExpectedFamilyCount() - h.getCurrentFamilyCount()) * 2) > (h.getExpectedSize() - h.getCurrentSize())
+                                //Adding a couple with child family must not block having required number of families. So check if there
+                                // is room for all the possible persons
+                                && ((h.getExpectedFamilyCount() - h.getCurrentFamilyCount()) * 2) > (h.getExpectedSize() - h
+                                .getCurrentSize())
                                 && random.nextDouble() < coupleWithChildProb) {
                             newFamily = familyFactory.formCoupleWithChildFamilyBasicUnits(1,
                                                                                           new ArrayList<>(Collections.singletonList(
@@ -428,11 +427,11 @@ public class HouseholdFactory {
      * @param nonPrimaryCwcProb The probability of having a Couple With Children family as non-primary family in an eligible household
      * @param familyFactory     The FamilyFactory instance
      */
-    void assignCouplesAsNonPrimaryFamilies(List<Household> households,
-                                           List<Family> couples,
-                                           List<Person> children,
-                                           double nonPrimaryCwcProb,
-                                           FamilyFactory familyFactory) {
+    private void assignCouplesAsNonPrimaryFamilies(List<Household> households,
+                                                   List<Family> couples,
+                                                   List<Person> children,
+                                                   double nonPrimaryCwcProb,
+                                                   FamilyFactory familyFactory) {
         Log.info("Adding " + FamilyType.COUPLE_ONLY + " as non primary");
         Log.debug(FamilyType.COUPLE_ONLY + ": Available family units: " + couples.size());
         Log.debug(FamilyType.COUPLE_ONLY + ": Remaining Children: " + children.size());
@@ -489,40 +488,39 @@ public class HouseholdFactory {
 
 
     /**
-     * Assigns the available basic units to multi-family households as non-primary families. This method filters in the households where the
-     * primary family belong to any of the eligible FamilyType(s) specified. Then households are randomly selected for each assignment. A
-     * household may be selected multiple times if it can contain multiple non-primary families (e.g. 3 family households). The FamilyType
-     * of the newly added family is set to FamilyType specified as nonPrimaryFamilyType. This method alters the list of available basic
-     * family units. This method assumes primary family of a multifamily household only consists of its basic members.
+     * Assigns the available One Parent basic units to multi-family households as non-primary families. This method filters the
+     * households where the
+     * primary family is either ONE_PARENT or COUPLE_WITH_CHILDREN. Then households are randomly selected for each assignment. A
+     * household may be selected multiple times if it can contain multiple non-primary families (e.g. 3 family households). This method
+     * alters the list of available basic
+     * One Parent family units. This method assumes primary family of a multifamily household only consists of its basic members.
      *
-     * @param households           All the households
-     * @param nonPrimaryFamilyType The FamilyType of the newly added non primary families
-     * @param basicUnits           The list of basic family units to be added as non-primary families to multi-family (must contain families
-     *                             of only one FamilyType) households in @param households
-     * @param eligibleFamilyTypes  The array of FamilyType(s) that the primary family of the household can belong to.
+     * @param households All the households
+     * @param basicUnits The list of basic One Parent family units to be added as non-primary families to multi-family (must contain
+     *                   families
+     *                   of only one FamilyType) households in @param households
      */
-    private void assignNonPrimaryFamilies(List<Household> households,
-                                          FamilyType nonPrimaryFamilyType,
-                                          List<Family> basicUnits,
-                                          FamilyType... eligibleFamilyTypes) {
+    private void assignOneParentUnitsAsNonPrimaryFamilies(List<Household> households,
+                                                          List<Family> basicUnits) {
 
-        Log.info("Adding " + nonPrimaryFamilyType + " as non primary");
-        Log.debug(nonPrimaryFamilyType + ": available family units: " + basicUnits.size());
+        Log.info("Adding " + FamilyType.ONE_PARENT + " as non primary");
+        Log.debug(FamilyType.ONE_PARENT + ": available family units: " + basicUnits.size());
 
         List<Household> eligibleHhs = households.stream()
-                                                .filter(h -> (Arrays.asList(eligibleFamilyTypes).contains(h.getPrimaryFamilyType())) &&
+                                                .filter(h -> (FamilyType.ONE_PARENT == h.getPrimaryFamilyType()
+                                                        || FamilyType.COUPLE_WITH_CHILDREN == h.getPrimaryFamilyType()) &&
                                                         (h.getExpectedFamilyCount() > h.getCurrentFamilyCount()) &&
-                                                        (h.getExpectedSize() - h.getCurrentSize() >= nonPrimaryFamilyType.basicSize()))
+                                                        (h.getExpectedSize() - h.getCurrentSize() >= FamilyType.ONE_PARENT.basicSize()))
                                                 //has enough vacancies
                                                 .collect(Collectors.toList()); //Convert to an actual list
 
-        Log.debug(nonPrimaryFamilyType + ": total eligible households: " + eligibleHhs.size());
+        Log.debug(FamilyType.ONE_PARENT + ": total eligible households: " + eligibleHhs.size());
 
         int added = 0, completed = 0;
         while (!basicUnits.isEmpty() && !eligibleHhs.isEmpty()) {
             int randIndex = random.nextInt(eligibleHhs.size());
             Family f = basicUnits.remove(0);
-            f.setType(nonPrimaryFamilyType);
+            f.setType(FamilyType.ONE_PARENT);
             eligibleHhs.get(randIndex).addFamily(f);
             if (eligibleHhs.get(randIndex).getExpectedFamilyCount() == eligibleHhs.get(randIndex)
                                                                                   .getCurrentFamilyCount()) {
@@ -532,11 +530,12 @@ public class HouseholdFactory {
             added++;
         }
 
-        Log.debug(nonPrimaryFamilyType + ": updated households: " + added);
-        Log.debug(nonPrimaryFamilyType + ": family count completed households: " + completed);
-        Log.debug(nonPrimaryFamilyType + ": remaining eligible households: " + eligibleHhs.stream()
-                                                                                          .filter(h -> h.getExpectedFamilyCount() > h.getCurrentFamilyCount())
-                                                                                          .count());
+        Log.debug(FamilyType.ONE_PARENT + ": updated households: " + added);
+        Log.debug(FamilyType.ONE_PARENT + ": family count completed households: " + completed);
+        Log.debug(FamilyType.ONE_PARENT + ": remaining eligible households: " + eligibleHhs.stream()
+                                                                                           .filter(h -> h.getExpectedFamilyCount() > h
+                                                                                                   .getCurrentFamilyCount())
+                                                                                           .count());
     }
 
     /**
@@ -604,7 +603,8 @@ public class HouseholdFactory {
         Log.debug("Total known Children from data: " + knownChildren.size());
         knownChildren.sort(new AgeRange.AgeComparator().reversed());
         List<Household> parentHhs = households.stream()
-                                              .filter(h -> h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN)
+                                              .filter(h -> h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType()
+                                                      == FamilyType.COUPLE_WITH_CHILDREN)
                                               .sorted(Comparator.comparing(Household::getPrimaryFamily,
                                                                            new AgeRange.YoungestParentAgeComparator().reversed()))
                                               .collect(Collectors.toList());
@@ -731,7 +731,7 @@ public class HouseholdFactory {
             int i = random.nextInt(eligible.size());
             Household h = eligible.get(i);
             Family primaryFamily = h.getPrimaryFamily();
-            
+
             List<IndRecord> indTypes = new ArrayList<>(relTypes);
             if (primaryFamily.getType() == FamilyType.COUPLE_WITH_CHILDREN || primaryFamily.getType() == FamilyType.ONE_PARENT) {
                 indTypes.addAll(selectChildTypes(primaryFamily.getYoungestParent(), indRecs));
