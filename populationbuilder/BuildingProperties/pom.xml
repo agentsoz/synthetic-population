@@ -24,7 +24,7 @@
 					<finalName>buildingproperties</finalName>
 					<archive>
 						<manifest>
-							<mainClass>bnw.abm.intg.BuildingProperties.App</mainClass>
+							<mainClass>io.github.agentsoz.syntheticpop.BuildingProperties.App</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
