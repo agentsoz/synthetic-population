@@ -70,10 +70,10 @@ This file contains all the properties for constructing the popoulation
 #!Java
 WARNING | Multi-family househods: Children: 0 Relatives: 1 Extras: 0
 Exception in thread "main" java.lang.Error: Multi-family househods: Cannot form more households. All extra persons consumed
-	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.fillChildrenAndRelativesUsingExtras(GroupMaker.java:717)
-	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.addNonPrimaryFamiliesToMultiFamilyHousehold(GroupMaker.java:575)
-	at bnw.abm.intg.populationbuilder.latchpop.GroupMaker.makePopulation(GroupMaker.java:92)
-	at bnw.abm.intg.populationbuilder.latchpop.App.main(App.java:74)
+	at io.github.agentsoz.populationbuilder.latchpop.GroupMaker.fillChildrenAndRelativesUsingExtras(GroupMaker.java:717)
+	at io.github.agentsoz.populationbuilder.latchpop.GroupMaker.addNonPrimaryFamiliesToMultiFamilyHousehold(GroupMaker.java:575)
+	at io.github.agentsoz.populationbuilder.latchpop.GroupMaker.makePopulation(GroupMaker.java:92)
+	at io.github.agentsoz.populationbuilder.latchpop.App.main(App.java:74)
 ```
 This exception occurs because all extra persons were exausted but still family could not be completed. If the number of remaining relatives according warning message is not zero (in this case we have 1 unused relative), that means grouping process had decided to create extra children where relatives should have been used. The exception can be avoided by changing the `RelativesProbabiliy`. The program uses same instance of java.util.Random throughout. So, when `RelativesProbability` is changed, it is normal to see changes in other aspects where the random number sequence is used.
 

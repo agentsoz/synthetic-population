@@ -24,7 +24,7 @@
 					<finalName>synthesis</finalName>
 					<archive>
 						<manifest>
-							<mainClass>bnw.abm.intg.synthesis.App</mainClass>
+							<mainClass>io.github.agentsoz.syntheticpop.synthesis.App</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
