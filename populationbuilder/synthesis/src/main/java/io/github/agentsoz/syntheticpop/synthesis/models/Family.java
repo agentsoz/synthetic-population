@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @author wniroshan 19 May 2016
  */
 public class Family {
-    private static long IDCounter = 0;
+    private static long IDCounter = 1;
     private static Map<String, Person> allMembersAlreadyInFamilies = new HashMap<>();
     private List<Person> members;
     private FamilyType type;
@@ -27,6 +27,8 @@ public class Family {
     public String getID() {
         return this.familyID;
     }
+
+    public void setID(String ID) { this.familyID = ID;}
 
     /**
      * Number of members in the family
@@ -57,7 +59,7 @@ public class Family {
             this.members.add(member);
         }
 
-        if(this.getType() != null && !this.validate()){
+        if (this.getType() != null && !this.validate()) {
             throw new Error("Malformed family: " + this);
         }
     }
@@ -74,7 +76,7 @@ public class Family {
             members.forEach(m -> m.setFamilyID(this.getID()));
             this.members.addAll(members);
         }
-        if(this.getType() != null && !this.validate()){
+        if (this.getType() != null && !this.validate()) {
             throw new Error("Malformed family: " + this);
         }
     }
@@ -147,7 +149,8 @@ public class Family {
 
     private boolean childrenYoungerThanParents() {
         return members.stream()
-                      .filter(m -> m.getRelationshipStatus() == RelationshipStatus.U15_CHILD || m.getRelationshipStatus() == RelationshipStatus.STUDENT || m
+                      .filter(m -> m.getRelationshipStatus() == RelationshipStatus.U15_CHILD || m.getRelationshipStatus() ==
+                              RelationshipStatus.STUDENT || m
                               .getRelationshipStatus() == RelationshipStatus.O15_CHILD)
                       .max(new AgeRange.AgeComparator().reversed())
                       .orElseThrow(AssertionError::new)
