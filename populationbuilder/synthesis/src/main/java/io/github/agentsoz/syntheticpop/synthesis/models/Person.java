@@ -15,8 +15,8 @@ import java.util.Objects;
  */
 public class Person {
 
-    private static long IDCounter = 0;
-    private final String personID;
+    private static long IDCounter = 1;
+    private String personID;
     private String familyID;
     private RelationshipStatus type;
     private int age;
@@ -71,6 +71,8 @@ public class Person {
         return this.personID;
     }
 
+    public void setID(String id) {this.personID = id;}
+
     public void clearFamilyID() {
         this.familyID = null;
     }
@@ -80,11 +82,7 @@ public class Person {
     }
 
     public void setFamilyID(String familyID) {
-        if (this.familyID != null) {
-            throw new Error("A person can only belong to one family");
-        } else {
             this.familyID = familyID;
-        }
     }
 
     public Person getPartner() {
@@ -134,7 +132,7 @@ public class Person {
         return mother;
     }
 
-    public void setMother(Person mother) {
+    private void setMother(Person mother) {
         if (this.mother == null) {
             this.mother = mother;
         } else {
@@ -147,7 +145,7 @@ public class Person {
         return father;
     }
 
-    public void setFather(Person father) {
+    private void setFather(Person father) {
         if (this.father == null) {
             this.father = father;
         } else {

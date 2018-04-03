@@ -1,9 +1,7 @@
 package io.github.agentsoz.syntheticpop.synthesis;
 
 import io.github.agentsoz.syntheticpop.filemanager.csv.abs.StatisticalAreaCodeReader;
-import io.github.agentsoz.syntheticpop.synthesis.models.HhRecord;
-import io.github.agentsoz.syntheticpop.synthesis.models.Household;
-import io.github.agentsoz.syntheticpop.synthesis.models.IndRecord;
+import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import io.github.agentsoz.syntheticpop.util.BNWProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 
@@ -12,7 +10,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +54,6 @@ public class App {
                                                                                                        referenceColumnHeader,
                                                                                                        targetColumnHeader);
             Random rand = new Random(randomSeed);
-            List<Household> allHouseholds = new ArrayList<>();
 
             for (String sa2 : sa2List) {
                 sa2 = sa2.trim();
@@ -88,7 +88,7 @@ public class App {
                 // overall age distribution
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
 
-                convertToSA2MAINCODE(allHouseholds, sa2CodeMap);
+                assignUniqueIDs(householdsOfSA2, sa2CodeMap);
                 //                assignSA1sToHouseholds(sa2,
                 //                                       sa1HhDistCsvProperties,
                 //                                       inputDirectory,
@@ -132,6 +132,21 @@ public class App {
                                              Map<String, String> sa2CodeMap) throws IOException {
         for (Household household : allHouseholds) {
             household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
+        }
+    }
+
+    private static void assignUniqueIDs(List<Household> allHouseholds, Map<String, String> sa2CodeMap) {
+        for (Household h : allHouseholds) {
+            String sa2MainCode = sa2CodeMap.get(h.getSA2Name());
+            h.setSA2MainCode(sa2MainCode);
+            h.setID(sa2MainCode + "H" + h.getID());
+            for (Family f : h.getFamilies()) {
+                f.setID(sa2MainCode + "F" + f.getID());
+                for (Person p : f.getMembers()) {
+                    p.setID(sa2MainCode + "P" + p.getID());
+                    p.setFamilyID(f.getID());
+                }
+            }
         }
     }
 

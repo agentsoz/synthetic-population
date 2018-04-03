@@ -13,7 +13,7 @@ import java.util.Map;
 public class Household {
 
 
-    private static long IDCounter = 0;
+    private static long IDCounter = 1;
     private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
     private final int expectedSize;
     private final FamilyHouseholdType familyHhType;
@@ -204,5 +204,9 @@ public class Household {
                 + " 1st:" + getPrimaryFamilyType()
                 + " 2nd:" + ((getCurrentFamilyCount() > 1) ? getFamily(1).getType() : null)
                 + " 3rd:" + ((getCurrentFamilyCount() > 2) ? getFamily(2).getType() : null);
+    }
+
+    public void setID(String ID) {
+        this.householdID = ID;
     }
 }
