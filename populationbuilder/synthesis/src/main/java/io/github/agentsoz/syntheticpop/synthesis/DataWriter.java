@@ -17,43 +17,21 @@ import java.util.zip.GZIPOutputStream;
  */
 
 public class DataWriter {
-    private static final List<String> HOUSEHOLDS_OUTPUT_COLS = new ArrayList<>(Arrays.asList("HouseholdId",
-                                                                                             "HouseholdSize",
-                                                                                             "FamilyCount",
-                                                                                             "PrimaryFamilyType",
-                                                                                             "Members",
-                                                                                             "FamilyIds",
-                                                                                             "CensusHouseholdSize",
-                                                                                             "SA2_MAINCODE",
-                                                                                             "SA1_7DIGCODE"));
 
-    private static final List<String> PERSONS_OUTPUT_COLS = new ArrayList<>(Arrays.asList("AgentId",
-                                                                                          "Age",
-                                                                                          "Gender",
-                                                                                          "PartnerId",
-                                                                                          "MotherId",
-                                                                                          "FatherId",
-                                                                                          "ChildrenIds",
-                                                                                          "RelativeIds",
-                                                                                          "RelationshipStatus",
-                                                                                          "HouseholdId",
-                                                                                          "FamilyId",
-                                                                                          "SA2_MAINCODE",
-                                                                                          "SA1_7DIGCODE"));
-
-    private static final List<String> FAMILIES_OUTPUT_COLS = new ArrayList<>(Arrays.asList("FamilyId",
-                                                                                           "FamilyType",
-                                                                                           "FamilySize",
-                                                                                           "Members",
-                                                                                           "HouseholdId",
-                                                                                           "SA2_MAINCODE",
-                                                                                           "SA1_7DIGCODE"));
-
+    /**
+     * Computes the number of households in households list by each family household type given in HhRecords list (the marginal distribution) and saves
+     * to the specified csv file.
+     *
+     * @param hhRecs     The list of HhRecords giving the family household types
+     * @param households  The list of households in the population
+     * @param csvFilePath The file to write
+     * @throws IOException If file writing fails
+     */
     static void saveHouseholdSummary(List<HhRecord> hhRecs,
-                                     List<Household> allHouseholds,
+                                     List<Household> households,
                                      Path csvFilePath) throws IOException {
 
-        Map<String, List<Household>> householdsByType = HouseholdSummary.groupHouseholdsByHouseholdType(allHouseholds);
+        Map<String, List<Household>> householdsByType = HouseholdSummary.groupHouseholdsByHouseholdType(households);
 
         List<List<String>> fullHhSummary = new ArrayList<>();
         List<String> record1 = new ArrayList<>();
@@ -87,8 +65,17 @@ public class DataWriter {
                 csvFilePath)))), fullHhSummary);
     }
 
+    /**
+     * Computes the number of persons in households list by each person type given in IndRecords list (the marginal distribution) and saves
+     * to the specified csv file.
+     *
+     * @param indRecs     The list of IndRecords giving the person types
+     * @param households  The list of households in the population
+     * @param csvFilePath The file to write
+     * @throws IOException If file writing fails
+     */
     static void savePersonsSummary(List<IndRecord> indRecs,
-                                   List<Household> allHouseholds,
+                                   List<Household> households,
                                    Path csvFilePath) throws IOException {
         new LinkedHashMap<>();
 
@@ -98,7 +85,7 @@ public class DataWriter {
             map.put(key, 0);
         }
 
-        for (Household household : allHouseholds) {
+        for (Household household : households) {
             for (Family family : household.getFamilies()) {
                 for (Person person : family.getMembers()) {
                     String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person
@@ -128,31 +115,73 @@ public class DataWriter {
                 csvFilePath)))), fullPersonSummary);
     }
 
-    static void saveHouseholds(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
-        List<List<String>> csvReadyHhs = householdAsList(allHouseholds);
+    /**
+     * Saves all households in households list to the specified csv file
+     *
+     * @param outputCsvFile The csv file path
+     * @param households    The list of households
+     * @throws IOException If file writing fails
+     */
+    static void saveHouseholds(Path outputCsvFile, List<Household> households) throws IOException {
+        List<List<String>> csvReadyHhs = householdAsList(households);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
                 outputCsvFile)))), csvReadyHhs);
     }
 
-    static void saveFamilies(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
-        List<List<String>> csvReadyFamilies = familiesAsList(allHouseholds);
+    /**
+     * Saves all families in households list to the specified csv file
+     *
+     * @param outputCsvFile The csv file path
+     * @param households    The list of households
+     * @throws IOException If file writing fails
+     */
+    static void saveFamilies(Path outputCsvFile, List<Household> households) throws IOException {
+        List<List<String>> csvReadyFamilies = familiesAsList(households);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
                 outputCsvFile)))), csvReadyFamilies);
     }
 
-    static void savePersons(Path outputCsvFile, List<Household> allHouseholds) throws IOException {
-        List<List<String>> csvReadyPersons = personsAsList(allHouseholds);
+    /**
+     * Saves all persons in the households list to the specified csv file
+     *
+     * @param outputCsvFile Output csv file path
+     * @param households    The list of households
+     * @throws IOException If file writing failss
+     */
+    static void savePersons(Path outputCsvFile, List<Household> households) throws IOException {
+        List<List<String>> csvReadyPersons = personsAsList(households);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
                 outputCsvFile)))), csvReadyPersons);
     }
 
-    private static List<List<String>> personsAsList(List<Household> allHouseholds) {
+    /**
+     * Converting persons in households to a list of array lists to be written as a csv. The order of items in each list is: "AgentId",
+     * "Age", "Gender", "RelationshipStatus", "PartnerId", "MotherId", "FatherId", "ChildrenIds", "RelativeIds", "HouseholdId", "FamilyId",
+     * "SA2_MAINCODE", "SA1_7DIGCODE"
+     *
+     * @param households The households
+     * @return Persons in households as a list of lists
+     */
+    private static List<List<String>> personsAsList(List<Household> households) {
+        final List<String> PERSONS_OUTPUT_COLS = new ArrayList<>(Arrays.asList("AgentId",
+                                                                               "Age",
+                                                                               "Gender",
+                                                                               "RelationshipStatus",
+                                                                               "PartnerId",
+                                                                               "MotherId",
+                                                                               "FatherId",
+                                                                               "ChildrenIds",
+                                                                               "RelativeIds",
+                                                                               "HouseholdId",
+                                                                               "FamilyId",
+                                                                               "SA2_MAINCODE",
+                                                                               "SA1_7DIGCODE"));
         List<List<String>> outputPersons = new ArrayList<>();
         outputPersons.add(PERSONS_OUTPUT_COLS);
-        for (Household household : allHouseholds) {
+        for (Household household : households) {
             for (Family family : household.getFamilies()) {
                 for (Person person : family.getMembers()) {
                     List<String> pData = new ArrayList<>();
@@ -162,8 +191,8 @@ public class DataWriter {
                     pData.add(String.valueOf(person.getAge()));
                     // Gender
                     pData.add(String.valueOf(person.getSex()));
-                    // GroupId
-                    pData.add(household.getID());
+                    // RelationshipStatus
+                    pData.add(String.valueOf(person.getRelationshipStatus()));
                     // PartnerId
                     if (person.getPartner() != null) {
                         pData.add(String.valueOf(person.getPartner().getID()));
@@ -185,9 +214,9 @@ public class DataWriter {
                     // ChildrenIds
                     if (person.getChildren() != null) {
                         List<String> childrenIds = person.getChildren()
-                                .stream()
-                                .map(Person::getID)
-                                .collect(Collectors.toList());
+                                                         .stream()
+                                                         .map(Person::getID)
+                                                         .collect(Collectors.toList());
                         pData.add(childrenIds.toString());
                     } else {
                         pData.add(null);
@@ -195,16 +224,13 @@ public class DataWriter {
                     // RelativeIds
                     if (person.getRelatives() != null) {
                         pData.add(person.getRelatives()
-                                          .stream()
-                                          .map(Person::getID)
-                                          .collect(Collectors.toList())
-                                          .toString());
+                                        .stream()
+                                        .map(Person::getID)
+                                        .collect(Collectors.toList())
+                                        .toString());
                     } else {
                         pData.add(null);
                     }
-
-                    // RelationshipStatus
-                    pData.add(String.valueOf(person.getRelationshipStatus()));
 
                     pData.add(household.getID()); //Household id
                     pData.add(family.getID()); //Family id
@@ -218,16 +244,30 @@ public class DataWriter {
         return outputPersons;
     }
 
-    private static List<List<String>> familiesAsList(List<Household> allHouseholds) {
+    /**
+     * Get the families in the households as a list of list to be written to csv files. Order of items in each list is: "FamilyId",
+     * "FamilySize", "FamilyType", "Members", "HouseholdId", "SA2_MAINCODE", "SA1_7DIGCODE"
+     *
+     * @param households The households
+     * @return Families as a list of lists
+     */
+    private static List<List<String>> familiesAsList(List<Household> households) {
+        List<String> FAMILIES_OUTPUT_COLS = new ArrayList<>(Arrays.asList("FamilyId",
+                                                                          "FamilySize",
+                                                                          "FamilyType",
+                                                                          "Members",
+                                                                          "HouseholdId",
+                                                                          "SA2_MAINCODE",
+                                                                          "SA1_7DIGCODE"));
         List<List<String>> outputFamilies = new ArrayList<>();
         outputFamilies.add(FAMILIES_OUTPUT_COLS);
-        for (Household household : allHouseholds) {
+        for (Household household : households) {
             for (Family family : household.getFamilies()) {
                 List<String> fData = new ArrayList<>();
-                fData.add(String.valueOf(family.getID()));
-                fData.add(String.valueOf(family.getType()));
-                fData.add(String.valueOf(family.size()));
-                List<String> memberIds = family.getMembers().stream().map(Person::getID).collect(Collectors.toList());
+                fData.add(String.valueOf(family.getID()));//family id
+                fData.add(String.valueOf(family.size())); // family size
+                fData.add(String.valueOf(family.getType())); // family type
+                List<String> memberIds = family.getMembers().stream().map(Person::getID).collect(Collectors.toList()); //members
                 fData.add(memberIds.toString());
 
                 fData.add(household.getID()); //Household id
@@ -240,11 +280,26 @@ public class DataWriter {
         return outputFamilies;
     }
 
-    private static List<List<String>> householdAsList(List<Household> allHouseholds) {
-
+    /**
+     * Coverts the households to a list of list entries, each list entry representing a household. This is to be used to write households to
+     * a csv file. The order of items in each list is: "HouseholdId", "HouseholdSize", "FamilyCount", "PrimaryFamilyType", "Members",
+     * "Families", "SA2_MAINCODE", "SA1_7DIGCODE"
+     *
+     * @param households The list of household instances
+     * @return Households as a list of lists
+     */
+    private static List<List<String>> householdAsList(List<Household> households) {
+        final List<String> HOUSEHOLDS_OUTPUT_COLS = new ArrayList<>(Arrays.asList("HouseholdId",
+                                                                                  "HouseholdSize",
+                                                                                  "FamilyCount",
+                                                                                  "PrimaryFamilyType",
+                                                                                  "Members",
+                                                                                  "Families",
+                                                                                  "SA2_MAINCODE",
+                                                                                  "SA1_7DIGCODE"));
         List<List<String>> outputHouseholds = new ArrayList<>();
         outputHouseholds.add(HOUSEHOLDS_OUTPUT_COLS);
-        for (Household household : allHouseholds) {
+        for (Household household : households) {
             List<String> hhData = new ArrayList<>();
             // HouseholdID
             hhData.add(household.getID());
@@ -259,12 +314,11 @@ public class DataWriter {
             hhData.add(memberIds.toString());
             // FamilyIds
             List<String> familyIds = household.getFamilies()
-                    .stream()
-                    .map(Family::getID)
-                    .collect(Collectors.toList());
+                                              .stream()
+                                              .map(Family::getID)
+                                              .collect(Collectors.toList());
             hhData.add(familyIds.toString());
-            // HHSize
-            hhData.add(String.valueOf(household.getMembers().size()));
+
             // SA2_MAINCODE_2011
             hhData.add(household.getSA2MainCode());
             //SA1_7DIGCODE
