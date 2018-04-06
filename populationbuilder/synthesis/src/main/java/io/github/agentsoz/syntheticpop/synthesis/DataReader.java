@@ -3,7 +3,9 @@
  */
 package io.github.agentsoz.syntheticpop.synthesis;
 
+import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.csv.CSVReader;
+import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
 import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.apache.commons.csv.CSVFormat;
@@ -13,6 +15,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -63,8 +66,8 @@ public class DataReader {
                 HhRecord hhr = new HhRecord(nop, nofFamilies, primaryFamilyType, nofHhs, sa);
                 hhRecList.add(hhr);
             }
-        }catch (NoSuchFileException nsfe){
-            Log.warn("No data file: "+hhFileInfo.toString());
+        } catch (NoSuchFileException nsfe) {
+            Log.warn("No data file: " + hhFileInfo.toString());
         }
 
         return hhData;
@@ -102,8 +105,8 @@ public class DataReader {
                 IndRecord indRec = new IndRecord(relStatus, sex, getAgeRange(ageRangeStr), personCount, sa);
                 indRecList.add(indRec);
             }
-        }catch (NoSuchFileException nsfe){
-            Log.warn("No data file: "+indFileInfo.toString());
+        } catch (NoSuchFileException nsfe) {
+            Log.warn("No data file: " + indFileInfo.toString());
         }
         return indData;
     }
@@ -144,31 +147,57 @@ public class DataReader {
         return householdTypesBySA1;
     }
 
-    static Map<Integer, Double> readAgeDistribution(Map<String, String> params) throws IOException {
-        Path csvFile = Paths.get(params.get("FileName"));
-        CSVParser csvParser = new CSVParser(Files.newBufferedReader(csvFile),
-                                            CSVFormat.EXCEL.withSkipHeaderRecord(false));
-        int row = -1;
-        int dataRow = Integer.parseInt(params.get("DataStartRow"));
-        int percentageCol = Integer.parseInt(params.get("PercentageColumn"));
-        int ageColumn = Integer.parseInt(params.get("AgeColumn"));
+    static Map<String, List<Double>> readAgeDistribution(Map<String, String> params) throws IOException {
 
-        Map<Integer, Double> ageDist = new LinkedHashMap<>();
+        Map<String, List<Double>> ageDistBySA2 = new HashMap<>();
+
+        //Read the data file
+        Path file = Paths.get(params.get("FileName"));
+        Reader reader = null;
+        if (FileUtils.getFileExtention(file).toLowerCase().equals("zip")) {
+            reader = Zip.read(file, FileUtils.getFileName(file) + ".csv");
+        } else if (FileUtils.getFileExtention(file).toLowerCase().equals("csv")) {
+            reader = Files.newBufferedReader(file);
+        } else {
+            throw new Error("File type not supported: " + file.toString());
+        }
+
+        CSVParser csvParser = new CSVParser(reader, CSVFormat.EXCEL.withSkipHeaderRecord(false));
+
+        int row = -1;
+        int sa2NamesRow = Integer.parseInt(params.get("SA2NamesRow"));
+        int ageColumn = Integer.parseInt(params.get("AgeColumn"));
+        List<String> sa2names = new ArrayList<>();
+
         for (CSVRecord csvRecord : csvParser) {
             row++;
-            if (row >= dataRow) {
-                if ((csvRecord.size() - 1) < ageColumn || csvRecord.get(ageColumn) == null || csvRecord.get(ageColumn)
-                                                                                                       .equals("")) {
-                    break; // We have reached end
+            if (row == sa2NamesRow) {
+                for (int i = 1; i < csvRecord.size(); i++) {
+                    if (!csvRecord.get(i).isEmpty()) {
+                        ageDistBySA2.put(csvRecord.get(i), new ArrayList<>(116));
+                        sa2names.add(csvRecord.get(i));
+                    }
                 }
-                String age = csvRecord.get(ageColumn).split(" ")[0];
-                ageDist.put(Integer.parseInt(age), Double.parseDouble(csvRecord.get(percentageCol)));
 
+            } else if (csvRecord.size() > ageColumn && csvRecord.get(ageColumn).matches("\\d+")) {
+
+                int age = Integer.parseInt(csvRecord.get(ageColumn));
+                for (int col = 0; col < sa2names.size(); col++) {
+                    int i = col + 1;//Offset to skip age label column
+                    String sa2 = sa2names.get(col);
+                    List<Double> dist = ageDistBySA2.get(sa2);
+                    if (age == dist.size() && csvRecord.get(i).matches("[+-]?\\d*(\\.\\d+)?")) {
+                        dist.add(Double.parseDouble(csvRecord.get(i)));
+                    } else {
+                        throw new Error("Unexpected value at line: " + row + " column: " + col + "when reading: " + file.toString());
+                    }
+
+                }
             }
 
         }
         csvParser.close();
-        return ageDist;
+        return ageDistBySA2;
     }
 
     static List<List<String>> readTenlldDistribution(Path csvFile) throws IOException {
