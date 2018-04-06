@@ -55,6 +55,9 @@ public class App {
                                                                                                        targetColumnHeader);
             Random rand = new Random(randomSeed);
 
+            //Read exact age distributions
+            Map<String, List<Double>> ageDistribution = DataReader.readAgeDistribution(ageDistributionParams);
+
             for (String sa2 : sa2List) {
                 sa2 = sa2.trim();
                 Log.info("Starting SA2: " + sa2);
@@ -83,7 +86,7 @@ public class App {
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2);
 
                 // Read in populations overall age distribution
-                Map<Integer, Double> ageDistribution = DataReader.readAgeDistribution(ageDistributionParams);
+
                 // Assign actual ages to persons based on their age category and
                 // overall age distribution
                 PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
