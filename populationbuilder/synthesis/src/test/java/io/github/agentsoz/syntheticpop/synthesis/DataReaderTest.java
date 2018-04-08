@@ -2,18 +2,25 @@ package io.github.agentsoz.syntheticpop.synthesis;
 
 import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.file.Path;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author wniroshan 26 Mar 2018
  */
 public class DataReaderTest {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void testReadPersonRecords() throws IOException {
@@ -80,5 +87,40 @@ public class DataReaderTest {
                 Assert.assertEquals("8 persons: 1 family couple with children", r.HH_COUNT, 4);
             }
         }
+    }
+
+    @Test
+    public void testReadAgeDistribution() throws IOException {
+        Map<String, String> paramsMap = new HashMap<>(4, 1);
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        paramsMap.put("FileName", "Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.txt");
+        paramsMap.put("AgeColumn", "0");
+        paramsMap.put("SA2NamesRow", "10");
+
+        Throwable exception = assertThrows(Error.class, () -> DataReader.readAgeDistribution(paramsMap));
+
+        Path inputFile = new File(classLoader.getResource("Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip").getFile()).toPath();
+        paramsMap.put("FileName", inputFile.toString());
+
+        List<Double> ageDist = DataReader.readAgeDistribution(paramsMap).get("Armadale");
+
+        Double[] expectedValues = {0.9916435, 1.1699164, 0.9470752, 0.902507, 1.0473538, 0.8022284, 0.913649, 0.9916435, 1.0027855,
+                                   0.8690808, 0.9582173, 0.8245125, 0.7465181, 0.902507, 0.6239554, 0.9359331, 1.0250696, 0.6016713,
+                                   0.9247911, 0.9805014, 0.9916435, 1.2924791, 1.5933148, 1.6713092, 1.6490251, 2.005571, 1.9387187,
+                                   1.9164345, 2.2061281, 2.0724234, 2.0947075, 2.1504178, 2.4401114, 1.9052925, 2.005571, 1.7381616,
+                                   1.6824513, 1.6713092, 1.4150418, 1.448468, 1.3927577, 1.4038997, 1.281337, 1.3704735, 1.2479109,
+                                   1.2256267, 1.2256267, 1.281337, 1.281337, 1.2367688, 1.1142061, 1.1253482, 1.3370474, 1.1476323,
+                                   0.9916435, 0.9582173, 1.1699164, 0.9470752, 0.8802228, 0.9247911, 1.0696379, 0.9582173, 0.9359331,
+                                   1.0139276, 0.9805014, 1.2033426, 0.902507, 0.8690808, 0.902507, 1.0473538, 0.9805014, 1.1142061,
+                                   0.8467967, 0.7465181, 0.6908078, 0.6462396, 0.5348189, 0.6462396, 0.7910864, 0.6573816, 0.4122563,
+                                   0.4122563, 0.4122563, 0.4122563, 0.4456825, 0.2339833, 0.2674095, 0.3788301, 0.2785515, 0.2896936,
+                                   0.2674095, 0.2005571, 0.2674095, 0.1448468, 0.1002786, 0.1002786, 0d, 0d, 0d, 0d, 0d, 0.0334262, 0d,
+                                   0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d};
+
+        Assertions.assertEquals(Arrays.stream(expectedValues).mapToDouble(v -> v).sum(), ageDist.stream().mapToDouble(d -> d).sum());
+        Assertions.assertEquals(expectedValues.length, ageDist.size());
+        Assertions.assertArrayEquals(expectedValues, ageDist.toArray());
+
     }
 }

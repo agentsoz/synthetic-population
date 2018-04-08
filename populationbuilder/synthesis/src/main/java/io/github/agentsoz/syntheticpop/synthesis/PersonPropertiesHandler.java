@@ -6,11 +6,13 @@ import io.github.agentsoz.syntheticpop.synthesis.models.Family;
 import io.github.agentsoz.syntheticpop.synthesis.models.Household;
 import io.github.agentsoz.syntheticpop.synthesis.models.Person;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Handles person level property assignments like Relationships and age
@@ -144,36 +146,92 @@ public class PersonPropertiesHandler {
      * @param ageDistribution Overall age distribution of the population
      * @param random          Random number generator instance
      */
-    public static void assignAge(List<Household> allHouseholds, Map<Integer, Double> ageDistribution, Random random) {
-        // Defining anonymous function for getting a list of person percentages in a given age range
-        Function<AgeRange, List<Double>> personPercentsInAgeRange = ageRange -> ageDistribution.entrySet().stream()
-                .filter(e -> (e.getKey() >= ageRange.min() & e.getKey() <= ageRange.max())).map(e -> e.getValue())
-                .collect(Collectors.toList());
+    public static void assignAge(List<Household> allHouseholds, List<Double> ageDistribution, Random random) {
 
         for (Household h : allHouseholds) {
             for (Person p : h.getMembers()) {
-                List<Double> agePercentages = personPercentsInAgeRange.apply(p.getAgeRange());// List of age
-                // percentages in this person's age range
-                double percentagesSum = agePercentages.stream().mapToDouble(e -> e).sum(); // Sum - going to
-                // calculate probability
-                // Probability this person falling in each age-year
-                List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect
-                        (Collectors.toList());
-                AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
-                // Get cumulative distribution of age probabilities
-                List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet)
-                        .boxed().collect(Collectors.toList());
+                assignAge(p, ageDistribution, random);
+            }
+        }
+    }
 
-                double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
+    /**
+     * Assign suitable age to person based on population rules and observed age distribution in the population
+     *
+     * @param p               The person
+     * @param ageDistribution The age probability distribution
+     * @param random          Random instance
+     */
+    private static void assignAge(Person p, List<Double> ageDistribution, Random random) {
+        int[] eligibleAges = getPotentialAges(p);
 
-                // Find to which age-year this person belongs to and update person
-                for (int i = 0; i < cumAgeProbability.size(); i++) {
-                    if (ageOffSet <= cumAgeProbability.get(i)) {
-                        p.setAge(p.getAgeRange().min() + i);
-                        break;
+        // List of age percentages in this person's age range
+        List<Double> agePercentages = ageDistribution.subList(eligibleAges[0], eligibleAges[1]);
+        double percentagesSum = agePercentages.stream().mapToDouble(e -> e).sum(); // Sum - going to calculate probability
+        // Probability this person falling in each age-year
+        List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect(Collectors.toList());
+        AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
+        // Get cumulative distribution of age probabilities
+        List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet).boxed().collect(Collectors
+                                                                                                                                  .toList());
+        double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
+
+        // Find to which age-year this person belongs to and update person
+        for (int i = 0; i < cumAgeProbability.size(); i++) {
+            if (ageOffSet <= cumAgeProbability.get(i)) {
+                p.setAge(eligibleAges[0] + i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Finds the age interval of the person based on the population rules
+     *
+     * @param p The person
+     * @return The age interval
+     */
+    private static int[] getPotentialAges(Person p) {
+
+        List<Integer> eligibleAgeRanges = IntStream.range(p.getAgeRange().min(), p.getAgeRange().max() + 1)
+                                                   .boxed()
+                                                   .collect(Collectors.toList());
+
+        Person youngestParent = Stream.of(p.getMother(), p.getFather())
+                                      .filter(Objects::nonNull)
+                                      .min(new AgeRange.AgeComparator())
+                                      .orElse(null);
+        if (youngestParent != null) {
+            int youngestParentAge = youngestParent.getAge() >= 0 ? youngestParent.getAge() : youngestParent.getAgeRange().min();
+
+            for (int a = p.getAgeRange().min(); a <= p.getAgeRange().max(); a++) {
+                if (!PopulationRules.validateParentChildAgeRule(youngestParentAge, a)) {
+                    eligibleAgeRanges.remove((Integer) a);
+                }
+            }
+        }
+
+        if (p.getChildren() != null) {
+            Person oldestChild = p.getChildren().stream()
+                                  .filter(Objects::nonNull)
+                                  .max(new AgeRange.AgeComparator())
+                                  .orElse(null);
+
+            if (oldestChild != null) {
+                int oldestChildAge = oldestChild.getAge() >= 0 ? oldestChild.getAge() : oldestChild.getAgeRange().min();
+                int min = eligibleAgeRanges.get(0), max = eligibleAgeRanges.get(eligibleAgeRanges.size() - 1);
+                for (int age = min; age <= max; age++) {
+                    if (!PopulationRules.validateParentChildAgeRule(age, oldestChildAge)) {
+                        eligibleAgeRanges.remove((Integer) age);
                     }
                 }
             }
         }
+
+        eligibleAgeRanges.sort(Comparator.naturalOrder());
+        if (eligibleAgeRanges.isEmpty()) {
+            throw new Error("No eligible ages in the interval");
+        }
+        return new int[]{eligibleAgeRanges.get(0), eligibleAgeRanges.get(eligibleAgeRanges.size() - 1)};
     }
 }

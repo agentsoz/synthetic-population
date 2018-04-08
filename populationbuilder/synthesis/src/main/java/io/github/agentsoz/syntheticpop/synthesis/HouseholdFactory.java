@@ -672,12 +672,15 @@ public class HouseholdFactory {
 
         if ((h.getPrimaryFamilyType() == FamilyType.ONE_PARENT || h.getPrimaryFamilyType() == FamilyType.COUPLE_WITH_CHILDREN)
                 && h.getExpectedSize() > h.getCurrentSize()) {
+
             if (h.getCurrentFamilyCount() > 1
                     && (h.getFamily(1).getType() == FamilyType.ONE_PARENT || h.getFamily(1)
                                                                               .getType() == FamilyType.COUPLE_WITH_CHILDREN)
                     && h.getFamily(1).size() + 1 < h.getPrimaryFamily().size()) {
-
-                if (PopulationRules.validateParentChildAgeRule(h.getFamily(1).getYoungestParent().getAgeRange(), child.getAgeRange())) {
+                List<Person> parents = h.getFamily(1).getParents();
+                if (PopulationRules.validateParentChildAgeRule(parents.get(0).getAgeRange(),
+                                                               (parents.size() == 2) ? parents.get(1).getAgeRange() : null,
+                                                               child.getAgeRange())) {
                     suitableFamily = h.getFamily(1);
                 }
 
@@ -685,8 +688,10 @@ public class HouseholdFactory {
                     && (h.getFamily(2).getType() == FamilyType.ONE_PARENT || h.getFamily(2)
                                                                               .getType() == FamilyType.COUPLE_WITH_CHILDREN)
                     && h.getFamily(2).size() + 1 < h.getPrimaryFamily().size()) {
-
-                if (PopulationRules.validateParentChildAgeRule(h.getFamily(2).getYoungestParent().getAgeRange(), child.getAgeRange())) {
+                List<Person> parents = h.getFamily(2).getParents();
+                if (PopulationRules.validateParentChildAgeRule(parents.get(0).getAgeRange(),
+                                                               (parents.size() == 2) ? parents.get(1).getAgeRange() : null,
+                                                               child.getAgeRange())) {
                     suitableFamily = h.getFamily(2);
                 }
             }
@@ -734,7 +739,7 @@ public class HouseholdFactory {
 
             List<IndRecord> indTypes = new ArrayList<>(relTypes);
             if (primaryFamily.getType() == FamilyType.COUPLE_WITH_CHILDREN || primaryFamily.getType() == FamilyType.ONE_PARENT) {
-                indTypes.addAll(selectChildTypes(primaryFamily.getYoungestParent(), indRecs));
+                indTypes.addAll(selectChildTypes(primaryFamily.getParents(), indRecs));
             }
 
             int sum = indTypes.stream().mapToInt(r -> r.IND_COUNT).sum();
@@ -786,9 +791,11 @@ public class HouseholdFactory {
                     && h.getExpectedSize() > h.getCurrentSize()) {
                 Family pf = h.getPrimaryFamily();
 
-                Person youngestParent = pf.getYoungestParent();
+                List<Person> parents = pf.getParents();
 
-                if (PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(), child.getAgeRange())) {
+                if (PopulationRules.validateParentChildAgeRule(parents.get(0).getAgeRange(),
+                                                               parents.size() == 2 ? parents.get(1).getAgeRange() : null,
+                                                               child.getAgeRange())) {
                     return i;
                 }
             }
@@ -797,19 +804,20 @@ public class HouseholdFactory {
     }
 
     /**
-     * Returns a suitable child types for the given parent. Rule applied here is: a child must come from an age category with at least a 15
-     * year age gap (younger) to the parent's.
+     * Returns a suitable child types for the given two parent based on population rules.
      *
-     * @param parent     The parent
+     * @param parents    The two parents
      * @param indRecords The list of IndRecords to choose children types from
      * @return The list of suitable Child IndRecords
      */
-    private List<IndRecord> selectChildTypes(Person parent, List<IndRecord> indRecords) {
+    private List<IndRecord> selectChildTypes(List<Person> parents, List<IndRecord> indRecords) {
         return indRecords.stream()
                          .filter(r -> (r.RELATIONSHIP_STATUS == RelationshipStatus.U15_CHILD
                                  || r.RELATIONSHIP_STATUS == RelationshipStatus.STUDENT
                                  || r.RELATIONSHIP_STATUS == RelationshipStatus.O15_CHILD)
-                                 && (PopulationRules.validateParentChildAgeRule(parent.getAgeRange(), r.AGE_RANGE)))
+                                 && (PopulationRules.validateParentChildAgeRule(parents.get(0).getAgeRange(),
+                                                                                parents.size() == 2 ? parents.get(1).getAgeRange() : null,
+                                                                                r.AGE_RANGE)))
                          .collect(Collectors.toList());
     }
 }

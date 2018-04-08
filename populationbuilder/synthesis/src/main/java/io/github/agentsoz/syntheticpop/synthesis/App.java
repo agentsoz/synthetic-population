@@ -85,11 +85,9 @@ public class App {
                 // Link the persons in each household
                 PersonPropertiesHandler.buildRelationships(householdsOfSA2);
 
-                // Read in populations overall age distribution
-
                 // Assign actual ages to persons based on their age category and
                 // overall age distribution
-                PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution, rand);
+                PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution.get(sa2), rand);
 
                 assignUniqueIDs(householdsOfSA2, sa2CodeMap);
                 //                assignSA1sToHouseholds(sa2,
