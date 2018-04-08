@@ -49,22 +49,4 @@ public class StatisticalAreaCodeReader {
         }
         return csvRecordsMap;
     }
-
-    public enum Title {
-        SA1_MAINCODE_2011,
-        SA1_7DIGITCODE_2011,
-        SA2_MAINCODE_2011,
-        SA2_5DIGITCODE_2011,
-        SA2_NAME_2011,
-        SA3_CODE_2011,
-        SA3_NAME_2011,
-        SA4_CODE_2011,
-        SA4_NAME_2011,
-        GCCSA_CODE_2011,
-        GCCSA_NAME_2011,
-        STATE_CODE_2011,
-        STATE_NAME_2011,
-        AREA_ALBERS_SQM;
-
-    }
 }

@@ -19,7 +19,7 @@ public class Person {
     private String personID;
     private String familyID;
     private RelationshipStatus type;
-    private int age;
+    private int age = -1;
     private Sex sex;
     private AgeRange ageRange;
 

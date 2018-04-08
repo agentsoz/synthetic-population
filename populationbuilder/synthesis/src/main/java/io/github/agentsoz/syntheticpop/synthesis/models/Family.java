@@ -217,6 +217,13 @@ public class Family {
 
     }
 
+    public List<Person> getParents() {
+        return this.getMembers()
+                   .stream()
+                   .filter(m -> m.getRelationshipStatus() == RelationshipStatus.MARRIED ||
+                           m.getRelationshipStatus() == RelationshipStatus.LONE_PARENT).collect(Collectors.toList());
+    }
+
     @Override
     public String toString() {
         return "Family id:" + this.getID() + " type:" + getType()
