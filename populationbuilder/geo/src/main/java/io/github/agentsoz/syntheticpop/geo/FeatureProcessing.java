@@ -33,11 +33,12 @@ public class FeatureProcessing {
      * Returns the feature that contains the input point
      *
      * @param simplefeaturePolygonCollection Collection of feature polygons e.g. collection of potential SA1s
-     * @param point          The point which need to be checked e.g. Building location
+     * @param point                          The point which need to be checked e.g. Building location
      * @return The list of feature polygons which contain the point
      * @throws DataFormatException If CRS of featureCollection and point do not match
      */
-    public SimpleFeature getContainingPolygon(SimpleFeatureCollection simplefeaturePolygonCollection, Feature point) throws DataFormatException {
+    public SimpleFeature getContainingPolygon(SimpleFeatureCollection simplefeaturePolygonCollection,
+                                              Feature point) throws DataFormatException {
 
         // if (!point.getType().equals(featureCollection.getSchema())){
         // throw new DataFormatException("Coordinate Reference Systems of
@@ -69,8 +70,7 @@ public class FeatureProcessing {
             SimpleFeature polygon = (SimpleFeature) itr.next();
             Geometry jtsGeoPolygon = (Geometry) polygon.getDefaultGeometry();
             Point jtsPoint = (Point) point.getDefaultGeometryProperty().getValue();
-            // Geometry pointGeom = (Geometry)
-            // ((SimpleFeature)point).getDefaultGeometry();
+            // Geometry pointGeom = (Geometry) ((SimpleFeature)point).getDefaultGeometry();
 
             if (jtsGeoPolygon.contains(jtsPoint)) {
                 return polygon;
