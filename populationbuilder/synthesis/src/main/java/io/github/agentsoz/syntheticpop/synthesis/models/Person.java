@@ -19,9 +19,11 @@ public class Person {
     private String personID;
     private String familyID;
     private RelationshipStatus type;
-    private int age;
+    private int age = -1;
     private Sex sex;
     private AgeRange ageRange;
+    private String SA1_7DIG11;
+    private String SA2_MAINCODE;
 
     private Person partner;
     private List<Person> children;
@@ -82,7 +84,7 @@ public class Person {
     }
 
     public void setFamilyID(String familyID) {
-            this.familyID = familyID;
+        this.familyID = familyID;
     }
 
     public Person getPartner() {
@@ -319,5 +321,21 @@ public class Person {
                             relatives,
                             siblings,
                             groupHouseholdMembers);
+    }
+
+    public String getSA1Code() {
+        return SA1_7DIG11;
+    }
+
+    public void setSA1Code(String SA1_7DIG11) {
+        this.SA1_7DIG11 = SA1_7DIG11;
+    }
+
+    public String getSA2MainCode() {
+        return SA2_MAINCODE;
+    }
+
+    public void setSA2MainCode(String SA2_MAINCODE) {
+        this.SA2_MAINCODE = SA2_MAINCODE;
     }
 }

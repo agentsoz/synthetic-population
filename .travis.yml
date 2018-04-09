@@ -4,7 +4,7 @@ cache: packages
 warnings_are_errors: false
 
 install:
- - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics"))'
+ - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics","futile.logger"))'
  - cd populationbuilder/
  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 

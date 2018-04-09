@@ -153,13 +153,16 @@ public class DataReader {
 
         //Read the data file
         Path file = Paths.get(params.get("FileName"));
-        Reader reader = null;
-        if (FileUtils.getFileExtention(file).toLowerCase().equals("zip")) {
-            reader = Zip.read(file, FileUtils.getFileName(file) + ".csv");
-        } else if (FileUtils.getFileExtention(file).toLowerCase().equals("csv")) {
-            reader = Files.newBufferedReader(file);
-        } else {
-            throw new Error("File type not supported: " + file.toString());
+        Reader reader;
+        switch (FileUtils.getFileExtention(file).toLowerCase()) {
+            case "zip":
+                reader = Zip.read(file, FileUtils.getFileName(file) + ".csv");
+                break;
+            case "csv":
+                reader = Files.newBufferedReader(file);
+                break;
+            default:
+                throw new Error("File type not supported: " + file.toString());
         }
 
         CSVParser csvParser = new CSVParser(reader, CSVFormat.EXCEL.withSkipHeaderRecord(false));
@@ -203,9 +206,7 @@ public class DataReader {
     static List<List<String>> readTenlldDistribution(Path csvFile) throws IOException {
         CSVReader csvReader = new CSVReader(CSVFormat.EXCEL.withSkipHeaderRecord(false));
         csvReader.setStripChars(new String[]{"{", "}", "B"});
-        List<List<String>> data = csvReader.readCsvRows(Files.newBufferedReader(csvFile));
-        return data;
-
+        return csvReader.readCsvRows(Files.newBufferedReader(csvFile));
     }
 
     private static Sex getSex(String sexDescription) {

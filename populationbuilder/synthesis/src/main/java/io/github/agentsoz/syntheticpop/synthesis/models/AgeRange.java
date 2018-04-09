@@ -3,8 +3,7 @@ package io.github.agentsoz.syntheticpop.synthesis.models;
 import java.util.Comparator;
 
 /**
- * @author wniroshan
- * @date 18 Dec 2017
+ * @author wniroshan 18 Dec 2017
  */
 public enum AgeRange {
     A0_14(0, 14),

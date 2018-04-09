@@ -5,7 +5,7 @@ import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
 import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureWriter;
-import io.github.agentsoz.syntheticpop.util.BNWProperties;
+import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
 import io.github.agentsoz.syntheticpop.util.LIFOLinkedHashSet;
 import io.github.agentsoz.syntheticpop.util.Log;
@@ -41,9 +41,9 @@ public class BuildingsToSA1Mapper {
         String[] sa1FilterVals = null;
 
         if (args.length > 0) {
-            BNWProperties props = null;
+            ConfigProperties props = null;
             try {
-                props = new BNWProperties(args[0]);
+                props = new ConfigProperties(args[0]);
             } catch (IOException e) {
                 Log.error("When reading properties file", e);
             }
@@ -54,8 +54,8 @@ public class BuildingsToSA1Mapper {
             newFKInAddrRecord = props.getProperty("NewForeignKeyInAddressRecord").trim();
             localKeyInSA1ShpFile = props.getProperty("LocalKeyInSA1Shapefile").trim();
             tempOutputDir = Paths.get(props.getProperty("TemporaryOutputDirectory").trim().equals("system")
-                    ? System.getProperty("java.io.tmpdir")
-                    : props.getProperty("TemporaryOutputDirectory").trim() + File.separator);
+                                      ? System.getProperty("java.io.tmpdir")
+                                      : props.getProperty("TemporaryOutputDirectory").trim() + File.separator);
             ResultOutputDir = props.readFileOrDirectoryPath("ResultOutputDirectory") + File.separator;
 
         } else {
@@ -102,10 +102,10 @@ public class BuildingsToSA1Mapper {
             if (sa1Collection == null) {
                 try {
                     sa1Collection = getSA1Collection(sa1Path.toAbsolutePath(),
-                            sa1FilterProp,
-                            sa1FilterVals,
-                            allAddressCollection.getSchema().getCoordinateReferenceSystem(),
-                            ResultOutputDir);
+                                                     sa1FilterProp,
+                                                     sa1FilterVals,
+                                                     allAddressCollection.getSchema().getCoordinateReferenceSystem(),
+                                                     ResultOutputDir);
                 } catch (IOException e) {
                     Log.error("When loading SA1s from shape files", e);
                 } catch (URISyntaxException e) {
@@ -153,7 +153,7 @@ public class BuildingsToSA1Mapper {
 
                         if (matchingSA1 != null) {
                             ((SimpleFeature) point).setAttribute(newFKInAddrRecord,
-                                    matchingSA1.getAttribute(localKeyInSA1ShpFile));
+                                                                 matchingSA1.getAttribute(localKeyInSA1ShpFile));
                             recentMatches.add(matchingSA1);
                             Log.info(matchingSA1.toString());
                         }

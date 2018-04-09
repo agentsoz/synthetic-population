@@ -99,8 +99,8 @@ EstimateSA1HouseholdsDistribution <- function(sa2, sa2_hh_dist,sa1_hhs_dist){
       sa1_hhs_dist[i, sa1_start_col:lastcol] = adjustedSA1Hhs
     }
     if(sa2_sa1_conflicts){
-      cat("Some household types were represented in SA2 data but not in SA1 data. These households were assigned to randomly selected SA1s\n")
-      print(mismatching_hh_types)
+      flog.info("Some household types were represented in SA2 data but not in SA1 data. These households were assigned to randomly selected SA1s")
+      flog.info(mismatching_hh_types)
     }
     return(sa1_hhs_dist)
   } else{

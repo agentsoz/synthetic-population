@@ -19,10 +19,11 @@ import java.util.zip.GZIPOutputStream;
 public class DataWriter {
 
     /**
-     * Computes the number of households in households list by each family household type given in HhRecords list (the marginal distribution) and saves
+     * Computes the number of households in households list by each family household type given in HhRecords list (the marginal
+     * distribution) and saves
      * to the specified csv file.
      *
-     * @param hhRecs     The list of HhRecords giving the family household types
+     * @param hhRecs      The list of HhRecords giving the family household types
      * @param households  The list of households in the population
      * @param csvFilePath The file to write
      * @throws IOException If file writing fails
@@ -70,31 +71,26 @@ public class DataWriter {
      * to the specified csv file.
      *
      * @param indRecs     The list of IndRecords giving the person types
-     * @param households  The list of households in the population
+     * @param persons     The list of persons in the population
      * @param csvFilePath The file to write
      * @throws IOException If file writing fails
      */
     static void savePersonsSummary(List<IndRecord> indRecs,
-                                   List<Household> households,
+                                   List<Person> persons,
                                    Path csvFilePath) throws IOException {
-        new LinkedHashMap<>();
-
         Map<String, Integer> map = new LinkedHashMap<>();
         for (IndRecord indRec : indRecs) {
             String key = indRec.RELATIONSHIP_STATUS + "," + indRec.SEX + "," + indRec.AGE_RANGE;
             map.put(key, 0);
         }
 
-        for (Household household : households) {
-            for (Family family : household.getFamilies()) {
-                for (Person person : family.getMembers()) {
-                    String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person
-                            .getAgeRange();
-                    int currentCount = map.get(searchKey);
-                    map.put(searchKey, currentCount + 1);
-                }
-            }
+        for (Person person : persons) {
+            String searchKey = person.getRelationshipStatus() + "," + person.getSex() + "," + person
+                    .getAgeRange();
+            int currentCount = map.get(searchKey);
+            map.put(searchKey, currentCount + 1);
         }
+
 
         List<List<String>> fullPersonSummary = new ArrayList<>();
         List<String> rec0 = new ArrayList<>();
@@ -147,25 +143,25 @@ public class DataWriter {
      * Saves all persons in the households list to the specified csv file
      *
      * @param outputCsvFile Output csv file path
-     * @param households    The list of households
-     * @throws IOException If file writing failss
+     * @param persons       The list of persons
+     * @throws IOException If file writing fails
      */
-    static void savePersons(Path outputCsvFile, List<Household> households) throws IOException {
-        List<List<String>> csvReadyPersons = personsAsList(households);
+    static void savePersons(Path outputCsvFile, List<Person> persons) throws IOException {
+        List<List<String>> csvReadyPersons = personsAsList(persons);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
                 outputCsvFile)))), csvReadyPersons);
     }
 
     /**
-     * Converting persons in households to a list of array lists to be written as a csv. The order of items in each list is: "AgentId",
+     * Converting persons to a list of array lists to be written as a csv. The order of items in each list is: "AgentId",
      * "Age", "Gender", "RelationshipStatus", "PartnerId", "MotherId", "FatherId", "ChildrenIds", "RelativeIds", "HouseholdId", "FamilyId",
      * "SA2_MAINCODE", "SA1_7DIGCODE"
      *
-     * @param households The households
-     * @return Persons in households as a list of lists
+     * @param persons The list of persons
+     * @return Persons as a list of String lists
      */
-    private static List<List<String>> personsAsList(List<Household> households) {
+    private static List<List<String>> personsAsList(List<Person> persons) {
         final List<String> PERSONS_OUTPUT_COLS = new ArrayList<>(Arrays.asList("AgentId",
                                                                                "Age",
                                                                                "Gender",
@@ -175,71 +171,62 @@ public class DataWriter {
                                                                                "FatherId",
                                                                                "ChildrenIds",
                                                                                "RelativeIds",
-                                                                               "HouseholdId",
-                                                                               "FamilyId",
                                                                                "SA2_MAINCODE",
                                                                                "SA1_7DIGCODE"));
         List<List<String>> outputPersons = new ArrayList<>();
         outputPersons.add(PERSONS_OUTPUT_COLS);
-        for (Household household : households) {
-            for (Family family : household.getFamilies()) {
-                for (Person person : family.getMembers()) {
-                    List<String> pData = new ArrayList<>();
-                    // AgentId
-                    pData.add(String.valueOf(person.getID()));
-                    // Age
-                    pData.add(String.valueOf(person.getAge()));
-                    // Gender
-                    pData.add(String.valueOf(person.getSex()));
-                    // RelationshipStatus
-                    pData.add(String.valueOf(person.getRelationshipStatus()));
-                    // PartnerId
-                    if (person.getPartner() != null) {
-                        pData.add(String.valueOf(person.getPartner().getID()));
-                    } else {
-                        pData.add(null);
-                    }
-                    // MotherId
-                    if (person.getMother() != null) {
-                        pData.add(String.valueOf(person.getMother().getID()));
-                    } else {
-                        pData.add(null);
-                    }
-                    // FatherId
-                    if (person.getFather() != null) {
-                        pData.add(String.valueOf(person.getFather().getID()));
-                    } else {
-                        pData.add(null);
-                    }
-                    // ChildrenIds
-                    if (person.getChildren() != null) {
-                        List<String> childrenIds = person.getChildren()
-                                                         .stream()
-                                                         .map(Person::getID)
-                                                         .collect(Collectors.toList());
-                        pData.add(childrenIds.toString());
-                    } else {
-                        pData.add(null);
-                    }
-                    // RelativeIds
-                    if (person.getRelatives() != null) {
-                        pData.add(person.getRelatives()
-                                        .stream()
-                                        .map(Person::getID)
-                                        .collect(Collectors.toList())
-                                        .toString());
-                    } else {
-                        pData.add(null);
-                    }
-
-                    pData.add(household.getID()); //Household id
-                    pData.add(family.getID()); //Family id
-                    pData.add(household.getSA2MainCode()); //SA2 main code
-                    pData.add(household.getSA1Code()); //SA1 code
-
-                    outputPersons.add(pData);
-                }
+        for (Person person : persons) {
+            List<String> pData = new ArrayList<>();
+            // AgentId
+            pData.add(String.valueOf(person.getID()));
+            // Age
+            pData.add(String.valueOf(person.getAge()));
+            // Gender
+            pData.add(String.valueOf(person.getSex()));
+            // RelationshipStatus
+            pData.add(String.valueOf(person.getRelationshipStatus()));
+            // PartnerId
+            if (person.getPartner() != null) {
+                pData.add(String.valueOf(person.getPartner().getID()));
+            } else {
+                pData.add(null);
             }
+            // MotherId
+            if (person.getMother() != null) {
+                pData.add(String.valueOf(person.getMother().getID()));
+            } else {
+                pData.add(null);
+            }
+            // FatherId
+            if (person.getFather() != null) {
+                pData.add(String.valueOf(person.getFather().getID()));
+            } else {
+                pData.add(null);
+            }
+            // ChildrenIds
+            if (person.getChildren() != null) {
+                List<String> childrenIds = person.getChildren()
+                                                 .stream()
+                                                 .map(Person::getID)
+                                                 .collect(Collectors.toList());
+                pData.add(childrenIds.toString());
+            } else {
+                pData.add(null);
+            }
+            // RelativeIds
+            if (person.getRelatives() != null) {
+                pData.add(person.getRelatives()
+                                .stream()
+                                .map(Person::getID)
+                                .collect(Collectors.toList())
+                                .toString());
+            } else {
+                pData.add(null);
+            }
+            pData.add(person.getSA2MainCode()); //SA2 main code
+            pData.add(person.getSA1Code()); //SA1 code
+
+            outputPersons.add(pData);
         }
         return outputPersons;
     }

@@ -33,6 +33,7 @@ public class FamilyFactory {
             children.sort(ageComparator.reversed());
             List<AgeRange> loneParentAges = Stream.of(AgeRange.values())
                                                   .filter(pa -> PopulationRules.validateParentChildAgeRule(pa,
+                                                                                                           null,
                                                                                                            children.get(0).getAgeRange()))
                                                   .collect(Collectors.toList());
             int newLoneParentsCount = count - loneParents.size();
@@ -46,7 +47,9 @@ public class FamilyFactory {
         if (count > children.size()) {
             loneParents.sort(ageComparator);
             List<AgeRange> childAges = Stream.of(AgeRange.values())
-                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(loneParents.get(0).getAgeRange(), ca))
+                                             .filter(ca -> PopulationRules.validateParentChildAgeRule(loneParents.get(0).getAgeRange(),
+                                                                                                      null,
+                                                                                                      ca))
                                              .collect(Collectors.toList());
             int childrenToForm = count - children.size();
             children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
@@ -61,7 +64,8 @@ public class FamilyFactory {
         List<Family> lnParentBasic = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             if (children.isEmpty()) {
-                throw new NotEnoughPersonsException("One Parent Basic: Not enough children - units successfully formed: " + lnParentBasic.size());
+                throw new NotEnoughPersonsException("One Parent Basic: Not enough children - units successfully formed: " + lnParentBasic
+                        .size());
             }
 
             Family f = new Family();
@@ -181,15 +185,22 @@ public class FamilyFactory {
         }
 
         if (count > couples.size()) {
-            throw new NotEnoughPersonsException("Basic Couple With Children: required units: " + count + " available couples: " + couples.size());
+            throw new NotEnoughPersonsException("Basic Couple With Children: required units: " + count + " available couples: " + couples
+                    .size());
         }
 
         if (count > children.size()) {
             couples.sort(new AgeRange.YoungestParentAgeComparator());
             List<AgeRange> childAges = Stream.of(AgeRange.values())
                                              .filter(ca -> PopulationRules.validateParentChildAgeRule(couples.get(0)
-                                                                                                             .getYoungestParent()
-                                                                                                             .getAgeRange(), ca))
+                                                                                                             .getMembers()
+                                                                                                             .get(0)
+                                                                                                             .getAgeRange(),
+                                                                                                      couples.get(0)
+                                                                                                             .getMembers()
+                                                                                                             .get(1)
+                                                                                                             .getAgeRange(),
+                                                                                                      ca))
                                              .collect(Collectors.toList());
             int childrenToForm = count - children.size();
             children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
@@ -217,7 +228,8 @@ public class FamilyFactory {
         }
         if (cplWithChildUnits.size() != count) {
             throw new NotEnoughPersonsException(
-                    "Basic Couple With Children: cannot not form all requested units - units successfully formed: " + cplWithChildUnits.size());
+                    "Basic Couple With Children: cannot not form all requested units - units successfully formed: " + cplWithChildUnits
+                            .size());
         }
 
         return cplWithChildUnits;
@@ -233,10 +245,13 @@ public class FamilyFactory {
      * @return Suitable child instance or null
      */
     private Person getChildForFamily(Family family, List<Person> children) {
-        Person youngestParent = family.getYoungestParent();
+        List<Person> parents = family.getParents();
 
         List<Person> suitableChildren = children.stream()
-                                                .filter(c -> PopulationRules.validateParentChildAgeRule(youngestParent.getAgeRange(),
+                                                .filter(c -> PopulationRules.validateParentChildAgeRule(parents.get(0).getAgeRange(),
+                                                                                                        parents.size() == 2 ?
+                                                                                                        parents.get(1).getAgeRange() :
+                                                                                                        null,
                                                                                                         c.getAgeRange()))
                                                 .sorted(ageComparator)
                                                 .collect(Collectors.toList());
