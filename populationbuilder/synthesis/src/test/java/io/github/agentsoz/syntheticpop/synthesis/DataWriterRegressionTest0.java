@@ -16,18 +16,18 @@ public class DataWriterRegressionTest0 {
         io.github.agentsoz.syntheticpop.synthesis.models.IndRecord[] indRecord_array0 = new io.github.agentsoz.syntheticpop.synthesis.models.IndRecord[] {};
         java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord> arraylist_indRecord1 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>();
         boolean b2 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, indRecord_array0);
-        io.github.agentsoz.syntheticpop.synthesis.models.Household[] household_array3 = new io.github.agentsoz.syntheticpop.synthesis.models.Household[] {};
-        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household> arraylist_household4 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household>();
-        boolean b5 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household4, household_array3);
+        io.github.agentsoz.syntheticpop.synthesis.models.Person[] person_array3 = new io.github.agentsoz.syntheticpop.synthesis.models.Person[] {};
+        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person> arraylist_person4 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person>();
+        boolean b5 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person4, person_array3);
         java.nio.file.Path path6 = null;
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary((java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household4, path6);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary((java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person4, path6);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }
         org.junit.Assert.assertNotNull(indRecord_array0);
         org.junit.Assert.assertTrue(b2 == false);
-        org.junit.Assert.assertNotNull(household_array3);
+        org.junit.Assert.assertNotNull(person_array3);
         org.junit.Assert.assertTrue(b5 == false);
     }
 
@@ -71,15 +71,15 @@ public class DataWriterRegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "DataWriterRegressionTest0.test04");
         java.nio.file.Path path0 = null;
-        io.github.agentsoz.syntheticpop.synthesis.models.Household[] household_array1 = new io.github.agentsoz.syntheticpop.synthesis.models.Household[] {};
-        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household> arraylist_household2 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household>();
-        boolean b3 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household2, household_array1);
+        io.github.agentsoz.syntheticpop.synthesis.models.Person[] person_array1 = new io.github.agentsoz.syntheticpop.synthesis.models.Person[] {};
+        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person> arraylist_person2 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person>();
+        boolean b3 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person2, person_array1);
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersons(path0, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household2);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersons(path0, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person2);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }
-        org.junit.Assert.assertNotNull(household_array1);
+        org.junit.Assert.assertNotNull(person_array1);
         org.junit.Assert.assertTrue(b3 == false);
     }
 
@@ -180,10 +180,10 @@ public class DataWriterRegressionTest0 {
         io.github.agentsoz.syntheticpop.synthesis.models.IndRecord[] indRecord_array0 = new io.github.agentsoz.syntheticpop.synthesis.models.IndRecord[] {};
         java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord> arraylist_indRecord1 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>();
         boolean b2 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, indRecord_array0);
-        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household> list_household3 = null;
+        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person> list_person3 = null;
         java.nio.file.Path path4 = null;
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary((java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, list_household3, path4);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary((java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord>) arraylist_indRecord1, list_person3, path4);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }
@@ -196,9 +196,9 @@ public class DataWriterRegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "DataWriterRegressionTest0.test12");
         java.nio.file.Path path0 = null;
-        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household> list_household1 = null;
+        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person> list_person1 = null;
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersons(path0, list_household1);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersons(path0, list_person1);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }
@@ -223,16 +223,16 @@ public class DataWriterRegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "DataWriterRegressionTest0.test14");
         java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord> list_indRecord0 = null;
-        io.github.agentsoz.syntheticpop.synthesis.models.Household[] household_array1 = new io.github.agentsoz.syntheticpop.synthesis.models.Household[] {};
-        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household> arraylist_household2 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Household>();
-        boolean b3 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household2, household_array1);
+        io.github.agentsoz.syntheticpop.synthesis.models.Person[] person_array1 = new io.github.agentsoz.syntheticpop.synthesis.models.Person[] {};
+        java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person> arraylist_person2 = new java.util.ArrayList<io.github.agentsoz.syntheticpop.synthesis.models.Person>();
+        boolean b3 = java.util.Collections.addAll((java.util.Collection<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person2, person_array1);
         java.nio.file.Path path4 = null;
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary(list_indRecord0, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household>) arraylist_household2, path4);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary(list_indRecord0, (java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person>) arraylist_person2, path4);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }
-        org.junit.Assert.assertNotNull(household_array1);
+        org.junit.Assert.assertNotNull(person_array1);
         org.junit.Assert.assertTrue(b3 == false);
     }
 
@@ -241,10 +241,10 @@ public class DataWriterRegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "DataWriterRegressionTest0.test15");
         java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.IndRecord> list_indRecord0 = null;
-        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Household> list_household1 = null;
+        java.util.List<io.github.agentsoz.syntheticpop.synthesis.models.Person> list_person1 = null;
         java.nio.file.Path path2 = null;
         try {
-            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary(list_indRecord0, list_household1, path2);
+            io.github.agentsoz.syntheticpop.synthesis.DataWriter.savePersonsSummary(list_indRecord0, list_person1, path2);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException");
         } catch (java.lang.NullPointerException e) {
         }

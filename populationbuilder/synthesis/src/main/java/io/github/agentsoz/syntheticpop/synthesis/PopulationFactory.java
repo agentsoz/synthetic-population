@@ -41,6 +41,19 @@ public class PopulationFactory {
         householdFactory = new HouseholdFactory(hhRecs, random, extrasHandler);
     }
 
+    List<Person> makeAllPersons() {
+        formAllPersons();
+        List<Person> persons = new ArrayList<>();
+        persons.addAll(lonePersons);
+        persons.addAll(groupHhPersons);
+        persons.addAll(marriedMales);
+        persons.addAll(marriedFemales);
+        persons.addAll(loneParents);
+        persons.addAll(relatives);
+        persons.addAll(children);
+        return persons;
+    }
+
     List<Household> makePopulation() {
 
         formAllPersons();
@@ -52,9 +65,9 @@ public class PopulationFactory {
                 if (!h.validate()) {
                     Log.error("Bad state in household: " + h);
                 }
-                for(Family f: h.getFamilies()){
-                    if(!f.validate()){
-                        Log.error("Bad state in family: "+f+" in household: "+h);
+                for (Family f : h.getFamilies()) {
+                    if (!f.validate()) {
+                        Log.error("Bad state in family: " + f + " in household: " + h);
                     }
                 }
             }
@@ -70,7 +83,7 @@ public class PopulationFactory {
             Log.debug("Remaining Basic Couples: " + basicCouples.size());
             Log.debug("Remaining Basic One Parent units: " + basicOneParentFamilies.size());
             Log.debug("Remaining Extras: " + extrasHandler.remainingExtras());
-            Log.errorAndExit("Household constrcuction failed", GlobalConstants.ExitCode.PROGERROR);
+            Log.errorAndExit("Household construction failed", GlobalConstants.ExitCode.PROGERROR);
         }
         return allHouseholds;
     }

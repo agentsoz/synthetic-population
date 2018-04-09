@@ -24,8 +24,10 @@ public class App {
     public static void main(String[] args) {
         Log.createLogger("Synthesis", "PopulationSynthesis.log");
         ConfigProperties props = null;
+        boolean personsOnly = false;
         try {
             props = new ConfigProperties(args[0]);
+            personsOnly = args[1].equals("-p");
         } catch (Exception e) {
             Log.info("Property file error", e);
         }
@@ -80,45 +82,68 @@ public class App {
                                                                             indRecs.get(sa2),
                                                                             nonPrimaryCoupleWithChildProbability,
                                                                             rand);
-                List<Household> householdsOfSA2 = populationFactory.makePopulation();
+                if (personsOnly) {
+                    List<Person> personsOfSA2 = populationFactory.makeAllPersons();
+                    PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa2), rand);
+                    assignUniqueIDs(personsOfSA2, sa2CodeMap.get(sa2), null);
+                    Log.info("Writing output files to: " + outputDirectory);
+                    Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +
+                                                               File.separator + "population");
+                    DataWriter.savePersons(Paths.get(outputSA2Location + File.separator + "persons.csv.gz"),
+                                           personsOfSA2);
+                    if (enableSummaryReports) {
 
-                // Link the persons in each household
-                PersonPropertiesHandler.buildRelationships(householdsOfSA2);
+                        DataWriter.savePersonsSummary(indRecs.get(sa2),
+                                                      personsOfSA2,
+                                                      Paths.get(outputSA2Location + File.separator + "output_person_types" +
+                                                                        ".csv.gz"));
 
-                // Assign actual ages to persons based on their age category and
-                // overall age distribution
-                PersonPropertiesHandler.assignAge(householdsOfSA2, ageDistribution.get(sa2), rand);
+                    }
 
-                assignUniqueIDs(householdsOfSA2, sa2CodeMap);
-                //                assignSA1sToHouseholds(sa2,
-                //                                       sa1HhDistCsvProperties,
-                //                                       inputDirectory,
-                //                                       householdsOfSA2,
-                //                                       rand);
+                } else {
+                    List<Household> householdsOfSA2 = populationFactory.makePopulation();
+                    List<Person> personsOfSA2 = householdsOfSA2.parallelStream()
+                                                               .map(Household::getMembers)
+                                                               .flatMap(List::stream)
+                                                               .collect(Collectors.toList());
 
-                Log.info("Writing output files to: " + outputDirectory);
-                Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +
-                                                           File.separator + "population");
-                Files.createDirectories(outputSA2Location);
-                DataWriter.saveHouseholds(Paths.get(outputSA2Location + File.separator + "households.csv.gz"),
-                                          householdsOfSA2);
-                DataWriter.saveFamilies(Paths.get(outputSA2Location + File.separator + "families.csv.gz"),
-                                        householdsOfSA2);
-                DataWriter.savePersons(Paths.get(outputSA2Location + File.separator + "persons.csv.gz"),
-                                       householdsOfSA2);
+                    // Link the persons in each household
+                    PersonPropertiesHandler.buildRelationships(householdsOfSA2);
 
-                if (enableSummaryReports) {
+                    // Assign actual ages to persons based on their age category and
+                    // overall age distribution
+                    PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa2), rand);
 
-                    DataWriter.saveHouseholdSummary(hhRecs.get(sa2),
-                                                    householdsOfSA2,
-                                                    Paths.get(outputSA2Location + File.separator +
-                                                                      "output_household_types.csv.gz"));
-                    DataWriter.savePersonsSummary(indRecs.get(sa2),
-                                                  householdsOfSA2,
-                                                  Paths.get(outputSA2Location + File.separator + "output_person_types" +
-                                                                    ".csv.gz"));
+                    assignUniqueIDs(householdsOfSA2, sa2CodeMap);
+                    //                assignSA1sToHouseholds(sa2,
+                    //                                       sa1HhDistCsvProperties,
+                    //                                       inputDirectory,
+                    //                                       householdsOfSA2,
+                    //                                       rand);
 
+                    Log.info("Writing output files to: " + outputDirectory);
+                    Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa2 +
+                                                               File.separator + "population");
+                    Files.createDirectories(outputSA2Location);
+                    DataWriter.saveHouseholds(Paths.get(outputSA2Location + File.separator + "households.csv.gz"),
+                                              householdsOfSA2);
+                    DataWriter.saveFamilies(Paths.get(outputSA2Location + File.separator + "families.csv.gz"),
+                                            householdsOfSA2);
+                    DataWriter.savePersons(Paths.get(outputSA2Location + File.separator + "persons.csv.gz"),
+                                           personsOfSA2);
+                    if (enableSummaryReports) {
+
+                        DataWriter.saveHouseholdSummary(hhRecs.get(sa2),
+                                                        householdsOfSA2,
+                                                        Paths.get(outputSA2Location + File.separator + "output_household_types.csv.gz"));
+                        DataWriter.savePersonsSummary(indRecs.get(sa2),
+                                                      personsOfSA2,
+                                                      Paths.get(outputSA2Location + File.separator + "output_person_types.csv.gz"));
+
+                    }
                 }
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -129,13 +154,12 @@ public class App {
         Log.info("Execution time: " + timeSpent + " secs");
     }
 
-    private static void convertToSA2MAINCODE(List<Household> allHouseholds,
-                                             Map<String, String> sa2CodeMap) throws IOException {
-        for (Household household : allHouseholds) {
-            household.setSA2MainCode(sa2CodeMap.get(household.getSA2Name()));
-        }
-    }
-
+    /**
+     * Updates properties in all persons, families and households based on SA2 main code.
+     *
+     * @param allHouseholds Households in the population
+     * @param sa2CodeMap    The map of SA2 names and codes
+     */
     private static void assignUniqueIDs(List<Household> allHouseholds, Map<String, String> sa2CodeMap) {
         for (Household h : allHouseholds) {
             String sa2MainCode = sa2CodeMap.get(h.getSA2Name());
@@ -143,11 +167,16 @@ public class App {
             h.setID(sa2MainCode + "H" + h.getID());
             for (Family f : h.getFamilies()) {
                 f.setID(sa2MainCode + "F" + f.getID());
-                for (Person p : f.getMembers()) {
-                    p.setID(sa2MainCode + "P" + p.getID());
-                    p.setFamilyID(f.getID());
-                }
+                assignUniqueIDs(f.getMembers(), sa2MainCode, f.getID());
             }
+        }
+    }
+
+    private static void assignUniqueIDs(List<Person> persons, String sa2MainCode, String familyId) {
+        for (Person p : persons) {
+            p.setFamilyID(familyId);
+            p.setSA2MainCode(sa2MainCode);
+            p.setID(sa2MainCode + "P" + p.getID());
         }
     }
 
