@@ -23,6 +23,7 @@ public class App {
 
     private static void usage() {
         System.out.println("Usage: java -jar synthesis.jar <properties file> [Options]");
+        System.out.println("This program generates the synthetic population for the specified Australian census SA2s in the properties file\n");
         System.out.println("Options:");
         System.out.println("   -p=BOOLEAN");
         System.out.println("       Set this flag to generate only the persons instances");
@@ -34,8 +35,12 @@ public class App {
 
         //Read command line arguments
         boolean personsOnly = false;
-        if (args.length == 2 && args[1].equals("-p")) {
-            personsOnly = true;
+        if (args.length > 1) {
+            if (args[1].equals("-p")) {
+                personsOnly = true;
+            } else {
+                usage();
+            }
         }
         ConfigProperties props = null;
         try {
