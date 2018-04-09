@@ -1,8 +1,7 @@
 package io.github.agentsoz.syntheticpop.synthesis.models;
 
 /**
- * @author wniroshan
- * @date 18/12/17
+ * @author wniroshan 18/12/17
  */
 
 /**

@@ -1,4 +1,5 @@
 library(Metrics)
+library(futile.logger)
 
 IndPossibles = list()
 for (rel in rel_status_cats) {
@@ -55,18 +56,17 @@ clean <-
     person[, pValColi] <- as.numeric(person[, pValColi])
     hhold[, hValColi] <- as.numeric(hhold[, hValColi])
     
-    cat("      Summary      \n")
+    flog.info("      Summary      ")
     totalpersonsNeededByHhs = sum(hhold[, hValColi] * rep(seq(1, 8), each = 14))
     totalExistingpersons = sum(person[, pValColi])
     difference = totalpersonsNeededByHhs - totalExistingpersons
     percentage = difference / totalpersonsNeededByHhs * 100
-    cat("In households file:", totalpersonsNeededByHhs, "\n")
-    cat("In persons file:", totalExistingpersons, "\n")
-    cat("Difference:", difference, " - ", percentage, "%\n\n")
+    flog.info("In households file: %d", totalpersonsNeededByHhs)
+    flog.info("In persons file: %d", totalExistingpersons)
+    flog.info("Difference: %d - %f%s", difference,percentage,"%")
     starting_error = percentage
     
-    cat("Removed impossible values:\n")
-    cat("persons:\n")
+    flog.info("Removed impossible values:")
     hasImpossibles = FALSE
     for (i in 1:nrow(person)) {
       rel = person[i, pRelColi]
@@ -75,75 +75,63 @@ clean <-
       val = person[i, pValColi]
       person[i, pValColi] = person[i, pValColi] * IndPossibles[[rel]][[sex]][[age]]
       if (val != person[i, pValColi]) {
-        print(person[i, ])
+        flog.info("Persons: %s",person[i, ])
         hasImpossibles = TRUE
       }
     }
     if (!hasImpossibles) {
-      cat("none\n\n")
+      flog.info("Persons: none")
     }
     
-    cat("Households:\n")
     for (i in 1:nrow(hhold)) {
       count = hhold[i, hPersonCountColi]
       familyType = hhold[i, hFamilyTypeColi]
       val = hhold[i, hValColi]
       hhold[i, hValColi] = hhold[i, hValColi] * hh_possibles[[count]][[familyType]]
       if (val != hhold[i, hValColi]) {
-        print(hhold[i, ])
+            flog.info("Households: %s",hhold[i, ])
         hasImpossibles = TRUE
       }
     }
     if (!hasImpossibles) {
-      cat("none\n\n")
+      flog.info("Households: none\n")
     }
     
     
     extra = 0
     
-    cat("       Summary      \n")
+    flog.info("       Summary      \n")
     totalpersonsNeededByHhs = sum(hhold[, hValColi] * rep(seq(1, 8), each = 14))
     totalExistingpersons = sum(person[, pValColi])
     difference = totalpersonsNeededByHhs - totalExistingpersons
     percentage = difference / totalpersonsNeededByHhs * 100
-    cat("In households file:", totalpersonsNeededByHhs, "\n")
-    cat("In persons file:", totalExistingpersons, "\n")
-    cat("Difference:", difference, " - ", percentage, "%\n\n")
+    flog.info("In households file: %d", totalpersonsNeededByHhs)
+    flog.info("In persons file: %d", totalExistingpersons)
+    flog.info("Difference: %d - %f%s", difference, percentage, "%\n")
     
     
     #Check grouphouseholds
     grpIndrwids = GetMatchingRowIds(person, pRelColi, "GroupHhold")
     ttlgrpin = sum(person[grpIndrwids, pValColi])
-    cat("Group households: total persons in person file", ttlgrpin, "\n")
+    flog.info("Group households: total persons in person file %d", ttlgrpin)
     grpHhsrwids = GetMatchingRowIds(hhold, hFamilyTypeColi, "Group household")
     
     ttlgrphh = sum(hhold[grpHhsrwids, hValColi] * seq(1, 8))
-    cat("Group households: total persons in households file",
-        ttlgrphh,
-        "\n")
+    flog.info("Group households: total persons in households file %d",
+        ttlgrphh)
     
     diff = ttlgrphh - ttlgrpin
     if (diff > 0) {
       percent = diff / ttlgrpin * 100
       person[grpIndrwids, pValColi] = FillAccording2Dist(person[grpIndrwids, pValColi], diff)
-      cat(
-        "Group households: less persons than households, adding new agents:",
-        diff,
-        "(",
-        percent,
-        "%)\n"
-      )
+      flog.info(
+        "Group households: less persons than households, adding new agents: %d (%f%s)",diff,percent,"%")
     } else if (diff == 0) {
-      cat("Group households: No difference\n")
+      flog.info("Group households: No difference")
     } else{
       percent = diff / ttlgrpin * 100
-      cat(
-        "Group households: more persons than households, removing extra agents",
-        diff,
-        "(",
-        percent,
-        "%)\n"
-      )
+      flog.info(
+        "Group households: more persons than households, removing extra agents %d (%f%s)",diff,percent,"%")
       person[grpIndrwids, pValColi] = FillAccording2Dist(person[grpIndrwids, pValColi], diff)
       extra = extra + diff
     }
@@ -151,35 +139,31 @@ clean <-
     #Check lone person households
     lnpersonrwids = GetMatchingRowIds(person, pRelColi, "Lone person")
     ttllnpersons = sum(person[lnpersonrwids, pValColi])
-    cat("Lone persons: total persons in persons file",
-        ttllnpersons,
-        "\n")
+    flog.info("Lone persons: total persons in persons file %d",
+        ttllnpersons)
     lnpersonhhsrwids = GetMatchingRowIds(hhold, hFamilyTypeColi, "Lone person household")
     ttllnpersonhhs = sum(hhold[lnpersonhhsrwids, hValColi])
-    cat("Lone persons: total persons in household files",
-        ttllnpersonhhs,
-        "\n")
+    flog.info("Lone persons: total persons in household files %d",
+        ttllnpersonhhs)
     diff = ttllnpersonhhs - ttllnpersons
     if (diff > 0) {
       percent = diff / ttllnpersons * 100
       person[lnpersonrwids, pValColi] = FillAccording2Dist(person[lnpersonrwids, pValColi], diff)
-      cat(
-        "Lone person: less persons than households, adding new agents:",
+      flog.info(
+        "Lone person: less persons than households, adding new agents: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
     } else if (diff == 0) {
-      print("Lone person: No difference")
+      flog.info("Lone person: No difference")
     } else{
       percent = diff / ttllnpersonhhs * 100
-      cat(
-        "Lone persons: more persons than households, removing extra agents:",
+      flog.info(
+        "Lone persons: more persons than households, removing extra agents: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
       person[lnpersonrwids, pValColi] = FillAccording2Dist(person[lnpersonrwids, pValColi], diff)
       extra = extra + diff
@@ -190,13 +174,11 @@ clean <-
     marMaleRwIds = GetMatchingRowIds(person[marriedRwIds, ], pSexColi, "Male")
     marFemaleRwIds = GetMatchingRowIds(person[marriedRwIds, ], pSexColi, "Female")
     ttlMarriedMales = sum(person[marMaleRwIds, pValColi])
-    cat("Married couples: total married males in persons file:",
-        ttlMarriedMales,
-        "\n")
+    flog.info("Married couples: total married males in persons file: %d",
+        ttlMarriedMales)
     ttlMarriedFemales = sum(person[marFemaleRwIds, pValColi])
-    cat("Married couples: total married females in persons file:",
-        ttlMarriedFemales,
-        "\n")
+    flog.info("Married couples: total married females in persons file: %d",
+        ttlMarriedFemales)
     
     f1CplOnlyRwIds = GetMatchingRowIds(hhold,
                                        hFamilyTypeColi,
@@ -221,54 +203,49 @@ clean <-
                                           "Three or more family household: Couple family with children")
     
     sumCplOnly = sum(hhold[f1CplOnlyRwIds, hValColi], hhold[f2CplOnlyRwIds, hValColi], hhold[f3CplOnlyRwIds, hValColi])
-    cat(
-      "Married couples: total couple families with no children in household file:",
-      sumCplOnly,
-      "\n"
+    flog.info(
+      "Married couples: total couple families with no children in household file: %d",
+      sumCplOnly
     )
     sumCplYsChld = sum(hhold[f1CplYsChildRwIds, hValColi], hhold[f2CplYsChildRwIds, hValColi], hhold[f3CplYsChildRwIds, hValColi])
-    cat(
-      "Married couples: total couple families with children in household file:",
-      sumCplYsChld,
-      "\n"
+    flog.info(
+      "Married couples: total couple families with children in household file: %d",
+      sumCplYsChld
     )
     minRequiredCpls = sum(sumCplYsChld, sumCplOnly)
-    cat("Married couples: minimum required number of couples:",
-        minRequiredCpls,
-        "\n")
+    flog.info("Married couples: minimum required number of couples: %d",
+        minRequiredCpls)
     
     diff = minRequiredCpls - ttlMarriedFemales
     if (diff > 0) {
       percent = diff / ttlMarriedFemales * 100
       person[marFemaleRwIds, pValColi] = FillAccording2Dist(person[marFemaleRwIds, pValColi], diff)
-      cat(
-        "Married Couples: there are not enough married females to form min required couples, increase married females by :",
+      flog.info(
+        "Married Couples: there are not enough married females to form min required couples, increase married females by: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
     } else if (diff == 0) {
-      cat("Married Couples: married females are equal to couple families\n")
+      flog.info("Married Couples: married females are equal to couple families")
     } else{
-      cat("Married Couples: there are more married females than couple families, no problem\n")
+      flog.info("Married Couples: there are more married females than couple families, no problem")
     }
     
     diff = minRequiredCpls - ttlMarriedMales
     if (diff > 0) {
       percent =  diff / ttlMarriedMales * 100
       person[marMaleRwIds, pValColi] = FillAccording2Dist(person[marMaleRwIds, pValColi], diff)
-      cat(
-        "Married Couples: there are not enough married males to form min required couples, increase married males by :",
+      flog.info(
+        "Married Couples: there are not enough married males to form min required couples, increase married males by: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
     } else if (diff == 0) {
-      cat("Married Couples: married males are equal to couple families\n")
+      flog.info("Married Couples: married males are equal to couple families")
     } else{
-      cat("Married Couples: there are more married males than couple families, no problem\n")
+      flog.info("Married Couples: there are more married males than couple families, no problem")
     }
     
     #Check Lone Parents
@@ -282,31 +259,28 @@ clean <-
                                          hFamilyTypeColi,
                                          "Three or more family household: One parent family")
     ttlOneParentFamilies = sum(hhold[f1OneParentRwIds, hValColi], hhold[f2OneParentRwIds, hValColi], hhold[f3OneParentRwIds, hValColi])
-    cat(
-      "Lone Parents: minimum required number of lone parents in households file",
-      ttlOneParentFamilies,
-      "\n"
+    flog.info(
+      "Lone Parents: minimum required number of lone parents in households file: %d",
+      ttlOneParentFamilies
     )
     
     loneParentRwIds = GetMatchingRowIds(person, pRelColi, "Lone parent")
     ttlLoneparents = sum(person[loneParentRwIds, pValColi])
-    cat("Lone Parents: lone parents in persons file",
-        ttlLoneparents,
-        "\n")
+    flog.info("Lone Parents: lone parents in persons file: %d",
+        ttlLoneparents)
     diff = ttlOneParentFamilies - ttlLoneparents
     if (diff > 0) {
       percent = diff / ttlLoneparents * 100
       person[loneParentRwIds, pValColi] = FillAccording2Dist(person[loneParentRwIds, pValColi], diff)
-      cat(
-        "Lone Parents: less lone parents than required by families, increasing lone parents by ",
+      flog.info(
+        "Lone Parents: less lone parents than required by families, increasing lone parents by: %d (%f%s)",
         diff,
-        " (",
         percent,
-        "%)\n"
+        "%"
       )
     } else{
-      cat(
-        "Lone Parents: more lone parents in persons file than Lone parent primary families in households file, no problem\n"
+      flog.info(
+        "Lone Parents: more lone parents in persons file than Lone parent primary families in households file, no problem"
       )
     }
     
@@ -315,93 +289,82 @@ clean <-
     stuRwIds = GetMatchingRowIds(person, pRelColi, "Student")
     o15RwIds = GetMatchingRowIds(person, pRelColi, "O15Child")
     ttlChlds = sum(person[u15RwIds, pValColi], person[stuRwIds, pValColi], person[o15RwIds, pValColi])
-    cat("Children: total children (U15 + Student + O15) in persons file:",
-        ttlChlds,
-        "\n")
+    flog.info("Children: total children (U15 + Student + O15) in persons file: %d", ttlChlds)
     
     ttlFamiliesWithChildren = ttlOneParentFamilies + sumCplYsChld
-    cat(
-      "Children: total familes with children (One parent + Couple with children) in households file:",
-      ttlFamiliesWithChildren,
-      "\n"
+    flog.info(
+      "Children: total familes with children (One parent + Couple with children) in households file: %d",
+      ttlFamiliesWithChildren
     )
     
     diff = ttlFamiliesWithChildren - ttlChlds
     if (diff > 0) {
       percent = diff / ttlChlds * 100
       person[c(u15RwIds, stuRwIds, o15RwIds), pValColi] = FillAccording2Dist(person[c(u15RwIds, stuRwIds, o15RwIds), pValColi], diff)
-      cat(
-        "Children: less children than primary families requiring children, adding new agents:",
+      flog.info(
+        "Children: less children than primary families requiring children, adding new agents: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
       availableExtraChildren = 0
     } else{
       availableExtraChildren = -diff
-      cat(
-        "Children: there are enough children to construct all known primary family structures requiring children, no problem\n"
+      flog.info(
+        "Children: there are enough children to construct all known primary family structures requiring children, no problem"
       )
     }
     
     #Relatives and Other family
     relrwids = GetMatchingRowIds(person, pRelColi, "Relatives")
     ttlrelatives = sum(person[relrwids, pValColi])
-    cat("Relatives for Other families: total relatives in persons file:",
-        ttlrelatives,
-        "\n")
+    flog.info("Relatives for Other families: total relatives in persons file: %d",
+        ttlrelatives)
     f1otherfamilyrwids = GetMatchingRowIds(hhold, hFamilyTypeColi, "One family household: Other family")
     f2otherfamilyrwids = GetMatchingRowIds(hhold, hFamilyTypeColi, "Two family household: Other family")
     f3otherfamilyrwids = GetMatchingRowIds(hhold,
                                            hFamilyTypeColi,
                                            "Three or more family household: Other family")
     reltivsFor1FOtherfamily = sum(hhold[f1otherfamilyrwids, hValColi] * seq(1:8))
-    cat(
-      "Relatives for Other families: total one family households(family type - other family):",
-      sum(hhold[f1otherfamilyrwids, hValColi]),
-      "\n"
+    flog.info(
+      "Relatives for Other families: total one family households(family type - other family): %d",
+      sum(hhold[f1otherfamilyrwids, hValColi])
     )
-    cat(
-      "Relatives for Other families: total relatives required to form all one family households(family type - other family):",
-      reltivsFor1FOtherfamily,
-      "\n"
+    flog.info(
+      "Relatives for Other families: total relatives required to form all one family households(family type - other family): %d",
+      reltivsFor1FOtherfamily
     )
     Otherfamily2fn3f = sum(hhold[f2otherfamilyrwids, hValColi], hhold[f3otherfamilyrwids, hValColi])
-    cat(
-      "Relatives for Other families: total two and three family households (family type - Other family) in households file:",
-      Otherfamily2fn3f,
-      "\n"
+    flog.info(
+      "Relatives for Other families: total two and three family households (family type - Other family) in households file: %d",
+      Otherfamily2fn3f
     )
     minRelativesFor2fn3f = Otherfamily2fn3f * 2
-    cat(
-      "Relatives for Other families: minimum relatives required for two and three family households (family type - Other family) in households file:",
-      minRelativesFor2fn3f,
-      "\n"
+    flog.info(
+      "Relatives for Other families: minimum relatives required for two and three family households (family type - Other family) in households file: %d",
+      minRelativesFor2fn3f
     )
     hhrequiredreltives = minRelativesFor2fn3f + reltivsFor1FOtherfamily
-    cat(
-      "Relatives for Other families: minimum required relatives to form all primary Other familes:",
-      hhrequiredreltives,
-      "\n"
+    flog.info(
+      "Relatives for Other families: minimum required relatives to form all primary Other familes: %d",
+      hhrequiredreltives
     )
     
     diff = hhrequiredreltives - ttlrelatives
     if (diff > 0) {
       percent = diff / ttlrelatives * 100
       person[relrwids, pValColi] = FillAccording2Dist(person[relrwids, pValColi], diff)
-      cat(
-        "Relatives for Other families: less persons than households, adding new agents:",
+      flog.info(
+        "Relatives for Other families: less persons than households, adding new agents: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
       availableExtraRelatives = 0
     } else{
       availableExtraRelatives = -diff
-      cat(
-        "Relatives for Other families: there are enough relatives to construch all basic other family structures\n"
+      flog.info(
+        "Relatives for Other families: there are enough relatives to construch all basic other family structures"
       )
     }
     
@@ -421,31 +384,28 @@ clean <-
     relInCplOnlyF3 = sum(hhold[f3CplOnlyRwIds, hValColi] * m2F3UnitExtras)
     
     requiredExtraRels = relInOtherFamilyF1 + relInOtherFamilyF2 + relInOtherFamilyF3 + relInCplOnlyF1 + relInCplOnlyF2 + relInCplOnlyF3
-    cat(
-      "Multi-family households with coule only and Other family: relatives required to complete households ",
-      requiredExtraRels,
-      "\n"
+    flog.info(
+      "Multi-family households with couple only and Other family: relatives required to complete households: %d",
+      requiredExtraRels
     )
-    cat(
-      "Multi-family households with coule only and Other family: relatives available after primary families",
-      availableExtraRelatives,
-      "\n"
+    flog.info(
+      "Multi-family households with couple only and Other family: relatives available after primary families: %d",
+      availableExtraRelatives
     )
     if (requiredExtraRels > availableExtraRelatives) {
       diff = requiredExtraRels - availableExtraRelatives
       existingTtlrelatives = sum(person[relrwids, pValColi])
       percent = diff / existingTtlrelatives * 100
       person[relrwids, pValColi] = FillAccording2Dist(person[relrwids, pValColi], diff)
-      cat(
-        "Multi-family households with coule only and Other family: there are not enough relatives to complete these households, adding new relatives:",
+      flog.info(
+        "Multi-family households with couple only and Other family: there are not enough relatives to complete these households, adding new relatives: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
     } else{
-      cat(
-        "Multi-family households with coule only and Other family: there are enough relatives to complete these households\n"
+      flog.info(
+        "Multi-family households with couple only and Other family: there are enough relatives to complete these households"
       )
     }
     
@@ -460,46 +420,42 @@ clean <-
     relchldInOneParentF3 = sum(hhold[f3OneParentRwIds, hValColi] * m2F3UnitExtras)
     
     requiredRelsAndChildSum = relchldInClpWithChldF1 + relchldInOneParentF1 + relchldInOneParentF2 + relchldInOneParentF3
-    cat(
-      "Multi-family households Couple with children (1 family) and One parent family: children required to complete households ",
-      requiredRelsAndChildSum,
-      "\n"
+    flog.info(
+      "Multi-family households Couple with children (1 family) and One parent family: children required to complete households %d",
+      requiredRelsAndChildSum
     )
-    cat(
-      "Multi-family households Couple with children (1 family) and One parent family: children available after primary families",
-      availableExtraChildren,
-      "\n"
+    flog.info(
+      "Multi-family households Couple with children (1 family) and One parent family: children available after primary families %d",
+      availableExtraChildren
     )
     if (requiredRelsAndChildSum > availableExtraChildren) {
       diff = requiredRelsAndChildSum - availableExtraChildren
       precentage = diff / availableExtraChildren * 100
       person[c(u15RwIds, stuRwIds, o15RwIds), pValColi] = FillAccording2Dist(person[c(u15RwIds, stuRwIds, o15RwIds), pValColi], diff)
-      cat(
-        "Multi-family households Couple with children (1 family) and One parent family: there are not enough extra children to complete the households, adding new children:",
+      flog.info(
+        "Multi-family households Couple with children (1 family) and One parent family: there are not enough extra children to complete the households, adding new children: %d (%f%s)",
         diff,
-        "(",
         percent,
-        "%)\n"
+        "%"
       )
     } else{
-      cat(
-        "Multi-family households Couple with children (1 family) and One parent family: there are enough extra children to complete the households\n"
+      flog.info(
+        "Multi-family households Couple with children (1 family) and One parent family: there are enough extra children to complete the households"
       )
     }
     
-    cat("\n    Final Summary   \n")
+    flog.info("  Final Summary  ")
     totalpersonsNeededByHhs = sum(hhold[, hValColi] * rep(seq(1, 8), each = 14))
     totalExistingpersons = sum(person[, pValColi])
     difference = totalpersonsNeededByHhs - totalExistingpersons
     error_percentage = difference / totalpersonsNeededByHhs * 100
-    cat("In households file:", totalpersonsNeededByHhs, "\n")
-    cat("In persons file:", totalExistingpersons, "\n")
-    cat(
-      "Difference (unrecongnised missing persons):",
+    flog.info("In households file: %d", totalpersonsNeededByHhs)
+    flog.info("In persons file: %d", totalExistingpersons)
+    flog.info(
+      "Difference (unrecongnised missing persons): %d (%f%s)",
       difference,
-      " (",
       error_percentage,
-      "%)\n\n"
+      "%"
     )
     
     return(list(person, hhold, starting_error, error_percentage))

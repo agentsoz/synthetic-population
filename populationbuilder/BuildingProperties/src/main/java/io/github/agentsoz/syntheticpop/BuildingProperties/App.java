@@ -7,7 +7,7 @@ import io.github.agentsoz.syntheticpop.filemanager.csv.abs.models.DwellingType;
 import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
 import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
-import io.github.agentsoz.syntheticpop.util.BNWProperties;
+import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -45,11 +45,11 @@ public class App {
                 saConverterTargetCol = null;
         String buildingsShapeFileName = null, saCodeCsvName = null, buildingUniqueKey = null, lgaNameKey = null;
         String[] sa1FilterByValues = null, buildingsFilterByValues = null;
-        BNWProperties props = null;
+        ConfigProperties props = null;
 
         if (args.length > 0) {
             try {
-                props = new BNWProperties(args[0]);
+                props = new ConfigProperties(args[0]);
             } catch (IOException e) {
                 Log.error("When trying to read the properties file", e);
             }
