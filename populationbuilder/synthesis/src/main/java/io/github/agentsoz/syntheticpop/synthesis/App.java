@@ -21,15 +21,33 @@ import java.util.stream.Collectors;
  */
 public class App {
 
+    private static void usage() {
+        System.out.println("Usage: java -jar synthesis.jar <properties file> [Options]");
+        System.out.println("Options:");
+        System.out.println("   -p=FLAG");
+        System.out.println("       Set this flag to generate only the persons instances");
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
         Log.createLogger("Synthesis", "PopulationSynthesis.log");
-        ConfigProperties props = null;
+
+        //Read command line arguments
         boolean personsOnly = false;
-        try {
-            props = new ConfigProperties(args[0]);
-            personsOnly = args[1].equals("-p");
-        } catch (Exception e) {
-            Log.info("Property file error", e);
+        ConfigProperties props = null;
+        if (args.length == 1) {
+            try {
+                props = new ConfigProperties(args[0]);
+            } catch (Exception e) {
+                usage();
+            }
+        } else if (args.length == 2) {
+            if (args[1].equals("-p"))
+                personsOnly = true;
+            else
+                usage();
+        } else {
+            usage();
         }
 
         // Read in the config properties
