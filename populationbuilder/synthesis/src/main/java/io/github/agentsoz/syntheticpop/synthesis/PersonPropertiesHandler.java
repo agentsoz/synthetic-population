@@ -126,33 +126,17 @@ public class PersonPropertiesHandler {
     }
 
     /**
-     * Assign a random age within person's age bracket (not very good, this alter's actual year by year age
-     * distribution
-     *
-     * @param ageRange age range
-     * @param random   Random instance
-     * @return randomly selected exact age
-     */
-    private static int getRandomAge(AgeRange ageRange, Random random) {
-        int ageBound = ageRange.max() - ageRange.min() + 1;
-        int age = random.nextInt(ageBound);
-        return age + ageRange.min();
-    }
-
-    /**
      * Assign age to each person in population, while preserving overall age distribution in population
      *
-     * @param allHouseholds   all households in population
+     * @param persons         all persons in the population
      * @param ageDistribution Overall age distribution of the population
      * @param random          Random number generator instance
      */
-    public static void assignAge(List<Household> allHouseholds, List<Double> ageDistribution, Random random) {
-
-        for (Household h : allHouseholds) {
-            for (Person p : h.getMembers()) {
-                assignAge(p, ageDistribution, random);
-            }
+    public static void assignAge(List<Person> persons, List<Double> ageDistribution, Random random) {
+        for (Person p : persons) {
+            assignAge(p, ageDistribution, random);
         }
+
     }
 
     /**
