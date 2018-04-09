@@ -52,7 +52,8 @@ option_list = list(
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
-    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip",
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip,
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
     metavar = "LIST_FILES"
   )
