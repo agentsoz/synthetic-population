@@ -2,7 +2,7 @@ package io.github.agentsoz.syntheticpop.synthesis;
 
 import io.github.agentsoz.syntheticpop.filemanager.csv.abs.StatisticalAreaCodeReader;
 import io.github.agentsoz.syntheticpop.synthesis.models.*;
-import io.github.agentsoz.syntheticpop.util.BNWProperties;
+import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 
 import java.io.File;
@@ -23,9 +23,9 @@ public class App {
 
     public static void main(String[] args) {
         Log.createLogger("Synthesis", "PopulationSynthesis.log");
-        BNWProperties props = null;
+        ConfigProperties props = null;
         try {
-            props = new BNWProperties(args[0]);
+            props = new ConfigProperties(args[0]);
         } catch (Exception e) {
             Log.info("Property file error", e);
         }

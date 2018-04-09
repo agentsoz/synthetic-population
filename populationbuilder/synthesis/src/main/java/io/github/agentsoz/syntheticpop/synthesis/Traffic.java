@@ -9,7 +9,7 @@ import io.github.agentsoz.syntheticpop.filemanager.json.JacksonJSONReader;
 import io.github.agentsoz.syntheticpop.geo.CoordinateConversion;
 import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
-import io.github.agentsoz.syntheticpop.util.BNWProperties;
+import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
@@ -58,10 +58,10 @@ public class Traffic {
          * Read properties
          */
         if (args.length > 0) {
-            BNWProperties props = null;
+            ConfigProperties props = null;
             try {
 
-                props = new BNWProperties(args[0]);
+                props = new ConfigProperties(args[0]);
             } catch (IOException e) {
                 Log.error("When reading the innertraffic.properties file", e);
             }

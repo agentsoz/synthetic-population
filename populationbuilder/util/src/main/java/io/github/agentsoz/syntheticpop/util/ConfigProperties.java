@@ -12,13 +12,13 @@ import java.util.Properties;
 /**
  * @author Bhagya N. Wickramasinghe
  */
-public class BNWProperties extends Properties {
+public class ConfigProperties extends Properties {
     /**
      *
      */
     private static final long serialVersionUID = -5371179228765375673L;
 
-    public BNWProperties(String propertyFile) throws IOException {
+    public ConfigProperties(String propertyFile) throws IOException {
         this.loadPropertyFile(propertyFile);
     }
 
