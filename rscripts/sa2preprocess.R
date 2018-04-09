@@ -2,6 +2,7 @@
 library(stringr)
 library(tools)
 library(optparse)
+library(futile.logger)
 
 source("config.R")
 source("datareader.R")
@@ -9,6 +10,8 @@ source("util.R")
 source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
+
+flog.logger("ROOT", INFO, appender=appender.file('sa2preprocess.log'))
 
 set.seed(randomSeed)
 option_list = list(
@@ -96,8 +99,8 @@ indArr = ReadPersons(
   sex_cats,
   age_cats
 )
-print("Persons and households file reading complete")
 
+print("Read the list of SA2s")
 #Read the list of SA2s
 isStar <- F
 if (opt$sa2s == "*") {
@@ -171,8 +174,8 @@ sa2s_with_no_sa1s = c() #Book-keeping SA2s that have all empty SA1s according to
 sa2_count = 0
 for (sa2 in sa2_list) {
   sa2_count = sa2_count + 1
-  cat("------------ Processing", sa2," (",sa2_count,"/",length(sa2_list),") --------------\n")
-
+  flog.info(" --- Processing %s (%d/%d) --- ", sa2,sa2_count,length(sa2_list))
+  cat("Processing  ",sa2_count,"/",length(sa2_list)," SA2s\r")
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
@@ -221,10 +224,9 @@ for (sa2 in sa2_list) {
     CreateDir(dirname(summary(hgz)$description))
     write.csv(hhs, hgz, row.names = FALSE)
 
-    cat("Processing  ",sa2_count,"/",length(sa2_list),"\r")
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
-      cat("Estimating SA1 households distribution ...\r")
+      flog.info("Estimating SA1 households distribution...")
       # Load above selected SA1 info file
       raw_sa1_hh_dist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
 
@@ -233,15 +235,14 @@ for (sa2 in sa2_list) {
       if(!is.null(adjusted_sa1_hh_dist)){
         #Save SA1 hh distribution
         sa1hhsgzfile <- gzfile(paste(saoutpath, sa1_households_file_name, sep = ""))
-        cat("SA1 distribution household distribution matched to SA2 households total\n")
-        cat("Updated SA1 household distribution saved to: ",
-            summary(sa1hhsgzfile)$description,
-            "\n")
+        flog.info("SA1 distribution household distribution matched to SA2 households total")
+        flog.info("Updated SA1 household distribution saved to: %s",
+            summary(sa1hhsgzfile)$description)
         CreateDir(dirname(summary(sa1hhsgzfile)$description))
         write.csv(adjusted_sa1_hh_dist, sa1hhsgzfile, row.names = FALSE)
       }else{
         sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
-        cat("All SA1s are empty in this SA2             \n")
+        flog.info("All SA1s are empty in this SA2 ")
       }
     }
   }
