@@ -24,7 +24,7 @@ public class App {
     private static void usage() {
         System.out.println("Usage: java -jar synthesis.jar <properties file> [Options]");
         System.out.println("Options:");
-        System.out.println("   -p=FLAG");
+        System.out.println("   -p=BOOLEAN");
         System.out.println("       Set this flag to generate only the persons instances");
         System.exit(0);
     }
@@ -34,21 +34,16 @@ public class App {
 
         //Read command line arguments
         boolean personsOnly = false;
+        if (args.length == 2 && args[1].equals("-p")) {
+            personsOnly = true;
+        }
         ConfigProperties props = null;
-        if (args.length == 1) {
-            try {
-                props = new ConfigProperties(args[0]);
-            } catch (Exception e) {
-                usage();
-            }
-        } else if (args.length == 2) {
-            if (args[1].equals("-p"))
-                personsOnly = true;
-            else
-                usage();
-        } else {
+        try {
+            props = new ConfigProperties(args[0]);
+        } catch (Exception e) {
             usage();
         }
+
 
         // Read in the config properties
         Path inputDirectory = props.readFileOrDirectoryPath("InputDirectory");
