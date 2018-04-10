@@ -2,6 +2,7 @@ library('lsa')
 library(optparse)
 library(tools)
 
+start_time <- Sys.time()
 source("config.R")
 source("datareader.R")
 source("util.R")
@@ -193,7 +194,9 @@ write.csv(cossim_test_result,file=outfile)
 
 totals_file <- paste(outputHome, "/households-persons-totals.csv",sep="")
 write.csv(totals, file=totals_file)
+end_time <- Sys.time()
 
 cat("Output saved to:",outputHome,"\n")
+cat("Execution time: ", (end_time - start_time), "\n")
 cat("Done!\n")
 

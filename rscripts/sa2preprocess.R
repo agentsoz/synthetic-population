@@ -4,6 +4,8 @@ library(tools)
 library(optparse)
 library(futile.logger)
 
+start_time <- Sys.time()
+
 source("config.R")
 source("datareader.R")
 source("util.R")
@@ -272,5 +274,8 @@ if (do_sa1) {
   }
 }
 
+end_time <- Sys.time()
+
 cat("\nOutput files are saved under: ", out_loc, "\n")
+cat("Execution time: ", (end_time - start_time), "\n")
 cat("Done!")
