@@ -11,6 +11,7 @@ Install following list of R libraries:
 * stringr
 * optparse
 * testthat
+* futile.logger
 
 Libraries can be installed using the R shell using something like:
 ```
