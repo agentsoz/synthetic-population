@@ -1,5 +1,9 @@
 #!/bin/bash
-cd ../rscripts &&
+
+DIR=`dirname "$0"`
+CDIR=`pwd`
+
+cd $DIR/../rscripts &&
 ./sa2preprocess.R &&
 cd ../populationbuilder &&
 mvn clean install &&
@@ -36,5 +40,6 @@ In more detail:
 
 " > README.txt &&
 zip -r melbourne-2016-population.zip melbourne/generated/SA2/*/population/* README.txt &&
-rm README.txt
+rm README.txt &&
+cd $CDIR
 #java -jar BuildingProperties/target/buildingproperties.jar Buildings.properties
