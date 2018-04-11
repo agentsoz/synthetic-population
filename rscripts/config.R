@@ -118,3 +118,11 @@ hh_types_count = length(hh_sizes)* length(family_hh_cats)
 persons_file_name ="preprocessed/person_types.csv.gz"
 households_file_name = "preprocessed/household_types.csv.gz"
 sa1_households_file_name = "preprocessed/sa1_household_types.csv.gz"
+
+##Age distribution file
+a_age_col  =1
+a_start_age = 0
+a_end_age = 115
+a_nof_sa2s = 309
+a_sa_row = 11
+a_data_start_row = 13
