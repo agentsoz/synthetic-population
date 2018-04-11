@@ -56,7 +56,7 @@ clean <-
     person[, pValColi] <- as.numeric(person[, pValColi])
     hhold[, hValColi] <- as.numeric(hhold[, hValColi])
     
-    flog.info("      Summary      ")
+    flog.info("Summary")
     totalpersonsNeededByHhs = sum(hhold[, hValColi] * rep(seq(1, 8), each = 14))
     totalExistingpersons = sum(person[, pValColi])
     difference = totalpersonsNeededByHhs - totalExistingpersons
@@ -94,20 +94,20 @@ clean <-
       }
     }
     if (!hasImpossibles) {
-      flog.info("Households: none\n")
+      flog.info("Households: none")
     }
     
     
     extra = 0
     
-    flog.info("       Summary      \n")
+    flog.info("Summary")
     totalpersonsNeededByHhs = sum(hhold[, hValColi] * rep(seq(1, 8), each = 14))
     totalExistingpersons = sum(person[, pValColi])
     difference = totalpersonsNeededByHhs - totalExistingpersons
     percentage = difference / totalpersonsNeededByHhs * 100
     flog.info("In households file: %d", totalpersonsNeededByHhs)
     flog.info("In persons file: %d", totalExistingpersons)
-    flog.info("Difference: %d - %f%s", difference, percentage, "%\n")
+    flog.info("Difference: %d - %f%s", difference, percentage, "%")
     
     
     #Check grouphouseholds

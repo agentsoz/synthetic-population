@@ -13,7 +13,7 @@ source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
 
-flog.logger("ROOT", INFO, appender=appender.file('sa2preprocess.log'))
+l <- flog.logger("ROOT", INFO, appender=appender.file('sa2preprocess.log'))
 
 set.seed(randomSeed)
 option_list = list(
@@ -71,7 +71,8 @@ opt_parser = OptionParser(option_list = option_list, description = script_descri
 opt = parse_args(opt_parser)
 
 #Load household distribution from ABS files
-print("Reading households file")
+cat("Reading households file\n")
+flog.info("Reading households file")
 hh_input <- opt$households
 hhArr = ReadHouseholds(
   hh_input,
@@ -87,7 +88,8 @@ hhArr = ReadHouseholds(
 )
 
 #Load persons distribution from ABS files
-print("Reading persons file")
+cat("Reading persons file\n")
+flog.info("Reading persons file")
 ind_input <- opt$persons
 indArr = ReadPersons(
   ind_input,
@@ -103,7 +105,8 @@ indArr = ReadPersons(
   age_cats
 )
 
-print("Read the list of SA2s")
+cat("Read the list of SA2s\n")
+flog.info("Read the list of SA2s")
 #Read the list of SA2s
 isStar <- F
 if (opt$sa2s == "*") {
@@ -177,8 +180,9 @@ sa2s_with_no_sa1s = c() #Book-keeping SA2s that have all empty SA1s according to
 sa2_count = 0
 for (sa2 in sa2_list) {
   sa2_count = sa2_count + 1
-  flog.info(" --- Processing %s (%d/%d) --- ", sa2,sa2_count,length(sa2_list))
-  cat("Processing  ",sa2_count,"/",length(sa2_list)," SA2s\r")
+  
+  flog.info("------ Processing %s (%d/%d) ------", sa2,sa2_count,length(sa2_list))
+  cat("Processing ",sa2_count,"/",length(sa2_list),"SA2s\r")
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
@@ -250,7 +254,7 @@ for (sa2 in sa2_list) {
     }
   }
 }
-cat("===============================================================\n")
+cat("Processed",sa2_count,"/",length(sa2_list),"SA2s\n")
 cat("\nEmpty SA2s\n")
 print(unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 errors <- subset(errors, !is.na(errors[, "start_error%"]))
