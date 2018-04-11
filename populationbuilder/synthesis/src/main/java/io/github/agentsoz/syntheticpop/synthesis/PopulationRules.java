@@ -17,10 +17,10 @@ public class PopulationRules {
      */
     public static boolean validateParentChildAgeRule(AgeRange parent1Age, AgeRange parent2Age, AgeRange childAge) {
         int parent1AgeGap = parent1Age.min() - childAge.max();
-        boolean parent2AgeCondition, parent1AgeCondition = 1 <= parent1AgeGap && parent1AgeGap <= 31; //The effective age gap is 45
+        boolean parent2AgeCondition, parent1AgeCondition = 1 <= parent1AgeGap && parent1AgeGap <= 46; //The effective age gap is 45
         if (parent2Age != null) {
             int parent2AgeGap = parent2Age.min() - childAge.max();
-            parent2AgeCondition = 1 <= parent2AgeGap && parent2AgeGap <= 31; //The effective age gap is 45
+            parent2AgeCondition = 1 <= parent2AgeGap && parent2AgeGap <= 46; //The effective age gap is 45
         } else {
             parent2AgeCondition = true;
         }
@@ -36,6 +36,6 @@ public class PopulationRules {
      */
     public static boolean validateParentChildAgeRule(int parentAge, int childAge) {
         int ageGap = parentAge - childAge;
-        return 15 <= ageGap && ageGap <= 45;
+        return 15 <= ageGap && ageGap <= 60;
     }
 }
