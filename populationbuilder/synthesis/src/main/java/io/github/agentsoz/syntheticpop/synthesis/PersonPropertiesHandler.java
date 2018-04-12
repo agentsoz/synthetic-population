@@ -6,13 +6,9 @@ import io.github.agentsoz.syntheticpop.synthesis.models.Family;
 import io.github.agentsoz.syntheticpop.synthesis.models.Household;
 import io.github.agentsoz.syntheticpop.synthesis.models.Person;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Handles person level property assignments like Relationships and age
@@ -133,40 +129,34 @@ public class PersonPropertiesHandler {
      * @param random          Random number generator instance
      */
     public static void assignAge(List<Person> persons, List<Double> ageDistribution, Random random) {
+
         for (Person p : persons) {
-            assignAge(p, ageDistribution, random);
-        }
+            int[] eligibleAges = getPotentialAges(p);
+            // List of age percentages in this person's age range
+            List<Double> agePercentages = ageDistribution.subList(eligibleAges[0], eligibleAges[1] + 1);
+            double percentagesSum = agePercentages.stream().mapToDouble(e -> e).sum(); // Sum - going to calculate probability
+            // Probability this person falling in each age-year
+            List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect(Collectors.toList());
+            AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
+            // Get cumulative distribution of age probabilities
+            List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet).boxed().collect(Collectors
+                                                                                                                                      .toList());
+            double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
 
-    }
-
-    /**
-     * Assign suitable age to person based on population rules and observed age distribution in the population
-     *
-     * @param p               The person
-     * @param ageDistribution The age probability distribution
-     * @param random          Random instance
-     */
-    private static void assignAge(Person p, List<Double> ageDistribution, Random random) {
-        int[] eligibleAges = getPotentialAges(p);
-
-        // List of age percentages in this person's age range
-        List<Double> agePercentages = ageDistribution.subList(eligibleAges[0], eligibleAges[1]);
-        double percentagesSum = agePercentages.stream().mapToDouble(e -> e).sum(); // Sum - going to calculate probability
-        // Probability this person falling in each age-year
-        List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect(Collectors.toList());
-        AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
-        // Get cumulative distribution of age probabilities
-        List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet).boxed().collect(Collectors
-                                                                                                                                  .toList());
-        double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
-
-        // Find to which age-year this person belongs to and update person
-        for (int i = 0; i < cumAgeProbability.size(); i++) {
-            if (ageOffSet <= cumAgeProbability.get(i)) {
-                p.setAge(eligibleAges[0] + i);
-                break;
+            boolean marked = false;
+            // Find to which age-year this person belongs to and update person
+            for (int i = 0; i < cumAgeProbability.size(); i++) {
+                if (ageOffSet <= cumAgeProbability.get(i)) {
+                    marked = true;
+                    p.setAge(eligibleAges[0] + i);
+                    break;
+                }
+            }
+            if (!marked) {
+                System.out.println();
             }
         }
+
     }
 
     /**
@@ -181,17 +171,9 @@ public class PersonPropertiesHandler {
                                                    .boxed()
                                                    .collect(Collectors.toList());
 
-        Person youngestParent = Stream.of(p.getMother(), p.getFather())
-                                      .filter(Objects::nonNull)
-                                      .min(new AgeRange.AgeComparator())
-                                      .orElse(null);
-        if (youngestParent != null) {
-            int youngestParentAge = youngestParent.getAge() >= 0 ? youngestParent.getAge() : youngestParent.getAgeRange().min();
-
-            for (int a = p.getAgeRange().min(); a <= p.getAgeRange().max(); a++) {
-                if (!PopulationRules.validateParentChildAgeRule(youngestParentAge, a)) {
-                    eligibleAgeRanges.remove((Integer) a);
-                }
+        for (int a = p.getAgeRange().min(); a <= p.getAgeRange().max(); a++) {
+            if (!PopulationRules.validateParentChildAgeRule(p.getMother(), p.getMother(), a)) {
+                eligibleAgeRanges.remove((Integer) a);
             }
         }
 
@@ -203,10 +185,12 @@ public class PersonPropertiesHandler {
 
             if (oldestChild != null) {
                 int oldestChildAge = oldestChild.getAge() >= 0 ? oldestChild.getAge() : oldestChild.getAgeRange().min();
-                int min = eligibleAgeRanges.get(0), max = eligibleAgeRanges.get(eligibleAgeRanges.size() - 1);
-                for (int age = min; age <= max; age++) {
-                    if (!PopulationRules.validateParentChildAgeRule(age, oldestChildAge)) {
-                        eligibleAgeRanges.remove((Integer) age);
+                Iterator<Integer> ageItr = eligibleAgeRanges.iterator();
+                Integer age = null;
+                while (ageItr.hasNext()) {
+                    age = ageItr.next();
+                    if (!PopulationRules.validateParentChildAgeRule(age, p.getPartner(), oldestChildAge)) {
+                        ageItr.remove();
                     }
                 }
             }

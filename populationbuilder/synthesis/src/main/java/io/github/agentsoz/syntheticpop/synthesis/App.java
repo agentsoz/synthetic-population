@@ -81,10 +81,8 @@ public class App {
             for (String sa2 : sa2List) {
                 sa2 = sa2.trim();
                 Log.info("Starting SA2: " + sa2);
-                Path hhFile = Paths.get(inputDirectory + File.separator + sa2 + File
-                        .separator + "preprocessed/household_types.csv.gz");
-                Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File
-                        .separator + "preprocessed/person_types.csv.gz");
+                Path hhFile = Paths.get(inputDirectory + File.separator + sa2 + File.separator + "preprocessed/household_types.csv.gz");
+                Path indFile = Paths.get(inputDirectory + File.separator + sa2 + File.separator + "preprocessed/person_types.csv.gz");
 
                 // Read input CSVs
                 Map<String, List<HhRecord>> hhRecs = DataReader.readHouseholdRecords(hhFile);
