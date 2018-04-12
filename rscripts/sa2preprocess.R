@@ -255,31 +255,48 @@ for (sa2 in sa2_list) {
   }
 }
 cat("Processed",sa2_count,"/",length(sa2_list),"SA2s\n")
+flog.info(paste("Processed",sa2_count,"/",length(sa2_list),"SA2s"))
 cat("\nEmpty SA2s\n")
 print(unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
+flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
+
+desc = "\nSA2s above 5% error\n The difference between the number of persons in household and person distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n"
+cat(desc)
+flog.info(desc)
+
 errors <- subset(errors, !is.na(errors[, "start_error%"]))
-cat("\nSA2s above 5% error\n")
-cat("The difference between the number of persons in household distirbution and persons in distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n")
 high_error <-
   errors[c(abs(errors[, "start_error%"]) >= 5 &
              abs(errors[, "end_error%"]) >= 5),]
 if (length(high_error) > 0) {
   print(high_error)
+  flog.info(paste(SA2, unlist(colnames(high_error))))
+  for(e in high_error){
+    flog.info(paste(rowname(e),unlist(e)))
+  }
 } else{
   print("None")
+  flog.info("None")
 }
 
 if (do_sa1) {
-  cat("\nSA2s where all SA1s are empty, thus no SA1 distribution constructed\n")
+  desc = "\nSA2s where all SA1s are empty, thus no SA1 distribution constructed\n"
+  cat(desc)
+  flog.info(desc)
   if (length(sa2s_with_no_sa1s) > 0) {
     print(sa2s_with_no_sa1s)
+    flog.info(sa2s_with_no_sa2s)
   } else{
     print("None")
+    flog.info("None")
   }
 }
 
 end_time <- Sys.time()
 
 cat("\nOutput files are saved under: ", out_loc, "\n")
+flog.info(paste("Output files are saved under: ", out_loc))
 cat("Execution time: ", (end_time - start_time), "\n")
+flog.info(paste("Execution time:", (end_time - start_time)))
 cat("Done!")
+flog.info("Done!")
