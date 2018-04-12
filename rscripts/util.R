@@ -55,3 +55,13 @@ SmartRound <- function(x) {
   y[indices] <- y[indices] + 1
   return(y)
 }
+
+SA2FilePrefix <- function(sa2){
+  sa2_prefix = unlist(strsplit(gsub("-|\\(|\\)|\\.","", sa2),"\\s+"))
+  if(length(sa2_prefix) > 1){
+    sa2_prefix = tolower(paste(substr(sa2_prefix,1,4),collapse ="_"))
+  }else{
+    sa2_prefix =tolower(sa2_prefix)
+  }
+  return(sa2_prefix)
+}

@@ -166,28 +166,58 @@ DrawBarPlot <-
            out_file,
            plot_main_title,
            plot_xlab,
-           plot_ylab) {
+           plot_ylab,
+           legend,
+           sa2) {
     CreateDir(dirname(out_file))
     pdf(out_file)
     counts <- matrix(c(dist1, dist2), ncol = 2)
-    barplot(
+    dplot <- barplot(
       t(counts),
       main = plot_main_title,
-      xlab = plot_xlab,
-      ylab = plot_ylab,
       col = c("blue", "red"),
-      legend = rownames(counts),
       beside = TRUE,
-      border = NA
+      border = NA,
+      las = 1,
+      cex.lab = 0.8,
+      cex.axis = 0.8,
+      cex.main = .9,
+      cex.sub = .8,
+      xaxs = "i",
+      cex.names = 0.8,
+      xaxt = "n"
+    )
+    
+    box(bty = "l")
+    mtext(
+      side = 1,
+      at = colMeans(dplot),
+      line = 0.1,
+      text = rownames(counts),
+      cex = 0.4,
+      las = 1
     )
     legend(
-      'topright',
-      legend = c("Census", "Synthesised"),
-      col = c("blue", "red"),
-      lty = 1:1
+      "topright",
+      fill = c("blue", "red"),
+      legend = legend,
+      bty = "n",
+      cex = 0.8,
+      border = NA
     )
+    title(xlab = plot_xlab,
+          line = 1.5,
+          cex.lab = .8)
+    title(ylab = plot_ylab,
+          line = 2.5,
+          cex.lab = .8)
+    mtext(paste(sa2, "SA2"), cex = 0.6)
+    
     dev.off()
   }
+
+
+
 
 EvaluatePersonsRawVsSynthesised <- function() {
   cat("Person types distribution of ABS raw input vs. synthetic population\n")
@@ -206,11 +236,10 @@ EvaluatePersonsRawVsSynthesised <- function() {
       "Total persons in synthesised persons dist"
     )
   
-  wilcoxon_test_result <-
-    matrix(0, nrow = length(sa2_list), ncol = 3)
+  wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   for (i in 1:length(sa2_list)) {
-    cat("processing", i,"/",length(sa2_list),"\r")
+    cat("processing", i, "/", length(sa2_list), "\r")
     abs_raw_dist = ReadBySA(indArr, sa2_list[i])$V5
     
     synthetic_population_csv = paste(data_home,
@@ -220,8 +249,8 @@ EvaluatePersonsRawVsSynthesised <- function() {
                                      sep = "")
     synthetic_population_dist = read.csv(synthetic_population_csv)$Persons
     res = PerformSimilarityTests(abs_raw_dist, synthetic_population_dist)
-    wilcoxon_test_result[i, ] <- c(sa2_list[i], unlist(res)[1:2])
-    cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+    wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+    cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
   }
   
   colnames(wilcoxon_test_result) <-
@@ -262,7 +291,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
-    cat("processing", i,"/",length(sa2_list),"\r")
+    cat("processing", i, "/", length(sa2_list), "\r")
     cleaned_data_csv = paste(data_home,
                              "/",
                              sa2_list[i],
@@ -278,31 +307,48 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
-    wilcoxon_test_result[i, ] <- c(sa2_list[i], unlist(res)[1:2])
-    cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+    wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+    cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
     totals[i, 3] <- sum(cleaned_dist)
     totals[i, 5] <- sum(synthetic_population_dist)
     
-    
+    file_prefix = SA2FilePrefix(sa2_list[i])
     out_file = paste(
       outputHome,
       "plots",
       sa2_list[i],
-      "bar_persons_preprocessed_vs_synthetic.pdf",
+      paste(file_prefix,"bar_persons_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
+
     DrawBarPlot(
       cleaned_dist,
       synthetic_population_dist,
       out_file,
       "Preprocessed data vs synthetic population",
       "Person types",
-      "Number of persons"
+      "Number of persons",
+      c("Census preprocessed", "Synthesised"),
+      sa2_list[i]
     )
     
   }
   
   print("TOST with Wilcoxon Signed Rank Test")
+  colnames(wilcoxon_test_result) <-
+    c(
+      "SA2",
+      paste("p-value\nmu=", mu),
+      paste(
+        "Equivalent\n",
+        "alpha=",
+        alpha,
+        "\nconfidence=",
+        (100 - (alpha * 2 * 100)),
+        "%",
+        sep = ""
+      )
+    )
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-tost-wilcoxon.csv",
                   sep = "")
@@ -311,6 +357,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
             row.names = F)
   
   print("Cosine similarity test")
+  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-cosine-similarity.csv",
                   sep = "")
@@ -325,7 +372,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
-    cat("processing", i,"/",length(sa2_list),"\r")
+    cat("processing", i, "/", length(sa2_list), "\r")
     cleaned_data_csv = paste(data_home,
                              "/",
                              sa2_list[i],
@@ -340,18 +387,18 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)$NofHouseholds
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
-    wilcoxon_test_result[i, ] <- c(sa2_list[i], unlist(res)[1:2])
-    cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
+    wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+    cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
     
     totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
-    totals[i, 4] <-
-      sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
+    totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
     
+    file_prefix = SA2FilePrefix(sa2_list[i])
     out_file = paste(
       outputHome,
       "plots",
       sa2_list[i],
-      "bar_hosueholds_preprocessed_vs_synthetic.pdf",
+      paste(file_prefix,"bar_hosueholds_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
     DrawBarPlot(
@@ -360,7 +407,9 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
       out_file,
       "Preprocessed data vs synthetic population",
       "Household types",
-      "Number of households"
+      "Number of households",
+      c("Census preprocessed", "Synthesised"),
+      sa2_list[i]
     )
   }
   
@@ -404,39 +453,52 @@ EvalautePersonsAgeDistribution <- function() {
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
+  expected_dist_empty = list()
+  expected_dist_empty_count = 1
+  
   for (i in 1:length(sa2_list)) {
-    cat("processing", i,"/",length(sa2_list),"\r")
-    synthetic_persons_csv = paste(data_home,
-                                     "/",
-                                     sa2_list[i],
-                                     "/population/persons.csv.gz",
-                                     sep = "")
-    synthetic_population_dist  = read.csv(synthetic_persons_csv)
-    synth_age_dist = matrix(0, nrow = nrow(expected_age_dist))
-    rownames(synth_age_dist) = expected_age_dist$`AGEP Age`
-    synth_age_dist = tabulate(synthetic_population_dist$Age+1, nbins = 116)
+    cat("processing", i, "/", length(sa2_list), "\r")
     
-    synth_age_dist = (synth_age_dist /sum(synth_age_dist)) * 100
+    wilcoxon_test_result[i,1] <- sa2_list[i]
+    cossim_test_result[i,1] <- sa2_list[i]
     
-    res = PerformSimilarityTests(as.numeric(expected_age_dist[,sa2_list[i]]),synth_age_dist)
-    wilcoxon_test_result[i, ] <- c(sa2_list[i], unlist(res)[1:2])
-    cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
-    
-    out_file = paste(
-      outputHome,
-      "plots",
-      sa2_list[i],
-      "bar_persons_age_abs_vs_synthetic.pdf",
-      sep = "/"
-    )
-    DrawBarPlot(
-      as.numeric(expected_age_dist[,sa2_list[i]]),
-      synth_age_dist,
-      out_file,
-      "Age distribution in census data vs synthetic population",
-      "Age in years",
-      "Percentage of persons"
-    )
+    if (sum(as.numeric(expected_age_dist[, sa2_list[i]])) != 0) {
+      synthetic_persons_csv = paste(data_home,
+                                    "/",
+                                    sa2_list[i],
+                                    "/population/persons.csv.gz",
+                                    sep = "")
+      synthetic_population_dist  = read.csv(synthetic_persons_csv)
+      synth_age_dist = matrix(0, nrow = nrow(expected_age_dist))
+      rownames(synth_age_dist) = expected_age_dist$`AGEP Age`
+      synth_age_dist = tabulate(synthetic_population_dist$Age + 1, nbins = 116)
+      
+      synth_age_dist = (synth_age_dist / sum(synth_age_dist)) * 100
+      
+      res = PerformSimilarityTests(as.numeric(expected_age_dist[, sa2_list[i]]), synth_age_dist)
+      wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+      cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+      
+      file_prefix = SA2FilePrefix(sa2_list[i])
+      out_file = paste(outputHome,
+                       "plots",
+                       sa2_list[i],
+                       paste(file_prefix,"bar_persons_age_abs_vs_synthetic.pdf", sep = "_"),
+                       sep = "/")
+      DrawBarPlot(
+        as.numeric(expected_age_dist[, sa2_list[i]]),
+        synth_age_dist,
+        out_file,
+        "Age distribution in census data vs synthetic population",
+        "Age in years",
+        "Percentage of persons",
+        c("Census", "Synthesised"),
+        sa2_list[i]
+      )
+    } else{
+      expected_dist_empty[expected_dist_empty_count] = sa2_list[i]
+      expected_dist_empty_count = expected_dist_empty_count + 1
+    }
   }
   
   colnames(wilcoxon_test_result) <-
@@ -453,6 +515,7 @@ EvalautePersonsAgeDistribution <- function() {
         sep = ""
       )
     )
+  
   print("TOST with Wilcoxon Signed Rank Test - Persons age")
   outfile = paste(outputHome,
                   "/persons-age-census-vs-generated-tost-wilcoxon.csv",
@@ -461,13 +524,15 @@ EvalautePersonsAgeDistribution <- function() {
   
   print("Cosine similarity test - Persons age")
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
-  outfile = paste(
-    outputHome,
-    "/persons-age-census-vs-generated-cosine-similarity.csv",
-    sep = ""
-  )
+  outfile = paste(outputHome,
+                  "/persons-age-census-vs-generated-cosine-similarity.csv",
+                  sep = "")
   write.csv(cossim_test_result, file = outfile)
   
+  print(paste(
+    "Expected age distribution empty SA2s:",
+    unlist(expected_dist_empty)
+  ))
 }
 
 
