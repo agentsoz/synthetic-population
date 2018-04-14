@@ -398,7 +398,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
       outputHome,
       "plots",
       sa2_list[i],
-      paste(file_prefix,"bar_hosueholds_preprocessed_vs_synthetic.pdf", sep = "_"),
+      paste(file_prefix,"bar_households_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
     DrawBarPlot(
