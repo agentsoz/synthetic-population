@@ -146,5 +146,6 @@
         <module>geo</module>
         <module>BuildingProperties</module>
         <module>synthesis</module>
+        <module>addressmapper</module>
     </modules>
 </project>
