@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>populationbuilder</artifactId>
-        <groupId>bnw.abm.intg</groupId>
+        <groupId>io.github.agentsoz.syntheticpop</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <artifactId>addressmapper</artifactId>
+    <name>AddressMapper</name>
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <geotools.version>19.0</geotools.version>
     </properties>
-    <artifactId>addressmapper</artifactId>
     <build>
         <plugins>
             <plugin>
@@ -59,29 +59,19 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>bnw.abm.intg</groupId>
+            <groupId>io.github.agentsoz.syntheticpop</groupId>
             <artifactId>util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>bnw.abm.intg</groupId>
+            <groupId>io.github.agentsoz.syntheticpop</groupId>
             <artifactId>geo</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>bnw.abm.intg</groupId>
+            <groupId>io.github.agentsoz.syntheticpop</groupId>
             <artifactId>filemanager</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-epsg-hsql</artifactId>
-            <version>${geotools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-geojson</artifactId>
-            <version>${geotools.version}</version>
         </dependency>
     </dependencies>
     <repositories>
