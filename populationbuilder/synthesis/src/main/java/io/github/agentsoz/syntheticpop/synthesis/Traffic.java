@@ -15,6 +15,7 @@ import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import org.geotools.data.FeatureSource;
 import org.geotools.feature.FeatureIterator;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -28,6 +29,7 @@ import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -395,9 +397,9 @@ public class Traffic {
         String[] sa2names = sa2map.keySet().toArray(new String[0]);
         String property = "SA2_NAME11";
         ShapefileGeoFeatureReader geoReader = new ShapefileGeoFeatureReader();
-        geoReader.loadFeaturesByProperty(sa2File, property, sa2names);
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = geoReader.getFeatureSource(sa2File);
 
-        try (FeatureIterator<Feature> featItr = geoReader.getFeatures().features()) {
+        try (FeatureIterator<Feature> featItr = geoReader.loadFeaturesByProperty(ftSrc, property, sa2names).features()) {
             while (featItr.hasNext()) {
                 SimpleFeature feature = (SimpleFeature) featItr.next();
                 sa2map.put((String) feature.getAttribute("SA2_NAME11"), feature);

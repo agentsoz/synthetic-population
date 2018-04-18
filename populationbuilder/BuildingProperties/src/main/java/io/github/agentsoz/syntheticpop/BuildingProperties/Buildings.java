@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geotools.data.DataUtilities;
+import org.geotools.data.FeatureSource;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import java.io.IOException;
@@ -34,8 +36,8 @@ public class Buildings {
                                                 CoordinateReferenceSystem targetCRS) throws IOException {
         SimpleFeatureCollection buildingsCollection = null;
         ShapefileGeoFeatureReader buildingPolygonsReader = new ShapefileGeoFeatureReader();
-        buildingPolygonsReader.loadFeatures(inputFile, targetCRS);
-        buildingsCollection = DataUtilities.simple(buildingPolygonsReader.getFeatures());
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc =  buildingPolygonsReader.getFeatureSource(inputFile);
+        buildingsCollection = DataUtilities.simple(buildingPolygonsReader.loadFeaturesByProperty(ftSrc, filterByProperty, filterByValues));
 
         return buildingsCollection;
     }
