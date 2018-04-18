@@ -86,6 +86,7 @@ class Matcher {
         while (matchingMeshBlockItr.hasNext()) {
             mb = matchingMeshBlockItr.next();
         }
+        matchingMeshBlockItr.close();
         return mb;
     }
 

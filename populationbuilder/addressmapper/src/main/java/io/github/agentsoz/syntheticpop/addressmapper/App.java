@@ -84,14 +84,14 @@ public class App {
 
         List<Path> addressShapeFiles = null;
         SimpleFeatureCollection meshBlocks = null;
-        ;
+
         try {
 
             Log.info("Locating " + addressShapeFilePattern + " in " + addressFilePath);
             addressShapeFiles = Zip.findFiles(addressFilePath, addressShapeFilePattern);
             Log.info("Located " + addressShapeFiles.size() + " in " + addressFilePath);
         } catch (IOException ex) {
-            Log.errorAndExit("Unable to read " + saShapeFileName + " file", ex, GlobalConstants.ExitCode.USERINPUT);
+            Log.errorAndExit("Unable to read " + addressShapeFilePattern + " file", ex, GlobalConstants.ExitCode.USERINPUT);
         }
 
         try {
@@ -123,6 +123,7 @@ public class App {
                     System.out.print("Processed "+processed+" / "+totalAddresses+"              \r");
                 }
                 m.printStats();
+                addressFeatItr.close();
             }
 
             saveToFile(newFeatureCollection, tempOutputDir, outputFile);
