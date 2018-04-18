@@ -7,11 +7,14 @@ import org.geotools.data.FeatureSource;
 import org.geotools.data.Query;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureCollection;
+import org.geotools.filter.text.cql2.CQLException;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.geotools.filter.text.cql2.CQL;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -63,9 +66,19 @@ public class ShapefileGeoFeatureReader {
 
     public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
                                                     String property,
+                                                    String propertyValue) throws IOException, CQLException {
+
+        Filter filter = CQL.toFilter(property + "="+ propertyValue);
+
+        return featureSource.getFeatures(filter);
+    }
+
+
+    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
+                                                    String property,
                                                     String[] propertyValues) throws IOException {
 
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+        FilterFactory ff = CommonFactoryFinder.getFilterFactory();
 
         List<Filter> match = new ArrayList<>();
         for (String name : propertyValues) {
@@ -118,7 +131,7 @@ public class ShapefileGeoFeatureReader {
             List<Path> shapes = Zip.findFiles(target, shapeFileNamePattern);
             target = shapes.get(0);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("url", target.toUri().toURL());
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);

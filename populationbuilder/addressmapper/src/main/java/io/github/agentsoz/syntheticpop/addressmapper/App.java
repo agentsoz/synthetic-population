@@ -6,12 +6,15 @@ import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureWriter;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
+import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
+import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.FeatureSource;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.DefaultFeatureCollection;
+import org.geotools.filter.text.cql2.CQLException;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
@@ -20,17 +23,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * @author wniroshan 16 Apr 2018
  */
 public class App {
-    final private static String SA_FILE_NAME = "MB_2016_VIC.shp";
-    final private static String ADDR_SHAPE_NAME = "Address.shp";
+    private static Path addressFilePath = null, saFilePath = null, tempOutputDir = null, outputFile = null;
+    private static String addressLookupKey = null, saLookupKey = null, saFilterKey = null, addressShapeFilePattern = null, saShapeFileName = null;
+
+    private static Map<String, String> newAttributesToAddress = null;
+    private static String[] saFilterValues = null;
+
+    private static FeatureProcessing featProcessor;
+    private static ShapefileGeoFeatureReader shapesReader;
 
     private static void usage() {
         System.out.println("Usage: java -jar addressmapper.jar <properties file>");
-        System.out.println("This program maps mesh blocks and the corresponding SA1s in shape files obtained from Australian Bureau of Statistics to the addresses obtained from Vicmaps\n");
+        System.out.println(
+                "This program maps mesh blocks and the corresponding SA1s in shape files obtained from Australian Bureau of Statistics to the addresses obtained from Vicmaps\n");
         System.exit(0);
     }
 
@@ -38,20 +49,19 @@ public class App {
         Log.createLogger("AddressMapper", "AddressMapper.log");
 
         /* Read all the properties */
-        Path addressFilePath = null, saFilePath = null, tempOutputDir = null, outputFile = null;
-        String addressLookupKey = null, saLookupKey = null, saFilterKey = null;
-        String[] saFilterValues = null;
-        Map<String, String> newAttributesToAddress = null;
-
         if (args.length > 0) {
             ConfigProperties props = null;
             try {
                 props = new ConfigProperties(args[0]);
             } catch (IOException e) {
                 Log.error("When reading properties file", e);
+                usage();
             }
-            addressFilePath = props.readFileOrDirectoryPath("AddressesShapeFile");
-            saFilePath = props.readFileOrDirectoryPath("SAShapeFile");
+            addressFilePath = props.readFileOrDirectoryPath("AddressesShapeFileZip");
+            addressShapeFilePattern = props.getProperty("AddressesShapeFileNamePattern");
+            saFilePath = props.readFileOrDirectoryPath("SAShapeFileZip");
+            saShapeFileName = props.getProperty("SAShapeFileName");
+
             addressLookupKey = props.getProperty("AddressLookupKey");
             saLookupKey = props.getProperty("SALookupKey");
             newAttributesToAddress = props.readKeyValuePairs("NewAttributesToAddress");
@@ -65,58 +75,66 @@ public class App {
         } else {
             usage();
         }
+
+        shapesReader = new ShapefileGeoFeatureReader();
+        featProcessor = new FeatureProcessing();
+
+        Matcher m = new Matcher(featProcessor, saLookupKey, addressLookupKey);
         SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
 
         List<Path> addressShapeFiles = null;
-        SimpleFeatureCollection allMBs = null;
-        ShapefileGeoFeatureReader shapesReader = new ShapefileGeoFeatureReader();
-        FeatureProcessing featProcessor = new FeatureProcessing();
+        SimpleFeatureCollection meshBlocks = null;
+        ;
         try {
 
-            FeatureSource<SimpleFeatureType, SimpleFeature> ftSource = shapesReader.getFeatureSource(saFilePath, SA_FILE_NAME);
-            allMBs = (SimpleFeatureCollection) shapesReader.loadFeaturesByProperty(ftSource, saFilterKey, saFilterValues);
+            Log.info("Locating " + addressShapeFilePattern + " in " + addressFilePath);
+            addressShapeFiles = Zip.findFiles(addressFilePath, addressShapeFilePattern);
+            Log.info("Located " + addressShapeFiles.size() + " in " + addressFilePath);
+        } catch (IOException ex) {
+            Log.errorAndExit("Unable to read " + saShapeFileName + " file", ex, GlobalConstants.ExitCode.USERINPUT);
+        }
 
-            addressShapeFiles = Zip.findFiles(addressFilePath, "ADDRESS.shp");
+        try {
+            meshBlocks = loadSAMeshBlocks();
+        } catch (IOException ex) {
+            Log.errorAndExit("Unable to read " + saShapeFileName + " file", ex, GlobalConstants.ExitCode.USERINPUT);
+        }
+        try {
 
-            SimpleFeatureIterator saFeatureIterator = allMBs.features();
-            while (saFeatureIterator.hasNext()) {
-                SimpleFeature saFeature = saFeatureIterator.next();
-                String saMBId = (String) saFeature.getAttribute(saLookupKey);
+            assert addressShapeFiles != null;
+            for (Path addressShape : addressShapeFiles) {
+                Log.info("Loading address features in " + addressShape);
+                SimpleFeatureCollection addresses = loadAddresses(addressShape);
+                int totalAddresses = addresses.size(), processed = 0;
 
-                for (Path addressShape : addressShapeFiles) {
-                    FeatureSource<SimpleFeatureType, SimpleFeature> addressFeatSrc = shapesReader.getFeatureSource(addressShape);
-                    SimpleFeatureCollection addresses = (SimpleFeatureCollection) shapesReader.loadFeaturesByProperty(addressFeatSrc,
-                                                                                                                      addressLookupKey,
-                                                                                                                      new String[]{saMBId});
+                SimpleFeatureIterator addressFeatItr = addresses.features();
 
-                    System.out.println(addresses.size());
-                    SimpleFeatureIterator addressFeatItr = addresses.features();
-                    while (addressFeatItr.hasNext()) {
-                        SimpleFeature addressFeat = addressFeatItr.next(); //Address feature
-                        SimpleFeature copyAddressFeat = featProcessor.addNewAttributeType(addressFeat,
-                                                                                          newAttributesToAddress.values(),
-                                                                                          String.class);
-                        for (Map.Entry<String, String> entry : newAttributesToAddress.entrySet()) {
-                            copyAddressFeat.setAttribute(entry.getKey(), saFeature.getAttribute(entry.getValue()));
-                        }
-                        ((DefaultFeatureCollection) newFeatureCollection).add(copyAddressFeat);
+                Log.info("Matching address " + addressLookupKey + " IDs to SA mesh block " + saLookupKey + " IDs");
+                while (addressFeatItr.hasNext()) {
+                    SimpleFeature addressFeat = addressFeatItr.next(); //Address feature
+
+                    assert meshBlocks != null;
+                    SimpleFeature mb = m.findSAMeshBlock(addressFeat, meshBlocks);
+                    if (mb != null) {
+                        updateAddress(addressFeat, mb, newFeatureCollection);
                     }
+
+                    processed++;
+                    System.out.print("Processed "+processed+" / "+totalAddresses+"              \r");
                 }
+                m.printStats();
             }
 
             saveToFile(newFeatureCollection, tempOutputDir, outputFile);
 
         } catch (IOException e) {
             Log.error("Mesh block area loading failed", e);
+        } catch (DataFormatException | CQLException e) {
+            e.printStackTrace();
         }
-        //
-        //        lookupAddressesBySA();
-        //        insertNewProperties();
-        //        locateContainingSAPolygonOfAddress();
-        //        insertNewProperties();
     }
 
-    private static void saveToFile(SimpleFeatureCollection featCollection, Path tempFileLoc, Path outputLoc){
+    private static void saveToFile(SimpleFeatureCollection featCollection, Path tempFileLoc, Path outputLoc) {
         // Save the updated addresses in zipped shapefile
         Path outFile = null;
         try {
@@ -136,6 +154,40 @@ public class App {
             e.printStackTrace();
         }
         System.out.println();
+    }
+
+    private static SimpleFeatureCollection loadSAMeshBlocks() throws IOException {
+        Log.info("Obtaining the Feature Source for " + saShapeFileName + " in " + saFilePath);
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSource = shapesReader.getFeatureSource(saFilePath, saShapeFileName);
+
+        Log.debug("Loading SA mesh block features where " + saFilterKey + " is " + saFilterValues);
+        return (SimpleFeatureCollection) shapesReader.loadFeaturesByProperty(ftSource, saFilterKey, saFilterValues);
+    }
+
+    private static SimpleFeatureCollection loadAddresses(Path addressShape) throws IOException {
+        FeatureSource<SimpleFeatureType, SimpleFeature> addressFeatSrc = shapesReader.getFeatureSource(addressShape);
+        return (SimpleFeatureCollection) shapesReader.loadFeatures(addressFeatSrc);
+
+    }
+
+    /**
+     * Updates a copy of the address with new information and add it to a new collection
+     *
+     * @param address              The address feature
+     * @param saMeshBlock          The matching mesh block feature
+     * @param newAddressCollection The feature collection to which address is added
+     * @throws IOException If processing failed
+     */
+    private static void updateAddress(SimpleFeature address,
+                                      SimpleFeature saMeshBlock,
+                                      SimpleFeatureCollection newAddressCollection) throws IOException {
+        SimpleFeature copyAddressFeat = featProcessor.addNewAttributeType(address,
+                                                                          newAttributesToAddress.keySet(),
+                                                                          String.class);
+        for (Map.Entry<String, String> entry : newAttributesToAddress.entrySet()) {
+            copyAddressFeat.setAttribute(entry.getKey(), saMeshBlock.getAttribute(entry.getValue()));
+        }
+        ((DefaultFeatureCollection) newAddressCollection).add(copyAddressFeat);
     }
 
     //    /**
