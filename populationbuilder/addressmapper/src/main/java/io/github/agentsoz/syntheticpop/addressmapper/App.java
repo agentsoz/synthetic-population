@@ -6,7 +6,6 @@ import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureWriter;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
-import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.geotools.data.DataUtilities;
@@ -21,8 +20,10 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
 /**
@@ -120,13 +121,14 @@ public class App {
                     }
 
                     processed++;
-                    System.out.print("Processed "+processed+" / "+totalAddresses+"              \r");
+                    System.out.print("Processed " + processed + " / " + totalAddresses + "              \r");
                 }
                 m.printStats();
                 addressFeatItr.close();
             }
 
             saveToFile(newFeatureCollection, tempOutputDir, outputFile);
+            Log.info("Updated addresses saved to: "+outputFile);
 
         } catch (IOException e) {
             Log.error("Mesh block area loading failed", e);
@@ -161,7 +163,7 @@ public class App {
         Log.info("Obtaining the Feature Source for " + saShapeFileName + " in " + saFilePath);
         FeatureSource<SimpleFeatureType, SimpleFeature> ftSource = shapesReader.getFeatureSource(saFilePath, saShapeFileName);
 
-        Log.debug("Loading SA mesh block features where " + saFilterKey + " is " + saFilterValues);
+        Log.debug("Loading SA mesh block features where " + saFilterKey + " is " + Arrays.stream(saFilterValues).collect(Collectors.toList()));
         return (SimpleFeatureCollection) shapesReader.loadFeaturesByProperty(ftSource, saFilterKey, saFilterValues);
     }
 
