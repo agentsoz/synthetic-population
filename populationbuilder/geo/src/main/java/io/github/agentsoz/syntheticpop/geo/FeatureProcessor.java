@@ -27,7 +27,7 @@ import java.util.zip.DataFormatException;
 /**
  * @author Bhagya N. Wickramasinghe
  */
-public class FeatureProcessing {
+public class FeatureProcessor {
 
     /**
      * Returns the feature that contains the input point

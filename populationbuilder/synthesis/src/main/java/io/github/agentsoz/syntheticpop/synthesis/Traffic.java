@@ -7,7 +7,7 @@ import io.github.agentsoz.syntheticpop.filemanager.json.JSONReadable;
 import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
 import io.github.agentsoz.syntheticpop.filemanager.json.JacksonJSONReader;
 import io.github.agentsoz.syntheticpop.geo.CoordinateConversion;
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
+import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
@@ -283,7 +283,7 @@ public class Traffic {
      * @return coordinate
      */
     private Coord getCoordinates(Scenario matsimScenario, Map<String, Feature> sa2map, String area, Random random) {
-        FeatureProcessing fp = new FeatureProcessing();
+        FeatureProcessor fp = new FeatureProcessor();
         Feature workSA = sa2map.get(area);
         if (workSA == null) { // No SA2 for - POW Capital city undefined
             // (Greater Melbourne). Taking random SA2
