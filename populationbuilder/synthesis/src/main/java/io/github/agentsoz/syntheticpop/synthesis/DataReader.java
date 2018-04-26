@@ -154,7 +154,7 @@ public class DataReader {
         //Read the data file
         Path file = Paths.get(params.get("FileName"));
         Reader reader;
-        switch (FileUtils.getFileExtention(file).toLowerCase()) {
+        switch (FileUtils.getFileExtension(file).toLowerCase()) {
             case "zip":
                 reader = Zip.read(file, FileUtils.getFileName(file) + ".csv");
                 break;
