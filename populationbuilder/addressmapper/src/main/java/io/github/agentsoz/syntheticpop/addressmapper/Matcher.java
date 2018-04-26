@@ -1,6 +1,6 @@
 package io.github.agentsoz.syntheticpop.addressmapper;
 
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
+import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.util.LIFOLinkedHashSet;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -10,7 +10,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.Filter;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.zip.DataFormatException;
 
 /**
@@ -20,52 +19,69 @@ class Matcher {
 
     final private String saLookupKey;
     final private String addressLookupKey;
-    final private FeatureProcessing featProcessor;
+    final private FeatureProcessor featProcessor;
 
-    final private HashSet<String> blackList;
-    final private HashMap<String, SimpleFeature> whiteList;
+    final private HashMap<String, SimpleFeature> cache;
     private LIFOLinkedHashSet<SimpleFeature> recentMatches = new LIFOLinkedHashSet<>(15);
 
-    private int lookup = 0, contain = 0, blEliminate = 0, wlFound = 0;
+    private int lookup = 0, contain = 0, cacheHits = 0;
 
-    Matcher(FeatureProcessing featureProcessing, String saLookupKey, String addressLookupKey) {
+    /**
+     * Matches an address with a mesh block from ABS census data. This class is written in a way so it will work for other geographical
+     * areas in addition to mesh blocks, i.e. to use this on SA1s simply replace mesh block data with SA1 data.
+     *
+     * @param featureProcessor Feature processor instance to perform shape file operations
+     * @param saLookupKey      The key in Statistical Area shapefile attributes-table that refer to the ID of area (mesh block).
+     * @param addressLookupKey The key in address shapefile attributes-table that refer to address' area (mesh block) ID.
+     */
+    Matcher(FeatureProcessor featureProcessor, String saLookupKey, String addressLookupKey) {
         this.saLookupKey = saLookupKey;
         this.addressLookupKey = addressLookupKey;
-        this.featProcessor = featureProcessing;
-        blackList = new HashSet<>();
-        whiteList = new HashMap<>();
+        this.featProcessor = featureProcessor;
+        cache = new HashMap<>();
     }
 
+    /**
+     * Finds the SA mesh block of a the specified address. First the method tries to lookup the address mesh block id in SA mesh block
+     * attributes table. If that fails, it tries to locate the geographical mesh block polygon that contains the address. If the correct SA
+     * mesh block of the address is found the result is cached and returns the SA mesh block. Caching helps speeding up the search.
+     *
+     * @param address      The address feature
+     * @param saMeshBlocks The collection of Statistica Area mesh blocks from ABS data
+     * @return The Statistical Area mesh block feature of that contains the address
+     * @throws CQLException        When looking up the address mesh block ID in saMeshBlocks collection
+     * @throws DataFormatException When searching the the address within the saMeshBlocks polygons
+     */
     SimpleFeature findSAMeshBlock(SimpleFeature address, SimpleFeatureCollection saMeshBlocks) throws CQLException, DataFormatException {
-        SimpleFeature mb = null;
-        if (!isInBlackList(address)) { //Eliminate quickly
-            if (isInWhiteList(address)) {
-                mb = getSAMeshBlockFromWhiteList(address);
-                wlFound++;
-            } else {
-                mb = lookupMatchingSAMeshBlock(address, saMeshBlocks);
-                if (mb == null) {
-                    mb = locateContainingSAMeshBlockOfAddress(address, saMeshBlocks);
-                    if (mb == null) {
-                        blackList.add(address.getAttribute(addressLookupKey).toString());
-                    } else {
-                        whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
-                        contain++;
-                    }
-                } else {
-                    whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
-                    lookup++;
-                }
-            }
+
+        SimpleFeature mb;
+        if (isInCache(address)) {
+            mb = getSAMeshBlockFromWhiteList(address);
+            cacheHits++;
         } else {
-            blEliminate++;
+            mb = lookupMatchingSAMeshBlock(address, saMeshBlocks);
+            if (mb == null) {
+                mb = locateContainingSAMeshBlockOfAddress(address, saMeshBlocks);
+                if (mb != null) {
+                    cache.put(address.getAttribute(addressLookupKey).toString(), mb);
+                    contain++;
+                }
+            } else {
+                cache.put(address.getAttribute(addressLookupKey).toString(), mb);
+                lookup++;
+            }
         }
+
         return mb;
     }
 
-    String printStats() {
-        return "Final whitelist: " + whiteList.size() + " Successful lookup: " + lookup + " Successful polygon search: " + contain + " Whitelist detections: " + wlFound + " Final blacklist: " + blackList
-                .size() + " Blacklist eliminations: " + blEliminate;
+    /**
+     * Returns performance stats
+     *
+     * @return String describing search result summary
+     */
+    String getStats() {
+        return "Successful area ID lookup count: " + lookup + " Successful polygon search count: " + contain + "Final cache size: " + cache.size() + " Cache detections:" + cacheHits;
     }
 
     /**
@@ -77,21 +93,25 @@ class Matcher {
      * @throws CQLException If filter creation failed
      */
     private SimpleFeature lookupMatchingSAMeshBlock(SimpleFeature address, SimpleFeatureCollection allSAMeshBlocks) throws CQLException {
-        Filter filter = CQL.toFilter(saLookupKey + "=" + address.getAttribute(addressLookupKey));
-
-        SimpleFeatureCollection matchingMeshBlocks = allSAMeshBlocks.subCollection(filter);
-        SimpleFeatureIterator matchingMeshBlockItr = matchingMeshBlocks.features();
 
         SimpleFeature mb = null;
-        while (matchingMeshBlockItr.hasNext()) {
-            mb = matchingMeshBlockItr.next();
+        String meshBlockId = address.getAttribute(addressLookupKey).toString();
+        if (!(meshBlockId == null || meshBlockId.equals(""))) {
+            Filter filter = CQL.toFilter(saLookupKey + "=" + meshBlockId);
+
+            SimpleFeatureCollection matchingMeshBlocks = allSAMeshBlocks.subCollection(filter);
+            SimpleFeatureIterator matchingMeshBlockItr = matchingMeshBlocks.features();
+
+            while (matchingMeshBlockItr.hasNext()) {
+                mb = matchingMeshBlockItr.next();
+            }
+            matchingMeshBlockItr.close();
         }
-        matchingMeshBlockItr.close();
         return mb;
     }
 
     /**
-     * Finds the SA mesh block that address is contained geographically
+     * Finds the SA mesh block (polygon) that address is contained geographically
      *
      * @param address      The address
      * @param saMeshBlocks The collection of SA mesh blocks
@@ -129,23 +149,13 @@ class Matcher {
     }
 
     /**
-     * Checks whether the address is already known to be not in any of the SA mesh blocks
-     *
-     * @param address The address
-     * @return True is it is not in a SA mesh block, else false
-     */
-    private boolean isInBlackList(SimpleFeature address) {
-        return blackList.contains(address.getAttribute(addressLookupKey).toString());
-    }
-
-    /**
      * Checks whether the matching mesh block of the address is already known
      *
      * @param address The address
      * @return True is the address's mesh block is already known
      */
-    private boolean isInWhiteList(SimpleFeature address) {
-        return whiteList.containsKey(address.getAttribute(addressLookupKey).toString());
+    private boolean isInCache(SimpleFeature address) {
+        return cache.containsKey(address.getAttribute(addressLookupKey).toString());
     }
 
     /**
@@ -155,7 +165,17 @@ class Matcher {
      * @return SA mesh block
      */
     private SimpleFeature getSAMeshBlockFromWhiteList(SimpleFeature address) {
-        return whiteList.get(address.getAttribute(addressLookupKey).toString());
+        return cache.get(address.getAttribute(addressLookupKey).toString());
     }
 
+}
+
+class MeshBlockPOJO {
+    final String MB_CODE16;
+    final String SA1_MAINCODE16;
+
+    public MeshBlockPOJO(String MB_CODE16, String SA1_MAINCODE16) {
+        this.MB_CODE16 = MB_CODE16;
+        this.SA1_MAINCODE16 = SA1_MAINCODE16;
+    }
 }
