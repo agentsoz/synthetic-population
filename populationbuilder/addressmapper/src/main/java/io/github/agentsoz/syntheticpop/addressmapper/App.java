@@ -55,7 +55,8 @@ public class App {
         Log.createLogger("AddressMapper", "AddressMapper.log");
 
         boolean deleteTempShapeFiles = true;
-        /* Read all the properties */
+
+        // Read all the properties
         if (args.length > 0) {
             ConfigProperties props = null;
             try {
@@ -92,6 +93,7 @@ public class App {
         List<Path> addressShapeFiles = new ArrayList<>();
         SimpleFeatureCollection meshBlocks = null;
 
+        // Find the address.shp files in the specified address zip files
         for (String addressFile : addressFilePathStr) {
             try {
                 Log.info("Locating " + addressShapeFilePattern + " in " + addressFile);
@@ -103,6 +105,7 @@ public class App {
         Log.info("Located " + addressShapeFiles.size() + " address shape files");
 
 
+        //Load the mesh blocks
         Log.info("Locating " + saShapeFileName + " in " + saFilePath);
         try {
             meshBlocks = loadSAMeshBlocks();
@@ -112,82 +115,107 @@ public class App {
             Log.errorAndExit("Unable to read " + saShapeFileName + " file", ex, GlobalConstants.ExitCode.USERINPUT);
         }
 
-        for (Path addressShape : addressShapeFiles) {
+        //Locate the SA id of addresses in each address shapefile
+        Iterator<Path> addressShapesItr = addressShapeFiles.iterator();
+        while (addressShapesItr.hasNext()) {
+            Path addressShape = addressShapesItr.next();
+            SimpleFeatureCollection updatedFeatureCollection = mapAddressesToSAMeshBlocks(addressShape, meshBlocks);
 
-            SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
 
-            Log.info("Loading address features in " + addressShape.toUri());
-
-            Matcher m = new Matcher(featProcessor, saLookupKey, addressLookupKey);
-            SimpleFeatureCollection addresses = null;
-
-            try {
-                addresses = loadAddresses(addressShape);
-            } catch (IOException e) {
-                Log.errorAndExit("Addresses loading failed", e, GlobalConstants.ExitCode.USERINPUT);
-            }
-
-            assert addresses != null;
-            int totalAddresses = addresses.size(), processed = 0, duplicates = 0, logi = 1;
-
-            SimpleFeature addressFeat = null;
-            try (SimpleFeatureIterator addressFeatItr = addresses.features()) {
-                Log.info("Matching address " + addressLookupKey + " IDs to SA mesh block " + saLookupKey + " IDs");
-
-                while (addressFeatItr.hasNext()) {
-
-                    addressFeat = addressFeatItr.next(); //Address feature
-
-                    if (!isDuplicate(addressFeat)) {
-                        assert meshBlocks != null;
-                        SimpleFeature mb = m.findSAMeshBlock(addressFeat, meshBlocks);
-                        if (mb != null) {
-                            updateAddress(addressFeat, mb, newFeatureCollection);
-                        }
-                    } else {
-                        duplicates++;
-                    }
-
-                    processed++;
-                    if (processed == logi) {
-                        Log.info("Processed " + processed + " / " + totalAddresses + " duplicates: " + duplicates);
-                        logi += logi;
-                    }
-
+            if (!updatedFeatureCollection.isEmpty()) {
+                Path tempLocation = tempOutputDir.resolve(getAreaName(addressShape).toString());
+                try {
+                    Path saved = saveToTempShapeFile(updatedFeatureCollection, tempLocation);
+                    Log.debug("Temporary files saved to: " + saved.toString());
+                } catch (IOException e) {
+                    Log.errorAndExit("Writing to temp file location failed: " + tempLocation, e, GlobalConstants.ExitCode.DATA_ERROR);
                 }
-                Log.info("Processed " + processed + " / " + totalAddresses + " duplicates: " + duplicates);
-                Log.info(m.getStats());
-
-            } catch (IOException e) {
-                Log.debug(addressFeat.getAttributes().toString());
-                Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.USERINPUT);
-            } catch (DataFormatException | CQLException e) {
-                Log.debug(addressFeat.getAttributes().toString());
-                Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.DATA_ERROR);
-            }
-
-            Path tempLocation = tempOutputDir.resolve(getAreaName(addressShape).toString());
-            try {
-                Path saved = saveToTempShapeFile(newFeatureCollection, tempLocation);
-                Log.debug("Temporary files saved to: " + saved.toString());
-            } catch (IOException e) {
-                Log.errorAndExit("Writing to temp file location failed: " + tempLocation, e, GlobalConstants.ExitCode.DATA_ERROR);
+            } else {
+                addressShapesItr.remove(); //Remove because we don't save the empty feature collection. Otherwise below zip creation code fails.
+                Log.warn("Empty processed addresses collection - "+getAreaName(addressShape)+". It seems no addresses belong to any of the mesh blocks (statistical areas)");
             }
         }
 
+        //Create a zip with all the updated address shape files
         try {
+            Log.info("Creating a zip file with all shape files ... ");
             zipShapeFiles(addressShapeFiles.stream().map(App::getAreaName).toArray(Path[]::new),
                           tempOutputDir,
                           outputFile,
                           deleteTempShapeFiles);
         } catch (IOException e) {
-            Log.errorAndExit("Writing updated addresses shapefile failed", e, GlobalConstants.ExitCode.IOERROR);
+            Log.errorAndExit("Writing updated addresses shapefiles to zip failed", e, GlobalConstants.ExitCode.IOERROR);
         } catch (URISyntaxException e) {
             Log.errorAndExit("Creating a zip with updated addresses shapefile failed", e, GlobalConstants.ExitCode.IOERROR);
         }
 
         Log.info("Updated addresses zip saved to: " + outputFile);
         System.out.println("Updated addresses zip saved to: " + outputFile + "\nDone!");
+    }
+
+    /**
+     * Finds the address that belong to one of the specified mesh blocks. The addresses that are in the mesh blocks are copied to a new
+     * FeatureCollection instance, and mesh block id and SA1 ids are added as new attributes. This does not alter the address instances in
+     * original FeatureCollection.
+     *
+     * @param addressShapeFile The addresses shape file
+     * @param meshBlocks       The mesh blocks that addresses are expecte do to belong to
+     * @return New collection of addresses that are in one of the mesh blocks with the corresponding mesh block id and SA1 id.
+     */
+    private static SimpleFeatureCollection mapAddressesToSAMeshBlocks(Path addressShapeFile, SimpleFeatureCollection meshBlocks) {
+
+        SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
+
+        Log.info("Loading address features in " + addressShapeFile.toUri());
+
+        Matcher m = new Matcher(featProcessor, saLookupKey, addressLookupKey);
+        SimpleFeatureCollection addresses = null;
+
+        try {
+            addresses = loadAddresses(addressShapeFile);
+        } catch (IOException e) {
+            Log.errorAndExit("Addresses loading failed", e, GlobalConstants.ExitCode.USERINPUT);
+        }
+
+        assert addresses != null;
+        int totalAddresses = addresses.size(), processed = 0, duplicates = 0, logi = 1;
+
+        SimpleFeature addressFeat = null;
+        try (SimpleFeatureIterator addressFeatItr = addresses.features()) {
+            Log.info("Matching address " + addressLookupKey + " IDs to SA mesh block " + saLookupKey + " IDs");
+
+            while (addressFeatItr.hasNext() && processed < 3) {
+
+                addressFeat = addressFeatItr.next(); //Address feature
+
+                if (!isDuplicate(addressFeat)) {
+                    assert meshBlocks != null;
+                    SimpleFeature mb = m.findSAMeshBlock(addressFeat, meshBlocks);
+                    if (mb != null) {
+                        updateAddress(addressFeat, mb, newFeatureCollection);
+                    }
+                } else {
+                    duplicates++;
+                }
+
+                processed++;
+                if (processed == logi) {
+                    Log.info("Processed " + processed + " / " + totalAddresses + " duplicates: " + duplicates);
+                    logi += logi;
+                }
+
+            }
+            Log.info("Processed " + processed + " / " + totalAddresses + " duplicates: " + duplicates);
+            Log.info(m.getStats());
+
+        } catch (IOException e) {
+            Log.debug(addressFeat.getAttributes().toString());
+            Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.USERINPUT);
+        } catch (DataFormatException | CQLException e) {
+            Log.debug(addressFeat.getAttributes().toString());
+            Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.DATA_ERROR);
+        }
+        return newFeatureCollection;
     }
 
     private static Path saveToTempShapeFile(SimpleFeatureCollection featCollection,
@@ -250,40 +278,4 @@ public class App {
     private static boolean isDuplicate(SimpleFeature address) {
         return !checkedAddresses.add(address.getAttribute(duplicatesCheckKey).toString());
     }
-
-    //    /**
-    //     * Filters and loads SA1 geo feature polygons from a shape file based on a property and an array of values that the property
-    // can have.
-    //     * It also saves the selected SA1 features in a zip file.
-    //     *
-    //     * @param sa1Path                      The path of the SA1 shape file
-    //     * @param sa1FilterProp                The name of the property
-    //     * @param sa1FilterVals                The array of values that the sa1FilterProp can take
-    //     * @param crs                          Coordinate reference system of the shape file
-    //     * @param dirToSaveSelectedSA1Features The location to save selected SA1 geo feature polygons
-    //     * @return a list of SA1 geo features polygons
-    //     * @throws IOException        When reading SA1 geo features from the SA1 shape file
-    //     * @throws URISyntaxException When creating a zip file with selected SA1 geo features
-    //     */
-    //    private static SimpleFeatureCollection getSA1Collection(Path sa1Path,
-    //                                                            String sa1FilterProp,
-    //                                                            String[] sa1FilterVals,
-    //                                                            CoordinateReferenceSystem crs,
-    //                                                            String dirToSaveSelectedSA1Features) throws IOException,
-    // URISyntaxException {
-    //        SimpleFeatureCollection sa1Collection = null;
-    //        ShapefileGeoFeatureReader geoFeatReader = new ShapefileGeoFeatureReader();
-    //
-    //        geoFeatReader.loadFeatures(sa1Path, sa1FilterProp, sa1FilterVals, crs);
-    //        sa1Collection = DataUtilities.simple(geoFeatReader.getFeatures());
-    //        new ShapefileGeoFeatureWriter().writeFeatures(sa1Collection, tempOutputDir.toAbsolutePath());
-    //        String featureName = ((SimpleFeatureCollection) sa1Collection).getSchema().getName().toString();
-    //        List<Path> filesToZip = FileUtils.find(tempOutputDir.toAbsolutePath(), featureName + ".*");
-    //
-    //        Path sa1OutLoc = Paths.get(dirToSaveSelectedSA1Features + featureName + "_Selected_SA1s.zip").toAbsolutePath();
-    //        Zip.create(sa1OutLoc, filesToZip);
-    //        Log.info("Saved selected SA1s to: " + sa1OutLoc.toString());
-    //
-    //        return sa1Collection;
-    //    }
 }
