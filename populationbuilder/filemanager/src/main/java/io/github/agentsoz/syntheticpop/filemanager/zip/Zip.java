@@ -3,6 +3,7 @@
  */
 package io.github.agentsoz.syntheticpop.filemanager.zip;
 
+import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.Find;
 import io.github.agentsoz.syntheticpop.util.LambdaCheckedException;
 
@@ -11,7 +12,10 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -23,7 +27,8 @@ public class Zip {
 
     /**
      * Returns a java.io.Reader for the specifed file in the zipFile
-     * @param zipFile The path to the zipFile
+     *
+     * @param zipFile   The path to the zipFile
      * @param fileInZip The file inside the zip file
      * @return A reader instance for the file in the zip
      * @throws IOException If a Reader instance cannot be instantiated for the specified file
@@ -38,10 +43,13 @@ public class Zip {
      *
      * @param zipFile        The output file
      * @param componentFiles The files to add to the zip file
+     * @param deleteOriginal Set true to delete the original files
      * @throws IOException        When reading and writing files
      * @throws URISyntaxException If the URI of the zipFile cannot be obtained
      */
-    public static void archiveFiles(Path zipFile, List<Path> componentFiles) throws IOException, URISyntaxException {
+    public static void archiveFiles(Path zipFile,
+                                    List<Path> componentFiles,
+                                    boolean deleteOriginal) throws IOException, URISyntaxException {
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
         // locate file system by using the syntax
@@ -54,6 +62,11 @@ public class Zip {
                 Files.copy(externalFilePath, filePathInZip, StandardCopyOption.REPLACE_EXISTING);
             }
         }
+
+        if (deleteOriginal) {
+            FileUtils.delete(componentFiles);
+        }
+
     }
 
     /**
@@ -61,7 +74,7 @@ public class Zip {
      *
      * @param zipFile        The output file
      * @param directories    The directories to add to the zip file
-     * @param deleteOriginal Set true to delete the original direcories
+     * @param deleteOriginal Set true to delete the original directories
      * @throws IOException When reading and writing files
      */
     public static void archiveDirectories(Path zipFile, List<Path> directories, boolean deleteOriginal) throws IOException {
@@ -84,15 +97,9 @@ public class Zip {
         }
 
         if (deleteOriginal) {
-            for (Path dir : directories) {
-                Files.walk(dir, FileVisitOption.FOLLOW_LINKS)
-                     .sorted(Comparator.reverseOrder())
-                     .forEach(LambdaCheckedException.handlingConsumerWrapper(Files::deleteIfExists, IOException.class));
-
-            }
+            FileUtils.delete(directories);
         }
     }
-
 
     /**
      * Finds a file with the specified name pattern in a zip file
