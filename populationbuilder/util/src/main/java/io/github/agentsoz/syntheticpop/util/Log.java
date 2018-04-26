@@ -11,7 +11,7 @@ import ch.qos.logback.core.FileAppender;
 
 /**
  * 
- * @author Bhagya N. Wickramasinghe - Taken from Dhirendra Singh's LATCH code
+ * @author Bhagya N. Wickramasinghe - Taken frm Dhirendra Singh's LATCH code
  *
  */
 public class Log {
@@ -117,7 +117,7 @@ public class Log {
         ple.setPattern("%date %level %logger{10} %msg%n");
         ple.setContext(lc);
         ple.start();
-        FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
+        FileAppender<ILoggingEvent> fileAppender = new FileAppender<>();
         fileAppender.setFile(file);
         fileAppender.setEncoder(ple);
         fileAppender.setAppend(false);
