@@ -1,12 +1,10 @@
 package io.github.agentsoz.syntheticpop.geo;
 
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFinder;
-import org.geotools.data.FeatureSource;
-import org.geotools.data.Query;
+import org.geotools.data.*;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureCollection;
+import org.geotools.filter.text.cql2.CQL;
 import org.geotools.filter.text.cql2.CQLException;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -14,7 +12,6 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.geotools.filter.text.cql2.CQL;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -68,7 +65,7 @@ public class ShapefileGeoFeatureReader {
                                                     String property,
                                                     String propertyValue) throws IOException, CQLException {
 
-        Filter filter = CQL.toFilter(property + "="+ propertyValue);
+        Filter filter = CQL.toFilter(property + "=" + propertyValue);
 
         return featureSource.getFeatures(filter);
     }
@@ -116,8 +113,7 @@ public class ShapefileGeoFeatureReader {
         // query.setCoordinateSystem(crs);
         query.setCoordinateSystemReproject(crs);
 
-        FeatureCollection features = featureSource.getFeatures(query);
-        return features;
+        return featureSource.getFeatures(query);
     }
 
     /**
@@ -136,7 +132,9 @@ public class ShapefileGeoFeatureReader {
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);
         String typeName = dataStore.getTypeNames()[0];
-        return dataStore.getFeatureSource(typeName);
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
+        dataStore.dispose();
+        return ftSrc;
     }
 
 
@@ -146,7 +144,9 @@ public class ShapefileGeoFeatureReader {
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);
         String typeName = dataStore.getTypeNames()[0];
-        return dataStore.getFeatureSource(typeName);
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
+        dataStore.dispose();
+        return ftSrc;
     }
 
 }
