@@ -42,14 +42,14 @@ option_list = list(
     default = "*"
   ),
   make_option(
-    c("-a", "--a"),
+    c("--dosa1"),
     action = "store_true",
-    default = FALSE,
+    default = T,
     help = "Set this flag to calculate SA1 level household distribution. [default= %default]",
     metavar = "logical"
   ),
   make_option(
-    c("--sa1s"),
+    c("--sa1hh"),
     default = "../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
@@ -58,7 +58,7 @@ option_list = list(
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip,
-    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula",
+    ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
     metavar = "LIST_FILES"
   )
@@ -166,9 +166,15 @@ if (isStar) {
 }
 
 out_loc <- opt$output
-do_sa1 <- opt$a
-sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1s), ","),trimws))
+do_sa1 <- opt$dosa1
+sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1hh), ","),trimws))
 
+if(do_sa1){
+  # Load SA1 household distribution of this SA2
+  cat("Loading all SA1 household distributions\n")
+  flog.debug("Loading all SA1 household distributions")
+  all_sa1_hh_dists = LoadSA1HouseholdsInSA2(sa1_files)
+}
 errors <-
   matrix(
     NA,
@@ -183,6 +189,17 @@ for (sa2 in sa2_list) {
   
   flog.info("------ Processing %s (%d/%d) ------", sa2,sa2_count,length(sa2_list))
   cat("Processing ",sa2_count,"/",length(sa2_list),"SA2s\r")
+  
+  #First check whether SA1 household distribution is available if --dosa1 flag is true
+  if(do_sa1){
+    raw_sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, sa2, 14, 8)
+    if(is.null(raw_sa1_hh_dist)){
+      cat("Skipping",sa2,"- cannot find SA1 household distribution\n")
+      flog.info("User has set --dosa1 flag to %s but the SA1 household distributions are not found in --sa1hh files list", do_sa1, sa2)
+      next
+    }
+  }
+  
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
   hhs = ReadBySA(hhArr, sa2)
@@ -234,9 +251,7 @@ for (sa2 in sa2_list) {
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
       flog.info("Estimating SA1 households distribution...")
-      # Load above selected SA1 info file
-      raw_sa1_hh_dist = ReadSA1HouseholdsInSA2(sa1_files, sa2, 14, 8)
-
+      
       adjusted_sa1_hh_dist = EstimateSA1HouseholdsDistribution(sa2,  hhs, raw_sa1_hh_dist)
 
       if(!is.null(adjusted_sa1_hh_dist)){
@@ -254,10 +269,10 @@ for (sa2 in sa2_list) {
     }
   }
 }
-cat("Processed",sa2_count,"/",length(sa2_list),"SA2s\n")
+cat("Processed",sa2_count,"/",length(sa2_list),"SA2s         \n")
 flog.info(paste("Processed",sa2_count,"/",length(sa2_list),"SA2s"))
 cat("\nEmpty SA2s\n")
-print(unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
+cat(paste(rownames(errors[is.na(errors[, "start_error%"]),]), collapse=", "),"\n")
 flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 
 desc = "\nSA2s above 5% error\n The difference between the number of persons in household and person distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n"
@@ -270,9 +285,9 @@ high_error <-
              abs(errors[, "end_error%"]) >= 5),]
 if (length(high_error) > 0) {
   print(high_error)
-  flog.info(paste(SA2, unlist(colnames(high_error))))
+  flog.info(paste("SA2", unlist(colnames(high_error))))
   for(e in high_error){
-    flog.info(paste(rowname(e),unlist(e)))
+    flog.info(paste(rownames(e),unlist(e)))
   }
 } else{
   print("None")
@@ -285,7 +300,7 @@ if (do_sa1) {
   flog.info(desc)
   if (length(sa2s_with_no_sa1s) > 0) {
     print(sa2s_with_no_sa1s)
-    flog.info(sa2s_with_no_sa2s)
+    flog.info(sa2s_with_no_sa1s)
   } else{
     print("None")
     flog.info("None")
