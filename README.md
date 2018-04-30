@@ -52,6 +52,16 @@ This generates three files as `persons.csv.gz`, `families.csv.gz` and `household
 
 Additionally, this updates addresses `synthetic-population/data/melbourne-2016-addresses.json.gz` with corresponding `HOUSEHOLD_ID`s. The same address can have multiple household IDs if there are not enough addresses in a given Statistical Area.
 
+To only generate person instances set flag `-p` as below:
+
+        > java -jar synthesis/target/synthesis.jar population.properties -p
+This will only generate `persons.csv.gz` and `output_person_types.csv.gz` files. None of the other tasks will be performed in this mode.
+
+## Accuracy
+1. The algorithm ensures that input household and person level marginal distributions are maintained in the synthesised population to the best possible level.
+2. The relationships and family household compostions are ensured realistic.
+3. With default settings, the population is generated at SA2 level and redistributed to SA1 level considering SA1 households distribution. Because of that only household properties are accurate at SA1 level. We cannot assure that person level distribution is accurate at SA1 level.
+4. The households are assigned to randomly selected addresses within a Statistical Area (SA1 by default). If there are not enough addresses in a given SA, multiple household may be assigned to the same address.
 
 ## Constructing a new population
 
@@ -121,3 +131,7 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
 
    1. Building Addresses shape files can be downloaded at www.data.vic.gov.au/data/dataset/address-vicmap-address. The already downloaded addresses shapefiles include Local Government Areas (LGAs) covering Greater Melbourne. The Greater Melbourne area accordig to ABS is larger than area covered by Greater Melbourne Metropoliton LGAs. So the downloaded LGAs include additional LGAs that are outside Greater Melbourne Metropoliton area. The 3 already downloaded address files are `SDM494419.zip`, `SDM494198.zip` and `SDM494202.zip` in `synthetic-population/data/raw/`. It is recomended that address files are downloaded as smaller files as above instead of a one large file covering whole Greater Melbourne area because of memory limitations.
   
+## Adding new properties
+The household sysnthesis logic is purely heuristics based. Because of that it is difficult to introduce new properties if they influence relationships and family composistions in the population. However, if the new properties do not influence relationships and family compositions the program can be easily extened to retain new properties when the population is synthesised.
+
+For example, to assign income of individuals, we only need to update the code to read the income from the data file and store it as a property of the person instances. This new property will be maintained throughout the population construction and the resulting population will give the distribution of person incomes in differnt households. However, this will not guarantee the correct household income distribution.
