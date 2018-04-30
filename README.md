@@ -2,6 +2,8 @@
 
 The population covers Greater Melbourne area as specifed in Australian Bureau of Statistics (ABS) data. This includes 309 SA2s. The population statistics were obtained using TableBuilder Pro tool provided in Australian Bureau of Statics (ABS) website(www.abs.gov.au). ESRI shapefiles of mesh block area boundaries and SA2 code specifications were also downloaded from ABS website. ESRI shapefiles of building addresses were taken from Vicmap Data provided in www.land.vic.gov.au.
 
+Already constructed population of the Greater Melbourne is available in `synthetic-population/data/melbourne-2016-population.zip` file. Each household, family and person has unique IDs. So if a subset of SA2s are needed, the files of corresponding SA2s can be merged to get the population.
+
 ## Prerequisits
 - R statistical package (https://www.r-project.org). Required R extra libraries are:
      - stringr
@@ -45,7 +47,12 @@ To run the program execute
 
         > cd synthetic-population/populationbuilder
         > java -jar synthesis/target/synthesis.jar population.properties
-        
+
+This generates three files as `persons.csv.gz`, `families.csv.gz` and `households.csv.gz`, which are saved under `synthetic-population/data/melbourne/generated/SA2/<SA2 Name>/population/`. This also creates `output_household_types.csv.gz` and `output_person_types.csv.gz` files, which give the summary distributions of households and persons in each SA2.
+
+Additionally, this updates addresses `synthetic-population/data/melbourne-2016-addresses.json.gz` with corresponding `HOUSEHOLD_ID`s. The same address can have multiple household IDs if there are not enough addresses in a given Statistical Area.
+
+
 ## Constructing a new population
 
 ### 1. Download data using ABS TableBuilder tool
