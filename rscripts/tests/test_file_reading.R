@@ -5,6 +5,7 @@ source("configs_for_tests.R")
 source("../config.R")
 source("../datareader.R")
 source("../util.R")
+source("../estimateSA1HouseholdsUsingSA2.R")
 
 
 #Verifys whether households distribution is read properly
@@ -49,7 +50,8 @@ test_that("ABS Persons Distribution reading", {
 })
 
 ref_sa1_hh_dist = readRDS(ref_sa1_households_file)
-func_sa1_hh_dist = ReadSA1HouseholdsInSA2(c(abs_sa1_households_file),test_sa2,length(family_hh_cats), length(hh_sizes))
+all_sa1_hh_dists = LoadSA1HouseholdsInSA2(c(abs_sa1_households_file))
+func_sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, test_sa2, length(family_hh_cats), length(hh_sizes),abs_sa2_code_map_file)
 
 test_that("SA1 household distribution reading", {
   expect_equal(func_sa1_hh_dist, ref_sa1_hh_dist)

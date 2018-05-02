@@ -1,8 +1,6 @@
 library(tools)
 library(stringr)
 
-source("config.R")
-
 sa1_dist_data <- list()
 
 LoadSA1HouseholdsInSA2 <- function(sa1_files) {
@@ -133,6 +131,7 @@ EstimateSA1HouseholdsDistribution <-
   }
 
 if (FALSE) {
+  source("config.R")
   test_files = "../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
   ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
   ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
