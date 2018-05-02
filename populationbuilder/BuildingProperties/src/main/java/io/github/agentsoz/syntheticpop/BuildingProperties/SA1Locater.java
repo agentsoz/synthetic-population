@@ -1,17 +1,16 @@
 package io.github.agentsoz.syntheticpop.BuildingProperties;
 
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
-import io.github.agentsoz.syntheticpop.util.Log;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
+import io.github.agentsoz.syntheticpop.util.Log;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.SchemaException;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 
@@ -23,7 +22,7 @@ import java.util.zip.DataFormatException;
  */
 public class SA1Locater {
 
-    private static LinkedHashSet<Feature> recentMatches = new LinkedHashSet<>(15);
+    private static LinkedHashSet<SimpleFeature> recentMatches = new LinkedHashSet<>(15);
 
     /**
      * Finds the SA1 each building belongs to based on geographical location
@@ -36,7 +35,7 @@ public class SA1Locater {
 
         Map<String, List<SimpleFeature>> buildingsBySA1 = new HashMap<>();
         SimpleFeature matchingSA1 = null;
-        FeatureProcessing fp = new FeatureProcessing();
+        FeatureProcessor fp = new FeatureProcessor();
         try (SimpleFeatureIterator buildingsInterator = allBuildings.features()) {
             while (buildingsInterator.hasNext()) {
                 SimpleFeature building = buildingsInterator.next();
@@ -73,7 +72,7 @@ public class SA1Locater {
      * @return SA1_7DIG11 code of matching SA1
      * @throws SchemaException
      */
-    static String findSA1ofBuilding(SimpleFeature building, SimpleFeatureCollection targetSA1s, FeatureProcessing fp) throws DataFormatException {
+    static String findSA1ofBuilding(SimpleFeature building, SimpleFeatureCollection targetSA1s, FeatureProcessor fp) throws DataFormatException {
 
         SimpleFeature matchingSA1 = null;
 

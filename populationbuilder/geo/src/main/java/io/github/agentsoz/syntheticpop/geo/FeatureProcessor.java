@@ -19,7 +19,7 @@ import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.zip.DataFormatException;
@@ -27,7 +27,7 @@ import java.util.zip.DataFormatException;
 /**
  * @author Bhagya N. Wickramasinghe
  */
-public class FeatureProcessing {
+public class FeatureProcessor {
 
     /**
      * Returns the feature that contains the input point
@@ -38,7 +38,7 @@ public class FeatureProcessing {
      * @throws DataFormatException If CRS of featureCollection and point do not match
      */
     public SimpleFeature getContainingPolygon(SimpleFeatureCollection simplefeaturePolygonCollection,
-                                              Feature point) throws DataFormatException {
+                                              SimpleFeature point) throws DataFormatException {
 
         // if (!point.getType().equals(featureCollection.getSchema())){
         // throw new DataFormatException("Coordinate Reference Systems of
@@ -63,11 +63,9 @@ public class FeatureProcessing {
         return containingPolygon;
     }
 
-    public SimpleFeature getContainingPolygon(LinkedHashSet<Feature> featurePolygons, SimpleFeature point) {
+    public SimpleFeature getContainingPolygon(LinkedHashSet<SimpleFeature> featurePolygons, SimpleFeature point) {
 
-        Iterator<Feature> itr = featurePolygons.iterator();
-        while (itr.hasNext()) {
-            SimpleFeature polygon = (SimpleFeature) itr.next();
+        for (SimpleFeature polygon : featurePolygons) {
             Geometry jtsGeoPolygon = (Geometry) polygon.getDefaultGeometry();
             Point jtsPoint = (Point) point.getDefaultGeometryProperty().getValue();
             // Geometry pointGeom = (Geometry) ((SimpleFeature)point).getDefaultGeometry();
@@ -78,13 +76,6 @@ public class FeatureProcessing {
         }
         return null;
     }
-
-    /**
-     * Point in polygon in geotools also works by creating a filter that
-     * directly select polygons from FeatureSource. FilterFactory2 ff =
-     * CommonFactoryFinder.getFilterFactory2( GeoTools.getDefaultHints() );
-     *
-     */
 
     /**
      * Transforms Coordinate Reference System (CRS) of the features in featureCollection
@@ -114,7 +105,7 @@ public class FeatureProcessing {
      *
      * @param feature     Current Feature
      * @param transformer MathTransform object for converting feature's CRS to target CRS
-     * @return
+     * @return Transformed feature
      * @throws MismatchedDimensionException
      * @throws TransformException
      */
@@ -133,21 +124,19 @@ public class FeatureProcessing {
      * @param attributeName     String name of the attribute
      * @param valueClass        Object class of the values
      * @return Copy of the original feature collection with new attribute added
-     * @throws IOException
      */
-    @SuppressWarnings("rawtypes")
     public FeatureCollection addNewAttributeType(FeatureCollection featureCollection, String attributeName,
                                                  Class valueClass) throws IOException {
-        SimpleFeatureType sfeatureType = DataUtilities.simple(featureCollection.getSchema());
+        SimpleFeatureType sFeatureType = DataUtilities.simple(featureCollection.getSchema());
 
         // Create the new type using the former as a template
-        SimpleFeatureTypeBuilder sfeatureTypeBuilder = new SimpleFeatureTypeBuilder();
-        sfeatureTypeBuilder.init(sfeatureType);
-        sfeatureTypeBuilder.setName(sfeatureType.getName());
+        SimpleFeatureTypeBuilder sFeatureTypeBuilder = new SimpleFeatureTypeBuilder();
+        sFeatureTypeBuilder.init(sFeatureType);
+        sFeatureTypeBuilder.setName(sFeatureType.getName());
 
         // Add the new attribute
-        sfeatureTypeBuilder.add(attributeName, valueClass);
-        SimpleFeatureType newFeatureType = sfeatureTypeBuilder.buildFeatureType();
+        sFeatureTypeBuilder.add(attributeName, valueClass);
+        SimpleFeatureType newFeatureType = sFeatureTypeBuilder.buildFeatureType();
 
         // Create the collection of new Features
         SimpleFeatureBuilder sfeatureBuilder = new SimpleFeatureBuilder(newFeatureType);
@@ -162,7 +151,41 @@ public class FeatureProcessing {
             }
         }
 
+
         return newFeatureCollection;
+    }
+
+    /**
+     * Add new attribute to a copy of the feature collection. Value of the new attribute is set to null
+     *
+     * @param simpleFeature  The feature to be used as a template
+     * @param attributeNames String list of attribute names
+     * @param valueClass     Object class of the values
+     * @return Copy of the original feature collection with new attribute added
+     */
+    public SimpleFeature addNewAttributeType(SimpleFeature simpleFeature,
+                                             Collection<String> attributeNames,
+                                             Class valueClass) throws IOException {
+        SimpleFeatureType sFeatureType = DataUtilities.simple(simpleFeature.getFeatureType());
+
+        // Create the new type using the former as a template
+        SimpleFeatureTypeBuilder sFeatureTypeBuilder = new SimpleFeatureTypeBuilder();
+        sFeatureTypeBuilder.init(sFeatureType);
+        sFeatureTypeBuilder.setName(sFeatureType.getName());
+
+        // Add the new attribute
+        for (String attributeName : attributeNames) {
+            sFeatureTypeBuilder.add(attributeName, valueClass);
+        }
+
+        SimpleFeatureType newFeatureType = sFeatureTypeBuilder.buildFeatureType();
+
+        // Create the collection of new Features
+        SimpleFeatureBuilder sfeatureBuilder = new SimpleFeatureBuilder(newFeatureType);
+
+        sfeatureBuilder.addAll(simpleFeature.getAttributes());
+        sfeatureBuilder.add(null);
+        return sfeatureBuilder.buildFeature(null);
     }
 
     public Geometry getRandomPointIn(Feature mask, Random random) {

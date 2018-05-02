@@ -143,17 +143,12 @@ public class PersonPropertiesHandler {
                                                                                                                                       .toList());
             double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
 
-            boolean marked = false;
             // Find to which age-year this person belongs to and update person
             for (int i = 0; i < cumAgeProbability.size(); i++) {
                 if (ageOffSet <= cumAgeProbability.get(i)) {
-                    marked = true;
                     p.setAge(eligibleAges[0] + i);
                     break;
                 }
-            }
-            if (!marked) {
-                System.out.println();
             }
         }
 

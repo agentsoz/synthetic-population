@@ -31,19 +31,18 @@ public class ShapefileGeoFeatureWriter {
      *
      * @param featureCollection feature collection to save
      * @param outputDir         directory where output files to be written
-     * @throws IOException
+     * @throws IOException When reading and writing files
      */
     public Path writeFeatures(SimpleFeatureCollection featureCollection, Path outputDir) throws IOException {
         String featureName = ((SimpleFeatureCollection) featureCollection).getSchema().getName().toString();
 
         Path path = Paths.get(outputDir + File.separator + featureName + ".shp");
         FileDataStoreFactorySpi dataStoreFactory = new ShapefileDataStoreFactory();
-        Map<String, Serializable> params = new HashMap<String, Serializable>();
+        Map<String, Serializable> params = new HashMap<>();
         params.put("url", path.toUri().toURL());
         params.put("create spatial index", Boolean.TRUE);
         ShapefileDataStore newDataStore = (ShapefileDataStore) dataStoreFactory.createNewDataStore(params);
         newDataStore.createSchema((SimpleFeatureType) featureCollection.getSchema());
-        newDataStore.forceSchemaCRS(DefaultGeographicCRS.WGS84);
 
         Transaction transaction = new DefaultTransaction("create");
         String typeName = newDataStore.getTypeNames()[0];
@@ -63,6 +62,7 @@ public class ShapefileGeoFeatureWriter {
 
             } finally {
                 transaction.close();
+                newDataStore.dispose();
             }
         } else {
             System.out.println(typeName + " does not support read/write access");

@@ -3,11 +3,14 @@
  */
 package io.github.agentsoz.syntheticpop.filemanager;
 
+import io.github.agentsoz.syntheticpop.util.LambdaCheckedException;
 import io.github.agentsoz.syntheticpop.util.Log;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,8 +33,17 @@ public class FileUtils {
         return filename.getFileName().toString().split("\\.(?=[^\\.]+$)")[0];
     }
 
-    public static String getFileExtention(Path filename) {
+    public static String getFileExtension(Path filename) {
         return filename.getFileName().toString().split("\\.(?=[^\\.]+$)")[1];
+    }
+
+    public static void delete(List<Path> filesToDelete) throws IOException {
+        for (Path dir : filesToDelete) {
+            Files.walk(dir, FileVisitOption.FOLLOW_LINKS)
+                 .sorted(Comparator.reverseOrder())
+                 .forEach(LambdaCheckedException.handlingConsumerWrapper(Files::deleteIfExists, IOException.class));
+
+        }
     }
 
 }

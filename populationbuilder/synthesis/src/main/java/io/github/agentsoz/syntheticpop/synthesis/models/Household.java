@@ -15,11 +15,12 @@ public class Household {
 
     private static long IDCounter = 1;
     private static Map<String, Family> familiesAddedToHouseholds = new HashMap<>();
-    private final int expectedSize;
-    private final FamilyHouseholdType familyHhType;
-    private final String SA2_NAME;
-    private final List<Family> families;
+    private int expectedSize;
+    private FamilyHouseholdType familyHhType;
+    private String SA2_NAME;
+    private List<Family> families;
     private String householdID;
+    private String address;
 
     private String tenlld;
     private String SA1_7DIG11;
@@ -33,6 +34,8 @@ public class Household {
         this.families = new ArrayList<>();
         this.householdID = String.valueOf(IDCounter++);
     }
+
+    public Household() {}
 
     public String getSA2MainCode() {
         return this.SA2_MAINCODE;
@@ -58,6 +61,13 @@ public class Household {
         }
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * @return the tenlld
@@ -81,6 +91,10 @@ public class Household {
         return householdID;
     }
 
+    public void setID(String ID) {
+        this.householdID = ID;
+    }
+
     /**
      * @return the families
      */
@@ -96,7 +110,8 @@ public class Household {
             throw new Error("The household already has " + this.getExpectedFamilyCount() + " families");
         }
         if (this.getCurrentSize() + family.size() > this.getExpectedSize()) {
-            throw new Error("Adding new family will exceed expected household size. expected size: " + this.getExpectedSize() + " current size: " + this
+            throw new Error("Adding new family will exceed expected household size. expected size: " + this.getExpectedSize() + " current" +
+                                    " size: " + this
                     .getCurrentSize() + " new family size: " + family.size());
         }
         if (this.families.contains(family)) {
@@ -163,7 +178,8 @@ public class Household {
 
         if (getPrimaryFamilyType() != this.familyHhType.getFamilyType()) {
             Log.warn(
-                    "Household validation: Expected primary family: " + this.familyHhType.getFamilyType() + " Actual primary family: " + getPrimaryFamilyType());
+                    "Household validation: Expected primary family: " + this.familyHhType.getFamilyType() + " Actual primary family: " +
+                            getPrimaryFamilyType());
             return false;
         }
 
@@ -204,9 +220,5 @@ public class Household {
                 + " 1st:" + getPrimaryFamilyType()
                 + " 2nd:" + ((getCurrentFamilyCount() > 1) ? getFamily(1).getType() : null)
                 + " 3rd:" + ((getCurrentFamilyCount() > 2) ? getFamily(2).getType() : null);
-    }
-
-    public void setID(String ID) {
-        this.householdID = ID;
     }
 }
