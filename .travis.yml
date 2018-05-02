@@ -1,0 +1,15 @@
+language: R
+sudo: false
+cache: packages
+warnings_are_errors: false
+
+install:
+ - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics","futile.logger"))'
+ - cd populationbuilder/
+ - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script:
+ - cd ../
+ - Rscript -e "library(testthat);setwd('rscripts/tests');test_dir('.');"
+ - cd populationbuilder/
+ - mvn test -B
