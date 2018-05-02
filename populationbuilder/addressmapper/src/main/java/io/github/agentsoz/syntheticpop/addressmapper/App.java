@@ -6,6 +6,9 @@ import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author wniroshan 16 Apr 2018
  */
@@ -25,8 +28,8 @@ public class App {
     }
 
     public static void main(String args[]) {
-        System.out.println("Starting addresses mapping");
         Log.createLogger("AddressMapper", "AddressMapper.log");
+        Log.info("Starting addresses mapper");
 
         boolean mapAddressToSA1s = false, mapHouseholdsToAddresses = false;
         try {
@@ -57,17 +60,31 @@ public class App {
 
         assert props != null;
         if (mapAddressToSA1s) {
+            Log.info("Mapping addresses to SA1s");
+            long startTime = System.currentTimeMillis();
+
             StatisticalArea2AddressMapper saAdrMapper = new StatisticalArea2AddressMapper(props, featProcessor, shapesReader);
             saAdrMapper.mapAddressesToStatisticalAreas();
+
+            double timeSpent = (System.currentTimeMillis() - startTime) / (double) 1000;
+            Log.info("Complete");
+            Log.info("Execution time: " + timeSpent + " secs");
         }
 
         if (mapHouseholdsToAddresses) {
+            Log.info("Mapping households to addresses");
+            long startTime = System.currentTimeMillis();
+
             Household2AddressMapper hh2AddressMapper = new Household2AddressMapper(props, shapesReader);
             try {
                 hh2AddressMapper.assignHouseholdsToAddresses();
             } catch (Exception e) {
                 Log.errorAndExit("Mapping households to addresses failed", e, GlobalConstants.ExitCode.UNDEF);
             }
+
+            double timeSpent = (System.currentTimeMillis() - startTime) / (double) 1000;
+            Log.info("Complete");
+            Log.info("Execution time: " + timeSpent + " secs");
         }
     }
 
