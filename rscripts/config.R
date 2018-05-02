@@ -126,3 +126,6 @@ a_end_age = 115
 a_nof_sa2s = 309
 a_sa_row = 11
 a_data_start_row = 13
+
+##SA2 code map file
+m_sa2_codes_csv = "SA2_2016_AUST.csv"

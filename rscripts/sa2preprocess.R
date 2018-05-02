@@ -61,6 +61,12 @@ option_list = list(
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
     metavar = "LIST_FILES"
+  ),
+  make_option(
+    c("--sa2codemap"),
+    default = "../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip",
+    help = "The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. [default= %default]",
+    metavar = "FILE"
   )
 )
 script_description = "This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis.
@@ -167,6 +173,7 @@ if (isStar) {
 
 out_loc <- opt$output
 do_sa1 <- opt$dosa1
+sa2_code_map_file <-opt$sa2codemap
 sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1hh), ","),trimws))
 
 if(do_sa1){
@@ -192,7 +199,7 @@ for (sa2 in sa2_list) {
   
   #First check whether SA1 household distribution is available if --dosa1 flag is true
   if(do_sa1){
-    raw_sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, sa2, 14, 8)
+    raw_sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, sa2, 14, 8,sa2_code_map_file)
     if(is.null(raw_sa1_hh_dist)){
       cat("Skipping",sa2,"- cannot find SA1 household distribution\n")
       flog.info("User has set --dosa1 flag to %s but the SA1 household distributions are not found in --sa1hh files list", do_sa1, sa2)
