@@ -31,7 +31,7 @@ public class ShapefileGeoFeatureWriter {
      *
      * @param featureCollection feature collection to save
      * @param outputDir         directory where output files to be written
-     * @throws IOException
+     * @throws IOException When reading and writing files
      */
     public Path writeFeatures(SimpleFeatureCollection featureCollection, Path outputDir) throws IOException {
         String featureName = ((SimpleFeatureCollection) featureCollection).getSchema().getName().toString();

@@ -14,6 +14,7 @@ import org.opengis.filter.FilterFactory2;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,7 +120,8 @@ public class ShapefileGeoFeatureReader {
     /**
      * Obtain feature source from given file
      *
-     * @param target The file to process
+     * @param target               The file to process
+     * @param shapeFileNamePattern The name pattern of the .shp file
      * @return Feature source
      */
     public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(Path target, String shapeFileNamePattern) throws IOException {
@@ -127,20 +129,16 @@ public class ShapefileGeoFeatureReader {
             List<Path> shapes = Zip.findFiles(target, shapeFileNamePattern);
             target = shapes.get(0);
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put("url", target.toUri().toURL());
-
-        DataStore dataStore = DataStoreFinder.getDataStore(map);
-        String typeName = dataStore.getTypeNames()[0];
-        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
-        dataStore.dispose();
-        return ftSrc;
+        return getFeatureSource(target.toUri().toURL());
     }
-
 
     public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(Path target) throws IOException {
+        return getFeatureSource(target.toUri().toURL());
+    }
+
+    public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(URL target) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", target.toUri().toURL());
+        map.put("url", target);
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);
         String typeName = dataStore.getTypeNames()[0];
@@ -148,6 +146,7 @@ public class ShapefileGeoFeatureReader {
         dataStore.dispose();
         return ftSrc;
     }
+
 
 }
 
