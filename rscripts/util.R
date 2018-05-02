@@ -1,25 +1,26 @@
 
-ReadBySA <- function(arr, SAid){
-  rwids = which(arr[,1] == SAid)
-  return(arr[rwids,])
+
+ReadBySA <- function(arr, SAid) {
+  rwids = which(arr[, 1] == SAid)
+  return(arr[rwids, ])
 }
 
-GetAllSAs <- function(filename,startrow,endrow,sacol){
-  sas = read.csv(filename,header = F)
-  return(sas[startrow:endrow,sacol,sacol])
+GetAllSAs <- function(filename, startrow, endrow, sacol) {
+  sas = read.csv(filename, header = F)
+  return(sas[startrow:endrow, sacol, sacol])
 }
 
-GetMatchingRowIds <- function(arr, col, key){
-  rwids = which(arr[,col] == key)
+GetMatchingRowIds <- function(arr, col, key) {
+  rwids = which(arr[, col] == key)
   return(rwids)
 }
 
-GetMatchingColIds <- function(arr,row,key){
-  colids = which(arr[row,] == key)
+GetMatchingColIds <- function(arr, row, key) {
+  colids = which(arr[row, ] == key)
   return(colids)
 }
 
-CreateDir <-function(directory_path){
+CreateDir <- function(directory_path) {
   ifelse(
     !dir.exists(path = directory_path),
     dir.create(
@@ -56,12 +57,23 @@ SmartRound <- function(x) {
   return(y)
 }
 
-SA2FilePrefix <- function(sa2){
-  sa2_prefix = unlist(strsplit(gsub("-|\\(|\\)|\\.","", sa2),"\\s+"))
-  if(length(sa2_prefix) > 1){
-    sa2_prefix = tolower(paste(substr(sa2_prefix,1,4),collapse ="_"))
-  }else{
-    sa2_prefix =tolower(sa2_prefix)
+SA2FilePrefix <- function(sa2) {
+  sa2_prefix = unlist(strsplit(gsub("-|\\(|\\)|\\.", "", sa2), "\\s+"))
+  if (length(sa2_prefix) > 1) {
+    sa2_prefix = tolower(paste(substr(sa2_prefix, 1, 4), collapse = "_"))
+  } else{
+    sa2_prefix = tolower(sa2_prefix)
   }
   return(sa2_prefix)
+}
+
+GetCsvInZip <- function(input_file, csv_name = NULL) {
+  if (file_ext(input_file) == "zip") {
+    if (is.null(csv_name)) {
+      csv_name = paste(file_path_sans_ext(basename(input_file)), ".csv", sep = "")
+    }
+    inputCsv = unz(input_file, csv_name)
+  } else{
+    inputCsv = input_file
+  }
 }

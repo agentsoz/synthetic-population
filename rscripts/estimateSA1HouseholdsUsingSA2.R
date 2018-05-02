@@ -43,7 +43,8 @@ GetSA1HouseholdDistInSA2 <-
   function(sa1_hh_dists,
            sa2,
            family_types_count,
-           hh_sizes_count) {
+           hh_sizes_count,
+           sa2_code_map_file) {
     for (data_mat in sa1_hh_dists) {
       row_count_per_sa2 = family_types_count * hh_sizes_count
       
@@ -53,21 +54,27 @@ GetSA1HouseholdDistInSA2 <-
       if (length(sa2_row_id) != 0) {
         sa2_chunk <-
           data_mat[c(sa2_row_id:(sa2_row_id + row_count_per_sa2 - 1)), ]
-        val_only_cells =
-          sa2_chunk[, -sa2_col:-family_hh_type_col]
-        
-        #If there are no households in an SA1 that means the SA1 is not part of the SA2 we process at the moment.
-        nonempty_sa1_coli_vec =
-          which(colSums(matrix(
-            as.numeric(unlist(val_only_cells)), nrow = nrow(val_only_cells)
-          )) > 0)
-        real_non_empty_coli_vec = c(1:3, (nonempty_sa1_coli_vec + 3))# prepending hh type name columns
-        
-        sa2_chunk <- sa2_chunk[, real_non_empty_coli_vec]
-        
         nop_titles = sa2_chunk[which(sa2_chunk[, hh_size_col] != ""), hh_size_col]
-        sa2_chunk[, hh_size_col] <-
-          rep(nop_titles, each = family_types_count)
+        
+        #SA2 codes and SA1 codes have following relationship. So if we know the SA2 5 digit code we can figure out its SA1s from a list
+        #Example: SA2 51041
+        # S/T SA2
+        # 5   1041
+        
+        #Example: SA1 5104118
+        # S/T	SA2	  SA1
+        # 5	  1041  18
+        
+        code_map_csv = GetCsvInZip(sa2_code_map_file, m_sa2_codes_csv)
+        code_map = read.csv(code_map_csv)
+        sa2_5digcode = code_map[code_map$SA2_NAME_2016 == sa2, "SA2_5DIGITCODE_2016"]
+        
+        sa1_prefix_pattern = paste("^",sa2_5digcode,sep="")
+        sa1s = colnames(sa2_chunk)[grepl(sa1_prefix_pattern, colnames(sa2_chunk))]
+        selected_cols = c(colnames(sa2_chunk)[1:3], sa1s) # prepending sa2 name, num of persons and family hh type columns
+        sa2_chunk <- sa2_chunk[,selected_cols]
+        
+        sa2_chunk[, hh_size_col] <- rep(nop_titles, each = family_types_count)
         sa2_chunk[, sa2_col] <- sa2
         
         return(sa2_chunk)
@@ -84,11 +91,11 @@ EstimateSA1HouseholdsDistribution <-
     
     sa2_sa1_conflicts = FALSE
     mismatching_hh_types = c()
-    #If none of the SA1s have households in them, SA1HhDist only has 3 columns with SA2 name, hh size and
-    #family houshoeld type. So lastcol = 3 and sa1_start_col = 4
-    if (sa1_start_col < lastcol) {
+    #If at least one of the SA1s have households in them, sa1_hhs_dist must at least have 4 columns: SA2 name, hh size, family houshoeld type and one sa1 coloumn.
+    #So lastcol in the sa1_hh_dist must be >= 4. As sa1_start_col = 4 in config.R, following is true if there are sa1 households
+    if (sa1_start_col <= lastcol) {
       #If this SA2's SA1 level distribution has any households we can approximate a suitable distribution.
-      #If there none of the SA1s have households according to the distribution we don't know where to put them.
+      #If none of the SA1s have households according to the distribution we don't know where to put them.
       #So we skip such SA2s
       for (i in 1:rowcount) {
         sa1hhs = as.numeric(sa1_hhs_dist[i, sa1_start_col:lastcol]) #get data cells by skipping row and col headers
@@ -135,11 +142,10 @@ if (FALSE) {
   ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
   ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip,
   ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip"
-  sa1_hh_dists <-
+  all_sa1_hh_dists <-
     LoadSA1HouseholdsInSA2(unlist(lapply(strsplit(
       sub("\\n", "", test_files), ","
     ), trimws)))
   
-  GetSA1HouseholdDistInSA2(sa1_hh_dists, "Brunswick", 14, 8)
-  
+  sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, "Port Melbourne Industrial", 14, 8,"../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip")
 }
