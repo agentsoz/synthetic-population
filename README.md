@@ -11,7 +11,8 @@ Already constructed population of the Greater Melbourne is available in `synthet
      - Metrics
      - tools
      - testthat
-
+     - futile.logger
+     
 - JAVA 8 (https://java.com/en/download/)
 - Maven (https://maven.apache.org/download.cgi)
 - ABS TableBuilder Pro access to download data
