@@ -81,7 +81,7 @@ class Matcher {
      * @return String describing search result summary
      */
     String getStats() {
-        return "Successful area ID lookup count: " + lookup + " Successful polygon search count: " + contain + "Final cache size: " + cache.size() + " Cache detections:" + cacheHits;
+        return "Successful area ID lookup count: " + lookup + ", Successful polygon search count: " + contain + ", Final cache size: " + cache.size() + ", Cache detections:" + cacheHits;
     }
 
     /**
