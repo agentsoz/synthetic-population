@@ -10,6 +10,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.Filter;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.zip.DataFormatException;
 
 /**
@@ -21,10 +22,11 @@ class Matcher {
     final private String addressLookupKey;
     final private FeatureProcessor featProcessor;
 
-    final private HashMap<String, SimpleFeature> cache;
-    private LIFOLinkedHashSet<SimpleFeature> recentMatches = new LIFOLinkedHashSet<>(15);
+    final private HashMap<String, SimpleFeature> whiteList;
+    final private HashSet<String> blackList;
+    private LIFOLinkedHashSet<SimpleFeature> recentSAMatches = new LIFOLinkedHashSet<>(15);
 
-    private int lookup = 0, contain = 0, cacheHits = 0;
+    private int lookup = 0, contain = 0, whiteListHits = 0, blackListHits = 0;
 
     /**
      * Matches an address with a mesh block from ABS census data. This class is written in a way so it will work for other geographical
@@ -38,7 +40,8 @@ class Matcher {
         this.saLookupKey = saLookupKey;
         this.addressLookupKey = addressLookupKey;
         this.featProcessor = featureProcessor;
-        cache = new HashMap<>();
+        whiteList = new HashMap<>();
+        blackList = new HashSet<>();
     }
 
     /**
@@ -47,7 +50,7 @@ class Matcher {
      * mesh block of the address is found the result is cached and returns the SA mesh block. Caching helps speeding up the search.
      *
      * @param address      The address feature
-     * @param saMeshBlocks The collection of Statistica Area mesh blocks from ABS data
+     * @param saMeshBlocks The collection of Statistical Area mesh blocks from ABS data
      * @return The Statistical Area mesh block feature of that contains the address
      * @throws CQLException        When looking up the address mesh block ID in saMeshBlocks collection
      * @throws DataFormatException When searching the the address within the saMeshBlocks polygons
@@ -55,19 +58,24 @@ class Matcher {
     SimpleFeature findSAMeshBlock(SimpleFeature address, SimpleFeatureCollection saMeshBlocks) throws CQLException, DataFormatException {
 
         SimpleFeature mb;
-        if (isInCache(address)) {
+        if (isInWhiteList(address)) {
             mb = getSAMeshBlockFromWhiteList(address);
-            cacheHits++;
+            whiteListHits++;
+        } else if (isInBlackList(address)) {
+            mb = null;
+            blackListHits++;
         } else {
             mb = lookupMatchingSAMeshBlock(address, saMeshBlocks);
             if (mb == null) {
                 mb = locateContainingSAMeshBlockOfAddress(address, saMeshBlocks);
                 if (mb != null) {
-                    cache.put(address.getAttribute(addressLookupKey).toString(), mb);
+                    whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
                     contain++;
+                } else {
+                    blackList.add(address.getAttribute(addressLookupKey).toString());
                 }
             } else {
-                cache.put(address.getAttribute(addressLookupKey).toString(), mb);
+                whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
                 lookup++;
             }
         }
@@ -81,7 +89,8 @@ class Matcher {
      * @return String describing search result summary
      */
     String getStats() {
-        return "Successful area ID lookup count: " + lookup + ", Successful polygon search count: " + contain + ", Final cache size: " + cache.size() + ", Cache detections:" + cacheHits;
+        return "Successful area ID lookup count: " + lookup + ", Successful polygon search count: " + contain + ", Final white list cache size: " + whiteList
+                .size() + ", White list cache detections:" + whiteListHits + ", Final black list cache size: " + blackList.size() + ", Black list detections: " + blackListHits;
     }
 
     /**
@@ -94,20 +103,21 @@ class Matcher {
      */
     private SimpleFeature lookupMatchingSAMeshBlock(SimpleFeature address, SimpleFeatureCollection allSAMeshBlocks) throws CQLException {
 
-        SimpleFeature mb = null;
-        String meshBlockId = address.getAttribute(addressLookupKey).toString();
-        if (!(meshBlockId == null || meshBlockId.equals(""))) {
-            Filter filter = CQL.toFilter(saLookupKey + "=" + meshBlockId);
+        SimpleFeature saMb = null;
+        String addressMeshBlockId = address.getAttribute(addressLookupKey).toString();
+        if (!(addressMeshBlockId == null || addressMeshBlockId.equals(""))) {
+            Filter filter = CQL.toFilter(saLookupKey + "=" + addressMeshBlockId);
 
-            SimpleFeatureCollection matchingMeshBlocks = allSAMeshBlocks.subCollection(filter);
-            SimpleFeatureIterator matchingMeshBlockItr = matchingMeshBlocks.features();
+            SimpleFeatureCollection matchingSAMeshBlocks = allSAMeshBlocks.subCollection(filter);
+            SimpleFeatureIterator matchingSAMeshBlockItr = matchingSAMeshBlocks.features();
 
-            while (matchingMeshBlockItr.hasNext()) {
-                mb = matchingMeshBlockItr.next();
+            if(matchingSAMeshBlockItr.hasNext()){
+                saMb = matchingSAMeshBlockItr.next();
             }
-            matchingMeshBlockItr.close();
+
+            matchingSAMeshBlockItr.close();
         }
-        return mb;
+        return saMb;
     }
 
     /**
@@ -124,8 +134,8 @@ class Matcher {
 
         SimpleFeature matchingMeshBlock = null;
 
-        if (!recentMatches.isEmpty()) {
-            matchingMeshBlock = featProcessor.getContainingPolygon(recentMatches, address);
+        if (!recentSAMatches.isEmpty()) {
+            matchingMeshBlock = featProcessor.getContainingPolygon(recentSAMatches, address);
         }
         if (matchingMeshBlock == null) {
             matchingMeshBlock = featProcessor.getContainingPolygon(saMeshBlocks, address);
@@ -142,7 +152,7 @@ class Matcher {
          * set. Size of recently matched polygon is a set to 15 (decided arbitrarily).
          */
         if (matchingMeshBlock != null) {
-            recentMatches.add(matchingMeshBlock);
+            recentSAMatches.add(matchingMeshBlock);
         }
         return matchingMeshBlock;
 
@@ -154,8 +164,12 @@ class Matcher {
      * @param address The address
      * @return True is the address's mesh block is already known
      */
-    private boolean isInCache(SimpleFeature address) {
-        return cache.containsKey(address.getAttribute(addressLookupKey).toString());
+    private boolean isInWhiteList(SimpleFeature address) {
+        return whiteList.containsKey(address.getAttribute(addressLookupKey).toString());
+    }
+
+    private boolean isInBlackList(SimpleFeature address) {
+        return blackList.contains(address.getAttribute(addressLookupKey).toString());
     }
 
     /**
@@ -165,17 +179,7 @@ class Matcher {
      * @return SA mesh block
      */
     private SimpleFeature getSAMeshBlockFromWhiteList(SimpleFeature address) {
-        return cache.get(address.getAttribute(addressLookupKey).toString());
+        return whiteList.get(address.getAttribute(addressLookupKey).toString());
     }
 
-}
-
-class MeshBlockPOJO {
-    final String MB_CODE16;
-    final String SA1_MAINCODE16;
-
-    public MeshBlockPOJO(String MB_CODE16, String SA1_MAINCODE16) {
-        this.MB_CODE16 = MB_CODE16;
-        this.SA1_MAINCODE16 = SA1_MAINCODE16;
-    }
 }
