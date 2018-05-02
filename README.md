@@ -5,6 +5,7 @@ The population covers Greater Melbourne area as specifed in Australian Bureau of
 Already constructed population of the Greater Melbourne is available in `synthetic-population/data/melbourne-2016-population.zip` file. Each household, family and person has unique IDs. So if a subset of SA2s are needed, the files of corresponding SA2s can be merged to get the population.
 
 ## Prerequisits
+- Git LFS (https://git-lfs.github.com)
 - R statistical package (https://www.r-project.org). Required R extra libraries are:
      - stringr
      - optparse
@@ -62,7 +63,8 @@ This also assigns households to addresses at SA1 level. The program reads househ
 To run the addressmapper execute following commands. This is a time consuming process and may take about 10 hours for whole Greater Melbourne.
 
         > cd synthetic-poplation/populationbuilder
-        > mvn clean install //This builds the project
+        > git lfs pull  # Downloads large input data files from the repository
+        > mvn clean install  # This builds the project
         > java -jar addressmapper/target/addressmapper.jar addressmapper.properties -sh
  
  The command line parameters of `addressmapper.jar` are as follows
