@@ -17,6 +17,12 @@ Already constructed population of the Greater Melbourne is available in `synthet
 - Maven (https://maven.apache.org/download.cgi)
 - ABS TableBuilder Pro access to download data
 
+## Quick run with default settings
+To generate the populations of Greater Melbourne SA2s with default settings and already downloaded data execute below commands. It synthesises the population and creates `synthetic-population/data/melbourne-2016-population.zip` file. Refer to "README.txt" file inside the zip file to get the population for a subset of Greater Melbourne SA2s. This does not assign households to addresses at this stage.
+
+        > cd synthetic-population/run
+        > ./run.sh
+
 ## Components
 
 ### Preprocesser
@@ -24,7 +30,7 @@ Performes data cleaning routines on household and persons data distributions obt
 The data downloaded from ABS often have inconsistencies between the households and persons. This component removes these inconsistencies as much as possible using heuristics observed in human populations. The processed files are saved to `synthetic-population/data/melbourne/generated/SA2/preprocessed`. To run the program with already downloaded data exectute below commands. This will complete in about a minute.
 
         > cd synthetic-poplation/rscripts
-        >./sa2preprocess.R
+        > ./sa2preprocess.R
 
 ### Population Synthesiser
 Synthesises the population using preprocessed ABS census data<br />
