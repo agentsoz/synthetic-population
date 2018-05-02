@@ -12,11 +12,9 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 
@@ -133,5 +131,26 @@ public class Zip {
         ArrayList<Path> files = finder.getFilePaths();
         fs.close();
         return files;
+    }
+
+    public static Path findFile(Path zipPath, String fileName) throws IOException {
+
+        ZipFile zipFile = new ZipFile(zipPath.toFile());
+        // get an enumeration of the ZIP file entries
+        Enumeration<? extends ZipEntry> e = zipFile.entries();
+
+
+        while (e.hasMoreElements()) {
+            ZipEntry entry = e.nextElement();
+
+            // get the name of the entry
+            String entryName = entry.getName();
+
+            if (entryName.contains(fileName)) {
+                return Paths.get(entryName);
+            }
+
+        }
+        return null;
     }
 }
