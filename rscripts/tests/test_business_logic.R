@@ -37,7 +37,9 @@ test_that("Data cleaning", {
   expect_equal(outlist[[2]], brunswick_cleaned_hhs)
 })
 
-input_sa1_hh_dist = ReadSA1HouseholdsInSA2(c(abs_sa1_households_file),test_sa2,length(family_hh_cats), length(hh_sizes))
+all_sa1_hh_dists = LoadSA1HouseholdsInSA2(c(abs_sa1_households_file))
+input_sa1_hh_dist = GetSA1HouseholdDistInSA2(all_sa1_hh_dists, test_sa2, length(family_hh_cats), length(hh_sizes),abs_sa2_code_map_file)
+
 log <- capture.output(func_adjusted_sa1_hh_dist <- EstimateSA1HouseholdsDistribution(test_sa2, brunswick_cleaned_hhs, input_sa1_hh_dist ))
 
 brunswick_adjusted_sa1_hh_dist = readRDS(ref_adjusted_sa1_households_file)
@@ -45,7 +47,6 @@ brunswick_adjusted_sa1_hh_dist = readRDS(ref_adjusted_sa1_households_file)
 test_that("SA1 household distribution calculating", {
   expect_equal(func_adjusted_sa1_hh_dist, brunswick_adjusted_sa1_hh_dist)
 })
-
 
 
 

@@ -1,6 +1,7 @@
 abs_persons_file = 'test_data/Persons_2016_Greater_Melbourne_SA2.zip'
 abs_households_file = 'test_data/Households_2016_Greater_Melbourne_SA2.zip'
 abs_sa1_households_file = 'test_data/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip'
+abs_sa2_code_map_file="test_data/1270055001_sa2_2016_aust_csv.zip"
 ref_persons_file = 'test_data/persons.rds'
 ref_households_file = 'test_data/households.rds'
 ref_sa1_households_file = 'test_data/Brunswick_raw_sa1_households_dist.rds'

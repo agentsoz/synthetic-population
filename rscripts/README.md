@@ -13,6 +13,7 @@ Install following list of R libraries:
 * testthat
 * futile.logger
 * tools
+* lsa
 
 Libraries can be installed using the R shell using something like:
 ```
