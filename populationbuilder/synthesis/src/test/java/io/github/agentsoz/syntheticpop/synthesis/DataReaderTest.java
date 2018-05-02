@@ -96,11 +96,12 @@ public class DataReaderTest {
 
         paramsMap.put("FileName", "Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.txt");
         paramsMap.put("AgeColumn", "0");
-        paramsMap.put("SA2NamesRow", "10");
+        paramsMap.put("SANamesRow", "10");
 
         Throwable exception = assertThrows(Error.class, () -> DataReader.readAgeDistribution(paramsMap));
 
-        Path inputFile = new File(classLoader.getResource("Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip").getFile()).toPath();
+        Path inputFile = new File(Objects.requireNonNull(classLoader.getResource("Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip"))
+                                         .getFile()).toPath();
         paramsMap.put("FileName", inputFile.toString());
 
         List<Double> ageDist = DataReader.readAgeDistribution(paramsMap).get("Armadale");

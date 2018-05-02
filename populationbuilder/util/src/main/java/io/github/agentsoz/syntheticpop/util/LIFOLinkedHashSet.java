@@ -34,18 +34,9 @@ public class LIFOLinkedHashSet<E> extends LinkedHashSet<E> {
 		} else if (size() > this.MAX_SIZE) {
 			remove(this.iterator().next());
 		}
+
 		return super.add(e);
 
-	}
-
-	/**
-	 * Returns LIFO iterator
-	 */
-	public Iterator<E> lifoiterator() {
-		LinkedList<E> list = new LinkedList<>(this);
-		Iterator<E> itr = list.descendingIterator();
-
-		return itr;
 	}
 
 }

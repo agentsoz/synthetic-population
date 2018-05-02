@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -57,7 +57,7 @@ public class ConfigProperties extends Properties {
      * @param propertyName Name of the property
      * @return A HashMap of key value pairs
      */
-    public HashMap<String, String> readKeyValuePairs(String propertyName) {
+    public Map<String, String> readKeyValuePairs(String propertyName) {
         String[] entries = readCommaSepProperties(propertyName);
         if (entries != null) {
             return splitByColon(entries);
@@ -82,9 +82,9 @@ public class ConfigProperties extends Properties {
         }
     }
 
-    private HashMap<String, String> splitByColon(String[] entries) {
+    private Map<String, String> splitByColon(String[] entries) {
 
-        HashMap<String, String> kvEntries = new HashMap<>();
+        Map<String, String> kvEntries = new LinkedHashMap<>();
         for (String entry : entries) {
             String[] arr = entry.split(":");
             if (arr.length == 1 || arr[1].trim().equals("")) {
@@ -100,6 +100,30 @@ public class ConfigProperties extends Properties {
         String entry = this.getProperty(propertyName);
         entry = resolveEnvVar(entry);
         return Paths.get(entry);
+    }
+
+    /**
+     * Reads SA names list from user input
+     *
+     * @param propertyName       SA list property
+     * @param inputDirectory The input data directory
+     * @return List of SA2s
+     * @throws IOException File reading
+     */
+    public List<String> getSAList(String propertyName,Path inputDirectory) throws IOException {
+        List<String> saList = null;
+        String saParam = this.getProperty(propertyName);
+        if (saParam.equals("*")) {
+            saList = Files.list(inputDirectory)
+                           .map(Path::getFileName)
+                           .map(Path::toString)
+                           .collect(Collectors.toList());
+        } else if (Files.exists(Paths.get(saParam))) {
+            saList = Files.readAllLines(Paths.get(saParam));
+        } else {
+            saList = Arrays.asList(saParam.split(","));
+        }
+        return saList;
     }
 
 }

@@ -24,12 +24,12 @@ public class SA1PopulationMaker {
                                            Map<String, List<Household>> hhsByType,
                                            Random random) {
         /*
-         * Iterated over the household types, assigning the households under each hh type to the SA1 that they will
+         * Iterates over the household types, assigning the households under each hh type to the SA1 that they should
          * belong to.
          */
         for (String hhType : hhDistBySA1sByType.keySet()) {
             List<Household> householdsOfSelectedType = hhsByType.get(hhType);
-            if (householdsOfSelectedType != null) { // If no Hhs in this type nothing to do.
+            if (householdsOfSelectedType != null && !householdsOfSelectedType.isEmpty()) { // If no Hhs in this type nothing to do.
 
                 Collections.shuffle(householdsOfSelectedType, random);
                 //Get the number of households of the current hh type under each SA1
@@ -40,6 +40,8 @@ public class SA1PopulationMaker {
 
                     List<Household> newHouseholds = householdsOfSelectedType.subList(0, hhCountInSA1);
                     newHouseholds.forEach(h -> h.setSA1Code(sa1));
+                    newHouseholds.forEach(h -> h.getMembers().forEach(m -> m.setSA1Code(sa1)));
+
                     householdsOfSelectedType.subList(0, hhCountInSA1).clear();
                 }
             }

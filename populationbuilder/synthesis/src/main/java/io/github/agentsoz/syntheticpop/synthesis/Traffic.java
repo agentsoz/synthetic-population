@@ -7,7 +7,7 @@ import io.github.agentsoz.syntheticpop.filemanager.json.JSONReadable;
 import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
 import io.github.agentsoz.syntheticpop.filemanager.json.JacksonJSONReader;
 import io.github.agentsoz.syntheticpop.geo.CoordinateConversion;
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
+import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.ConsoleProgressBar;
@@ -15,6 +15,7 @@ import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import org.geotools.data.FeatureSource;
 import org.geotools.feature.FeatureIterator;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -28,6 +29,7 @@ import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -281,7 +283,7 @@ public class Traffic {
      * @return coordinate
      */
     private Coord getCoordinates(Scenario matsimScenario, Map<String, Feature> sa2map, String area, Random random) {
-        FeatureProcessing fp = new FeatureProcessing();
+        FeatureProcessor fp = new FeatureProcessor();
         Feature workSA = sa2map.get(area);
         if (workSA == null) { // No SA2 for - POW Capital city undefined
             // (Greater Melbourne). Taking random SA2
@@ -395,9 +397,9 @@ public class Traffic {
         String[] sa2names = sa2map.keySet().toArray(new String[0]);
         String property = "SA2_NAME11";
         ShapefileGeoFeatureReader geoReader = new ShapefileGeoFeatureReader();
-        geoReader.loadFeaturesByProperty(sa2File, property, sa2names);
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = geoReader.getFeatureSource(sa2File);
 
-        try (FeatureIterator<Feature> featItr = geoReader.getFeatures().features()) {
+        try (FeatureIterator<Feature> featItr = geoReader.loadFeaturesByProperty(ftSrc, property, sa2names).features()) {
             while (featItr.hasNext()) {
                 SimpleFeature feature = (SimpleFeature) featItr.next();
                 sa2map.put((String) feature.getAttribute("SA2_NAME11"), feature);

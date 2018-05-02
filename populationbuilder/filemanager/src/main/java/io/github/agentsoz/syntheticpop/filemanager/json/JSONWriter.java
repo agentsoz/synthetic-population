@@ -1,5 +1,9 @@
 package io.github.agentsoz.syntheticpop.filemanager.json;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,10 +13,6 @@ import java.nio.channels.WritableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.GZIPOutputStream;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JSONWriter {
 
@@ -56,7 +56,7 @@ public class JSONWriter {
      * @throws IOException
      *             arrList cannot be converted to json or I/O exception when writing the output file
      */
-    public static void writeToJsonGzFile(Object jsonObj, Path filePath) throws JsonGenerationException, JsonMappingException, IOException {
+    public static void writeToJsonGzFile(Object jsonObj, Path filePath) throws IOException {
 
         GZIPOutputStream gzipOS = new GZIPOutputStream(Files.newOutputStream(filePath));
         WritableByteChannel out = Channels.newChannel(gzipOS);

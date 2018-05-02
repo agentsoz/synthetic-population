@@ -28,7 +28,7 @@ public class DataWriter {
      * @param csvFilePath The file to write
      * @throws IOException If file writing fails
      */
-    static void saveHouseholdSummary(List<HhRecord> hhRecs,
+    public static void saveHouseholdSummary(List<HhRecord> hhRecs,
                                      List<Household> households,
                                      Path csvFilePath) throws IOException {
 
@@ -75,7 +75,7 @@ public class DataWriter {
      * @param csvFilePath The file to write
      * @throws IOException If file writing fails
      */
-    static void savePersonsSummary(List<IndRecord> indRecs,
+    public static void savePersonsSummary(List<IndRecord> indRecs,
                                    List<Person> persons,
                                    Path csvFilePath) throws IOException {
         Map<String, Integer> map = new LinkedHashMap<>();
@@ -118,7 +118,7 @@ public class DataWriter {
      * @param households    The list of households
      * @throws IOException If file writing fails
      */
-    static void saveHouseholds(Path outputCsvFile, List<Household> households) throws IOException {
+    public static void saveHouseholds(Path outputCsvFile, List<Household> households) throws IOException {
         List<List<String>> csvReadyHhs = householdAsList(households);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
@@ -132,7 +132,7 @@ public class DataWriter {
      * @param households    The list of households
      * @throws IOException If file writing fails
      */
-    static void saveFamilies(Path outputCsvFile, List<Household> households) throws IOException {
+    public static void saveFamilies(Path outputCsvFile, List<Household> households) throws IOException {
         List<List<String>> csvReadyFamilies = familiesAsList(households);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(
@@ -146,7 +146,7 @@ public class DataWriter {
      * @param persons       The list of persons
      * @throws IOException If file writing fails
      */
-    static void savePersons(Path outputCsvFile, List<Person> persons) throws IOException {
+    public static void savePersons(Path outputCsvFile, List<Person> persons) throws IOException {
         List<List<String>> csvReadyPersons = personsAsList(persons);
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(

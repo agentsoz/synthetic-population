@@ -1,162 +1,152 @@
 package io.github.agentsoz.syntheticpop.geo;
 
+import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
+import org.geotools.data.*;
+import org.geotools.factory.CommonFactoryFinder;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.filter.text.cql2.CQL;
+import org.geotools.filter.text.cql2.CQLException;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.filter.Filter;
+import org.opengis.filter.FilterFactory;
+import org.opengis.filter.FilterFactory2;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFinder;
-import org.geotools.data.FeatureSource;
-import org.geotools.data.Query;
-import org.geotools.factory.CommonFactoryFinder;
-import org.geotools.feature.FeatureCollection;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.filter.Filter;
-import org.opengis.filter.FilterFactory2;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
+public class ShapefileGeoFeatureReader {
 
-import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
+    public FeatureCollection loadFeatures(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource) throws IOException {
 
-public class ShapefileGeoFeatureReader extends GeoFeatureReader {
-
-    public void loadFeatures(Path input) throws IOException {
-
-        FeatureSource<SimpleFeatureType, SimpleFeature> source = this.getFeatureSource(input);
         Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM,
-                                        // 10,20,30,40)")
+        // 10,20,30,40)")
 
-        this.featureCollection = source.getFeatures(filter);
+        return featureSource.getFeatures(filter);
 
     }
 
-    // public void loadFeatures(List<Path> inputs) throws IOException {
+    //    public FeatureCollection loadFeatures(List<Path> inputs) throws IOException {
     //
-    // Map<String, Object> map = new HashMap<String, Object>();
-    // DefaultFeatureCollection dfc = new DefaultFeatureCollection();
-    // for (Path inPath : inputs) {
-    // FeatureSource<SimpleFeatureType, SimpleFeature> source = this.getFeatureSource(inPath);
-    // Filter filter = Filter.INCLUDE;
-    // FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
-    // dfc.addAll(collection);
-    // }
+    //        Map<String, Object> map = new HashMap<String, Object>();
+    //        DefaultFeatureCollection dfc = new DefaultFeatureCollection();
+    //        for (Path inPath : inputs) {
+    //            FeatureSource<SimpleFeatureType, SimpleFeature> source = this.getFeatureSource(inPath);
+    //            Filter filter = Filter.INCLUDE;
+    //            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
+    //            dfc.addAll(collection);
+    //        }
     //
-    // this.featureCollection = dfc;
+    //        return dfc;
     //
-    // }
+    //    }
 
     /**
      * Load features from a shapefile and assigns the specified CoordinateReferenceSystem
      *
-     * @param target
-     *            File path to shapefile
-     * @param crs
-     *            target coordinate reference system
-     * @throws IOException
+     * @param featureSource FeatureSource instance created with shapefile
+     * @param crs           target coordinate reference system
      */
-    public void loadFeatures(Path target, CoordinateReferenceSystem crs) throws IOException {
-
-        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
+    public FeatureCollection loadFeatures(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
+                                          CoordinateReferenceSystem crs) throws IOException {
 
         Query query = new Query(null, null);
         query.setCoordinateSystemReproject(crs);
 
-        FeatureCollection features = featureSource.getFeatures(query);
-        this.featureCollection = features;
+        return featureSource.getFeatures(query);
     }
 
-    public void loadFeaturesByProperty(Path target, String property, String[] propertyValues) throws IOException {
+    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
+                                                    String property,
+                                                    String propertyValue) throws IOException, CQLException {
 
-        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
+        Filter filter = CQL.toFilter(property + "=" + propertyValue);
 
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
+        return featureSource.getFeatures(filter);
+    }
 
-        List<Filter> match = new ArrayList<Filter>();
+
+    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
+                                                    String property,
+                                                    String[] propertyValues) throws IOException {
+
+        FilterFactory ff = CommonFactoryFinder.getFilterFactory();
+
+        List<Filter> match = new ArrayList<>();
         for (String name : propertyValues) {
             Filter aMatch = ff.equals(ff.property(property), ff.literal(name));
             match.add(aMatch);
         }
         Filter filter = ff.or(match);
 
-        this.featureCollection = featureSource.getFeatures(filter);
-        featureSource.getDataStore().dispose();
+        return featureSource.getFeatures(filter);
     }
 
     /**
-     * Load features from a shapefile and filters the properties based on a property and its values. Multiple property values are handled like in
+     * Load features from a shapefile and filters the properties based on a property and its values. Multiple property values are handled
+     * like in
      * a logical OR operation
-     * 
-     * @param target
-     *            File path to shapefile
-     * @param property
-     *            Name of the property in shape file
-     * @param propertyValues
-     *            Values of the property
-     * @param crs
-     *            target coordinate reference system
-     * @throws IOException
+     *
+     * @param featureSource  FeatureSource instance created with shapefile
+     * @param property       Name of the property in shape file
+     * @param propertyValues Values of the property
+     * @param crs            target coordinate reference system
      */
-    public void loadFeatures(Path target, String property, String[] propertyValues, CoordinateReferenceSystem crs) throws IOException {
-
-        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
+    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
+                                                    String property,
+                                                    String[] propertyValues,
+                                                    CoordinateReferenceSystem crs) throws IOException {
 
         FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-        List<Filter> match = new ArrayList<Filter>();
+        List<Filter> match = new ArrayList<>();
         for (String name : propertyValues) {
             Filter aMatch = ff.equals(ff.property(property), ff.literal(name));
             match.add(aMatch);
         }
         Filter filter = ff.or(match);
-        Query query = new Query(property, null);
+        Query query = new Query(property, filter);
         // query.setCoordinateSystem(crs);
         query.setCoordinateSystemReproject(crs);
 
-        FeatureCollection features = featureSource.getFeatures(query);
-        this.featureCollection = features;
-    }
-
-    /**
-     * Read features from given target file
-     * 
-     * @param target
-     *            The file to read
-     * @param filter
-     *            The filter to apply when reading
-     * @throws IOException
-     */
-    public void loadFeatures(Path target, Filter filter) throws IOException {
-
-        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = this.getFeatureSource(target);
-
-        this.featureCollection = featureSource.getFeatures(filter);
-
+        return featureSource.getFeatures(query);
     }
 
     /**
      * Obtain feature source from given file
-     * 
-     * @param target
-     *            The file to process
+     *
+     * @param target               The file to process
+     * @param shapeFileNamePattern The name pattern of the .shp file
      * @return Feature source
-     * @throws IOException
      */
-    public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(Path target) throws IOException {
+    public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(Path target, String shapeFileNamePattern) throws IOException {
         if (target.toString().endsWith(".zip")) {
-            List<Path> shapes = Zip.findFiles(target, "*.shp");
+            List<Path> shapes = Zip.findFiles(target, shapeFileNamePattern);
             target = shapes.get(0);
         }
+        return getFeatureSource(target.toUri().toURL());
+    }
+
+    public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(Path target) throws IOException {
+        return getFeatureSource(target.toUri().toURL());
+    }
+
+    public FeatureSource<SimpleFeatureType, SimpleFeature> getFeatureSource(URL target) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", target.toUri().toURL());
+        map.put("url", target);
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);
         String typeName = dataStore.getTypeNames()[0];
-        FeatureSource<SimpleFeatureType, SimpleFeature> featureSource = dataStore.getFeatureSource(typeName);
-
-        return featureSource;
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
+        dataStore.dispose();
+        return ftSrc;
     }
+
 
 }
 

@@ -29,7 +29,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class DataReader {
 
-    static Map<String, List<HhRecord>> readHouseholdRecords(Path hhFileInfo) throws IOException {
+    public static Map<String, List<HhRecord>> readHouseholdRecords(Path hhFileInfo) throws IOException {
 
         int titleRow = 0;
         Map<String, List<HhRecord>> hhData = new LinkedHashMap<>();
@@ -73,7 +73,7 @@ public class DataReader {
         return hhData;
     }
 
-    static Map<String, List<IndRecord>> readPersonRecords(Path indFileInfo) throws IOException {
+    public static Map<String, List<IndRecord>> readPersonRecords(Path indFileInfo) throws IOException {
         int titleRow = 0;
         Map<String, List<IndRecord>> indData = new LinkedHashMap<>();
         try (CSVParser parser = new CSVParser(new InputStreamReader(new GZIPInputStream(new BufferedInputStream(Files.newInputStream(
@@ -111,7 +111,7 @@ public class DataReader {
         return indData;
     }
 
-    static Map<String, Map<String, Integer>> readSA1HouseholdDistribution(Path csvFile,
+    public static Map<String, Map<String, Integer>> readSA1HouseholdDistribution(Path csvFile,
                                                                           int numberOfPersonsCol,
                                                                           int familyHhTypeCol)
             throws IOException {
@@ -147,14 +147,14 @@ public class DataReader {
         return householdTypesBySA1;
     }
 
-    static Map<String, List<Double>> readAgeDistribution(Map<String, String> params) throws IOException {
+    public static Map<String, List<Double>> readAgeDistribution(Map<String, String> params) throws IOException {
 
         Map<String, List<Double>> ageDistBySA2 = new HashMap<>();
 
         //Read the data file
         Path file = Paths.get(params.get("FileName"));
         Reader reader;
-        switch (FileUtils.getFileExtention(file).toLowerCase()) {
+        switch (FileUtils.getFileExtension(file).toLowerCase()) {
             case "zip":
                 reader = Zip.read(file, FileUtils.getFileName(file) + ".csv");
                 break;
@@ -168,7 +168,7 @@ public class DataReader {
         CSVParser csvParser = new CSVParser(reader, CSVFormat.EXCEL.withSkipHeaderRecord(false));
 
         int row = -1;
-        int sa2NamesRow = Integer.parseInt(params.get("SA2NamesRow"));
+        int sa2NamesRow = Integer.parseInt(params.get("SANamesRow"));
         int ageColumn = Integer.parseInt(params.get("AgeColumn"));
         List<String> sa2names = new ArrayList<>();
 
@@ -203,7 +203,7 @@ public class DataReader {
         return ageDistBySA2;
     }
 
-    static List<List<String>> readTenlldDistribution(Path csvFile) throws IOException {
+    public static List<List<String>> readTenlldDistribution(Path csvFile) throws IOException {
         CSVReader csvReader = new CSVReader(CSVFormat.EXCEL.withSkipHeaderRecord(false));
         csvReader.setStripChars(new String[]{"{", "}", "B"});
         return csvReader.readCsvRows(Files.newBufferedReader(csvFile));

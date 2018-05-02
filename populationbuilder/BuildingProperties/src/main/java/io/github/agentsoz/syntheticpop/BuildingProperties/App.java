@@ -6,7 +6,7 @@ import io.github.agentsoz.syntheticpop.filemanager.csv.abs.StatisticalAreaCodeRe
 import io.github.agentsoz.syntheticpop.filemanager.csv.abs.models.DwellingType;
 import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessing;
+import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -173,7 +173,7 @@ public class App {
         SimpleFeature tempSimpleBuilding = null;
         int duplicates = 0;
 
-        FeatureProcessing fp = new FeatureProcessing();
+        FeatureProcessor fp = new FeatureProcessor();
         Map<String, SimpleFeature> existingAddresses = new HashMap<>(); //To track duplicates
         try (SimpleFeatureIterator buildingsIterator = buildings.features()) {
             String sa1code = null;
