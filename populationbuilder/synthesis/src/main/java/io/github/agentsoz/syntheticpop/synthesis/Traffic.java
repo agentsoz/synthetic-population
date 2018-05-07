@@ -3,9 +3,8 @@ package io.github.agentsoz.syntheticpop.synthesis;
 import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.csv.CSVReader;
 import io.github.agentsoz.syntheticpop.filemanager.csv.CSVWriter;
-import io.github.agentsoz.syntheticpop.filemanager.json.JSONReadable;
 import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
-import io.github.agentsoz.syntheticpop.filemanager.json.JacksonJSONReader;
+import io.github.agentsoz.syntheticpop.filemanager.json.JSONReader;
 import io.github.agentsoz.syntheticpop.geo.CoordinateConversion;
 import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
@@ -98,7 +97,7 @@ public class Traffic {
         try {
             Random random = new Random(randomSeed);
             CSVReader csvr = new CSVReader();
-            JSONReadable jsonR = new JacksonJSONReader();
+            JSONReader jsonR = new JSONReader();
             Map addressMap = jsonR.readJSONGz(addressJsonZip);
 
             // Group addresses by SA1. Addresses in addressesBySA1 still refer

@@ -1,5 +1,9 @@
 package io.github.agentsoz.syntheticpop.geo;
 
+import io.github.agentsoz.syntheticpop.filemanager.json.JSONReader;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.util.UnsupportedImplementationException;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -7,19 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geotools.feature.FeatureCollection;
-import org.geotools.util.UnsupportedImplementationException;
-
-import io.github.agentsoz.syntheticpop.filemanager.json.JSONReadable;
-
 /**
  * @author Bhagya N. Wickramasinghe
  *
  */
 public class JsonGeoPointReader extends GeoFeatureReader {
-	private JSONReadable jsonReader;
+	private JSONReader jsonReader;
 
-	public JsonGeoPointReader(JSONReadable jsonReader) {
+	public JsonGeoPointReader(JSONReader jsonReader) {
 		this.jsonReader = jsonReader;
 
 	}
