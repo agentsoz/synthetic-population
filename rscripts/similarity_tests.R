@@ -7,6 +7,7 @@ start_time <- Sys.time()
 source("config.R")
 source("datareader.R")
 source("util.R")
+source("drawplots.R")
 
 
 option_list = list(
@@ -160,65 +161,6 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   
 }
 
-DrawBarPlot <-
-  function(dist1,
-           dist2,
-           out_file,
-           plot_main_title,
-           plot_xlab,
-           plot_ylab,
-           legend,
-           sa2) {
-    CreateDir(dirname(out_file))
-    pdf(out_file)
-    counts <- matrix(c(dist1, dist2), ncol = 2)
-    dplot <- barplot(
-      t(counts),
-      main = plot_main_title,
-      col = c("blue", "red"),
-      beside = TRUE,
-      border = NA,
-      las = 1,
-      cex.lab = 0.8,
-      cex.axis = 0.8,
-      cex.main = .9,
-      cex.sub = .8,
-      xaxs = "i",
-      cex.names = 0.8,
-      xaxt = "n"
-    )
-    
-    box(bty = "l")
-    mtext(
-      side = 1,
-      at = colMeans(dplot),
-      line = 0.1,
-      text = rownames(counts),
-      cex = 0.4,
-      las = 1
-    )
-    legend(
-      "topright",
-      fill = c("blue", "red"),
-      legend = legend,
-      bty = "n",
-      cex = 0.8,
-      border = NA
-    )
-    title(xlab = plot_xlab,
-          line = 1.5,
-          cex.lab = .8)
-    title(ylab = plot_ylab,
-          line = 2.5,
-          cex.lab = .8)
-    mtext(paste(sa2, "SA2"), cex = 0.6)
-    
-    dev.off()
-  }
-
-
-
-
 EvaluatePersonsRawVsSynthesised <- function() {
   cat("Person types distribution of ABS raw input vs. synthetic population\n")
   
@@ -320,14 +262,16 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
       paste(file_prefix,"bar_persons_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
-
-    DrawBarPlot(
+    xlabels = rep("",length(cleaned_dist))
+    xlabels[2] = "Married male"
+    DrawBarSA2Plot(
       cleaned_dist,
       synthetic_population_dist,
       out_file,
       "Preprocessed data vs synthetic population",
       "Person types",
       "Number of persons",
+      xlabels,
       c("Census preprocessed", "Synthesised"),
       sa2_list[i]
     )
@@ -401,13 +345,15 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
       paste(file_prefix,"bar_households_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
-    DrawBarPlot(
+    
+    DrawBarSA2Plot(
       cleaned_dist,
       synthetic_population_dist,
       out_file,
       "Preprocessed data vs synthetic population",
       "Household types",
       "Number of households",
+      c(),
       c("Census preprocessed", "Synthesised"),
       sa2_list[i]
     )
@@ -485,13 +431,17 @@ EvalautePersonsAgeDistribution <- function() {
                        sa2_list[i],
                        paste(file_prefix,"bar_persons_age_abs_vs_synthetic.pdf", sep = "_"),
                        sep = "/")
-      DrawBarPlot(
+      
+      xlabels = c(0:115)
+      
+      DrawBarSA2Plot(
         as.numeric(expected_age_dist[, sa2_list[i]]),
         synth_age_dist,
         out_file,
         "Age distribution in census data vs synthetic population",
         "Age in years",
         "Percentage of persons",
+        xlabels,
         c("Census", "Synthesised"),
         sa2_list[i]
       )
