@@ -1,6 +1,7 @@
 package io.github.agentsoz.syntheticpop.addressmapper;
 
-import io.github.agentsoz.syntheticpop.filemanager.json.JSONWriter;
+import io.github.agentsoz.syntheticpop.addressmapper.models.Address;
+import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
 import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
 /**
@@ -32,9 +34,8 @@ public class StatisticalArea2AddressMapper {
     private final FeatureProcessor featProcessor;
     private final ShapefileGeoFeatureReader shapesReader;
 
-    private final Path saFilePath, tempOutputDir, outputFile;
-    private final String addressLookupKey, saLookupKey, saFilterKey, addressShapeFilePattern, saShapeFileName, duplicatesCheckKey,
-            sa1ToLgaMapJsonName;
+    private final Path saFilePath, tempOutputDir, outputFile, sa1ToAddressJson;
+    private final String addressLookupKey, saLookupKey, saFilterKey, addressShapeFilePattern, saShapeFileName, duplicatesCheckKey;
 
     private final Map<String, String> newAttributesToAddress;
     private final String[] saFilterValues, addressFilePathStr;
@@ -43,7 +44,7 @@ public class StatisticalArea2AddressMapper {
     private final int areaNameDirIndex;
 
     private final HashSet<String> checkedAddresses = new HashSet<>();
-    private final Map<String, Set<String>> sa1ToLgaMap = new HashMap<>();
+    private final Map<String, Set<Address>> addressesBySA = new HashMap<>(); //Key: SA1 code, Value: set of addresses in SA1
 
     StatisticalArea2AddressMapper(ConfigProperties props, FeatureProcessor featProcessor, ShapefileGeoFeatureReader shapesReader) {
         this.featProcessor = featProcessor;
@@ -67,7 +68,7 @@ public class StatisticalArea2AddressMapper {
         outputFile = props.readFileOrDirectoryPath("UpdatedAddressShapeFile");
         deleteTempShapeFiles = Boolean.parseBoolean(props.getOrDefault("DeleteTemporaryShapeFiles", "true").toString());
         areaNameDirIndex = Integer.parseInt(props.getProperty("AreaNameDirIndex"));
-        sa1ToLgaMapJsonName = props.getProperty("SA1toAddressesFileMapJsonName");
+        sa1ToAddressJson = props.readFileOrDirectoryPath("SA1toAddressesJsonFile");
 
     }
 
@@ -81,18 +82,19 @@ public class StatisticalArea2AddressMapper {
         Log.info("Locating " + saShapeFileName + " in " + saFilePath);
         SimpleFeatureCollection meshBlocks = loadSAMeshBlocks();
 
-        Map<String, Set<String>> sa1ToLgaMap = new HashMap<>();//Tells which lga files have addresses of an SA1
-
         //Locate the SA id of addresses in each address shapefile
         Iterator<Path> addressShapeFilesItr = addressShapeFiles.iterator();
+        List<Path> tempShapeFiles = new ArrayList<>();
+
         while (addressShapeFilesItr.hasNext()) {
             Path addressShape = addressShapeFilesItr.next();
-            SimpleFeatureCollection updatedFeatureCollection = mapAddressesToSAMeshBlocks(addressShape, meshBlocks, sa1ToLgaMap);
+            SimpleFeatureCollection updatedFeatureCollection = mapAddressesToSAMeshBlocks(addressShape, meshBlocks);
 
             if (!updatedFeatureCollection.isEmpty()) {
                 Path tempLocation = tempOutputDir.resolve(getAreaName(addressShape).toString());
                 try {
                     Path saved = saveToTempShapeFile(updatedFeatureCollection, tempLocation);
+                    tempShapeFiles.add(saved);
                     Log.debug("Temporary files saved to: " + saved.toString());
                 } catch (IOException e) {
                     Log.errorAndExit("Writing to temp file location failed: " + tempLocation, e, GlobalConstants.ExitCode.DATA_ERROR);
@@ -106,15 +108,15 @@ public class StatisticalArea2AddressMapper {
             }
         }
 
-        Path sa1ToLgaMapJson = tempOutputDir.resolve(sa1ToLgaMapJsonName);
         try {
-            JSONWriter.writeListToJsonFile(sa1ToLgaMap, sa1ToLgaMapJson);
+            AddressUtil.saveAsJSONFile(addressesBySA, meshBlocks.getSchema().getCoordinateReferenceSystem(), sa1ToAddressJson);
+            Log.info("Summary addresses file saved to " + sa1ToAddressJson);
         } catch (IOException e) {
-            Log.error("Writing SA1toLGAmap.json file failed", e);
+            Log.error("Writing " + sa1ToAddressJson + " file failed", e);
         }
 
         //Create a zip with all the updated address shape files
-        zipAllUpdatedShapeFiles(addressShapeFiles, sa1ToLgaMapJson);
+        zipAllUpdatedShapeFiles(tempShapeFiles, sa1ToAddressJson);
         System.out.println("Updated addresses zip saved to: " + outputFile);
     }
 
@@ -122,15 +124,15 @@ public class StatisticalArea2AddressMapper {
         try {
             Log.info("Creating a zip file with all shape files ... ");
 
-            List<Path> filesToZip = new ArrayList<>();
+            List<Path> filesToZip = addressShapeFiles.stream().map(Path::getParent).collect(Collectors.toList());
             filesToZip.add(sa1ToLgaMapJson);
 
-            Path[] areaNames = addressShapeFiles.stream().map(this::getAreaName).toArray(Path[]::new);
-            for (Path areaName : areaNames) {
-                filesToZip.add(tempOutputDir.toAbsolutePath().resolve(areaName.toString()));
+            Zip.archiveDirectories(outputFile.toAbsolutePath(), filesToZip);
+
+            if (deleteTempShapeFiles) {
+                FileUtils.delete(addressShapeFiles);
             }
 
-            Zip.archiveDirectories(outputFile.toAbsolutePath(), filesToZip, deleteTempShapeFiles);
 
         } catch (IOException e) {
             Log.errorAndExit("Writing updated addresses shapefiles to zip failed", e, GlobalConstants.ExitCode.IOERROR);
@@ -159,16 +161,17 @@ public class StatisticalArea2AddressMapper {
      *
      * @param addressShapeFile The addresses shape file
      * @param meshBlocks       The mesh blocks that addresses are expected to belong to
-     * @param sa1ToLgaMap      Map giving which LGA shape files (values) contains addresses of a SA1 (keys)
      * @return New collection of addresses that are in one of the mesh blocks with the corresponding mesh block id and SA1 id.
      */
     private SimpleFeatureCollection mapAddressesToSAMeshBlocks(Path addressShapeFile,
-                                                               SimpleFeatureCollection meshBlocks,
-                                                               Map<String, Set<String>> sa1ToLgaMap) {
+                                                               SimpleFeatureCollection meshBlocks) {
 
         SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
 
         Log.info("Loading address features in " + addressShapeFile.toUri());
+
+        //The addresses are grouped by different values of this key. This is an attribute in the address feature typically SA1 code.
+        String groupingKey = newAttributesToAddress.entrySet().stream().findFirst().orElse(null).getKey();
 
         Matcher m = new Matcher(featProcessor, saLookupKey, addressLookupKey);
         SimpleFeatureCollection addresses = null;
@@ -196,7 +199,8 @@ public class StatisticalArea2AddressMapper {
                     if (mb != null) {
                         SimpleFeature updatedAddr = updateAddress(addressFeat, mb);
                         ((DefaultFeatureCollection) newFeatureCollection).add(updatedAddr);
-                        updateLga2SaMap(sa1ToLgaMap, updatedAddr, addressShapeFile);
+                        addressesBySA.computeIfAbsent((String) updatedAddr.getAttribute(groupingKey), v -> new HashSet<>())
+                                     .add(AddressUtil.map2POJO(updatedAddr));
 
                     }
                 } else {
@@ -221,13 +225,6 @@ public class StatisticalArea2AddressMapper {
             Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.DATA_ERROR);
         }
         return newFeatureCollection;
-    }
-
-    private void updateLga2SaMap(Map<String, Set<String>> sa1ToLgaMap, SimpleFeature address, Path addressFile) {
-        Map.Entry<String, String> entry = newAttributesToAddress.entrySet().stream().findFirst().orElse(null);
-        assert entry != null;
-        sa1ToLgaMap.computeIfAbsent((String) address.getAttribute(entry.getKey()), v -> new HashSet<>())
-                   .add(getAreaName(addressFile).toString());
     }
 
     private Path saveToTempShapeFile(SimpleFeatureCollection featCollection,
