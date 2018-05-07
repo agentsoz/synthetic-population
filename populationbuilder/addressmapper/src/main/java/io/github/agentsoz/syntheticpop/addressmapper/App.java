@@ -6,9 +6,6 @@ import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * @author wniroshan 16 Apr 2018
  */
@@ -75,7 +72,7 @@ public class App {
             Log.info("Mapping households to addresses");
             long startTime = System.currentTimeMillis();
 
-            Household2AddressMapper hh2AddressMapper = new Household2AddressMapper(props, shapesReader);
+            Household2AddressMapper hh2AddressMapper = new Household2AddressMapper(props);
             try {
                 hh2AddressMapper.assignHouseholdsToAddresses();
             } catch (Exception e) {

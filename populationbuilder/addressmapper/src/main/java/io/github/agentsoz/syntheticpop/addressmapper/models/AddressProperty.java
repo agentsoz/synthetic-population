@@ -39,21 +39,4 @@ public class AddressProperty {
         this.PFI = PFI;
     }
 
-    public String getSA1_MAIN16() {
-        return SA1_MAIN16;
-    }
-
-    @JsonProperty("SA1_MAIN16")
-    public void setSA1_MAIN16(String SA1_MAIN16) {
-        this.SA1_MAIN16 = SA1_MAIN16;
-    }
-
-    public List<String> getHOUSEHOLD_ID() {
-        return HOUSEHOLD_ID;
-    }
-
-    @JsonProperty("HOUSEHOLD_ID")
-    public void setHOUSEHOLD_ID(List<String> HOUSEHOLD_ID) {
-        this.HOUSEHOLD_ID = HOUSEHOLD_ID;
-    }
 }
