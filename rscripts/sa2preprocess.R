@@ -67,6 +67,12 @@ option_list = list(
     default = "../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip",
     help = "The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. [default= %default]",
     metavar = "FILE"
+  ),
+  make_option(
+    c("--errorfile"),
+    default = "../data/melbourne/analysis/cleaning_error.csv",
+    help = "The csv file to save error percentage before and after cleaning. [default= %default]",
+    metavar = "FILE"
   )
 )
 script_description = "This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis.
@@ -278,15 +284,21 @@ for (sa2 in sa2_list) {
 }
 cat("Processed",sa2_count,"/",length(sa2_list),"SA2s         \n")
 flog.info(paste("Processed",sa2_count,"/",length(sa2_list),"SA2s"))
+
+
 cat("\nEmpty SA2s\n")
 cat(paste(rownames(errors[is.na(errors[, "start_error%"]),]), collapse=", "),"\n")
 flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
+
+cat("\nBefore and after error saved at",opt$errorfile)
+write.csv(errors, opt$errorfile)
 
 desc = "\nSA2s above 5% error\n The difference between the number of persons in household and person distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n"
 cat(desc)
 flog.info(desc)
 
 errors <- subset(errors, !is.na(errors[, "start_error%"]))
+
 high_error <-
   errors[c(abs(errors[, "start_error%"]) >= 5 &
              abs(errors[, "end_error%"]) >= 5),]
