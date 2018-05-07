@@ -18,19 +18,14 @@ public class JSONWriter {
 
     /**
      * Writes the arrList to a file as a json formatted byte array
-     * 
-     * @param jsonObj
-     *            Json object to write
-     * @param filePath
-     *            full file path to the output json file
-     * @throws JsonMappingException
-     *             arrList cannot be converted to json
-     * @throws JsonGenerationException
-     *             arrList cannot be converted to json
-     * @throws IOException
-     *             arrList cannot be converted to json or I/O exception when writing the output file
+     *
+     * @param jsonObj  Json object to write
+     * @param filePath full file path to the output json file
+     * @throws JsonMappingException    arrList cannot be converted to json
+     * @throws JsonGenerationException arrList cannot be converted to json
+     * @throws IOException             arrList cannot be converted to json or I/O exception when writing the output file
      */
-    public static void writeListToJsonFile(Object jsonObj, Path filePath) throws JsonGenerationException, JsonMappingException, IOException {
+    public static void writeListToJsonFile(Object jsonObj, Path filePath) throws IOException {
 
         final OutputStream out = new ByteArrayOutputStream();
         ObjectMapper mapper = new ObjectMapper();
@@ -44,17 +39,12 @@ public class JSONWriter {
 
     /**
      * Writes the JSON file as compressed GZip file
-     * 
-     * @param jsonObj
-     *            Json object to write
-     * @param filePath
-     *            full file path to the output json file
-     * @throws JsonMappingException
-     *             arrList cannot be converted to json
-     * @throws JsonGenerationException
-     *             arrList cannot be converted to json
-     * @throws IOException
-     *             arrList cannot be converted to json or I/O exception when writing the output file
+     *
+     * @param jsonObj  Json object to write
+     * @param filePath full file path to the output json file
+     * @throws JsonMappingException    arrList cannot be converted to json
+     * @throws JsonGenerationException arrList cannot be converted to json
+     * @throws IOException             arrList cannot be converted to json or I/O exception when writing the output file
      */
     public static void writeToJsonGzFile(Object jsonObj, Path filePath) throws IOException {
 

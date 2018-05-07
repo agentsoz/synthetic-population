@@ -72,10 +72,9 @@ public class Zip {
      *
      * @param zipFile        The output file
      * @param directories    The directories to add to the zip file
-     * @param deleteOriginal Set true to delete the original directories
      * @throws IOException When reading and writing files
      */
-    public static void archiveDirectories(Path zipFile, List<Path> directories, boolean deleteOriginal) throws IOException {
+    public static void archiveDirectories(Path zipFile, List<Path> directories) throws IOException {
         if (Files.exists(zipFile)) {
             Files.delete(zipFile);
         }
@@ -92,10 +91,6 @@ public class Zip {
                          zipOutputStream.closeEntry();
                      }, IOException.class));
             }
-        }
-
-        if (deleteOriginal) {
-            FileUtils.delete(directories);
         }
     }
 
