@@ -141,9 +141,16 @@ public class ShapefileGeoFeatureReader {
         map.put("url", target);
 
         DataStore dataStore = DataStoreFinder.getDataStore(map);
-        String typeName = dataStore.getTypeNames()[0];
-        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
-        dataStore.dispose();
+        FeatureSource<SimpleFeatureType, SimpleFeature> ftSrc;
+        try {
+            String typeName = dataStore.getTypeNames()[0];
+            ftSrc = DataUtilities.simple(dataStore.getFeatureSource(typeName));
+        } catch (IOException e) {
+            throw new IOException(e);
+        } finally {
+            dataStore.dispose();
+        }
+
         return ftSrc;
     }
 
