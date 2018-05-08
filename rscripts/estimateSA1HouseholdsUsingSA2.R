@@ -95,11 +95,16 @@ EstimateSA1HouseholdsDistribution <-
       #If this SA2's SA1 level distribution has any households we can approximate a suitable distribution.
       #If none of the SA1s have households according to the distribution we don't know where to put them.
       #So we skip such SA2s
+      value_cells <-sa1_hhs_dist[ ,sa1_start_col:lastcol] #get data cells by skipping row and col headers
+      class(value_cells) <- "numeric"
       for (i in 1:rowcount) {
-        sa1hhs = as.numeric(sa1_hhs_dist[i, sa1_start_col:lastcol]) #get data cells by skipping row and col headers
+        
+        sa1hhs = value_cells[i, ] 
         sa1hhsttl = sum(sa1hhs)
         sa2hhttl = sa2_hh_dist[i, 4]
-        
+        if(i == 49){
+          print("X")
+        }
         #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
         if (sa2hhttl == 0) {
           #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
@@ -107,8 +112,13 @@ EstimateSA1HouseholdsDistribution <-
         } else if ((sa2hhttl - sa1hhsttl) > 0 &
                    sum(sa1hhs) == 0) {
           #There are extra hhs of current type in SA2, but none in the SA1s.
-          # In this case FillAccording2Dist function distributes hhs among randomly selected SA1s
-          adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
+          # In this case we get the SA1s that had different household types and randomly distribute the households
+          non_empty_sa1s = which(colSums(value_cells) > 0) #Get the SA1s in that are not empty in whole SA2
+          adjustedSA1Hhs = sa1hhs #book keeping
+          #FillAccording2Dist function randomly assigns items to specified vector if the vector sum is 0. Here we pass the SA1s that are known 
+          #to have other household types though there are no household of current type. This way we don't assign households to SA1s covering parks and
+          #industrial areas.
+          adjustedSA1Hhs[non_empty_sa1s] = FillAccording2Dist(sa1hhs[non_empty_sa1s], (sa2hhttl - sa1hhsttl))
           sa2_sa1_conflicts = TRUE
           mismatching_hh_types = c(mismatching_hh_types, unname(unlist(sa1_hhs_dist[i, c(2:3)])))
         } else{
