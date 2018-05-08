@@ -95,16 +95,14 @@ EstimateSA1HouseholdsDistribution <-
       #If this SA2's SA1 level distribution has any households we can approximate a suitable distribution.
       #If none of the SA1s have households according to the distribution we don't know where to put them.
       #So we skip such SA2s
-      value_cells <-sa1_hhs_dist[ ,sa1_start_col:lastcol] #get data cells by skipping row and col headers
+      value_cells <-sa1_hhs_dist[ ,sa1_start_col:lastcol,drop=FALSE]  #get data cells by skipping row and col headers
       class(value_cells) <- "numeric"
       for (i in 1:rowcount) {
         
-        sa1hhs = value_cells[i, ] 
+        sa1hhs = value_cells[i,]
         sa1hhsttl = sum(sa1hhs)
         sa2hhttl = sa2_hh_dist[i, 4]
-        if(i == 49){
-          print("X")
-        }
+       
         #Distribute SA2 Hhs among SA1s assuming SA2 data is always correct
         if (sa2hhttl == 0) {
           #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
