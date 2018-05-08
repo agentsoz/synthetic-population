@@ -1,1 +1,2 @@
 melbourne/raw/1270055001_mb_2016_vic_shape.zip filter=lfs diff=lfs merge=lfs -text
+SA1toAddresses.json.gz filter=lfs diff=lfs merge=lfs -text
