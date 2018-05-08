@@ -10,7 +10,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.filter.Filter;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.zip.DataFormatException;
 
 /**
@@ -23,10 +22,9 @@ class Matcher {
     final private FeatureProcessor featProcessor;
 
     final private HashMap<String, SimpleFeature> whiteList;
-    final private HashSet<String> blackList;
     private LIFOLinkedHashSet<SimpleFeature> recentSAMatches = new LIFOLinkedHashSet<>(15);
 
-    private int lookup = 0, contain = 0, whiteListHits = 0, blackListHits = 0;
+    private int lookup = 0, contain = 0, whiteListHits = 0;
 
     /**
      * Matches an address with a mesh block from ABS census data. This class is written in a way so it will work for other geographical
@@ -41,7 +39,6 @@ class Matcher {
         this.addressLookupKey = addressLookupKey;
         this.featProcessor = featureProcessor;
         whiteList = new HashMap<>();
-        blackList = new HashSet<>();
     }
 
     /**
@@ -61,9 +58,6 @@ class Matcher {
         if (isInWhiteList(address)) {
             mb = getSAMeshBlockFromWhiteList(address);
             whiteListHits++;
-        } else if (isInBlackList(address)) {
-            mb = null;
-            blackListHits++;
         } else {
             mb = lookupMatchingSAMeshBlock(address, saMeshBlocks);
             if (mb == null) {
@@ -71,8 +65,6 @@ class Matcher {
                 if (mb != null) {
                     whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
                     contain++;
-                } else {
-                    blackList.add(address.getAttribute(addressLookupKey).toString());
                 }
             } else {
                 whiteList.put(address.getAttribute(addressLookupKey).toString(), mb);
@@ -90,7 +82,7 @@ class Matcher {
      */
     String getStats() {
         return "Successful area ID lookup count: " + lookup + ", Successful polygon search count: " + contain + ", Final white list cache size: " + whiteList
-                .size() + ", White list cache detections:" + whiteListHits + ", Final black list cache size: " + blackList.size() + ", Black list detections: " + blackListHits;
+                .size() + ", White list cache detections:" + whiteListHits;
     }
 
     /**
@@ -166,10 +158,6 @@ class Matcher {
      */
     private boolean isInWhiteList(SimpleFeature address) {
         return whiteList.containsKey(address.getAttribute(addressLookupKey).toString());
-    }
-
-    private boolean isInBlackList(SimpleFeature address) {
-        return blackList.contains(address.getAttribute(addressLookupKey).toString());
     }
 
     /**

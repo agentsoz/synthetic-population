@@ -42,6 +42,7 @@ public class Household2AddressMapper {
     void assignHouseholdsToAddresses() {
         Map<String, List<Address>> addresses = null;
         try {
+            Log.info("Loading SA1 and Addresses JSON: " + sa1ToAddressesJson);
             addresses = AddressUtil.loadAddresses(sa1ToAddressesJson);
         } catch (IOException e) {
             Log.errorAndExit("Reading " + sa1ToAddressesJson + " failed", e, GlobalConstants.ExitCode.IOERROR);
@@ -81,11 +82,12 @@ public class Household2AddressMapper {
     }
 
     private void allocateHouseholdsToAddresses(List<LinkedHashMap<String, Object>> households, List<Address> addresses, Random rand) {
-        if (addresses == null || addresses.size() == 0) {
-            Log.errorAndExit("No addresses in the selected SA: " + HouseholdUtil.getSA1MainCode(households.get(0)),
-                             GlobalConstants.ExitCode.DATA_ERROR);
+        if ((addresses == null || addresses.isEmpty()) && (households != null || !households.isEmpty())) {
+            Log.errorAndExit("SA: " + HouseholdUtil.getSA1MainCode(households.get(0)) + " " + households.size() + " households but 0 " +
+                                     "addresses",GlobalConstants.ExitCode.DATA_ERROR);
         } else {
-            //Randomly select addresses and assign households to them. If there are more households than addresses, one address may have multiple households.
+            //Randomly select addresses and assign households to them. If there are more households than addresses, one address may have
+            // multiple households.
             Collections.shuffle(addresses, rand);
 
             int size = addresses.size();
