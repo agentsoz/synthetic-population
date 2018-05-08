@@ -52,7 +52,7 @@ public class AddressUtil {
      * @param outputFile     The output Json file
      * @throws IOException When converting to JSON and saving the file
      */
-    static void saveAsJSONFile(Map<String, Set<Address>> addressesBySA1,
+    static void saveAsJSONFile(Map<String, List<Address>> addressesBySA1,
                                CoordinateReferenceSystem crs,
                                Path outputFile) throws IOException {
 

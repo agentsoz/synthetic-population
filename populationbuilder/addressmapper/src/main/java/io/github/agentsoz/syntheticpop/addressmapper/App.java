@@ -55,6 +55,7 @@ public class App {
         FeatureProcessor featProcessor = new FeatureProcessor();
         ShapefileGeoFeatureReader shapesReader = new ShapefileGeoFeatureReader();
 
+        //Map addresses to SA1 polygons
         assert props != null;
         if (mapAddressToSA1s) {
             Log.info("Mapping addresses to SA1s");
@@ -68,6 +69,7 @@ public class App {
             Log.info("Execution time: " + timeSpent + " secs");
         }
 
+        //Assign households to addresses based on the SA1.
         if (mapHouseholdsToAddresses) {
             Log.info("Mapping households to addresses");
             long startTime = System.currentTimeMillis();

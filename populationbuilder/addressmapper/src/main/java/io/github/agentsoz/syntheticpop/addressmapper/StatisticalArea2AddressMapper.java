@@ -44,7 +44,7 @@ public class StatisticalArea2AddressMapper {
     private final int areaNameDirIndex;
 
     private final HashSet<String> checkedAddresses = new HashSet<>();
-    private final Map<String, Set<Address>> addressesBySA = new HashMap<>(); //Key: SA1 code, Value: set of addresses in SA1
+    private final Map<String, List<Address>> addressesBySA = new HashMap<>(); //Key: SA1 code, Value: list of addresses in SA1
 
     StatisticalArea2AddressMapper(ConfigProperties props, FeatureProcessor featProcessor, ShapefileGeoFeatureReader shapesReader) {
         this.featProcessor = featProcessor;
@@ -82,14 +82,15 @@ public class StatisticalArea2AddressMapper {
         Log.info("Locating " + saShapeFileName + " in " + saFilePath);
         SimpleFeatureCollection meshBlocks = loadSAMeshBlocks();
 
-        //Locate the SA id of addresses in each address shapefile
+        //Locate the SA id of addresses in each address shapefile and save them to a new temporary shape file
         Iterator<Path> addressShapeFilesItr = addressShapeFiles.iterator();
-        List<Path> tempShapeFiles = new ArrayList<>();
-
+        List<Path> tempShapeFiles = new ArrayList<>(); //The list of newly created temporary shape files
         while (addressShapeFilesItr.hasNext()) {
+            //Get a shape file and find the SA1s of addresses in them
             Path addressShape = addressShapeFilesItr.next();
             SimpleFeatureCollection updatedFeatureCollection = mapAddressesToSAMeshBlocks(addressShape, meshBlocks);
 
+            //Save a copy of addresses collection in a new temporary file. (Created one for each address shape file.
             if (!updatedFeatureCollection.isEmpty()) {
                 Path tempLocation = tempOutputDir.resolve(getAreaName(addressShape).toString());
                 try {
@@ -101,18 +102,17 @@ public class StatisticalArea2AddressMapper {
                 }
 
             } else {
-                //Remove because we don't save the empty feature collection. Otherwise below zip creation code fails.
-                addressShapeFilesItr.remove();
                 Log.warn("Empty processed addresses collection - " + getAreaName(addressShape) + ". It seems no addresses belong to any " +
                                  "of the mesh blocks (statistical areas)");
             }
         }
 
+        //Save the addresses grouped by the SA1 code in a json (text) file. So we don't have to process shape files after this.
         try {
             AddressUtil.saveAsJSONFile(addressesBySA, meshBlocks.getSchema().getCoordinateReferenceSystem(), sa1ToAddressJson);
             Log.info("Summary addresses file saved to " + sa1ToAddressJson);
         } catch (IOException e) {
-            Log.error("Writing " + sa1ToAddressJson + " file failed", e);
+            Log.errorAndExit("Writing " + sa1ToAddressJson + " file failed", e, GlobalConstants.ExitCode.IOERROR);
         }
 
         //Create a zip with all the updated address shape files
@@ -182,10 +182,12 @@ public class StatisticalArea2AddressMapper {
             Log.errorAndExit("AddressUtil loading failed", e, GlobalConstants.ExitCode.USERINPUT);
         }
 
+
         assert addresses != null;
         int totalAddresses = addresses.size(), processed = 0, duplicates = 0, logi = 1;
-
         SimpleFeature addressFeat = null;
+
+        //Iterate all addresses finding their mesh blocks.
         try (SimpleFeatureIterator addressFeatItr = addresses.features()) {
             Log.info("Matching address " + addressLookupKey + " IDs to SA mesh block " + saLookupKey + " IDs");
 
@@ -193,13 +195,16 @@ public class StatisticalArea2AddressMapper {
 
                 addressFeat = addressFeatItr.next(); //Address feature
 
-                if (!isDuplicate(addressFeat)) {
+                if (!isDuplicate(addressFeat)) {//Have we encountered an address feature with the same street address (EZI_ADD)
                     assert meshBlocks != null;
                     SimpleFeature mb = m.findSAMeshBlock(addressFeat, meshBlocks);
                     if (mb != null) {
+                        //Add SA1 and ABS mesh block id to address feature
                         SimpleFeature updatedAddr = updateAddress(addressFeat, mb);
                         ((DefaultFeatureCollection) newFeatureCollection).add(updatedAddr);
-                        addressesBySA.computeIfAbsent((String) updatedAddr.getAttribute(groupingKey), v -> new HashSet<>())
+
+                        //Record addresses grouping by their SA1
+                        addressesBySA.computeIfAbsent((String) updatedAddr.getAttribute(groupingKey), v -> new ArrayList<>())
                                      .add(AddressUtil.map2POJO(updatedAddr));
 
                     }

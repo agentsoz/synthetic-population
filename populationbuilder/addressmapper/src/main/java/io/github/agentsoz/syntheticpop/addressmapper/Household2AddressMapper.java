@@ -49,11 +49,13 @@ public class Household2AddressMapper {
 
         for (String sa : saList) {
             Log.info("Processing " + sa);
-            Path hhFile = FileUtils.find(householdsHome.resolve(sa), householdFilePattern).get(0);
 
+            //Get the households.csv.gz of this SA2
+            Path hhFile = FileUtils.find(householdsHome.resolve(sa), householdFilePattern).get(0);
             Map<String, List<LinkedHashMap<String, Object>>> hhsBySA1 = null;
             try {
-                Reader hhReader  = new InputStreamReader(new GZIPInputStream(new BufferedInputStream(Files.newInputStream(hhFile))));
+                Reader hhReader = new InputStreamReader(new GZIPInputStream(new BufferedInputStream(Files.newInputStream(hhFile))));
+                //Read the households and group them by SA1 main code.
                 hhsBySA1 = HouseholdUtil.readHouseholds(hhReader);
 
             } catch (IOException e) {
@@ -66,6 +68,8 @@ public class Household2AddressMapper {
                 allocateHouseholdsToAddresses(hhsBySA1.get(sa1), addresses.get(sa1), rand);
             }
 
+            //Update the households.csv.gz with EZI_ADD (street address) and Geographical location.
+            //We can't save the WKT of the geographical location coordinates in the csv because it will break the structures of the csv
             try {
                 HouseholdUtil.saveUpdatedHouseholds(hhsBySA1, hhFile);
             } catch (IOException e) {
@@ -81,6 +85,7 @@ public class Household2AddressMapper {
             Log.errorAndExit("No addresses in the selected SA: " + HouseholdUtil.getSA1MainCode(households.get(0)),
                              GlobalConstants.ExitCode.DATA_ERROR);
         } else {
+            //Randomly select addresses and assign households to them. If there are more households than addresses, one address may have multiple households.
             Collections.shuffle(addresses, rand);
 
             int size = addresses.size();
