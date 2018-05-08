@@ -1,5 +1,6 @@
 package io.github.agentsoz.syntheticpop.geo;
 
+import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.geotools.data.DefaultTransaction;
 import org.geotools.data.FileDataStoreFactorySpi;
@@ -44,29 +45,33 @@ public class ShapefileGeoFeatureWriter {
         ShapefileDataStore newDataStore = (ShapefileDataStore) dataStoreFactory.createNewDataStore(params);
         newDataStore.createSchema((SimpleFeatureType) featureCollection.getSchema());
 
-        Transaction transaction = new DefaultTransaction("create");
-        String typeName = newDataStore.getTypeNames()[0];
-        SimpleFeatureSource newFeatureSource = newDataStore.getFeatureSource(typeName);
+        int attempt = 0, MAX_ATTEMPTS = 3;
+        while (attempt < MAX_ATTEMPTS) {
+            Transaction transaction = new DefaultTransaction("create");
+            String typeName = newDataStore.getTypeNames()[0];
+            SimpleFeatureSource newFeatureSource = newDataStore.getFeatureSource(typeName);
 
-        if (newFeatureSource instanceof SimpleFeatureStore) {
-            SimpleFeatureStore featureStore = (SimpleFeatureStore) newFeatureSource;
+            if (newFeatureSource instanceof SimpleFeatureStore) {
+                SimpleFeatureStore featureStore = (SimpleFeatureStore) newFeatureSource;
 
-            featureStore.setTransaction(transaction);
-            try {
-                featureStore.addFeatures(featureCollection);
-                transaction.commit();
-
-            } catch (Exception problem) {
-                Log.error("When writing a feature to the shape file", problem);
-                transaction.rollback();
-
-            } finally {
-                transaction.close();
-                newDataStore.dispose();
+                featureStore.setTransaction(transaction);
+                try {
+                    featureStore.addFeatures(featureCollection);
+                    transaction.commit();
+                    attempt = MAX_ATTEMPTS; //Transaction was successful. So don't try again.
+                    Log.debug("Saving transaction successful");
+                } catch (Exception problem) {
+                    Log.error("Attempt "+attempt+" to save shape file failed", problem);
+                    transaction.rollback();
+                } finally {
+                    attempt++;
+                    transaction.close();
+                    newDataStore.dispose();
+                }
+            } else {
+                Log.errorAndExit(newFeatureSource.getClass() + " is not an instance of " + SimpleFeatureStore.class,
+                                 GlobalConstants.ExitCode.DATA_ERROR);
             }
-        } else {
-            System.out.println(typeName + " does not support read/write access");
-            System.exit(1);
         }
         return path;
 
