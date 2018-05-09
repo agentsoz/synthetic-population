@@ -13,6 +13,36 @@
         <junit.jupiter.version>5.0.0</junit.jupiter.version>
         <junit.platform.version>1.0.0</junit.platform.version>
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/agentsoz/synthetic-population.git</connection>
+        <developerConnection>scm:git:https://github.com/agentsoz/synthetic-population.git</developerConnection>
+        <url>https://github.com/agentsoz/synthetic-population.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>GNU General Lesser Public License, Version 3.0</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Bhagya Niroshan Wickramasinghe</name>
+            <email>bhagya.niroshan@gmail.com</email>
+            <organization>RMIT - AgentsOZ</organization>
+            <organizationUrl>http://agentsoz.github.io</organizationUrl>
+        </developer>
+        <developer>
+            <name>Dhirendra Singh</name>
+            <email>dhi.singh@gmail.com</email>
+            <organization>AgentsOZ</organization>
+            <organizationUrl>http://agentsoz.github.io</organizationUrl>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
@@ -35,6 +65,54 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
             </plugin>
+
+            <!-- License header plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.13</version>
+                <configuration>
+                    <organizationName>AgentsOZ</organizationName>
+                    <copyrightOwners>by its authors. See AUTHORS file.</copyrightOwners>
+                    <projectName>Synthetic Population Construction for Australia</projectName>
+                    <canUpdateDescription>true</canUpdateDescription>
+                    <canUpdateCopyright>true</canUpdateCopyright>
+                    <inceptionYear>2016</inceptionYear>
+                    <licenseName>lgpl_v3</licenseName>
+                    <licenseFile>${basedir}/COPYING.LESSER</licenseFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-project-license</goal>
+                            <!-- diabling update header as it takes a long time; manually do mvn license:update-file-header prior to release-->
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:all</additionalparam>
+                    <aggregate>false</aggregate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     <dependencies>
@@ -117,6 +195,57 @@
             <url>http://dl.bintray.com/matsim/matsim</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <modules>
         <module>util</module>
         <module>filemanager</module>
