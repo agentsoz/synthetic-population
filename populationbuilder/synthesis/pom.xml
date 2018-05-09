@@ -62,17 +62,12 @@
     <dependencies>
         <dependency>
             <groupId>io.github.agentsoz.syntheticpop</groupId>
-            <artifactId>filemanager</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.agentsoz.syntheticpop</groupId>
             <artifactId>util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.github.agentsoz.syntheticpop</groupId>
-            <artifactId>geo</artifactId>
+            <artifactId>filemanager</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

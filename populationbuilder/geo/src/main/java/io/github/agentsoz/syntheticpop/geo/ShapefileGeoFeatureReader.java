@@ -54,45 +54,6 @@ public class ShapefileGeoFeatureReader {
 
     }
 
-    //    public FeatureCollection loadFeatures(List<Path> inputs) throws IOException {
-    //
-    //        Map<String, Object> map = new HashMap<String, Object>();
-    //        DefaultFeatureCollection dfc = new DefaultFeatureCollection();
-    //        for (Path inPath : inputs) {
-    //            FeatureSource<SimpleFeatureType, SimpleFeature> source = this.getFeatureSource(inPath);
-    //            Filter filter = Filter.INCLUDE;
-    //            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
-    //            dfc.addAll(collection);
-    //        }
-    //
-    //        return dfc;
-    //
-    //    }
-
-    /**
-     * Load features from a shapefile and assigns the specified CoordinateReferenceSystem
-     *
-     * @param featureSource FeatureSource instance created with shapefile
-     * @param crs           target coordinate reference system
-     */
-    public FeatureCollection loadFeatures(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
-                                          CoordinateReferenceSystem crs) throws IOException {
-
-        Query query = new Query(null, null);
-        query.setCoordinateSystemReproject(crs);
-
-        return featureSource.getFeatures(query);
-    }
-
-    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
-                                                    String property,
-                                                    String propertyValue) throws IOException, CQLException {
-
-        Filter filter = CQL.toFilter(property + "=" + propertyValue);
-
-        return featureSource.getFeatures(filter);
-    }
-
 
     public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
                                                     String property,
@@ -108,35 +69,6 @@ public class ShapefileGeoFeatureReader {
         Filter filter = ff.or(match);
 
         return featureSource.getFeatures(filter);
-    }
-
-    /**
-     * Load features from a shapefile and filters the properties based on a property and its values. Multiple property values are handled
-     * like in
-     * a logical OR operation
-     *
-     * @param featureSource  FeatureSource instance created with shapefile
-     * @param property       Name of the property in shape file
-     * @param propertyValues Values of the property
-     * @param crs            target coordinate reference system
-     */
-    public FeatureCollection loadFeaturesByProperty(FeatureSource<SimpleFeatureType, SimpleFeature> featureSource,
-                                                    String property,
-                                                    String[] propertyValues,
-                                                    CoordinateReferenceSystem crs) throws IOException {
-
-        FilterFactory2 ff = CommonFactoryFinder.getFilterFactory2();
-        List<Filter> match = new ArrayList<>();
-        for (String name : propertyValues) {
-            Filter aMatch = ff.equals(ff.property(property), ff.literal(name));
-            match.add(aMatch);
-        }
-        Filter filter = ff.or(match);
-        Query query = new Query(property, filter);
-        // query.setCoordinateSystem(crs);
-        query.setCoordinateSystemReproject(crs);
-
-        return featureSource.getFeatures(query);
     }
 
     /**
