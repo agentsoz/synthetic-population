@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 /*
  * #%L
- * BDI-ABM Integration Package
+ * Synthetic Population Construction for Australia
  * %%
- * Copyright (C) 2014 - 2015 by its authors. See AUTHORS file.
+ * Copyright (C) 2016 - 2018 by its authors. See AUTHORS file.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
