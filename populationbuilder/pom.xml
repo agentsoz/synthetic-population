@@ -86,7 +86,7 @@
                         <id>first</id>
                         <goals>
                             <goal>update-project-license</goal>
-                            <!-- diabling update header as it takes a long time; manually do mvn license:update-file-header prior to release-->
+                            <!-- To disable update header if it takes a long time; comment out below goal and manually do mvn license:update-file-header prior to release-->
                             <goal>update-file-header</goal>
                         </goals>
                         <phase>process-sources</phase>
@@ -116,29 +116,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.matsim</groupId>
-            <artifactId>matsim</artifactId>
-            <version>0.7.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>1.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -156,18 +136,12 @@
             <version>2.5</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.7</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- To run tests on IDE such as Eclipse, Intellij -->
+        <!-- To run tests on IDEs such as Eclipse, Intellij -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -187,13 +161,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>matsim</id>
-            <name>MATSim release repository</name>
-            <url>http://dl.bintray.com/matsim/matsim</url>
-        </repository>
-    </repositories>
 
     <profiles>
         <profile>
