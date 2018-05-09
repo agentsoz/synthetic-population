@@ -57,16 +57,10 @@ public class FeatureProcessor {
      * @param simplefeaturePolygonCollection Collection of feature polygons e.g. collection of potential SA1s
      * @param point                          The point which need to be checked e.g. Building location
      * @return The list of feature polygons which contain the point
-     * @throws DataFormatException If CRS of featureCollection and point do not match
      */
     public SimpleFeature getContainingPolygon(SimpleFeatureCollection simplefeaturePolygonCollection,
-                                              SimpleFeature point) throws DataFormatException {
+                                              SimpleFeature point) {
 
-        // if (!point.getType().equals(featureCollection.getSchema())){
-        // throw new DataFormatException("Coordinate Reference Systems of
-        // featureCollection and point do not match. Convert them to a common
-        // CRS. ");
-        // }
 
         SimpleFeature containingPolygon = null;
         try (FeatureIterator<SimpleFeature> featureIterator = simplefeaturePolygonCollection.features()) {
@@ -90,7 +84,6 @@ public class FeatureProcessor {
         for (SimpleFeature polygon : featurePolygons) {
             Geometry jtsGeoPolygon = (Geometry) polygon.getDefaultGeometry();
             Point jtsPoint = (Point) point.getDefaultGeometryProperty().getValue();
-            // Geometry pointGeom = (Geometry) ((SimpleFeature)point).getDefaultGeometry();
 
             if (jtsGeoPolygon.contains(jtsPoint)) {
                 return polygon;
@@ -109,9 +102,7 @@ public class FeatureProcessor {
      */
     public SimpleFeatureCollection transformGeometryCRS(SimpleFeatureCollection featureCollection,
                                                         MathTransform transformer) throws MismatchedDimensionException, TransformException {
-        // SimpleFeatureCollection sp = DataUtilities.simple(
-        // (FeatureCollection<SimpleFeatureType, SimpleFeature>)
-        // featureCollection);
+
         try (FeatureIterator<SimpleFeature> featureItr = featureCollection.features()) {
             while (featureItr.hasNext()) {
                 SimpleFeature feature = featureItr.next();
@@ -137,44 +128,6 @@ public class FeatureProcessor {
         Geometry geometry2 = JTS.transform(geometry, transformer);
         feature.setDefaultGeometry(geometry2);
         return feature;
-    }
-
-    /**
-     * Add new attribute to a copy of the feature collection. Value of the new attribute is set to null
-     *
-     * @param featureCollection Original feature collection
-     * @param attributeName     String name of the attribute
-     * @param valueClass        Object class of the values
-     * @return Copy of the original feature collection with new attribute added
-     */
-    public FeatureCollection addNewAttributeType(FeatureCollection featureCollection, String attributeName,
-                                                 Class valueClass) throws IOException {
-        SimpleFeatureType sFeatureType = DataUtilities.simple(featureCollection.getSchema());
-
-        // Create the new type using the former as a template
-        SimpleFeatureTypeBuilder sFeatureTypeBuilder = new SimpleFeatureTypeBuilder();
-        sFeatureTypeBuilder.init(sFeatureType);
-        sFeatureTypeBuilder.setName(sFeatureType.getName());
-
-        // Add the new attribute
-        sFeatureTypeBuilder.add(attributeName, valueClass);
-        SimpleFeatureType newFeatureType = sFeatureTypeBuilder.buildFeatureType();
-
-        // Create the collection of new Features
-        SimpleFeatureBuilder sfeatureBuilder = new SimpleFeatureBuilder(newFeatureType);
-        SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
-
-        try (SimpleFeatureIterator itr = (SimpleFeatureIterator) featureCollection.features()) {
-            while (itr.hasNext()) {
-                SimpleFeature sfeature = itr.next();
-                sfeatureBuilder.addAll(sfeature.getAttributes());
-                sfeatureBuilder.add(null);
-                ((DefaultFeatureCollection) newFeatureCollection).add(sfeatureBuilder.buildFeature(null));
-            }
-        }
-
-
-        return newFeatureCollection;
     }
 
     /**

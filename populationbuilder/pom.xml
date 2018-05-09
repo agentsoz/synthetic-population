@@ -100,8 +100,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <additionalparam>-Xdoclint:all</additionalparam>
-                    <aggregate>false</aggregate>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>
@@ -250,7 +249,6 @@
         <module>util</module>
         <module>filemanager</module>
         <module>geo</module>
-        <module>BuildingProperties</module>
         <module>synthesis</module>
         <module>addressmapper</module>
     </modules>
