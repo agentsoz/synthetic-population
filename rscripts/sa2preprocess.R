@@ -291,6 +291,7 @@ cat(paste(rownames(errors[is.na(errors[, "start_error%"]),]), collapse=", "),"\n
 flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 
 cat("\nBefore and after error saved at",opt$errorfile)
+CreateDir(dirname(opt$errorfile))
 write.csv(errors, opt$errorfile)
 
 desc = "\nSA2s above 5% error\n The difference between the number of persons in household and person distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n"
