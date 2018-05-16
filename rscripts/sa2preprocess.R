@@ -9,7 +9,6 @@ start_time <- Sys.time()
 source("config.R")
 source("datareader.R")
 source("util.R")
-source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
 
@@ -215,7 +214,9 @@ for (sa2 in sa2_list) {
   
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
+  rownames(indv) <- c(1:nrow(indv))
   hhs = ReadBySA(hhArr, sa2)
+  rownames(hhs)<- c(1:nrow(hhs))
 
   if ((sum(indv[, p_value_col]) == 0) &
       (sum(hhs[, h_value_col]) == 0)) {
@@ -255,6 +256,7 @@ for (sa2 in sa2_list) {
 
     pgz <- gzfile(paste(saoutpath, persons_file_name, sep = ""))
     CreateDir(dirname(summary(pgz)$description))
+    indv = OrderAgeDescending(indv)
     write.csv(indv, pgz, row.names = FALSE)
 
     hgz <- gzfile(paste(saoutpath, households_file_name, sep = ""))
