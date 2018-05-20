@@ -32,8 +32,6 @@ import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureStore;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,19 +54,21 @@ public class ShapefileGeoFeatureWriter {
      * @param outputDir         directory where output files to be written
      * @throws IOException When reading and writing files
      */
-    public Path writeFeatures(SimpleFeatureCollection featureCollection, Path outputDir) throws IOException {
-        String featureName = ((SimpleFeatureCollection) featureCollection).getSchema().getName().toString();
-
-        Path path = Paths.get(outputDir + File.separator + featureName + ".shp");
-        FileDataStoreFactorySpi dataStoreFactory = new ShapefileDataStoreFactory();
-        Map<String, Serializable> params = new HashMap<>();
+    public Path writeFeatures(final SimpleFeatureCollection featureCollection, final Path outputDir) throws IOException {
+        final String featureName = featureCollection.getSchema().getName().toString();
+        final Path path = Paths.get(outputDir + File.separator + featureName + ".shp");
+        final Map<String, Serializable> params = new HashMap<>();
         params.put("url", path.toUri().toURL());
         params.put("create spatial index", Boolean.TRUE);
-        ShapefileDataStore newDataStore = (ShapefileDataStore) dataStoreFactory.createNewDataStore(params);
-        newDataStore.createSchema((SimpleFeatureType) featureCollection.getSchema());
 
-        int attempt = 0, MAX_ATTEMPTS = 3;
+        final int MAX_ATTEMPTS = 3;
+        int attempt = 0;
         while (attempt < MAX_ATTEMPTS) {
+
+            FileDataStoreFactorySpi dataStoreFactory = new ShapefileDataStoreFactory();
+            ShapefileDataStore newDataStore = (ShapefileDataStore) dataStoreFactory.createNewDataStore(params);
+            newDataStore.createSchema(featureCollection.getSchema());
+
             Transaction transaction = new DefaultTransaction("create");
             String typeName = newDataStore.getTypeNames()[0];
             SimpleFeatureSource newFeatureSource = newDataStore.getFeatureSource(typeName);
@@ -83,7 +83,7 @@ public class ShapefileGeoFeatureWriter {
                     attempt = MAX_ATTEMPTS; //Transaction was successful. So don't try again.
                     Log.debug("Saving transaction successful");
                 } catch (Exception problem) {
-                    Log.error("Attempt "+attempt+" to save shape file failed", problem);
+                    Log.error("Attempt " + attempt + " to save shape file failed", problem);
                     transaction.rollback();
                 } finally {
                     attempt++;

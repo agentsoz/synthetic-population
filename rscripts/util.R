@@ -77,3 +77,18 @@ GetCsvInZip <- function(input_file, csv_name = NULL) {
     inputCsv = input_file
   }
 }
+
+OrderAgeDescending <- function(p_marg){
+  block_start = 0
+  block_end = 0
+  age_blocks = nrow(p_marg)/length(age_cats)
+  for(i in c(1:age_blocks)) {
+    block_start = block_end + 1
+    block_end = block_end+length(age_cats)
+    block = p_marg[c(block_start:block_end),]
+    age_desc_row_order = match(block$Age, rev(age_cats)) 
+    p_marg[c(block_start:block_end),] <- block[age_desc_row_order,]
+  }
+  return(p_marg)
+  
+}
