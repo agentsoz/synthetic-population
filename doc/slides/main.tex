@@ -1,0 +1,258 @@
+%%% Uncomment for presentation mode
+\documentclass[9pt,authordate1-4]{beamer}
+
+%%% Uncomment for article mode
+%\documentclass{article} 
+%\usepackage{beamerarticle} 
+\usepackage{bm}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+
+\mode<presentation>
+{
+  \usetheme[secheader]{Madrid}
+%  \usetheme{CambridgeUS}
+  \useoutertheme[footline=institutetitle,subsection=false]{miniframes}
+
+\setbeamertemplate{footline}    
+{
+  \leavevmode% 
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshortdate{}\hspace*{2em}\insertframenumber{}/\inserttotalframenumber{}
+  \end{beamercolorbox}}%
+}
+
+% Set RMIT headline format
+\setbeamertemplate{headline}           
+{
+  \leavevmode%
+  \vskip0pt%
+}
+
+
+% Set color of footline to more red as in RMIT format
+ \definecolor{rmitred}{RGB}{236,36,36} % lighter
+%\definecolor{rmitred}{RGB}{178,33,36}   % darker
+\setbeamercolor*{palette tertiary}{bg=rmitred,fg=white}
+
+% Set background color for title of each slide
+%\setbeamercolor{frametitle}{bg=rmitred}
+
+%\setbeamercolor{frametitle}{fg=white,bg=black!90}
+\setbeamercolor{frametitle}{fg=white,bg=rmitred}
+\setbeamercolor{item}{fg=black}
+
+
+  \useinnertheme{circles}
+  \setbeamercovered{transparent=5}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{frametitle continuation}[from second][\insertcontinuationtext]
+
+
+
+%%%% Design title page wrt RMIT format using RMIT image
+\usebackgroundtemplate{\includegraphics[width=\paperwidth]{./images/background-rmit-ppt}}
+\setbeamertemplate{title page}
+{
+  \vbox{}
+      \textcolor{white}{\Huge \inserttitle} \\[4ex]
+      \textcolor{white}{\LARGE \insertauthor} \\[4ex]
+      \textcolor{white}{\normalsize \insertinstitute} \\[4ex]
+      \textcolor{white}{\normalsize \insertdate}
+}
+
+%%% REMOVE Beamer navigation buttons
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{enumerate items}[default]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEAMER CONFIGURATION - END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{pgf,pgfplots}
+\usepackage{color}
+\usepackage{latexsym}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{multirow}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations,backgrounds,matrix,automata,trees,shapes,shadows,plotmarks,calc,positioning,patterns,chains,fit}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\newcounter{finalframe}
+
+%% Comment out the following if outline frames are not required
+% \AtBeginSection[]
+% {
+%   \setcounter{finalframe}{\value{framenumber}}
+%   \begin{frame}<beamer>{Outline}
+% 	\setcounter{framenumber}{\value{finalframe}}
+%     \tableofcontents[currentsection,hideallsubsections]
+%   \end{frame}
+% }
+
+\renewcommand\example[1]{{\color{black!50!green}#1}}
+
+\renewcommand{\baselinestretch}{1.05}
+\parskip 1.33ex
+
+\newcommand{\itemf}{\vfill \item}
+\newcommand{\Omit}[1]{}
+
+
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+\title[Melbourne Synthetic Population]{Heuristics based population synthesis 
+using Australian census data}
+\author[Wickramasinghe et. al]{Bhagya. N. Wickramasinghe}
+\institute{bhagya.wickramasinghe@rmit.edu.au\\RMIT University, Australia}
+\date[2018]{}
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+
+%\pgfplotsset{compat=1.11}
+
+\begin{document}
+
+% Remove front matter background with RMIT logo to facilitate blind review
+%----------------------------------------------------------------------------
+\begin{frame}[plain]
+\setcounter{framenumber}{0}
+\titlepage
+{\large \textcolor{white}{
+In collaboration with Dhirendra 
+Singh, Lin Padgham and Shane Culpepper}}
+\note{
+}
+\end{frame}
+
+% Set background to white (otherwise 1st slide background remains)
+\usebackgroundtemplate{}
+
+\input{slides}
+
+\end{document}
+
+% %%% Uncomment for presentation mode
+% \documentclass[9pt]{beamer}
+% 
+% %%% Uncomment for article mode
+% %\documentclass{article} 
+% %\usepackage{beamerarticle} 
+% \usepackage{bm}
+% 
+% \usepackage{hyperref}
+% 
+% \mode<presentation> {
+% 
+% \setbeamersize{text margin left=15pt,text margin right=15pt}
+% 
+% %\definecolor{rmitred}{RGB}{236,36,36} % RMIT red - lighter
+% \definecolor{rmitred}{RGB}{178,33,36}   % RMIT red - darker
+% 
+% %\usetheme{Madrid} % main theme
+% %\usetheme{CambridgeUS} % main theme
+% \usetheme{Frankfurt} % main theme
+% \useoutertheme[subsection=false]{miniframes}
+% 
+% \setbeamercolor{palette primary}{bg=rmitred,fg=white}
+% \setbeamercolor{palette secondary}{bg=rmitred,fg=white}
+% \setbeamercolor{palette tertiary}{bg=rmitred,fg=white}
+% \setbeamercolor{palette quaternary}{bg=rmitred,fg=white}
+% \setbeamercolor{frametitle}{bg=rmitred,fg=white}
+% \setbeamercolor{item}{fg=rmitred} % for lists bullets
+% 
+% \useinnertheme{circles} % for lists
+% \setbeamercovered{transparent=5} % transparency of hidden text
+% \setbeamertemplate{navigation symbols}{} % suppress the beamer navigation bar
+% \setbeamertemplate{frametitle continuation}[from 
+% second][\insertcontinuationtext]
+% 
+% % Custom footer
+% \setbeamertemplate{footline} {
+% 	\leavevmode%
+% 	\hbox{%
+% 		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{frametitle}%
+% 			\usebeamerfont{author in head/foot}\insertshortauthor
+% 		\end{beamercolorbox}%
+% 		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{frametitle}%
+% 			\usebeamerfont{title in head/foot}\insertshorttitle
+% 		\end{beamercolorbox}%
+% 		\begin{beamercolorbox}[wd=.333333\paperwidth,ht=3.25ex,dp=1ex,center]{frametitle}%
+% 			\usebeamerfont{title in head/foot} \insertshortdate{} \hspace*{2em}
+% 			\insertframenumber{}/\inserttotalframenumber{} 
+% 		\end{beamercolorbox}}%
+% 	}
+% 	
+% 	% RMIT style title page
+% 	\usebackgroundtemplate{\includegraphics[width=\paperwidth]{images/background-rmit-ppt}}
+% 	\setbeamertemplate{title page} {
+% 		\vbox{}
+% 		\textcolor{white}{\Huge \inserttitle} \\[4ex]
+% 		\textcolor{white}{\LARGE \insertauthor} \\[4ex]
+% 		\textcolor{white}{\normalsize \insertinstitute} \\[4ex]
+% 		\textcolor{white}{\normalsize \insertdate}
+% 		
+% 	}
+% }
+% 	
+% 	
+% 	
+% \usepackage{colortbl}
+% \usepackage{pgfplots}
+% \usepackage[linesnumbered,ruled]{algorithm2e}
+% \usepackage[english]{babel}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows,decorations,backgrounds,matrix,automata,
+% 	trees,shapes,shadows,plotmarks,calc,positioning,patterns,chains,fit}
+% 
+% %%%%%%%%%%%%%%%%%
+% % defines 
+% %%%%%%%%%%%%%%%%%
+% %\input{macros}
+% 
+% \pgfplotsset{compat=1.9}
+% % if you are using PDF LaTeX and you cannot find a way for producing 
+% %letter, the
+% % following explicit settings may help					
+% \pdfpagewidth=8.5truein \pdfpageheight=11truein
+% 
+% \begin{document}
+% 	
+% 	\begin{frame}
+% 		\title{Heuristic Data Merging for Constructing Initial Agent 
+% 		Populations} 
+% 		\author{Bhagya~N.~Wickramasinghe, Dhirendra~Singh and Lin~Padgham 
+% 		\\ RMIT 
+% 			University}
+% 		\date{ABMUS Workshop\\
+% 			AAMAS, May 2017, Sao Paulo, Brazil}
+% 		\maketitle
+% 	\end{frame}
+% 	\usebackgroundtemplate{}
+% 	\input{slides}%
+% \end{document}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
