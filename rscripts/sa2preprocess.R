@@ -9,7 +9,6 @@ start_time <- Sys.time()
 source("config.R")
 source("datareader.R")
 source("util.R")
-source("dwellingproperties.R")
 source("cleaning.R")
 source("estimateSA1HouseholdsUsingSA2.R")
 
@@ -215,7 +214,9 @@ for (sa2 in sa2_list) {
   
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
+  rownames(indv) <- c(1:nrow(indv))
   hhs = ReadBySA(hhArr, sa2)
+  rownames(hhs)<- c(1:nrow(hhs))
 
   if ((sum(indv[, p_value_col]) == 0) &
       (sum(hhs[, h_value_col]) == 0)) {
@@ -255,6 +256,7 @@ for (sa2 in sa2_list) {
 
     pgz <- gzfile(paste(saoutpath, persons_file_name, sep = ""))
     CreateDir(dirname(summary(pgz)$description))
+    indv = OrderAgeDescending(indv)
     write.csv(indv, pgz, row.names = FALSE)
 
     hgz <- gzfile(paste(saoutpath, households_file_name, sep = ""))
@@ -291,6 +293,7 @@ cat(paste(rownames(errors[is.na(errors[, "start_error%"]),]), collapse=", "),"\n
 flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 
 cat("\nBefore and after error saved at",opt$errorfile)
+CreateDir(dirname(opt$errorfile))
 write.csv(errors, opt$errorfile)
 
 desc = "\nSA2s above 5% error\n The difference between the number of persons in household and person distributions as a percentage of persons in household distribution. (-) values indicate persons distribution having more persons than household distribution and (+) values indicate the opposite.\n"

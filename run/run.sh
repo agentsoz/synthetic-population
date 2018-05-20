@@ -4,10 +4,12 @@ DIR=`dirname "$0"`
 CDIR=`pwd`
 
 cd $DIR/../rscripts &&
+Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics","futile.logger"))' &&
 ./sa2preprocess.R &&
 cd ../populationbuilder &&
 mvn clean install &&
 java -jar synthesis/target/synthesis.jar population.properties &&
+java -jar addressmapper/target/addressmapper.jar addressmapper.properties -h &&
 cd ../data &&
 echo "1. Introduction
 ----------------

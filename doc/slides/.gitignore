@@ -1,0 +1,9 @@
+*.out
+*.snm
+*.nav
+*.log
+*.aux
+*.pdf
+*.toc
+main.synctex.gz
+!images/*
