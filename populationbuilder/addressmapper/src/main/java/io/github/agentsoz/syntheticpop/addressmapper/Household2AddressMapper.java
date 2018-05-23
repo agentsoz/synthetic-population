@@ -103,8 +103,7 @@ public class Household2AddressMapper {
 
     private void allocateHouseholdsToAddresses(List<LinkedHashMap<String, Object>> households, List<Address> addresses, Random rand) {
         if ((addresses == null || addresses.isEmpty()) && (households != null || !households.isEmpty())) {
-            Log.errorAndExit("SA: " + HouseholdUtil.getSA1MainCode(households.get(0)) + " " + households.size() + " households but 0 " +
-                                     "addresses",GlobalConstants.ExitCode.DATA_ERROR);
+            Log.warn("SA: " + HouseholdUtil.getSA1MainCode(households.get(0)) + " " + households.size() + " households but 0 addresses");
         } else {
             //Randomly select addresses and assign households to them. If there are more households than addresses, one address may have
             // multiple households.
