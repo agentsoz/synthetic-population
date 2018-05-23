@@ -10,35 +10,31 @@ package io.github.agentsoz.syntheticpop.addressmapper;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
 
+import com.vividsolutions.jts.geom.Envelope;
 import io.github.agentsoz.syntheticpop.addressmapper.models.Address;
 import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
-import io.github.agentsoz.syntheticpop.geo.FeatureProcessor;
-import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureReader;
 import io.github.agentsoz.syntheticpop.geo.ShapefileGeoFeatureWriter;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.geotools.data.DataUtilities;
-import org.geotools.data.FeatureSource;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.filter.text.cql2.CQLException;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,18 +42,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.zip.DataFormatException;
 
 /**
  * @author wniroshan 01 May 2018
  */
 public class StatisticalArea2AddressMapper {
 
-    private final FeatureProcessor featProcessor;
-    private final ShapefileGeoFeatureReader shapesReader;
+    private final ShapesProcessor shapesProcessor;
 
     private final Path saFilePath, tempOutputDir, outputFile, sa1ToAddressJson;
-    private final String addressLookupKey, saLookupKey, saFilterKey, addressShapeFilePattern, saShapeFileName, duplicatesCheckKey;
+    private final String saFilterKey, addressShapeFilePattern, saShapeFileName, duplicatesCheckKey;
 
     private final Map<String, String> newAttributesToAddress;
     private final String[] saFilterValues, addressFilePathStr;
@@ -68,9 +62,8 @@ public class StatisticalArea2AddressMapper {
     private final HashSet<String> checkedAddresses = new HashSet<>();
     private final Map<String, List<Address>> addressesBySA = new HashMap<>(); //Key: SA1 code, Value: list of addresses in SA1
 
-    StatisticalArea2AddressMapper(ConfigProperties props, FeatureProcessor featProcessor, ShapefileGeoFeatureReader shapesReader) {
-        this.featProcessor = featProcessor;
-        this.shapesReader = shapesReader;
+    StatisticalArea2AddressMapper(ConfigProperties props, ShapesProcessor shapesProcessor) {
+        this.shapesProcessor = shapesProcessor;
 
         assert props != null;
         this.addressFilePathStr = props.readCommaSepProperties("AddressesShapeFileZip");
@@ -78,9 +71,7 @@ public class StatisticalArea2AddressMapper {
         this.saFilePath = props.readFileOrDirectoryPath("SAShapeFileZip");
         this.saShapeFileName = props.getProperty("SAShapeFileName");
 
-        addressLookupKey = props.getProperty("AddressLookupKey");
         duplicatesCheckKey = props.getProperty("DuplicatesCheckKey");
-        saLookupKey = props.getProperty("SALookupKey");
         newAttributesToAddress = props.readKeyValuePairs("NewAttributesToAddress");
         tempOutputDir = props.getProperty("TemporaryOutputDirectory").trim().equals("system")
                         ? Paths.get(System.getProperty("java.io.tmpdir"))
@@ -100,21 +91,24 @@ public class StatisticalArea2AddressMapper {
         Log.info("Located " + addressShapeFiles.size() + " address shape files");
 
 
-        //Load the mesh blocks
+        //Load the statistical areas
         Log.info("Locating " + saShapeFileName + " in " + saFilePath);
-        SimpleFeatureCollection meshBlocks = loadSAMeshBlocks();
+        Map<SimpleFeature, Envelope> saFeatures = shapesProcessor.loadStatisticalAreas(saFilePath,
+                                                                                       saShapeFileName,
+                                                                                       saFilterKey,
+                                                                                       saFilterValues);
 
         //Locate the SA id of addresses in each address shapefile and save them to a new temporary shape file
         Iterator<Path> addressShapeFilesItr = addressShapeFiles.iterator();
         List<Path> tempShapeFiles = new ArrayList<>(); //The list of newly created temporary shape files
         while (addressShapeFilesItr.hasNext()) {
             //Get a shape file and find the SA1s of addresses in them
-            Path addressShape = addressShapeFilesItr.next();
-            SimpleFeatureCollection updatedFeatureCollection = mapAddressesToSAMeshBlocks(addressShape, meshBlocks);
+            Path addressShapeFile = addressShapeFilesItr.next();
+            SimpleFeatureCollection updatedFeatureCollection = findContainingSAs(addressShapeFile, saFeatures);
 
             //Save a copy of addresses collection in a new temporary file. (Created one for each address shape file.
             if (!updatedFeatureCollection.isEmpty()) {
-                Path tempLocation = tempOutputDir.resolve(getAreaName(addressShape).toString());
+                Path tempLocation = tempOutputDir.resolve(getAreaName(addressShapeFile).toString());
                 try {
                     Path saved = saveToTempShapeFile(updatedFeatureCollection, tempLocation);
                     tempShapeFiles.add(saved);
@@ -124,14 +118,16 @@ public class StatisticalArea2AddressMapper {
                 }
 
             } else {
-                Log.warn("Empty processed addresses collection - " + getAreaName(addressShape) + ". It seems no addresses belong to any " +
-                                 "of the mesh blocks (statistical areas)");
+                Log.warn("Empty processed addresses collection - " + getAreaName(addressShapeFile) + ". It seems no addresses belong to any " +
+                                 "of the statistical areas");
             }
         }
 
         //Save the addresses grouped by the SA1 code in a json (text) file. So we don't have to process shape files after this.
         try {
-            AddressUtil.saveAsJSONFile(addressesBySA, meshBlocks.getSchema().getCoordinateReferenceSystem(), sa1ToAddressJson);
+            AddressUtil.saveAsJSONFile(addressesBySA,
+                                       saFeatures.keySet().toArray(new SimpleFeature[]{})[0].getType().getCoordinateReferenceSystem(),
+                                       sa1ToAddressJson);
             Log.info("Summary addresses file saved to " + sa1ToAddressJson);
         } catch (IOException e) {
             Log.errorAndExit("Writing " + sa1ToAddressJson + " file failed", e, GlobalConstants.ExitCode.IOERROR);
@@ -177,58 +173,58 @@ public class StatisticalArea2AddressMapper {
     }
 
     /**
-     * Finds the address that belong to one of the specified mesh blocks. The addresses that are in the mesh blocks are copied to a new
-     * FeatureCollection instance, and mesh block id and SA1 ids are added as new attributes. This does not alter the address instances in
-     * original FeatureCollection.
+     * Finds the SA of each address. The addresses that belong to the specified SAs are copied to a new FeatureCollection instance, and SA
+     * ids are added as new attributes. This does not alter the address instances in original FeatureCollection.
      *
      * @param addressShapeFile The addresses shape file
-     * @param meshBlocks       The mesh blocks that addresses are expected to belong to
-     * @return New collection of addresses that are in one of the mesh blocks with the corresponding mesh block id and SA1 id.
+     * @param allSAs           The SAs and their bounding boxes (envelopes) that addresses  are expected to belong to
+     * @return New collection of addresses that are in one of the SAs with the corresponding SA id.
      */
-    private SimpleFeatureCollection mapAddressesToSAMeshBlocks(Path addressShapeFile,
-                                                               SimpleFeatureCollection meshBlocks) {
+    private SimpleFeatureCollection findContainingSAs(Path addressShapeFile,
+                                                      Map<SimpleFeature, Envelope> allSAs) {
 
         SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
 
         Log.info("Loading address features in " + addressShapeFile.toUri());
 
-        //The addresses are grouped by different values of this key. This is an attribute in the address feature typically SA1 code.
+        //The addresses are grouped by different values of this key, typically the SA1 code.
         String groupingKey = newAttributesToAddress.entrySet().stream().findFirst().orElse(null).getKey();
 
-        Matcher m = new Matcher(featProcessor, saLookupKey, addressLookupKey);
         SimpleFeatureCollection addresses = null;
 
         try {
-            addresses = loadAddresses(addressShapeFile);
+            addresses = shapesProcessor.loadAddresses(addressShapeFile);
         } catch (IOException e) {
-            Log.errorAndExit("AddressUtil loading failed", e, GlobalConstants.ExitCode.USERINPUT);
+            Log.errorAndExit("Addresses loading failed", e, GlobalConstants.ExitCode.USERINPUT);
         }
-
 
         assert addresses != null;
         int totalAddresses = addresses.size(), processed = 0, duplicates = 0, logi = 1;
         SimpleFeature addressFeat = null;
 
-        //Iterate all addresses finding their mesh blocks.
+        int outside = 0;
+        //Iterate all addresses finding their SAs
         try (SimpleFeatureIterator addressFeatItr = addresses.features()) {
-            Log.info("Matching address " + addressLookupKey + " IDs to SA mesh block " + saLookupKey + " IDs");
+            Log.info("Matching addresses to Statistical Areas");
 
             while (addressFeatItr.hasNext()) {
 
                 addressFeat = addressFeatItr.next(); //Address feature
 
-                if (!isDuplicate(addressFeat)) {//Have we encountered an address feature with the same street address (EZI_ADD)
-                    assert meshBlocks != null;
-                    SimpleFeature mb = m.findSAMeshBlock(addressFeat, meshBlocks);
-                    if (mb != null) {
-                        //Add SA1 and ABS mesh block id to address feature
-                        SimpleFeature updatedAddr = updateAddress(addressFeat, mb);
+                if (!isDuplicate(addressFeat)) {//Have we already encountered an address feature with the same street address (EZI_ADD)
+                    assert allSAs != null;
+                    SimpleFeature sa = shapesProcessor.findStatisticalArea(addressFeat, allSAs);
+                    if (sa != null) {
+                        //Add SA id to address feature
+                        SimpleFeature updatedAddr = shapesProcessor.updateAddress(addressFeat, sa, newAttributesToAddress);
                         ((DefaultFeatureCollection) newFeatureCollection).add(updatedAddr);
 
                         //Record addresses grouping by their SA1
                         addressesBySA.computeIfAbsent((String) updatedAddr.getAttribute(groupingKey), v -> new ArrayList<>())
                                      .add(AddressUtil.map2POJO(updatedAddr));
 
+                    }else{
+                        outside++;
                     }
                 } else {
                     duplicates++;
@@ -241,16 +237,13 @@ public class StatisticalArea2AddressMapper {
                 }
 
             }
-            Log.info("Processed " + processed + " / " + totalAddresses + " duplicates: " + duplicates);
-            Log.info(m.getStats());
+            Log.info("Processed " + processed + " / " + totalAddresses + "addresses, duplicates: " + duplicates+", outside interest area: "+outside);
 
         } catch (IOException e) {
             Log.debug(addressFeat.getAttributes().toString());
-            Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.USERINPUT);
-        } catch (DataFormatException | CQLException e) {
-            Log.debug(addressFeat.getAttributes().toString());
-            Log.errorAndExit("Mesh block area loading failed", e, GlobalConstants.ExitCode.DATA_ERROR);
+            Log.errorAndExit("SA area loading failed", e, GlobalConstants.ExitCode.USERINPUT);
         }
+
         return newFeatureCollection;
     }
 
@@ -264,48 +257,11 @@ public class StatisticalArea2AddressMapper {
 
     }
 
-    private SimpleFeatureCollection loadSAMeshBlocks() {
-        SimpleFeatureCollection meshBlocks = null;
-        try {
-            FeatureSource<SimpleFeatureType, SimpleFeature> ftSource = shapesReader.getFeatureSource(saFilePath, saShapeFileName);
-            meshBlocks = (SimpleFeatureCollection) shapesReader.loadFeaturesByProperty(ftSource,
-                                                                                       saFilterKey,
-                                                                                       saFilterValues);
-            Log.debug("Loading SA mesh block features where " + saFilterKey + " is " + Arrays.stream(saFilterValues));
-        } catch (IOException ex) {
-            Log.errorAndExit("Unable to read " + saShapeFileName + " file", ex, GlobalConstants.ExitCode.USERINPUT);
-        }
-        return meshBlocks;
-    }
-
-    private SimpleFeatureCollection loadAddresses(Path addressShape) throws IOException {
-        FeatureSource<SimpleFeatureType, SimpleFeature> addressFeatSrc = shapesReader.getFeatureSource(addressShape);
-        return (SimpleFeatureCollection) shapesReader.loadFeatures(addressFeatSrc);
-
-    }
 
     private Path getAreaName(Path addressShapeFile) {
         return addressShapeFile.getName(addressShapeFile.getNameCount() - areaNameDirIndex);
     }
 
-    /**
-     * Updates a copy of the address with new information and returns the copy
-     *
-     * @param address     The address feature
-     * @param saMeshBlock The matching mesh block feature
-     * @throws IOException If processing failed
-     */
-    private SimpleFeature updateAddress(SimpleFeature address,
-                                        SimpleFeature saMeshBlock) throws IOException {
-        SimpleFeature copyAddressFeat = featProcessor.addNewAttributeType(address,
-                                                                          newAttributesToAddress.keySet(),
-                                                                          String.class);
-        for (Map.Entry<String, String> entry : newAttributesToAddress.entrySet()) {
-            copyAddressFeat.setAttribute(entry.getKey(), saMeshBlock.getAttribute(entry.getValue()));
-        }
-
-        return copyAddressFeat;
-    }
 
     private boolean isDuplicate(SimpleFeature address) {
         return !checkedAddresses.add(address.getAttribute(duplicatesCheckKey).toString());

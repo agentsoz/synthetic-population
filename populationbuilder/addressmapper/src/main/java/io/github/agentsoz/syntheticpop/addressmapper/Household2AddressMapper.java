@@ -70,6 +70,7 @@ public class Household2AddressMapper {
             Log.errorAndExit("Reading " + sa1ToAddressesJson + " failed", e, GlobalConstants.ExitCode.IOERROR);
         }
 
+        int totalSA1s = 0;
         for (String sa : saList) {
             Log.info("Processing " + sa);
 
@@ -89,6 +90,7 @@ public class Household2AddressMapper {
             assert addresses != null;
             for (String sa1 : hhsBySA1.keySet()) {
                 allocateHouseholdsToAddresses(hhsBySA1.get(sa1), addresses.get(sa1), rand);
+                totalSA1s++;
             }
 
             //Update the households.csv.gz with EZI_ADD (street address) and Geographical location.
@@ -99,6 +101,7 @@ public class Household2AddressMapper {
                 Log.errorAndExit("Failed to write " + hhFile, e, GlobalConstants.ExitCode.IOERROR);
             }
         }
+        Log.info("Processed "+totalSA1s+" SA1s contained in "+saList.size()+" SA2s");
     }
 
     private void allocateHouseholdsToAddresses(List<LinkedHashMap<String, Object>> households, List<Address> addresses, Random rand) {

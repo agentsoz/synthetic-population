@@ -2,3 +2,4 @@ SDM465215.zip filter=lfs diff=lfs merge=lfs -text
 SDM494198.zip filter=lfs diff=lfs merge=lfs -text
 SDM494202.zip filter=lfs diff=lfs merge=lfs -text
 SDM494419.zip filter=lfs diff=lfs merge=lfs -text
+1270055001_sa1_2016_aust_shape.zip filter=lfs diff=lfs merge=lfs -text

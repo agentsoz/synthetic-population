@@ -72,6 +72,16 @@
 			<artifactId>gt-cql</artifactId>
 			<version>13.6</version>
 		</dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-opengis</artifactId>
+            <version>13.6</version>
+        </dependency>
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-opengis</artifactId>
+			<version>13.6</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
