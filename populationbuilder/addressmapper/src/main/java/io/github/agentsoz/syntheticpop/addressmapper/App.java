@@ -28,6 +28,9 @@ import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author wniroshan 16 Apr 2018
  */
@@ -47,7 +50,9 @@ public class App {
     }
 
     public static void main(String args[]) {
-        Log.createLogger("AddressMapper", "AddressMapper.log");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd:MM:yy-HH:mm:ss");
+        Date date = new Date();
+        Log.createLogger("AddressMapper", "AddressMapper"+formatter.format(date)+".log");
         Log.info("Starting addresses mapper");
 
         boolean mapAddressToSA1s = false, mapHouseholdsToAddresses = false;
