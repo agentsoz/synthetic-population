@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.addressmapper;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -39,11 +39,11 @@ public class App {
     private static void usage() {
         System.out.println("Usage: java -jar addressmapper.jar <properties file> [Options]");
         System.out.println(
-                "This program maps mesh blocks and the corresponding SA1s in shape files obtained from Australian Bureau of Statistics to" +
+                "This program maps statistical areas in shape files obtained from Australian Bureau of Statistics to" +
                         " the addresses obtained from Vicmaps\n");
         System.out.println("Options:");
         System.out.println("   -s=BOOLEAN");
-        System.out.println("       Set this flag to map addresses to SA1s [Default = fales]");
+        System.out.println("       Set this flag to map addresses to SAs [Default = false]");
         System.out.println("   -h=BOOLEAN");
         System.out.println("       Set this flag to map households to addresses [Default = false]");
         System.exit(0);
@@ -52,7 +52,7 @@ public class App {
     public static void main(String args[]) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd:MM:yy-HH:mm:ss");
         Date date = new Date();
-        Log.createLogger("AddressMapper", "AddressMapper"+formatter.format(date)+".log");
+        Log.createLogger("AddressMapper", "AddressMapper" + formatter.format(date) + ".log");
         Log.info("Starting addresses mapper");
 
         boolean mapAddressToSA1s = false, mapHouseholdsToAddresses = false;
@@ -79,16 +79,18 @@ public class App {
             usage();
         }
 
-        FeatureProcessor featProcessor = new FeatureProcessor();
-        ShapefileGeoFeatureReader shapesReader = new ShapefileGeoFeatureReader();
 
-        //Map addresses to SA1 polygons
+        //Map addresses to SA polygons
         assert props != null;
         if (mapAddressToSA1s) {
             Log.info("Mapping addresses to SA1s");
             long startTime = System.currentTimeMillis();
 
-            StatisticalArea2AddressMapper saAdrMapper = new StatisticalArea2AddressMapper(props, featProcessor, shapesReader);
+            FeatureProcessor featProcessor = new FeatureProcessor();
+            ShapefileGeoFeatureReader shapesReader = new ShapefileGeoFeatureReader();
+
+            StatisticalArea2AddressMapper saAdrMapper = new StatisticalArea2AddressMapper(props,
+                                                                                          new ShapesProcessor(featProcessor, shapesReader));
             saAdrMapper.mapAddressesToStatisticalAreas();
 
             double timeSpent = (System.currentTimeMillis() - startTime) / (double) 1000;
@@ -96,7 +98,7 @@ public class App {
             Log.info("Execution time: " + timeSpent + " secs");
         }
 
-        //Assign households to addresses based on the SA1.
+        //Assign households to addresses based on the SA.
         if (mapHouseholdsToAddresses) {
             Log.info("Mapping households to addresses");
             long startTime = System.currentTimeMillis();

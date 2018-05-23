@@ -10,25 +10,23 @@ package io.github.agentsoz.syntheticpop.geo;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
  * #L%
  */
 
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
@@ -44,7 +42,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Random;
-import java.util.zip.DataFormatException;
 
 /**
  * @author Bhagya N. Wickramasinghe
@@ -93,12 +90,39 @@ public class FeatureProcessor {
     }
 
     /**
+     * Checks whether point geographically located within the envelope
+     *
+     * @param envelope The envelope
+     * @param point    The point
+     * @return True if point is within the envelope, false otherwise
+     */
+    public boolean checkContains(Envelope envelope, SimpleFeature point) {
+
+        Point p = (Point) point.getDefaultGeometry();
+        return envelope.contains(p.getCoordinate());
+
+    }
+
+    /**
+     * Checks whether point geographically located within the polygon
+     *
+     * @param polygon The polygon
+     * @param point   The point
+     * @return True if point is within the polygon, false otherwise
+     */
+    public boolean checkContains(SimpleFeature polygon, SimpleFeature point) {
+        Point jtsPoint = (Point) point.getDefaultGeometry();
+        Geometry jtsGeoPolygon = (Geometry) polygon.getDefaultGeometry();
+        return jtsGeoPolygon.contains(jtsPoint);
+    }
+
+    /**
      * Transforms Coordinate Reference System (CRS) of the features in featureCollection
      *
      * @param featureCollection features
      * @param transformer       MathTransform object for converting feature's CRS to target CRS
-     * @throws MismatchedDimensionException
-     * @throws TransformException
+     * @throws MismatchedDimensionException When finding the CRS
+     * @throws TransformException           When finding the CRS
      */
     public SimpleFeatureCollection transformGeometryCRS(SimpleFeatureCollection featureCollection,
                                                         MathTransform transformer) throws MismatchedDimensionException, TransformException {
@@ -106,7 +130,7 @@ public class FeatureProcessor {
         try (FeatureIterator<SimpleFeature> featureItr = featureCollection.features()) {
             while (featureItr.hasNext()) {
                 SimpleFeature feature = featureItr.next();
-                feature = transformGeometryCRS(feature, transformer);
+                transformGeometryCRS(feature, transformer);
             }
 
         }
@@ -118,16 +142,13 @@ public class FeatureProcessor {
      *
      * @param feature     Current Feature
      * @param transformer MathTransform object for converting feature's CRS to target CRS
-     * @return Transformed feature
-     * @throws MismatchedDimensionException
-     * @throws TransformException
      */
-    public SimpleFeature transformGeometryCRS(SimpleFeature feature, MathTransform transformer)
+    public void transformGeometryCRS(SimpleFeature feature, MathTransform transformer)
             throws MismatchedDimensionException, TransformException {
         Geometry geometry = (Geometry) feature.getDefaultGeometry();
         Geometry geometry2 = JTS.transform(geometry, transformer);
         feature.setDefaultGeometry(geometry2);
-        return feature;
+
     }
 
     /**

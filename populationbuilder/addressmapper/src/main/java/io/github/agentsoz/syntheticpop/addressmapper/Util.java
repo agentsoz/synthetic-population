@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 enum SA {
     SA1,
-    Sa2,
+    SA2,
     SA3,
     SA4;
 }
