@@ -130,13 +130,13 @@ if (opt$sa2s == "*") {
                  strip.white = TRUE)
   sa2_list <- unique(d$V1)
 } else{
-  sa2_list <- unique(unlist(strsplit(opt$sa2s, ",")))
+  sa2_list <- unique(trimws(unlist(strsplit(opt$sa2s, ","))))
 }
 
 #Verify whether we have input data for the SA2 that we are going to process.
 ## Get the SA2 lists in persons distribution and households distribution
-pSA2s = unique(indArr[p_sa_col]$V1)
-hSA2s = unique(hhArr[h_sa_col]$V1)
+pSA2s = unique(trimws(indArr[p_sa_col]$V1))
+hSA2s = unique(trimws(hhArr[h_sa_col]$V1))
 
 ## Check wheather SA2s in the sa2_list are available in the households distribution. If the user has specifed * for --sa2list option, this will match anyway.
 not_found_sa2s = sa2_list[which(!(sa2_list %in% hSA2s))]
@@ -292,7 +292,7 @@ cat("\nEmpty SA2s\n")
 cat(paste(rownames(errors[is.na(errors[, "start_error%"]),]), collapse=", "),"\n")
 flog.info("Empty SA2s: ",unlist(rownames(errors[is.na(errors[, "start_error%"]),])))
 
-cat("\nBefore and after error saved at",opt$errorfile)
+cat("\nBefore and after error saved at",opt$errorfile,"\n")
 CreateDir(dirname(opt$errorfile))
 write.csv(errors, opt$errorfile)
 
