@@ -107,18 +107,24 @@ EstimateSA1HouseholdsDistribution <-
         if (sa2hhttl == 0) {
           #If there are no hhs in SA2 in current row, then there must be no hhs in SA1.
           adjustedSA1Hhs = (sa1hhs * 0)
-        } else if ((sa2hhttl - sa1hhsttl) > 0 &
-                   sum(sa1hhs) == 0) {
-          #There are extra hhs of current type in SA2, but none in the SA1s.
-          # In this case we get the SA1s that had different household types and randomly distribute the households
+        } else if ((sa2hhttl - sa1hhsttl) > 0 & sum(sa1hhs) == 0) {
+          #There are extra hhs of current type in SA2, but none in the SA1s. FillAccording2Dist function randomly assigns items to specified vector if 
+          #the vector sum is 0. Here we pass the SA1s that are known to have other household types though there are no household of current type. 
+          #This way we don't assign households to SA1s covering parks and industrial areas.
+          
           non_empty_sa1s = which(colSums(value_cells) > 0) #Get the SA1s in that are not empty in whole SA2
           adjustedSA1Hhs = sa1hhs #book keeping
-          #FillAccording2Dist function randomly assigns items to specified vector if the vector sum is 0. Here we pass the SA1s that are known 
-          #to have other household types though there are no household of current type. This way we don't assign households to SA1s covering parks and
-          #industrial areas.
-          adjustedSA1Hhs[non_empty_sa1s] = FillAccording2Dist(sa1hhs[non_empty_sa1s], (sa2hhttl - sa1hhsttl))
+          
+          #If there are SA1s that have other household types assign current households to those SA1s. If there are no households at all in any of the SA1s
+          # we have no option but to assign current households to random SA1s
+          if(length(non_empty_sa1s) > 0 ){
+            adjustedSA1Hhs[non_empty_sa1s] = FillAccording2Dist(sa1hhs[non_empty_sa1s], (sa2hhttl - sa1hhsttl))
+          }else{
+            adjustedSA1Hhs = FillAccording2Dist(sa1hhs,(sa2hhttl - sa1hhsttl))
+          }
           sa2_sa1_conflicts = TRUE
           mismatching_hh_types = c(mismatching_hh_types, unname(unlist(sa1_hhs_dist[i, c(2:3)])))
+          
         } else{
           #Redistribute hhs among SA1 according to the current distribution. At the end of this, total hhs in SA1s match the total in SA2
           adjustedSA1Hhs = FillAccording2Dist(sa1hhs, (sa2hhttl - sa1hhsttl))
