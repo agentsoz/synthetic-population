@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.filemanager.csv;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -38,8 +38,8 @@ import java.util.*;
 public class CSVReader {
 
 
-    private String[] stripChars = null;
     CSVFormat csvFileFormat;
+    private String[] stripChars = null;
 
     public CSVReader() {
         csvFileFormat = CSVFormat.EXCEL.withHeader();
@@ -87,7 +87,9 @@ public class CSVReader {
      * @return Map of csv entries with uniqueTitle as key
      * @throws IOException If there is a problem reading the csv file
      */
-    public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, String[] titles, int uniqueTitle) throws IOException {
+    public HashMap<String, LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf,
+                                                                            String[] titles,
+                                                                            int uniqueTitle) throws IOException {
         CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
         // Iterable<CSVParser> records =
@@ -138,17 +140,13 @@ public class CSVReader {
     }
 
     /**
-     * This is used to process csv files downloaded from ABS. The function expects last column to be the only column with values. Other preceding
-     * columns are expected to have strings. These are treaded as row headers and used as keys of a series of Map objects. This function ignores
-     * cv column titles.
+     * This is used to process csv files downloaded from ABS. The function expects last column to be the only column with values. Other
+     * preceding columns are expected to have strings. These are treaded as row headers and used as keys of a series of Map objects. This
+     * function ignores cv column titles.
      * <p>
-     * |rowhead1|rowhead1.1|rowhead1.1.1|value|<br />
-     * |........|..........|rowhead1.1.2|value|<br />
-     * |........|rowhead1.2|rowhead1.2.1|value|<br />
-     * |........|..........|rowhead1.2.2|value|<br />
-     * |rowhead2|rowhead2.1|rowhead2.1.1|value|<br />
-     * |........|..........|rowhead2.1.2|value|<br />
-     * ...
+     * |rowhead1|rowhead1.1|rowhead1.1.1|value|<br /> |........|..........|rowhead1.1.2|value|<br />
+     * |........|rowhead1.2|rowhead1.2.1|value|<br /> |........|..........|rowhead1.2.2|value|<br />
+     * |rowhead2|rowhead2.1|rowhead2.1.1|value|<br /> |........|..........|rowhead2.1.2|value|<br /> ...
      *
      * @param csvf     Reader object of csv file
      * @param titlerow 0 based index of title row
@@ -158,7 +156,11 @@ public class CSVReader {
      * @return Series of nested HashMaps with data in csv file
      * @throws IOException
      */
-    public LinkedHashMap<String, Object> readABSCsvAsMap(Reader csvf, int titlerow, int endrow, int firstCol, int lastCol) throws IOException {
+    public LinkedHashMap<String, Object> readABSCsvAsMap(Reader csvf,
+                                                         int titlerow,
+                                                         int endrow,
+                                                         int firstCol,
+                                                         int lastCol) throws IOException {
         Log.info("Reading ABS csv file as a Map ");
         CSVParser parser = new CSVParser(csvf, csvFileFormat);
 
@@ -221,7 +223,7 @@ public class CSVReader {
         }
     }
 
-    public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, int titleRow) throws IOException {
+    public ArrayList<LinkedHashMap<String, Object>> readCsvGroupByRow(Reader csvf, final int titleRow) throws IOException {
         CSVParser parser = new CSVParser(csvf, CSVFormat.EXCEL.withSkipHeaderRecord(true));
 
         // Iterable<CSVParser> records =
@@ -229,27 +231,26 @@ public class CSVReader {
         LinkedHashMap<String, Object> recordMap = null;
         ArrayList<LinkedHashMap<String, Object>> allRecords = new ArrayList<LinkedHashMap<String, Object>>();
         String[] titles = null;
+        int row = -1;
         for (CSVRecord csvRecord : parser) {
-            if (titleRow == 0) {
+            row++;
+            if (titleRow == row) {
                 titles = new String[csvRecord.size()];
                 for (int i = 0; i < csvRecord.size(); i++) {
                     titles[i] = csvRecord.get(i);
                 }
+                continue;
+            }
 
-                titleRow--;
-                continue;
-            } else if (titleRow > 0) {
-                titleRow--;
-                continue;
+            if (titles != null) {
+                recordMap = new LinkedHashMap<>();
+                for (int i = 0; i < titles.length; i++) {
+                    Object value = csvRecord.get(i);
+                    value = processValue(value);
+                    recordMap.put(titles[i], value);
+                }
+                allRecords.add(recordMap);
             }
-            recordMap = new LinkedHashMap<String, Object>();
-            int len = csvRecord.size();
-            for (int i = 0; i < len; i++) {
-                Object value = csvRecord.get(i);
-                value = processValue(value);
-                recordMap.put(titles[i], value);
-            }
-            allRecords.add(recordMap);
         }
         parser.close();
         return allRecords;

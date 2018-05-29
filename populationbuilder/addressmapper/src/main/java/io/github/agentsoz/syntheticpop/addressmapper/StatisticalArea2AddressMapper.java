@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.addressmapper;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -180,7 +180,7 @@ public class StatisticalArea2AddressMapper {
      * @param allSAs           The SAs and their bounding boxes (envelopes) that addresses  are expected to belong to
      * @return New collection of addresses that are in one of the SAs with the corresponding SA id.
      */
-    private SimpleFeatureCollection findContainingSAs(Path addressShapeFile,
+    private SimpleFeatureCollection  findContainingSAs(Path addressShapeFile,
                                                       Map<SimpleFeature, Envelope> allSAs) {
 
         SimpleFeatureCollection newFeatureCollection = new DefaultFeatureCollection();
@@ -237,7 +237,7 @@ public class StatisticalArea2AddressMapper {
                 }
 
             }
-            Log.info("Processed " + processed + " / " + totalAddresses + "addresses, duplicates: " + duplicates+", outside interest area: "+outside);
+            Log.info("Processed " + processed + " / " + totalAddresses + " addresses, duplicates: " + duplicates+", outside interest area: "+outside);
 
         } catch (IOException e) {
             Log.debug(addressFeat.getAttributes().toString());

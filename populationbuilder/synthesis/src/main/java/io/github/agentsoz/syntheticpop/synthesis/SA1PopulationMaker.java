@@ -23,6 +23,7 @@ package io.github.agentsoz.syntheticpop.synthesis;
  */
 
 import io.github.agentsoz.syntheticpop.synthesis.models.Household;
+import io.github.agentsoz.syntheticpop.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,12 +60,15 @@ public class SA1PopulationMaker {
 
                 for (String sa1 : hhsCountOfSelectedTypeBySA1.keySet()) {
                     int hhCountInSA1 = hhsCountOfSelectedTypeBySA1.get(sa1);
-
                     List<Household> newHouseholds = householdsOfSelectedType.subList(0, hhCountInSA1);
                     newHouseholds.forEach(h -> h.setSA1Code(sa1));
                     newHouseholds.forEach(h -> h.getMembers().forEach(m -> m.setSA1Code(sa1)));
 
                     householdsOfSelectedType.subList(0, hhCountInSA1).clear();
+                }
+
+                if (householdsOfSelectedType.size() != 0){
+                    Log.warn("Some households were not assigned to SA1s: Household type: "+ hhType+" "+householdsOfSelectedType.size());
                 }
             }
         }
