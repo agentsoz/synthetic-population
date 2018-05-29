@@ -276,7 +276,8 @@ for (sa2 in sa2_list) {
         flog.info("Updated SA1 household distribution saved to: %s",
             summary(sa1hhsgzfile)$description)
         CreateDir(dirname(summary(sa1hhsgzfile)$description))
-        write.csv(adjusted_sa1_hh_dist, sa1hhsgzfile, row.names = FALSE)
+        df <- as.data.frame(adjusted_sa1_hh_dist)
+        write.csv(df, sa1hhsgzfile, row.names = FALSE, quote = F)
       }else{
         sa2s_with_no_sa1s = c(sa2s_with_no_sa1s, sa2)
         flog.info("All SA1s are empty in this SA2 ")
