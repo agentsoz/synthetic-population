@@ -82,7 +82,7 @@ public class Household2AddressMapper {
                 //Read the households and group them by SA1 main code.
                 hhsBySA1 = HouseholdUtil.readHouseholds(hhReader);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.errorAndExit("Failed to read  " + hhFile, e, GlobalConstants.ExitCode.USERINPUT);
             }
 
@@ -121,7 +121,7 @@ public class Household2AddressMapper {
                 Address a = addresses.get(aIdx);
 
                 h.put("EZI_ADD", a.getProperties().getEZI_ADD());
-                h.put("PointGeometry", a.getGeometry().getCoordinates());
+                h.put("Geographical Coordinate", a.getGeometry().getCoordinates());
             }
         }
     }
