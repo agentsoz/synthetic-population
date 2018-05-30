@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.synthesis;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -27,14 +27,13 @@ import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -77,6 +76,7 @@ public class App {
         // Read in the config properties
         Path inputDirectory = props.readFileOrDirectoryPath("InputDirectory");
         Path outputDirectory = props.readFileOrDirectoryPath("OutputDirectory");
+        Path analysisDirectory = props.readFileOrDirectoryPath("AnalysisDirectory");
 
         long randomSeed = Long.parseLong(props.getProperty("RandomSeed"));
         Path saCodesZip = props.readFileOrDirectoryPath("SACodesZip");
@@ -90,6 +90,7 @@ public class App {
         boolean doSA1 = props.getProperty("DoSA1").trim().toLowerCase().equals("true");
 
         Map<String, String> sa1HhDistCsvProperties = null;
+        List<Household> wholePopulation = new ArrayList<>();
         if (doSA1) {
             sa1HhDistCsvProperties = props.readKeyValuePairs("SA1HhDistFileProperties");
         }
@@ -105,6 +106,7 @@ public class App {
             //Read exact age distributions
             Map<String, List<Double>> ageDistribution = DataReader.readAgeDistribution(ageDistributionParams);
 
+            Map<String, Integer> randomAgeAssignments = new LinkedHashMap<>();
             for (String sa : saList) {
                 sa = sa.trim();
                 Log.info("Starting: " + sa);
@@ -125,9 +127,12 @@ public class App {
                                                                             indRecs.get(sa),
                                                                             nonPrimaryCoupleWithChildProbability,
                                                                             rand);
+
                 if (personsOnly) {
                     List<Person> personsOfSA2 = populationFactory.makeAllPersons();
-                    PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa), rand);
+                    int randomAgePersons = PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa), rand);
+                    randomAgeAssignments.put(sa, randomAgePersons);
+
                     assignUniqueIDs(personsOfSA2, sa2CodeMap.get(sa), null);
                     Log.info("Writing output files to: " + outputDirectory);
                     Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa +
@@ -138,13 +143,13 @@ public class App {
 
                         DataWriter.savePersonsSummary(indRecs.get(sa),
                                                       personsOfSA2,
-                                                      Paths.get(outputSA2Location + File.separator + "output_person_types" +
-                                                                        ".csv.gz"));
+                                                      Paths.get(outputSA2Location + File.separator + "output_person_types.csv.gz"));
 
                     }
 
                 } else {
                     List<Household> householdsOfSA2 = populationFactory.makePopulation();
+                    wholePopulation.addAll(householdsOfSA2);
                     Log.info(sa + " household construction complete");
 
                     // Link the persons in each household
@@ -157,7 +162,11 @@ public class App {
                                                                .map(Household::getMembers)
                                                                .flatMap(List::stream)
                                                                .collect(Collectors.toList());
-                    PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa), rand);
+                    int randomAgePersons = PersonPropertiesHandler.assignAge(personsOfSA2, ageDistribution.get(sa), rand);
+                    if (randomAgePersons > 0) {
+                        //Track SAs that have persons that were assigned random ages.
+                        randomAgeAssignments.put(sa, randomAgePersons);
+                    }
 
                     Log.info("Generating unique IDs");
                     assignUniqueIDs(householdsOfSA2, sa2CodeMap);
@@ -189,12 +198,16 @@ public class App {
                         DataWriter.savePersonsSummary(indRecs.get(sa),
                                                       personsOfSA2,
                                                       Paths.get(outputSA2Location + File.separator + "output_person_types.csv.gz"));
-
                     }
                 }
 
 
             }
+
+            DataWriter.saveParentChildAgeGapSummary(Paths.get(analysisDirectory + File.separator + "parent_child_age_gap.csv.gz"),
+                                                    wholePopulation);
+            DataWriter.saveRandomAgeAssignedPersons(Paths.get(analysisDirectory + File.separator + "age_randomly_assigned_persons.csv.gz"),
+                                                    randomAgeAssignments);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
