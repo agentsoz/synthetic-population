@@ -67,7 +67,7 @@ public class PopulationRules {
                     throw new Error(parent.getClass() + " is not a compatible age representation");
                 }
                 int parent1AgeGap = parentAge - childAge;
-                parentAgeCondition = 1 <= parent1AgeGap && parent1AgeGap <= 60;
+                parentAgeCondition = 15 <= parent1AgeGap && parent1AgeGap <= 45;
             } else {
                 parentAgeCondition = true;
             }

@@ -27,13 +27,15 @@ import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
 import io.github.agentsoz.syntheticpop.util.Log;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -72,7 +74,6 @@ public class App {
             usage();
         }
 
-
         // Read in the config properties
         Path inputDirectory = props.readFileOrDirectoryPath("InputDirectory");
         Path outputDirectory = props.readFileOrDirectoryPath("OutputDirectory");
@@ -90,7 +91,7 @@ public class App {
         boolean doSA1 = props.getProperty("DoSA1").trim().toLowerCase().equals("true");
 
         Map<String, String> sa1HhDistCsvProperties = null;
-        List<Household> wholePopulation = new ArrayList<>();
+
         if (doSA1) {
             sa1HhDistCsvProperties = props.readKeyValuePairs("SA1HhDistFileProperties");
         }
@@ -105,6 +106,12 @@ public class App {
 
             //Read exact age distributions
             Map<String, List<Double>> ageDistribution = DataReader.readAgeDistribution(ageDistributionParams);
+
+            //Map for parent child age gap histogram and populate it with initial 0
+            Map<Integer, Integer> parentalAgeGapHistogram = new LinkedHashMap<>();
+            for (int i = 0; i < 115; i++) {
+                parentalAgeGapHistogram.put(i, 0);
+            }
 
             Map<String, Integer> randomAgeAssignments = new LinkedHashMap<>();
             for (String sa : saList) {
@@ -149,7 +156,6 @@ public class App {
 
                 } else {
                     List<Household> householdsOfSA2 = populationFactory.makePopulation();
-                    wholePopulation.addAll(householdsOfSA2);
                     Log.info(sa + " household construction complete");
 
                     // Link the persons in each household
@@ -167,6 +173,7 @@ public class App {
                         //Track SAs that have persons that were assigned random ages.
                         randomAgeAssignments.put(sa, randomAgePersons);
                     }
+                    recordAgeGapDistribution(householdsOfSA2, parentalAgeGapHistogram);
 
                     Log.info("Generating unique IDs");
                     assignUniqueIDs(householdsOfSA2, sa2CodeMap);
@@ -180,18 +187,14 @@ public class App {
                                                rand);
                     }
 
-                    Log.info("Writing output files to: " + outputDirectory);
-                    Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa +
-                                                               File.separator + "population");
+                    Path outputSA2Location = Paths.get(outputDirectory + File.separator + sa + File.separator + "population");
+                    Log.info("Writing output files to: " + outputSA2Location);
                     Files.createDirectories(outputSA2Location);
-                    DataWriter.saveHouseholds(Paths.get(outputSA2Location + File.separator + "households.csv.gz"),
-                                              householdsOfSA2);
-                    DataWriter.saveFamilies(Paths.get(outputSA2Location + File.separator + "families.csv.gz"),
-                                            householdsOfSA2);
-                    DataWriter.savePersons(Paths.get(outputSA2Location + File.separator + "persons.csv.gz"),
-                                           personsOfSA2);
-                    if (enableSummaryReports) {
+                    DataWriter.saveHouseholds(Paths.get(outputSA2Location + File.separator + "households.csv.gz"), householdsOfSA2);
+                    DataWriter.saveFamilies(Paths.get(outputSA2Location + File.separator + "families.csv.gz"), householdsOfSA2);
+                    DataWriter.savePersons(Paths.get(outputSA2Location + File.separator + "persons.csv.gz"), personsOfSA2);
 
+                    if (enableSummaryReports) {
                         DataWriter.saveHouseholdSummary(hhRecs.get(sa),
                                                         householdsOfSA2,
                                                         Paths.get(outputSA2Location + File.separator + "output_household_types.csv.gz"));
@@ -203,10 +206,10 @@ public class App {
 
 
             }
-
-            DataWriter.saveParentChildAgeGapSummary(Paths.get(analysisDirectory + File.separator + "parent_child_age_gap.csv.gz"),
-                                                    wholePopulation);
-            DataWriter.saveRandomAgeAssignedPersons(Paths.get(analysisDirectory + File.separator + "age_randomly_assigned_persons.csv.gz"),
+            Log.info("Writing analysis data files to: " + analysisDirectory);
+            DataWriter.saveParentChildAgeGapSummary(Paths.get(analysisDirectory + File.separator + "parent_child_age_gap.csv"),
+                                                    parentalAgeGapHistogram);
+            DataWriter.saveRandomAgeAssignedPersons(Paths.get(analysisDirectory + File.separator + "age_randomly_assigned_persons.csv"),
                                                     randomAgeAssignments);
         } catch (IOException e) {
             e.printStackTrace();
@@ -259,6 +262,23 @@ public class App {
         Map<String, List<Household>> hhsByType = HouseholdSummary.groupHouseholdsByHouseholdType(householdsOfSA2);
 
         SA1PopulationMaker.distributePopulationToSA1s(sa1HhCounts, hhsByType, rand);
+    }
+
+    private static void recordAgeGapDistribution(List<Household> householdsOfSA2, Map<Integer, Integer> parentalAgeGapHistogram) {
+        for (Household h : householdsOfSA2) {
+            for (Person m : h.getMembers()) {
+                if (m.isChild()) {
+                    if (m.getFather() != null) {
+                        int ageGapDad = m.getFather().getAge() - m.getAge();
+                        parentalAgeGapHistogram.compute(ageGapDad, (k, v) -> v + 1);
+                    }
+                    if (m.getMother() != null) {
+                        int ageGapMom = m.getMother().getAge() - m.getAge();
+                        parentalAgeGapHistogram.compute(ageGapMom, (k, v) -> v + 1);
+                    }
+                }
+            }
+        }
     }
 
 }
