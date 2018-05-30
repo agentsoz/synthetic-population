@@ -337,45 +337,25 @@ public class DataWriter {
         return outputHouseholds;
     }
 
-    public static void saveParentChildAgeGapSummary(Path outputCsvFile, List<Household> households) throws IOException {
-        Map<Integer, Integer> ageGapMap = new LinkedHashMap<>();
-        for (int i = 0; i < 115; i++) {
-            ageGapMap.put(i, 0);
-        }
+    public static void saveParentChildAgeGapSummary(Path outputCsvFile, Map<Integer, Integer> parentalAgeGapHistogram) throws IOException {
 
-        for (Household h : households) {
-            for (Person m : h.getMembers()) {
-                if (m.isChild()) {
-                    if (m.getFather() != null) {
-                        int ageGapDad = m.getFather().getAge() - m.getAge();
-                        ageGapMap.compute(ageGapDad, (k, v) -> v + 1);
-                    }
-                    if (m.getMother() != null) {
-                        int ageGapMom = m.getMother().getAge() - m.getAge();
-                        ageGapMap.compute(ageGapMom, (k, v) -> v + 1);
-                    }
-                }
-            }
-        }
-
-        List<List<String>> ageMapAsList = ageGapMap.entrySet()
-                                                   .stream()
-                                                   .map(e -> Arrays.asList(String.valueOf(e.getKey()), String.valueOf(e.getValue())))
-                                                   .collect(Collectors.toList());
+        List<List<String>> ageMapAsList = parentalAgeGapHistogram.entrySet()
+                                                                 .stream()
+                                                                 .map(e -> Arrays.asList(String.valueOf(e.getKey()),
+                                                                                         String.valueOf(e.getValue())))
+                                                                 .collect(Collectors.toList());
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputCsvFile)))),
+        csvWriter.writeAsCsv(new OutputStreamWriter(new BufferedOutputStream(Files.newOutputStream(outputCsvFile))),
                              ageMapAsList);
     }
 
     public static void saveRandomAgeAssignedPersons(Path outputFile, Map<String, Integer> randomAgeAssignments) throws IOException {
 
-        List<List<String>> ageAssignementsList = randomAgeAssignments.entrySet()
-                                                                     .stream()
-                                                                     .map(e -> Arrays.asList(e.getKey(), String.valueOf(e.getValue())))
-                                                                     .collect(
-                                                                             Collectors.toList());
+        List<List<String>> ageAssignmentsList = randomAgeAssignments.entrySet()
+                                                                    .stream()
+                                                                    .map(e -> Arrays.asList(e.getKey(), String.valueOf(e.getValue())))
+                                                                    .collect(Collectors.toList());
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputFile)))),
-                             ageAssignementsList);
+        csvWriter.writeAsCsv(new OutputStreamWriter(new BufferedOutputStream(Files.newOutputStream(outputFile))), ageAssignmentsList);
     }
 }
