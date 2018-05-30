@@ -9,7 +9,7 @@ Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metri
 cd ../populationbuilder &&
 mvn clean install &&
 java -jar synthesis/target/synthesis.jar population.properties &&
-java -jar addressmapper/target/addressmapper.jar addressmapper.properties -h &&
+java -Xmx4g -jar addressmapper/target/addressmapper.jar addressmapper.properties -sh &&
 cd ../data &&
 echo "1. Introduction
 ----------------
@@ -44,4 +44,3 @@ In more detail:
 zip -r melbourne-2016-population.zip melbourne/generated/SA2/*/population/* README.txt &&
 rm README.txt &&
 cd $CDIR
-#java -jar BuildingProperties/target/buildingproperties.jar Buildings.properties
