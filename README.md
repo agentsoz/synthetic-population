@@ -72,14 +72,13 @@ To run the addressmapper execute following commands. This is a time consuming pr
  
  ```
      Usage: java -jar addressmapper.jar <properties file> [Options]
-     This program maps mesh blocks and the corresponding SA1s in shape files obtained from Australian 
-     Bureau of Statistics to the addresses obtained from Vicmaps
+     This program maps SA1s in shape files obtained from Australian Bureau of Statistics to the addresses obtained from Vicmaps and assignes households to addresses.
 
      Options:
         -s=BOOLEAN
             Set this flag to map addresses to SA1s [Default = false]
         -h=BOOLEAN
-            Set this flag to map households to addresses [Default = false]
+            Set this flag to map households to addresses [Default = false]. The program requires having the addresses already mapped to SA1s (the output of -s step) to run this step.
 ``` 
 
 ## Accuracy
@@ -87,6 +86,9 @@ To run the addressmapper execute following commands. This is a time consuming pr
 2. The relationships and family household compostions are ensured realistic.
 3. With default settings, the population is generated at SA2 level and redistributed to SA1 level considering SA1 households distribution. Because of that only household properties are accurate at SA1 level. We cannot assure that person level distribution is accurate at SA1 level.
 4. The households are assigned to randomly selected addresses within a Statistical Area (SA1 by default). If there are not enough addresses in a given SA, multiple household may be assigned to the same address.
+
+Following image shows accuracy of person distribution in comparison to cleaned input data distribution. Cosine similarity test gives a value between 1 and -1 depending on the similarity level, 1 is the perfect match. The x-axis of below image gives the SA2s. All SA2s but 4 gives Cosine similarity values close to 1.
+![picture](doc/slides/images/cosine-similarity-preprocessed-vs-synth.png)
 
 ## Constructing a new population
 
@@ -171,7 +173,7 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
 
 ### 3. Download building address shape files from Vicmap Data website
 
-   1. Building Addresses shape files can be downloaded at www.data.vic.gov.au/data/dataset/address-vicmap-address. The already downloaded addresses shapefiles include Local Government Areas (LGAs) covering Greater Melbourne. The Greater Melbourne area accordig to ABS is larger than area covered by Greater Melbourne Metropoliton LGAs. So the downloaded LGAs include additional LGAs that are outside Greater Melbourne Metropoliton area. The 3 already downloaded address files are `SDM494419.zip`, `SDM494198.zip` and `SDM494202.zip` in `synthetic-population/data/raw/`. It is recomended that address files are downloaded as smaller files as above instead of a one large file covering whole Greater Melbourne area because of memory limitations.
+Building Addresses shape files can be downloaded at www.data.vic.gov.au/data/dataset/address-vicmap-address. The already downloaded addresses shapefiles include Local Government Areas (LGAs) covering Greater Melbourne. The Greater Melbourne area accordig to ABS is larger than area covered by Greater Melbourne Metropoliton LGAs. So the downloaded LGAs include additional LGAs that are outside Greater Melbourne Metropoliton area. The 3 already downloaded address files are `SDM494419.zip`, `SDM494198.zip` and `SDM494202.zip` in `synthetic-population/data/raw/`. It is recomended that address files are downloaded as smaller files as above instead of a one large file covering whole Greater Melbourne area because of memory limitations.
   
 ## Adding new properties
 The household sysnthesis logic is purely heuristics based. Because of that it is difficult to introduce new properties if they influence relationships and family composistions in the population. However, if the new properties do not influence relationships and family compositions the program can be easily extened to retain new properties when the population is synthesised.
