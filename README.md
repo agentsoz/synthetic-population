@@ -72,13 +72,15 @@ To run the addressmapper execute following commands. This is a time consuming pr
  
  ```
      Usage: java -jar addressmapper.jar <properties file> [Options]
-     This program maps SA1s in shape files obtained from Australian Bureau of Statistics to the addresses obtained from Vicmaps and assignes households to addresses.
+     This program maps SA1s in shape files obtained from Australian Bureau of Statistics to the 
+     addresses obtained from Vicmaps and assignes households to addresses.
 
      Options:
         -s=BOOLEAN
             Set this flag to map addresses to SA1s [Default = false]
         -h=BOOLEAN
-            Set this flag to map households to addresses [Default = false]. The program requires having the addresses already mapped to SA1s (the output of -s step) to run this step.
+            Set this flag to map households to addresses [Default = false]. The program requires 
+            having the addresses already mapped to SA1s (the output of -s step) to run this step.
 ``` 
 
 ## Accuracy
