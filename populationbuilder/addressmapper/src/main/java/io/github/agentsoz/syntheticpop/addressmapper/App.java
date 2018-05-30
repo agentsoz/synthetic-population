@@ -39,13 +39,15 @@ public class App {
     private static void usage() {
         System.out.println("Usage: java -jar addressmapper.jar <properties file> [Options]");
         System.out.println(
-                "This program maps statistical areas in shape files obtained from Australian Bureau of Statistics to" +
-                        " the addresses obtained from Vicmaps\n");
+                "This program maps SA1s in shape files obtained from Australian Bureau of Statistics to the addresses obtained from " +
+                        "Vicmaps and assignes households to addresses.\n");
         System.out.println("Options:");
         System.out.println("   -s=BOOLEAN");
         System.out.println("       Set this flag to map addresses to SAs [Default = false]");
         System.out.println("   -h=BOOLEAN");
-        System.out.println("       Set this flag to map households to addresses [Default = false]");
+        System.out.println(
+                "       Set this flag to map households to addresses [Default = false]. The program requires having the addresses already" +
+                        " mapped to SA1s (the output of -s step) to run this step.");
         System.exit(0);
     }
 
