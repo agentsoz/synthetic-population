@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.synthesis;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -42,8 +42,7 @@ public class DataWriter {
 
     /**
      * Computes the number of households in households list by each family household type given in HhRecords list (the marginal
-     * distribution) and saves
-     * to the specified csv file.
+     * distribution) and saves to the specified csv file.
      *
      * @param hhRecs      The list of HhRecords giving the family household types
      * @param households  The list of households in the population
@@ -51,8 +50,8 @@ public class DataWriter {
      * @throws IOException If file writing fails
      */
     public static void saveHouseholdSummary(List<HhRecord> hhRecs,
-                                     List<Household> households,
-                                     Path csvFilePath) throws IOException {
+                                            List<Household> households,
+                                            Path csvFilePath) throws IOException {
 
         Map<String, List<Household>> householdsByType = HouseholdSummary.groupHouseholdsByHouseholdType(households);
 
@@ -98,8 +97,8 @@ public class DataWriter {
      * @throws IOException If file writing fails
      */
     public static void savePersonsSummary(List<IndRecord> indRecs,
-                                   List<Person> persons,
-                                   Path csvFilePath) throws IOException {
+                                          List<Person> persons,
+                                          Path csvFilePath) throws IOException {
         Map<String, Integer> map = new LinkedHashMap<>();
         for (IndRecord indRec : indRecs) {
             String key = indRec.RELATIONSHIP_STATUS + "," + indRec.SEX + "," + indRec.AGE_RANGE;
@@ -176,9 +175,9 @@ public class DataWriter {
     }
 
     /**
-     * Converting persons to a list of array lists to be written as a csv. The order of items in each list is: "AgentId",
-     * "Age", "Gender", "RelationshipStatus", "PartnerId", "MotherId", "FatherId", "ChildrenIds", "RelativeIds", "HouseholdId", "FamilyId",
-     * "SA2_MAINCODE", "SA1_7DIGCODE"
+     * Converting persons to a list of array lists to be written as a csv. The order of items in each list is: "AgentId", "Age", "Gender",
+     * "RelationshipStatus", "PartnerId", "MotherId", "FatherId", "ChildrenIds", "RelativeIds", "HouseholdId", "FamilyId", "SA2_MAINCODE",
+     * "SA1_7DIGCODE"
      *
      * @param persons The list of persons
      * @return Persons as a list of String lists
@@ -336,5 +335,47 @@ public class DataWriter {
         }
 
         return outputHouseholds;
+    }
+
+    public static void saveParentChildAgeGapSummary(Path outputCsvFile, List<Household> households) throws IOException {
+        Map<Integer, Integer> ageGapMap = new LinkedHashMap<>();
+        for (int i = 0; i < 115; i++) {
+            ageGapMap.put(i, 0);
+        }
+
+        for (Household h : households) {
+            for (Person m : h.getMembers()) {
+                if (m.isChild()) {
+                    if (m.getFather() != null) {
+                        int ageGapDad = m.getFather().getAge() - m.getAge();
+                        ageGapMap.compute(ageGapDad, (k, v) -> v + 1);
+                    }
+                    if (m.getMother() != null) {
+                        int ageGapMom = m.getMother().getAge() - m.getAge();
+                        ageGapMap.compute(ageGapMom, (k, v) -> v + 1);
+                    }
+                }
+            }
+        }
+
+        List<List<String>> ageMapAsList = ageGapMap.entrySet()
+                                                   .stream()
+                                                   .map(e -> Arrays.asList(String.valueOf(e.getKey()), String.valueOf(e.getValue())))
+                                                   .collect(Collectors.toList());
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputCsvFile)))),
+                             ageMapAsList);
+    }
+
+    public static void saveRandomAgeAssignedPersons(Path outputFile, Map<String, Integer> randomAgeAssignments) throws IOException {
+
+        List<List<String>> ageAssignementsList = randomAgeAssignments.entrySet()
+                                                                     .stream()
+                                                                     .map(e -> Arrays.asList(e.getKey(), String.valueOf(e.getValue())))
+                                                                     .collect(
+                                                                             Collectors.toList());
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeAsCsv(new OutputStreamWriter(new GZIPOutputStream(new BufferedOutputStream(Files.newOutputStream(outputFile)))),
+                             ageAssignementsList);
     }
 }

@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.synthesis;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -27,6 +27,8 @@ import io.github.agentsoz.syntheticpop.synthesis.models.AgeRange;
 import io.github.agentsoz.syntheticpop.synthesis.models.Family;
 import io.github.agentsoz.syntheticpop.synthesis.models.Household;
 import io.github.agentsoz.syntheticpop.synthesis.models.Person;
+import io.github.agentsoz.syntheticpop.util.GlobalConstants;
+import io.github.agentsoz.syntheticpop.util.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -149,31 +151,43 @@ public class PersonPropertiesHandler {
      * @param persons         all persons in the population
      * @param ageDistribution Overall age distribution of the population
      * @param random          Random number generator instance
+     * @return The number of agents that were assigned age randomly within their age range because age distribution is empty
      */
-    public static void assignAge(List<Person> persons, List<Double> ageDistribution, Random random) {
+    public static int assignAge(List<Person> persons, List<Double> ageDistribution, Random random) {
 
+        int randomAgeAssignments = 0;
         for (Person p : persons) {
             int[] eligibleAges = getPotentialAges(p);
             // List of age percentages in this person's age range
             List<Double> agePercentages = ageDistribution.subList(eligibleAges[0], eligibleAges[1] + 1);
             double percentagesSum = agePercentages.stream().mapToDouble(e -> e).sum(); // Sum - going to calculate probability
-            // Probability this person falling in each age-year
-            List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect(Collectors.toList());
-            AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
-            // Get cumulative distribution of age probabilities
-            List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet).boxed().collect(Collectors
-                                                                                                                                      .toList());
-            double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
 
-            // Find to which age-year this person belongs to and update person
-            for (int i = 0; i < cumAgeProbability.size(); i++) {
-                if (ageOffSet <= cumAgeProbability.get(i)) {
-                    p.setAge(eligibleAges[0] + i);
-                    break;
+            if (percentagesSum == 0) {
+                int age = eligibleAges[0] + random.nextInt(eligibleAges[1] + 1 - eligibleAges[0]);
+                p.setAge(age);
+                randomAgeAssignments++;
+            } else {
+                // Probability this person falling in each age-year
+                List<Double> ageProbability = agePercentages.stream().map(ap -> ap / percentagesSum).collect(Collectors.toList());
+                AtomicDouble sum = new AtomicDouble(0);// so we can use addAndGet
+                // Get cumulative distribution of age probabilities
+                List<Double> cumAgeProbability = ageProbability.stream().sequential().mapToDouble(sum::addAndGet).boxed().collect(Collectors
+                                                                                                                                          .toList());
+                double ageOffSet = random.nextDouble(); // Deciding age within the age range randomly
+
+                // Find to which age-year this person belongs to and update person
+                for (int i = 0; i < cumAgeProbability.size(); i++) {
+                    if (ageOffSet <= cumAgeProbability.get(i)) {
+                        p.setAge(eligibleAges[0] + i);
+                        break;
+                    }
                 }
             }
         }
-
+        if (randomAgeAssignments > 0) {
+            Log.warn("Number of persons assigned a random age because age distribution is empty within the age range: " + randomAgeAssignments);
+        }
+        return randomAgeAssignments;
     }
 
     /**
