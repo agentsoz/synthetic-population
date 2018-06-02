@@ -86,9 +86,8 @@ OrderAgeDescending <- function(p_marg){
     block_start = block_end + 1
     block_end = block_end+length(age_cats)
     block = p_marg[c(block_start:block_end),]
-    age_desc_row_order = match(block$Age, rev(age_cats)) 
+    age_desc_row_order = match(block[,4], rev(age_cats)) 
     p_marg[c(block_start:block_end),] <- block[age_desc_row_order,]
   }
   return(p_marg)
-  
 }

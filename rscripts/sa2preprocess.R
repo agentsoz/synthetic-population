@@ -45,7 +45,7 @@ option_list = list(
     action = "store_true",
     default = T,
     help = "Set this flag to calculate SA1 level household distribution. [default= %default]",
-    metavar = "logical"
+    metavar = "LOGICAL"
   ),
   make_option(
     c("--sa1hh"),
@@ -72,6 +72,12 @@ option_list = list(
     default = "../data/melbourne/analysis/cleaning_error.csv",
     help = "The csv file to save error percentage before and after cleaning. [default= %default]",
     metavar = "FILE"
+  ),
+  make_option(
+    c("--rawfile"),
+    default = F,
+    help = "Set this flag to save raw ABS input distributions of each SA as seperate files. [default= %default]",
+    metavar = "LOGICAL"
   )
 )
 script_description = "This script pre-processes the files downloaded from ABS TableBuilder in preparation to be used in population synthesis.
@@ -133,6 +139,8 @@ if (opt$sa2s == "*") {
   sa2_list <- unique(trimws(unlist(strsplit(opt$sa2s, ","))))
 }
 
+save_raw=opt$rawfile
+
 #Verify whether we have input data for the SA2 that we are going to process.
 ## Get the SA2 lists in persons distribution and households distribution
 pSA2s = unique(trimws(indArr[p_sa_col]$V1))
@@ -179,9 +187,9 @@ if (isStar) {
 out_loc <- opt$output
 do_sa1 <- opt$dosa1
 sa2_code_map_file <-opt$sa2codemap
-sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1hh), ","),trimws))
 
 if(do_sa1){
+  sa1_files <- unlist(lapply(strsplit(sub("\\n","",opt$sa1hh), ","),trimws))
   # Load SA1 household distribution of this SA2
   cat("Loading all SA1 household distributions\n")
   flog.debug("Loading all SA1 household distributions")
@@ -215,6 +223,7 @@ for (sa2 in sa2_list) {
   # We first clean the data at SA2 level
   indv = ReadBySA(indArr, sa2)
   rownames(indv) <- c(1:nrow(indv))
+  indv = OrderAgeDescending(indv)
   hhs = ReadBySA(hhArr, sa2)
   rownames(hhs)<- c(1:nrow(hhs))
 
@@ -236,38 +245,49 @@ for (sa2 in sa2_list) {
       h_family_hh_type_col,
       h_value_col
     )
-    indv = outlist[[1]]
-    hhs = outlist[[2]]
+    cln_indv = outlist[[1]]
+    cln_hhs = outlist[[2]]
     errors[sa2,] = c(outlist[[3]], outlist[[4]])
 
-    colnames(indv)[p_sa_col] <- "SA"
-    colnames(indv)[p_rel_col] <- "Relationship status"
-    colnames(indv)[p_sex_col] <- "Sex"
-    colnames(indv)[p_age_col] <- "Age"
-    colnames(indv)[p_value_col] <- "Persons count"
+    colnames(cln_indv)[p_sa_col] <- "SA"
+    colnames(cln_indv)[p_rel_col] <- "Relationship status"
+    colnames(cln_indv)[p_sex_col] <- "Sex"
+    colnames(cln_indv)[p_age_col] <- "Age"
+    colnames(cln_indv)[p_value_col] <- "Persons count"
 
-    colnames(hhs)[h_sa_col] <- "SA"
-    colnames(hhs)[h_nof_persons_col] <- "Household Size"
-    colnames(hhs)[h_family_hh_type_col] <- "Family household type"
-    colnames(hhs)[h_value_col] <- "Households count"
+    colnames(cln_hhs)[h_sa_col] <- "SA"
+    colnames(cln_hhs)[h_nof_persons_col] <- "Household Size"
+    colnames(cln_hhs)[h_family_hh_type_col] <- "Family household type"
+    colnames(cln_hhs)[h_value_col] <- "Households count"
 
     #Save the cleaned data files
     saoutpath = paste(out_loc, sa2,"/", sep = "")
 
     pgz <- gzfile(paste(saoutpath, persons_file_name, sep = ""))
     CreateDir(dirname(summary(pgz)$description))
-    indv = OrderAgeDescending(indv)
-    write.csv(indv, pgz, row.names = FALSE)
+    write.csv(cln_indv, pgz, row.names = FALSE)
 
     hgz <- gzfile(paste(saoutpath, households_file_name, sep = ""))
     CreateDir(dirname(summary(hgz)$description))
-    write.csv(hhs, hgz, row.names = FALSE)
+    write.csv(cln_hhs, hgz, row.names = FALSE)
+    
+    if(save_raw){
+      raw_pgz = gzfile(paste(saoutpath, raw_persons_file_name, sep = ""))
+      CreateDir(dirname(summary(raw_pgz)$description))
+      colnames(indv) <- c("SA","Relationship status","Sex","Age","Persons count")
+      write.csv(indv, raw_pgz, row.names = FALSE)
+      
+      raw_hgz = gzfile(paste(saoutpath, raw_households_file_name, sep = ""))
+      CreateDir(dirname(summary(raw_hgz)$description))
+      colnames(hhs) <- c("SA","Household Size","Family household type","Households count")
+      write.csv(hhs, raw_hgz, row.names = FALSE)
+    }
 
     ## distirbute SA2 level data among SA1s.
     if (do_sa1) {
       flog.info("Estimating SA1 households distribution...")
       
-      adjusted_sa1_hh_dist = EstimateSA1HouseholdsDistribution(sa2,  hhs, raw_sa1_hh_dist)
+      adjusted_sa1_hh_dist = EstimateSA1HouseholdsDistribution(sa2,  cln_hhs, raw_sa1_hh_dist)
 
       if(!is.null(adjusted_sa1_hh_dist)){
         #Save SA1 hh distribution
