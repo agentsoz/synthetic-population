@@ -41,6 +41,7 @@ ReadHouseholds <-
     SAgap = length(family_hh_cats) * length(nof_persons_cats)  # Number of rows between each SA heading
     seq = dummyVec[seq(SArowi, length(dummyVec), SAgap)]
     SAlist = na.omit(as.character(Hhs[seq, sa_col])) #Array of SA headings
+    SAlist = gsub("\\{.*\\}", "", SAlist)
     nSA = length(SAlist)
     
     lastRow = (nSA * SAgap) + values_start_row - 1
@@ -89,18 +90,21 @@ ReadPersons <-
     sexgap = length(age_cats)  # Number of rows between each Sex type
     seq = dummyVec[seq(sexrowi, length(dummyVec), sexgap)]
     sexlist = na.omit((as.character(Inds[seq, sex_col]))) #Array of Sex types
+    sexlist = gsub("\\{.*\\}", "", sexlist) #if we have added custom tags remove them e.g. Married{2011} -> Married
     nSex = length(sexlist)
     
     relrowi = values_start_row	# Row number for Relationship statuses
     relgap = length(age_cats) * length(sex_cats)  # Number of rows between each Relationship status
     seq = dummyVec[seq(relrowi, length(dummyVec), relgap)]
     rellist = na.omit((as.character(Inds[seq, rel_col]))) #Array of Relationship statuses
+    rellist = gsub("\\{.*\\}", "", rellist) #if we have added custom tags remove them e.g. Married{2011} -> Married
     nRel = length(rellist)
     
     SArowi = values_start_row	# Row number for SA IDs
     SAgap = length(age_cats) * length(sex_cats) * length(rel_cats)  # Number of rows between each SA heading
     seq = dummyVec[seq(SArowi, length(dummyVec), SAgap)]
     SAlist = na.omit(as.character(Inds[seq, sa_col])) #Array of SA headings
+    SAlist = gsub("\\{.*\\}", "", SAlist)
     nSA = length(SAlist)
     lastRow = (nSA * SAgap) + values_start_row - 1
     
