@@ -182,7 +182,9 @@ EvaluatePersonsRawVsSynthesised <- function() {
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   for (i in 1:length(sa2_list)) {
     cat("processing", i, "/", length(sa2_list), "\r")
-    abs_raw_dist = ReadBySA(indArr, sa2_list[i])$V5
+    abs_raw_dist = ReadBySA(indArr, sa2_list[i])
+    abs_raw_dist = OrderAgeDescending(abs_raw_dist)
+    abs_raw_dist = abs_raw_dist$V5
     
     synthetic_population_csv = paste(data_home,
                                      "/",
