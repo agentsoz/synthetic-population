@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.synthesis;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -331,9 +331,14 @@ public class HouseholdFactory {
 
 
         Function<FamilyType, FamilyType> probabilisticallySelectNewFamilyType = (FamilyType primaryFT) -> {
+
+            /*First calculate cumulative probability of dist of family types that we can select.
+            The probabilistically select one.*/
+
             Map<FamilyType, Integer> cumRelationsDist = new LinkedHashMap<>();
             int sum = 0;
             if (extrasHandler.remainingExtras() >= 2) {
+                //If we have extras we can select any family type
                 sum += relTypeDist.get(FamilyType.COUPLE_ONLY);
                 cumRelationsDist.put(FamilyType.COUPLE_ONLY, sum);
                 sum += relTypeDist.get(FamilyType.OTHER_FAMILY);
@@ -343,31 +348,29 @@ public class HouseholdFactory {
             } else {
                 if (!(marriedFemales.isEmpty() && marriedMales.isEmpty())
                         || (extrasHandler.remainingExtras() >= 1 && (!marriedFemales.isEmpty() | !marriedMales.isEmpty()))) {
+                    //If there are enough married males or females we can have couple family units
                     sum += relTypeDist.get(FamilyType.COUPLE_ONLY);
                     cumRelationsDist.put(FamilyType.COUPLE_ONLY, sum);
                 }
 
                 if (relatives.size() >= 2 || (!relatives.isEmpty() && extrasHandler.remainingExtras() >= 1)) {
+                    //if we have enough relatives we can have other family units
                     sum += relTypeDist.get(FamilyType.OTHER_FAMILY);
                     cumRelationsDist.put(FamilyType.OTHER_FAMILY, sum);
                 }
 
-                if (!loneParents.isEmpty() && !children.isEmpty()) {
-                    sum += relTypeDist.get(FamilyType.ONE_PARENT);
-                    cumRelationsDist.put(FamilyType.ONE_PARENT, sum);
+
+                if (primaryFT == FamilyType.ONE_PARENT || primaryFT == FamilyType.COUPLE_WITH_CHILDREN) {
+                    if (!loneParents.isEmpty() && !children.isEmpty()) {
+                        //if we have enough lone parents and children we can have one parent family units.
+                        sum += relTypeDist.get(FamilyType.ONE_PARENT);
+                        cumRelationsDist.put(FamilyType.ONE_PARENT, sum);
+                    }
                 }
-
             }
 
-            double offset = 0;
-            if (primaryFT == FamilyType.COUPLE_ONLY || primaryFT == FamilyType.OTHER_FAMILY) {
-                offset = random.nextInt(cumRelationsDist.get(FamilyType.OTHER_FAMILY));
-            } else if (primaryFT == FamilyType.ONE_PARENT) {
-                offset = random.nextInt(cumRelationsDist.get(FamilyType.ONE_PARENT));
-            } else if (primaryFT == FamilyType.COUPLE_WITH_CHILDREN) {
-                offset = random.nextInt(cumRelationsDist.get(FamilyType.ONE_PARENT));
-            }
-
+            //probabilistically select the family type
+            double offset = random.nextInt(sum);
             FamilyType newFamilyType = null;
             for (FamilyType ft : cumRelationsDist.keySet()) {
                 if (offset < cumRelationsDist.get(ft)) {
