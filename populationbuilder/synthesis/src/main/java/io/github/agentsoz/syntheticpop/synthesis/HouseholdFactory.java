@@ -346,8 +346,7 @@ public class HouseholdFactory {
                 sum += relTypeDist.get(FamilyType.ONE_PARENT);
                 cumRelationsDist.put(FamilyType.ONE_PARENT, sum);
             } else {
-                if (!(marriedFemales.isEmpty() && marriedMales.isEmpty())
-                        || (extrasHandler.remainingExtras() >= 1 && (!marriedFemales.isEmpty() | !marriedMales.isEmpty()))) {
+                if ((!(marriedFemales.isEmpty() || marriedMales.isEmpty())) || (extrasHandler.remainingExtras() >= 1 && !(marriedFemales.isEmpty() && marriedMales.isEmpty()))) {
                     //If there are enough married males or females we can have couple family units
                     sum += relTypeDist.get(FamilyType.COUPLE_ONLY);
                     cumRelationsDist.put(FamilyType.COUPLE_ONLY, sum);
