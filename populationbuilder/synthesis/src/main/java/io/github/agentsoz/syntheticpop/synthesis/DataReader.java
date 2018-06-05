@@ -201,9 +201,9 @@ public class DataReader {
                     }
                 }
 
-            } else if (csvRecord.size() > ageColumn && csvRecord.get(ageColumn).matches("\\d+")) {
+            } else if (row > sa2NamesRow && csvRecord.size() > ageColumn && csvRecord.get(ageColumn).matches("\\d+.*")) {
 
-                int age = Integer.parseInt(csvRecord.get(ageColumn));
+                int age = Integer.parseInt(csvRecord.get(ageColumn).replaceAll("\\D+",""));
                 for (int col = 0; col < sa2names.size(); col++) {
                     int i = col + 1;//Offset to skip age label column
                     String sa2 = sa2names.get(col);
