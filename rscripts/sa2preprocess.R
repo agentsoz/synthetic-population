@@ -43,7 +43,7 @@ option_list = list(
   make_option(
     c("--dosa1"),
     action = "store_true",
-    default = T,
+    default = F,
     help = "Set this flag to calculate SA1 level household distribution. [default= %default]",
     metavar = "LOGICAL"
   ),
@@ -58,13 +58,13 @@ option_list = list(
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip",
-    help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= %default]",
+    help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. Only applicable if --dosa1 flag is set. [default= %default]",
     metavar = "LIST_FILES"
   ),
   make_option(
     c("--sa2codemap"),
     default = "../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip",
-    help = "The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. [default= %default]",
+    help = "The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. Required to find the SA1 in an SA2. Only applicable if --dosa1 flag is set. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
@@ -76,7 +76,7 @@ option_list = list(
   make_option(
     c("--rawfile"),
     default = F,
-    help = "Set this flag to save raw ABS input distributions of each SA as seperate files. [default= %default]",
+    help = "Set this flag to save raw ABS input distributions of each SA2 as seperate files. [default= %default]",
     metavar = "LOGICAL"
   )
 )
