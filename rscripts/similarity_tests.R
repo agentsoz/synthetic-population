@@ -13,31 +13,31 @@ source("drawplots.R")
 option_list = list(
   make_option(
     c("--generateddata"),
-    default = "../data/melbourne/generated/SA2",
+    default = "../data/melbourne-2016/generated/SA2",
     help = "Generated data files location. [default= %default]",
     metavar = "DIR"
   ),
   make_option(
     c("--rawhouseholds"),
-    default = "../data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2016/raw/Households_2016_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--rawpersons"),
-    default = "../data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2016/raw/Persons_2016_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--sa2agedist"),
-    default = "../data/melbourne/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip",
+    default = "../data/melbourne-2016/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip",
     help = "Distribution of person percentages by Age in each SA2. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne/analysis",
+    default = "../data/melbourne-2016/analysis",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -121,7 +121,7 @@ age_input <- opt$sa2agedist
 expected_age_dist <-
   ReadAges(
     age_input,
-    nof_sa2s = a_nof_sa2s,
+    nof_sa2s = length(unique(indArr$V1)),
     a_age_col,
     start_age = 0,
     end_age = 115,
@@ -134,21 +134,22 @@ mu = opt$mu
 alpha = opt$alpha
 
 PerformSimilarityTests <- function(exp_dist, obs_dist) {
-  grt = wilcox.test(
-    x = exp_dist,
-    y = obs_dist,
-    paired = T,
-    alternative = "greater",
-    mu = -mu
-  )
-  les = wilcox.test(
-    x = exp_dist,
-    y = obs_dist,
-    paired = T,
-    alternative = "less",
-    mu = mu
-  )
-  
+
+    grt = wilcox.test(
+      x = exp_dist,
+      y = obs_dist,
+      paired = T,
+      alternative = "greater",
+      mu = -mu
+    )
+    les = wilcox.test(
+      x = exp_dist,
+      y = obs_dist,
+      paired = T,
+      alternative = "less",
+      mu = mu
+    )
+
   pval = max(c(grt$p.value, les$p.value))
   
   # Do Cosine similarity right here
@@ -181,7 +182,7 @@ EvaluatePersonsRawVsSynthesised <- function() {
   wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   for (i in 1:length(sa2_list)) {
-    cat("processing", i, "/", length(sa2_list), "\r")
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
     abs_raw_dist = ReadBySA(indArr, sa2_list[i])
     abs_raw_dist = OrderAgeDescending(abs_raw_dist)
     abs_raw_dist = abs_raw_dist$V5
@@ -235,7 +236,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
-    cat("processing", i, "/", length(sa2_list), "\r")
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
     cleaned_data_csv = paste(data_home,
                              "/",
                              sa2_list[i],
@@ -318,7 +319,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
-    cat("processing", i, "/", length(sa2_list), "\r")
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
     cleaned_data_csv = paste(data_home,
                              "/",
                              sa2_list[i],
@@ -405,7 +406,7 @@ EvalautePersonsAgeDistribution <- function() {
   expected_dist_empty_count = 1
   
   for (i in 1:length(sa2_list)) {
-    cat("processing", i, "/", length(sa2_list), "\r")
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
     
     wilcoxon_test_result[i,1] <- sa2_list[i]
     cossim_test_result[i,1] <- sa2_list[i]
@@ -421,7 +422,9 @@ EvalautePersonsAgeDistribution <- function() {
       rownames(synth_age_dist) = expected_age_dist$`AGEP Age`
       synth_age_dist = tabulate(synthetic_population_dist$Age + 1, nbins = 116)
       
-      synth_age_dist = (synth_age_dist / sum(synth_age_dist)) * 100
+      if(sum(synth_age_dist) != 0){
+        synth_age_dist = (synth_age_dist / sum(synth_age_dist)) * 100  
+      }
       
       res = PerformSimilarityTests(as.numeric(expected_age_dist[, sa2_list[i]]), synth_age_dist)
       wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
@@ -486,7 +489,6 @@ EvalautePersonsAgeDistribution <- function() {
     unlist(expected_dist_empty)
   ))
 }
-
 
 EvaluateHouseholdProcessedVsSynthesised()
 EvaluatePersonsProcessedVsSynthesised()
