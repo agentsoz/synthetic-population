@@ -53,10 +53,10 @@ Options:
 		The list of SA2s that constitutes the area for which the population is to be generated. The parameter can be either "*" - for all SA2s in household and person input files,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= *]
 
 	--dosa1
-		Set this flag to calculate SA1 level household distribution. [default= TRUE]
+		Set this flag to calculate SA1 level household distribution. [default= FALSE]
 
 	--sa1hh=LIST_FILES
-		A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. [default= ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
+		A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. Only applicable if --dosa1 flag is set. [default= ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
@@ -67,10 +67,17 @@ Options:
     ../data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip]
 
 	--sa2codemap=FILE
-		The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. [default= ../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip]
+		The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. Required to find the SA1 in an SA2. Only applicable if --dosa1 flag is set. [default= ../data/melbourne/raw/1270055001_sa2_2016_aust_csv.zip]
+
+	--errorfile=FILE
+		The csv file to save error percentage before and after cleaning. [default= ../data/melbourne/analysis/cleaning_error.csv]
+
+	--rawfile=LOGICAL
+		Set this flag to save raw ABS input distributions of each SA2 as seperate files. [default= FALSE]
 
 	-h, --help
 		Show this help message and exit
+
 ```
 
 ## The generated files
