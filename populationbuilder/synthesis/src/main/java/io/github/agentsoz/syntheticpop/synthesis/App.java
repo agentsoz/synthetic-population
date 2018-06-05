@@ -209,8 +209,10 @@ public class App {
             Log.info("Writing analysis data files to: " + analysisDirectory);
             DataWriter.saveParentChildAgeGapSummary(Paths.get(analysisDirectory + File.separator + "parent_child_age_gap.csv"),
                                                     parentalAgeGapHistogram);
-            DataWriter.saveRandomAgeAssignedPersons(Paths.get(analysisDirectory + File.separator + "age_randomly_assigned_persons.csv"),
-                                                    randomAgeAssignments);
+            if (!randomAgeAssignments.isEmpty()) {
+                DataWriter.saveRandomAgeAssignedPersons(Paths.get(analysisDirectory + File.separator + "age_randomly_assigned_persons.csv"),
+                                                        randomAgeAssignments);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
