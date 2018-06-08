@@ -116,7 +116,7 @@ indArr = ReadPersons(
   age_cats
 )
 
-print("Reading the expected age distribution in each SA2")
+print("Reading the expected age distributions in all SA2s appear in persons file")
 age_input <- opt$sa2agedist
 expected_age_dist <-
   ReadAges(
