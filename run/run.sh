@@ -1,5 +1,7 @@
 #!/bin/bash
 
+start=`date +%s`
+
 DIR=`dirname "$0"`
 CDIR=`pwd`
 
@@ -44,3 +46,5 @@ In more detail:
 zip -r melbourne-2016-population.zip melbourne/generated/SA2/*/population/* README.txt &&
 rm README.txt &&
 cd $CDIR
+
+echo "Duration: $((($(date +%s)-$start)/60)) minutes"
