@@ -8,6 +8,7 @@ source("config.R")
 source("datareader.R")
 source("util.R")
 source("drawplots.R")
+source("ft.R")
 
 
 option_list = list(
@@ -154,10 +155,24 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   
   # Do Cosine similarity right here
   cossim = cosine(x = exp_dist, y = obs_dist)
+  
+  #Do Freeman-Tukey test
+  ft_result = FreemanTukeyTest(exp_dist, obs_dist)
+  
+  #Do APD
+  apd = sum(abs(exp_dist - obs_dist))/sum(exp_dist)
+  pop_size = sum(exp_dist)
+  
   return(list(
-    "p-value" = pval,
-    "alt accept" = (pval < (alpha)),
-    "Cossine similarity" = cossim
+    "TOST p-value" = pval,
+    "TOST alt accept" = (pval < (alpha)),
+    "Cossine similarity" = cossim,
+    "FT statistic" = ft_result$FT.statistic,
+    "FT p-value" = ft_result$FT.p.value,
+    "FT degrees of freedom" = ft_result$FT.df,
+    "APD" = apd,
+    "APD%" = (apd*100),
+    "Pop size"= pop_size
   ))
   
 }
@@ -167,6 +182,8 @@ EvaluatePersonsRawVsSynthesised <- function() {
   
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   totals[, 1] <- sa2_list
@@ -179,8 +196,6 @@ EvaluatePersonsRawVsSynthesised <- function() {
       "Total persons in synthesised persons dist"
     )
   
-  wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
-  cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
     abs_raw_dist = ReadBySA(indArr, sa2_list[i])
@@ -196,8 +211,11 @@ EvaluatePersonsRawVsSynthesised <- function() {
     res = PerformSimilarityTests(abs_raw_dist, synthetic_population_dist)
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
     cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
+    ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+    apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
   }
   
+  print("TOST with Wilcoxon Signed Rank Test")
   colnames(wilcoxon_test_result) <-
     c(
       "SA2",
@@ -218,14 +236,36 @@ EvaluatePersonsRawVsSynthesised <- function() {
   write.csv(wilcoxon_test_result,
             file = outfile,
             row.names = F)
-  print("TOST with Wilcoxon Signed Rank Test")
   
-  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
+  
   print("Cosine similarity test")
+  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   outfile = paste(outputHome,
                   "/persons-abs-raw-vs-generated-cosine-similarity.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F)
+  write.csv(cossim_test_result, file = outfile, row.names = F, quote = F)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-abs-raw-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  write.csv(ft_test_result,
+            file = outfile,
+            row.names = F)
+  
+  print("APD test")
+  colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
+  outfile = paste(outputHome,
+                  "/persons-abs-raw-vs-generated-absolute-percentage-deviation.csv",
+                  sep = "")
+  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
 }
 
 EvaluatePersonsProcessedVsSynthesised <- function() {
@@ -233,6 +273,8 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
@@ -254,6 +296,9 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
     cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
+    ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+    apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
+    
     totals[i, 3] <- sum(cleaned_dist)
     totals[i, 5] <- sum(synthetic_population_dist)
     
@@ -309,6 +354,28 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                   "/persons-preprocessed-vs-generated-cosine-similarity.csv",
                   sep = "")
   write.csv(cossim_test_result, file = outfile, row.names = F)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-preprocessed-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  write.csv(ft_test_result,
+            file = outfile,
+            row.names = F, quote = F)
+  
+  print("APD test")
+  colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
+  outfile = paste(outputHome,
+                  "/persons-preprocessed-vs-generated-absolute-percentage-deviation.csv",
+                  sep = "")
+  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
 }
 
 EvaluateHouseholdProcessedVsSynthesised <- function() {
@@ -316,6 +383,8 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   
   for (i in 1:length(sa2_list)) {
@@ -336,6 +405,8 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
     cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+    ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+    apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     
     totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
     totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
@@ -395,12 +466,36 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     paste(outputHome, "/households-persons-totals.csv", sep = "")
   write.csv(totals, file = totals_file)
   
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/households-preprocessed-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  write.csv(ft_test_result,
+            file = outfile,
+            row.names = F, quote = F)
+  
+  print("APD test")
+  colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
+  outfile = paste(outputHome,
+                  "/households-preprocessed-vs-generated-absolute-percentage-deviation.csv",
+                  sep = "")
+  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
+  
 }
 
 EvalautePersonsAgeDistribution <- function() {
   cat("Person age distribution of census data vs. synthetic population\n")
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   
   expected_dist_empty = list()
   expected_dist_empty_count = 1
@@ -429,6 +524,8 @@ EvalautePersonsAgeDistribution <- function() {
       res = PerformSimilarityTests(as.numeric(expected_age_dist[, sa2_list[i]]), synth_age_dist)
       wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
       cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+      ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+      apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
       
       file_prefix = SA2FilePrefix(sa2_list[i])
       out_file = paste(outputHome,
@@ -483,6 +580,28 @@ EvalautePersonsAgeDistribution <- function() {
                   "/persons-age-census-vs-generated-cosine-similarity.csv",
                   sep = "")
   write.csv(cossim_test_result, file = outfile)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-age-census-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  write.csv(ft_test_result,
+            file = outfile,
+            row.names = F, quote = F)
+  
+  print("APD test")
+  colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
+  outfile = paste(outputHome,
+                  "/persons-age-census-vs-generated-absolute-percentage-deviation.csv",
+                  sep = "")
+  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
   
   print(paste(
     "Expected age distribution empty SA2s:",
