@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Strathmore","One person","One family household: Couple family with no children",0
+"2","Strathmore","One person","One family household: Couple family with children",0
+"3","Strathmore","One person","One family household: One parent family",0
+"4","Strathmore","One person","One family household: Other family",0
+"5","Strathmore","One person","Two or more family household: Couple family with no children",0
+"6","Strathmore","One person","Two or more family household: Couple family with children",0
+"7","Strathmore","One person","Two or more family household: One parent family",0
+"8","Strathmore","One person","Two or more family household: Other family",0
+"9","Strathmore","One person","Lone person household",582
+"10","Strathmore","One person","Group household",0
+"11","Strathmore","Two persons","One family household: Couple family with no children",1272
+"12","Strathmore","Two persons","One family household: Couple family with children",0
+"13","Strathmore","Two persons","One family household: One parent family",300
+"14","Strathmore","Two persons","One family household: Other family",52
+"15","Strathmore","Two persons","Two or more family household: Couple family with no children",0
+"16","Strathmore","Two persons","Two or more family household: Couple family with children",0
+"17","Strathmore","Two persons","Two or more family household: One parent family",0
+"18","Strathmore","Two persons","Two or more family household: Other family",0
+"19","Strathmore","Two persons","Lone person household",0
+"20","Strathmore","Two persons","Group household",86
+"21","Strathmore","Three persons","One family household: Couple family with no children",39
+"22","Strathmore","Three persons","One family household: Couple family with children",1032
+"23","Strathmore","Three persons","One family household: One parent family",309
+"24","Strathmore","Three persons","One family household: Other family",27
+"25","Strathmore","Three persons","Two or more family household: Couple family with no children",0
+"26","Strathmore","Three persons","Two or more family household: Couple family with children",0
+"27","Strathmore","Three persons","Two or more family household: One parent family",0
+"28","Strathmore","Three persons","Two or more family household: Other family",0
+"29","Strathmore","Three persons","Lone person household",0
+"30","Strathmore","Three persons","Group household",15
+"31","Strathmore","Four persons","One family household: Couple family with no children",28
+"32","Strathmore","Four persons","One family household: Couple family with children",2632
+"33","Strathmore","Four persons","One family household: One parent family",136
+"34","Strathmore","Four persons","One family household: Other family",12
+"35","Strathmore","Four persons","Two or more family household: Couple family with no children",0
+"36","Strathmore","Four persons","Two or more family household: Couple family with children",0
+"37","Strathmore","Four persons","Two or more family household: One parent family",36
+"38","Strathmore","Four persons","Two or more family household: Other family",0
+"39","Strathmore","Four persons","Lone person household",0
+"40","Strathmore","Four persons","Group household",0
+"41","Strathmore","Five persons","One family household: Couple family with no children",0
+"42","Strathmore","Five persons","One family household: Couple family with children",1470
+"43","Strathmore","Five persons","One family household: One parent family",40
+"44","Strathmore","Five persons","One family household: Other family",0
+"45","Strathmore","Five persons","Two or more family household: Couple family with no children",0
+"46","Strathmore","Five persons","Two or more family household: Couple family with children",15
+"47","Strathmore","Five persons","Two or more family household: One parent family",15
+"48","Strathmore","Five persons","Two or more family household: Other family",0
+"49","Strathmore","Five persons","Lone person household",0
+"50","Strathmore","Five persons","Group household",0
+"51","Strathmore","Six or more persons","One family household: Couple family with no children",0
+"52","Strathmore","Six or more persons","One family household: Couple family with children",510
+"53","Strathmore","Six or more persons","One family household: One parent family",0
+"54","Strathmore","Six or more persons","One family household: Other family",0
+"55","Strathmore","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Strathmore","Six or more persons","Two or more family household: Couple family with children",36
+"57","Strathmore","Six or more persons","Two or more family household: One parent family",18
+"58","Strathmore","Six or more persons","Two or more family household: Other family",0
+"59","Strathmore","Six or more persons","Lone person household",0
+"60","Strathmore","Six or more persons","Group household",0

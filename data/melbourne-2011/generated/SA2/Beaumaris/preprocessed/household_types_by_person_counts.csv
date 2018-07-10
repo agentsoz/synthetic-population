@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Beaumaris","One person","One family household: Couple family with no children",0
+"2","Beaumaris","One person","One family household: Couple family with children",0
+"3","Beaumaris","One person","One family household: One parent family",0
+"4","Beaumaris","One person","One family household: Other family",0
+"5","Beaumaris","One person","Two or more family household: Couple family with no children",0
+"6","Beaumaris","One person","Two or more family household: Couple family with children",0
+"7","Beaumaris","One person","Two or more family household: One parent family",0
+"8","Beaumaris","One person","Two or more family household: Other family",0
+"9","Beaumaris","One person","Lone person household",930
+"10","Beaumaris","One person","Group household",0
+"11","Beaumaris","Two persons","One family household: Couple family with no children",2476
+"12","Beaumaris","Two persons","One family household: Couple family with children",0
+"13","Beaumaris","Two persons","One family household: One parent family",384
+"14","Beaumaris","Two persons","One family household: Other family",48
+"15","Beaumaris","Two persons","Two or more family household: Couple family with no children",0
+"16","Beaumaris","Two persons","Two or more family household: Couple family with children",0
+"17","Beaumaris","Two persons","Two or more family household: One parent family",0
+"18","Beaumaris","Two persons","Two or more family household: Other family",0
+"19","Beaumaris","Two persons","Lone person household",0
+"20","Beaumaris","Two persons","Group household",94
+"21","Beaumaris","Three persons","One family household: Couple family with no children",78
+"22","Beaumaris","Three persons","One family household: Couple family with children",1485
+"23","Beaumaris","Three persons","One family household: One parent family",387
+"24","Beaumaris","Three persons","One family household: Other family",15
+"25","Beaumaris","Three persons","Two or more family household: Couple family with no children",0
+"26","Beaumaris","Three persons","Two or more family household: Couple family with children",0
+"27","Beaumaris","Three persons","Two or more family household: One parent family",0
+"28","Beaumaris","Three persons","Two or more family household: Other family",0
+"29","Beaumaris","Three persons","Lone person household",0
+"30","Beaumaris","Three persons","Group household",18
+"31","Beaumaris","Four persons","One family household: Couple family with no children",12
+"32","Beaumaris","Four persons","One family household: Couple family with children",3824
+"33","Beaumaris","Four persons","One family household: One parent family",144
+"34","Beaumaris","Four persons","One family household: Other family",0
+"35","Beaumaris","Four persons","Two or more family household: Couple family with no children",28
+"36","Beaumaris","Four persons","Two or more family household: Couple family with children",0
+"37","Beaumaris","Four persons","Two or more family household: One parent family",24
+"38","Beaumaris","Four persons","Two or more family household: Other family",0
+"39","Beaumaris","Four persons","Lone person household",0
+"40","Beaumaris","Four persons","Group household",0
+"41","Beaumaris","Five persons","One family household: Couple family with no children",0
+"42","Beaumaris","Five persons","One family household: Couple family with children",1935
+"43","Beaumaris","Five persons","One family household: One parent family",40
+"44","Beaumaris","Five persons","One family household: Other family",0
+"45","Beaumaris","Five persons","Two or more family household: Couple family with no children",0
+"46","Beaumaris","Five persons","Two or more family household: Couple family with children",25
+"47","Beaumaris","Five persons","Two or more family household: One parent family",40
+"48","Beaumaris","Five persons","Two or more family household: Other family",0
+"49","Beaumaris","Five persons","Lone person household",0
+"50","Beaumaris","Five persons","Group household",0
+"51","Beaumaris","Six or more persons","One family household: Couple family with no children",0
+"52","Beaumaris","Six or more persons","One family household: Couple family with children",420
+"53","Beaumaris","Six or more persons","One family household: One parent family",0
+"54","Beaumaris","Six or more persons","One family household: Other family",0
+"55","Beaumaris","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Beaumaris","Six or more persons","Two or more family household: Couple family with children",72
+"57","Beaumaris","Six or more persons","Two or more family household: One parent family",0
+"58","Beaumaris","Six or more persons","Two or more family household: Other family",0
+"59","Beaumaris","Six or more persons","Lone person household",0
+"60","Beaumaris","Six or more persons","Group household",0

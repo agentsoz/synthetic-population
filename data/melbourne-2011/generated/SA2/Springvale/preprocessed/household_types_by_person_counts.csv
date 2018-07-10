@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Springvale","One person","One family household: Couple family with no children",0
+"2","Springvale","One person","One family household: Couple family with children",0
+"3","Springvale","One person","One family household: One parent family",0
+"4","Springvale","One person","One family household: Other family",0
+"5","Springvale","One person","Two or more family household: Couple family with no children",0
+"6","Springvale","One person","Two or more family household: Couple family with children",0
+"7","Springvale","One person","Two or more family household: One parent family",0
+"8","Springvale","One person","Two or more family household: Other family",0
+"9","Springvale","One person","Lone person household",1428
+"10","Springvale","One person","Group household",0
+"11","Springvale","Two persons","One family household: Couple family with no children",2206
+"12","Springvale","Two persons","One family household: Couple family with children",0
+"13","Springvale","Two persons","One family household: One parent family",680
+"14","Springvale","Two persons","One family household: Other family",180
+"15","Springvale","Two persons","Two or more family household: Couple family with no children",0
+"16","Springvale","Two persons","Two or more family household: Couple family with children",0
+"17","Springvale","Two persons","Two or more family household: One parent family",0
+"18","Springvale","Two persons","Two or more family household: Other family",0
+"19","Springvale","Two persons","Lone person household",0
+"20","Springvale","Two persons","Group household",354
+"21","Springvale","Three persons","One family household: Couple family with no children",408
+"22","Springvale","Three persons","One family household: Couple family with children",1908
+"23","Springvale","Three persons","One family household: One parent family",798
+"24","Springvale","Three persons","One family household: Other family",99
+"25","Springvale","Three persons","Two or more family household: Couple family with no children",0
+"26","Springvale","Three persons","Two or more family household: Couple family with children",0
+"27","Springvale","Three persons","Two or more family household: One parent family",0
+"28","Springvale","Three persons","Two or more family household: Other family",0
+"29","Springvale","Three persons","Lone person household",0
+"30","Springvale","Three persons","Group household",234
+"31","Springvale","Four persons","One family household: Couple family with no children",232
+"32","Springvale","Four persons","One family household: Couple family with children",2988
+"33","Springvale","Four persons","One family household: One parent family",460
+"34","Springvale","Four persons","One family household: Other family",56
+"35","Springvale","Four persons","Two or more family household: Couple family with no children",196
+"36","Springvale","Four persons","Two or more family household: Couple family with children",0
+"37","Springvale","Four persons","Two or more family household: One parent family",68
+"38","Springvale","Four persons","Two or more family household: Other family",28
+"39","Springvale","Four persons","Lone person household",0
+"40","Springvale","Four persons","Group household",164
+"41","Springvale","Five persons","One family household: Couple family with no children",140
+"42","Springvale","Five persons","One family household: Couple family with children",1990
+"43","Springvale","Five persons","One family household: One parent family",355
+"44","Springvale","Five persons","One family household: Other family",55
+"45","Springvale","Five persons","Two or more family household: Couple family with no children",75
+"46","Springvale","Five persons","Two or more family household: Couple family with children",225
+"47","Springvale","Five persons","Two or more family household: One parent family",135
+"48","Springvale","Five persons","Two or more family household: Other family",15
+"49","Springvale","Five persons","Lone person household",0
+"50","Springvale","Five persons","Group household",65
+"51","Springvale","Six or more persons","One family household: Couple family with no children",24
+"52","Springvale","Six or more persons","One family household: Couple family with children",1494
+"53","Springvale","Six or more persons","One family household: One parent family",210
+"54","Springvale","Six or more persons","One family household: Other family",18
+"55","Springvale","Six or more persons","Two or more family household: Couple family with no children",108
+"56","Springvale","Six or more persons","Two or more family household: Couple family with children",924
+"57","Springvale","Six or more persons","Two or more family household: One parent family",234
+"58","Springvale","Six or more persons","Two or more family household: Other family",0
+"59","Springvale","Six or more persons","Lone person household",0
+"60","Springvale","Six or more persons","Group household",102

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Carnegie","One person","One family household: Couple family with no children",0
+"2","Carnegie","One person","One family household: Couple family with children",0
+"3","Carnegie","One person","One family household: One parent family",0
+"4","Carnegie","One person","One family household: Other family",0
+"5","Carnegie","One person","Two or more family household: Couple family with no children",0
+"6","Carnegie","One person","Two or more family household: Couple family with children",0
+"7","Carnegie","One person","Two or more family household: One parent family",0
+"8","Carnegie","One person","Two or more family household: Other family",0
+"9","Carnegie","One person","Lone person household",2238
+"10","Carnegie","One person","Group household",0
+"11","Carnegie","Two persons","One family household: Couple family with no children",3058
+"12","Carnegie","Two persons","One family household: Couple family with children",0
+"13","Carnegie","Two persons","One family household: One parent family",536
+"14","Carnegie","Two persons","One family household: Other family",230
+"15","Carnegie","Two persons","Two or more family household: Couple family with no children",0
+"16","Carnegie","Two persons","Two or more family household: Couple family with children",0
+"17","Carnegie","Two persons","Two or more family household: One parent family",0
+"18","Carnegie","Two persons","Two or more family household: Other family",0
+"19","Carnegie","Two persons","Lone person household",0
+"20","Carnegie","Two persons","Group household",564
+"21","Carnegie","Three persons","One family household: Couple family with no children",321
+"22","Carnegie","Three persons","One family household: Couple family with children",2001
+"23","Carnegie","Three persons","One family household: One parent family",357
+"24","Carnegie","Three persons","One family household: Other family",93
+"25","Carnegie","Three persons","Two or more family household: Couple family with no children",0
+"26","Carnegie","Three persons","Two or more family household: Couple family with children",0
+"27","Carnegie","Three persons","Two or more family household: One parent family",0
+"28","Carnegie","Three persons","Two or more family household: Other family",0
+"29","Carnegie","Three persons","Lone person household",0
+"30","Carnegie","Three persons","Group household",402
+"31","Carnegie","Four persons","One family household: Couple family with no children",88
+"32","Carnegie","Four persons","One family household: Couple family with children",3012
+"33","Carnegie","Four persons","One family household: One parent family",120
+"34","Carnegie","Four persons","One family household: Other family",24
+"35","Carnegie","Four persons","Two or more family household: Couple family with no children",52
+"36","Carnegie","Four persons","Two or more family household: Couple family with children",0
+"37","Carnegie","Four persons","Two or more family household: One parent family",16
+"38","Carnegie","Four persons","Two or more family household: Other family",0
+"39","Carnegie","Four persons","Lone person household",0
+"40","Carnegie","Four persons","Group household",168
+"41","Carnegie","Five persons","One family household: Couple family with no children",15
+"42","Carnegie","Five persons","One family household: Couple family with children",1230
+"43","Carnegie","Five persons","One family household: One parent family",40
+"44","Carnegie","Five persons","One family household: Other family",0
+"45","Carnegie","Five persons","Two or more family household: Couple family with no children",0
+"46","Carnegie","Five persons","Two or more family household: Couple family with children",35
+"47","Carnegie","Five persons","Two or more family household: One parent family",0
+"48","Carnegie","Five persons","Two or more family household: Other family",0
+"49","Carnegie","Five persons","Lone person household",0
+"50","Carnegie","Five persons","Group household",95
+"51","Carnegie","Six or more persons","One family household: Couple family with no children",18
+"52","Carnegie","Six or more persons","One family household: Couple family with children",276
+"53","Carnegie","Six or more persons","One family household: One parent family",18
+"54","Carnegie","Six or more persons","One family household: Other family",0
+"55","Carnegie","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Carnegie","Six or more persons","Two or more family household: Couple family with children",108
+"57","Carnegie","Six or more persons","Two or more family household: One parent family",18
+"58","Carnegie","Six or more persons","Two or more family household: Other family",0
+"59","Carnegie","Six or more persons","Lone person household",0
+"60","Carnegie","Six or more persons","Group household",18

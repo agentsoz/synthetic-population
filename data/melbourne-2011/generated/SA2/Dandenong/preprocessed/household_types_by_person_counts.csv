@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Dandenong","One person","One family household: Couple family with no children",0
+"2","Dandenong","One person","One family household: Couple family with children",0
+"3","Dandenong","One person","One family household: One parent family",0
+"4","Dandenong","One person","One family household: Other family",0
+"5","Dandenong","One person","Two or more family household: Couple family with no children",0
+"6","Dandenong","One person","Two or more family household: Couple family with children",0
+"7","Dandenong","One person","Two or more family household: One parent family",0
+"8","Dandenong","One person","Two or more family household: Other family",0
+"9","Dandenong","One person","Lone person household",2547
+"10","Dandenong","One person","Group household",0
+"11","Dandenong","Two persons","One family household: Couple family with no children",3086
+"12","Dandenong","Two persons","One family household: Couple family with children",0
+"13","Dandenong","Two persons","One family household: One parent family",1026
+"14","Dandenong","Two persons","One family household: Other family",238
+"15","Dandenong","Two persons","Two or more family household: Couple family with no children",0
+"16","Dandenong","Two persons","Two or more family household: Couple family with children",0
+"17","Dandenong","Two persons","Two or more family household: One parent family",0
+"18","Dandenong","Two persons","Two or more family household: Other family",0
+"19","Dandenong","Two persons","Lone person household",0
+"20","Dandenong","Two persons","Group household",500
+"21","Dandenong","Three persons","One family household: Couple family with no children",393
+"22","Dandenong","Three persons","One family household: Couple family with children",3039
+"23","Dandenong","Three persons","One family household: One parent family",840
+"24","Dandenong","Three persons","One family household: Other family",93
+"25","Dandenong","Three persons","Two or more family household: Couple family with no children",0
+"26","Dandenong","Three persons","Two or more family household: Couple family with children",0
+"27","Dandenong","Three persons","Two or more family household: One parent family",0
+"28","Dandenong","Three persons","Two or more family household: Other family",0
+"29","Dandenong","Three persons","Lone person household",0
+"30","Dandenong","Three persons","Group household",276
+"31","Dandenong","Four persons","One family household: Couple family with no children",164
+"32","Dandenong","Four persons","One family household: Couple family with children",3592
+"33","Dandenong","Four persons","One family household: One parent family",512
+"34","Dandenong","Four persons","One family household: Other family",44
+"35","Dandenong","Four persons","Two or more family household: Couple family with no children",144
+"36","Dandenong","Four persons","Two or more family household: Couple family with children",0
+"37","Dandenong","Four persons","Two or more family household: One parent family",48
+"38","Dandenong","Four persons","Two or more family household: Other family",12
+"39","Dandenong","Four persons","Lone person household",0
+"40","Dandenong","Four persons","Group household",188
+"41","Dandenong","Five persons","One family household: Couple family with no children",55
+"42","Dandenong","Five persons","One family household: Couple family with children",2300
+"43","Dandenong","Five persons","One family household: One parent family",280
+"44","Dandenong","Five persons","One family household: Other family",0
+"45","Dandenong","Five persons","Two or more family household: Couple family with no children",60
+"46","Dandenong","Five persons","Two or more family household: Couple family with children",265
+"47","Dandenong","Five persons","Two or more family household: One parent family",105
+"48","Dandenong","Five persons","Two or more family household: Other family",0
+"49","Dandenong","Five persons","Lone person household",0
+"50","Dandenong","Five persons","Group household",165
+"51","Dandenong","Six or more persons","One family household: Couple family with no children",36
+"52","Dandenong","Six or more persons","One family household: Couple family with children",1800
+"53","Dandenong","Six or more persons","One family household: One parent family",144
+"54","Dandenong","Six or more persons","One family household: Other family",0
+"55","Dandenong","Six or more persons","Two or more family household: Couple family with no children",162
+"56","Dandenong","Six or more persons","Two or more family household: Couple family with children",858
+"57","Dandenong","Six or more persons","Two or more family household: One parent family",240
+"58","Dandenong","Six or more persons","Two or more family household: Other family",18
+"59","Dandenong","Six or more persons","Lone person household",0
+"60","Dandenong","Six or more persons","Group household",210

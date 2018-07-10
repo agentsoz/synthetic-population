@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Kingsbury","One person","One family household: Couple family with no children",0
+"2","Kingsbury","One person","One family household: Couple family with children",0
+"3","Kingsbury","One person","One family household: One parent family",0
+"4","Kingsbury","One person","One family household: Other family",0
+"5","Kingsbury","One person","Two or more family household: Couple family with no children",0
+"6","Kingsbury","One person","Two or more family household: Couple family with children",0
+"7","Kingsbury","One person","Two or more family household: One parent family",0
+"8","Kingsbury","One person","Two or more family household: Other family",0
+"9","Kingsbury","One person","Lone person household",578
+"10","Kingsbury","One person","Group household",0
+"11","Kingsbury","Two persons","One family household: Couple family with no children",1254
+"12","Kingsbury","Two persons","One family household: Couple family with children",0
+"13","Kingsbury","Two persons","One family household: One parent family",216
+"14","Kingsbury","Two persons","One family household: Other family",74
+"15","Kingsbury","Two persons","Two or more family household: Couple family with no children",0
+"16","Kingsbury","Two persons","Two or more family household: Couple family with children",0
+"17","Kingsbury","Two persons","Two or more family household: One parent family",0
+"18","Kingsbury","Two persons","Two or more family household: Other family",0
+"19","Kingsbury","Two persons","Lone person household",0
+"20","Kingsbury","Two persons","Group household",222
+"21","Kingsbury","Three persons","One family household: Couple family with no children",150
+"22","Kingsbury","Three persons","One family household: Couple family with children",1005
+"23","Kingsbury","Three persons","One family household: One parent family",261
+"24","Kingsbury","Three persons","One family household: Other family",33
+"25","Kingsbury","Three persons","Two or more family household: Couple family with no children",0
+"26","Kingsbury","Three persons","Two or more family household: Couple family with children",0
+"27","Kingsbury","Three persons","Two or more family household: One parent family",0
+"28","Kingsbury","Three persons","Two or more family household: Other family",0
+"29","Kingsbury","Three persons","Lone person household",0
+"30","Kingsbury","Three persons","Group household",177
+"31","Kingsbury","Four persons","One family household: Couple family with no children",100
+"32","Kingsbury","Four persons","One family household: Couple family with children",2160
+"33","Kingsbury","Four persons","One family household: One parent family",112
+"34","Kingsbury","Four persons","One family household: Other family",0
+"35","Kingsbury","Four persons","Two or more family household: Couple family with no children",48
+"36","Kingsbury","Four persons","Two or more family household: Couple family with children",0
+"37","Kingsbury","Four persons","Two or more family household: One parent family",16
+"38","Kingsbury","Four persons","Two or more family household: Other family",0
+"39","Kingsbury","Four persons","Lone person household",0
+"40","Kingsbury","Four persons","Group household",220
+"41","Kingsbury","Five persons","One family household: Couple family with no children",65
+"42","Kingsbury","Five persons","One family household: Couple family with children",1010
+"43","Kingsbury","Five persons","One family household: One parent family",50
+"44","Kingsbury","Five persons","One family household: Other family",0
+"45","Kingsbury","Five persons","Two or more family household: Couple family with no children",0
+"46","Kingsbury","Five persons","Two or more family household: Couple family with children",65
+"47","Kingsbury","Five persons","Two or more family household: One parent family",30
+"48","Kingsbury","Five persons","Two or more family household: Other family",0
+"49","Kingsbury","Five persons","Lone person household",0
+"50","Kingsbury","Five persons","Group household",115
+"51","Kingsbury","Six or more persons","One family household: Couple family with no children",24
+"52","Kingsbury","Six or more persons","One family household: Couple family with children",294
+"53","Kingsbury","Six or more persons","One family household: One parent family",24
+"54","Kingsbury","Six or more persons","One family household: Other family",0
+"55","Kingsbury","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Kingsbury","Six or more persons","Two or more family household: Couple family with children",96
+"57","Kingsbury","Six or more persons","Two or more family household: One parent family",24
+"58","Kingsbury","Six or more persons","Two or more family household: Other family",0
+"59","Kingsbury","Six or more persons","Lone person household",0
+"60","Kingsbury","Six or more persons","Group household",198

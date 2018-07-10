@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Keysborough","One person","One family household: Couple family with no children",0
+"2","Keysborough","One person","One family household: Couple family with children",0
+"3","Keysborough","One person","One family household: One parent family",0
+"4","Keysborough","One person","One family household: Other family",0
+"5","Keysborough","One person","Two or more family household: Couple family with no children",0
+"6","Keysborough","One person","Two or more family household: Couple family with children",0
+"7","Keysborough","One person","Two or more family household: One parent family",0
+"8","Keysborough","One person","Two or more family household: Other family",0
+"9","Keysborough","One person","Lone person household",868
+"10","Keysborough","One person","Group household",0
+"11","Keysborough","Two persons","One family household: Couple family with no children",2462
+"12","Keysborough","Two persons","One family household: Couple family with children",0
+"13","Keysborough","Two persons","One family household: One parent family",456
+"14","Keysborough","Two persons","One family household: Other family",134
+"15","Keysborough","Two persons","Two or more family household: Couple family with no children",0
+"16","Keysborough","Two persons","Two or more family household: Couple family with children",0
+"17","Keysborough","Two persons","Two or more family household: One parent family",0
+"18","Keysborough","Two persons","Two or more family household: Other family",0
+"19","Keysborough","Two persons","Lone person household",0
+"20","Keysborough","Two persons","Group household",168
+"21","Keysborough","Three persons","One family household: Couple family with no children",273
+"22","Keysborough","Three persons","One family household: Couple family with children",2601
+"23","Keysborough","Three persons","One family household: One parent family",762
+"24","Keysborough","Three persons","One family household: Other family",51
+"25","Keysborough","Three persons","Two or more family household: Couple family with no children",0
+"26","Keysborough","Three persons","Two or more family household: Couple family with children",0
+"27","Keysborough","Three persons","Two or more family household: One parent family",0
+"28","Keysborough","Three persons","Two or more family household: Other family",0
+"29","Keysborough","Three persons","Lone person household",0
+"30","Keysborough","Three persons","Group household",42
+"31","Keysborough","Four persons","One family household: Couple family with no children",48
+"32","Keysborough","Four persons","One family household: Couple family with children",4900
+"33","Keysborough","Four persons","One family household: One parent family",468
+"34","Keysborough","Four persons","One family household: Other family",12
+"35","Keysborough","Four persons","Two or more family household: Couple family with no children",84
+"36","Keysborough","Four persons","Two or more family household: Couple family with children",0
+"37","Keysborough","Four persons","Two or more family household: One parent family",36
+"38","Keysborough","Four persons","Two or more family household: Other family",0
+"39","Keysborough","Four persons","Lone person household",0
+"40","Keysborough","Four persons","Group household",24
+"41","Keysborough","Five persons","One family household: Couple family with no children",15
+"42","Keysborough","Five persons","One family household: Couple family with children",2600
+"43","Keysborough","Five persons","One family household: One parent family",210
+"44","Keysborough","Five persons","One family household: Other family",0
+"45","Keysborough","Five persons","Two or more family household: Couple family with no children",40
+"46","Keysborough","Five persons","Two or more family household: Couple family with children",250
+"47","Keysborough","Five persons","Two or more family household: One parent family",170
+"48","Keysborough","Five persons","Two or more family household: Other family",0
+"49","Keysborough","Five persons","Lone person household",0
+"50","Keysborough","Five persons","Group household",0
+"51","Keysborough","Six or more persons","One family household: Couple family with no children",0
+"52","Keysborough","Six or more persons","One family household: Couple family with children",1320
+"53","Keysborough","Six or more persons","One family household: One parent family",72
+"54","Keysborough","Six or more persons","One family household: Other family",0
+"55","Keysborough","Six or more persons","Two or more family household: Couple family with no children",54
+"56","Keysborough","Six or more persons","Two or more family household: Couple family with children",762
+"57","Keysborough","Six or more persons","Two or more family household: One parent family",222
+"58","Keysborough","Six or more persons","Two or more family household: Other family",0
+"59","Keysborough","Six or more persons","Lone person household",0
+"60","Keysborough","Six or more persons","Group household",0

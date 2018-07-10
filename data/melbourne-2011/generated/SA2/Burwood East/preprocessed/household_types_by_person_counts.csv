@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Burwood East","One person","One family household: Couple family with no children",0
+"2","Burwood East","One person","One family household: Couple family with children",0
+"3","Burwood East","One person","One family household: One parent family",0
+"4","Burwood East","One person","One family household: Other family",0
+"5","Burwood East","One person","Two or more family household: Couple family with no children",0
+"6","Burwood East","One person","Two or more family household: Couple family with children",0
+"7","Burwood East","One person","Two or more family household: One parent family",0
+"8","Burwood East","One person","Two or more family household: Other family",0
+"9","Burwood East","One person","Lone person household",704
+"10","Burwood East","One person","Group household",0
+"11","Burwood East","Two persons","One family household: Couple family with no children",1882
+"12","Burwood East","Two persons","One family household: Couple family with children",0
+"13","Burwood East","Two persons","One family household: One parent family",360
+"14","Burwood East","Two persons","One family household: Other family",54
+"15","Burwood East","Two persons","Two or more family household: Couple family with no children",0
+"16","Burwood East","Two persons","Two or more family household: Couple family with children",0
+"17","Burwood East","Two persons","Two or more family household: One parent family",0
+"18","Burwood East","Two persons","Two or more family household: Other family",0
+"19","Burwood East","Two persons","Lone person household",0
+"20","Burwood East","Two persons","Group household",126
+"21","Burwood East","Three persons","One family household: Couple family with no children",165
+"22","Burwood East","Three persons","One family household: Couple family with children",1431
+"23","Burwood East","Three persons","One family household: One parent family",357
+"24","Burwood East","Three persons","One family household: Other family",33
+"25","Burwood East","Three persons","Two or more family household: Couple family with no children",0
+"26","Burwood East","Three persons","Two or more family household: Couple family with children",0
+"27","Burwood East","Three persons","Two or more family household: One parent family",0
+"28","Burwood East","Three persons","Two or more family household: Other family",0
+"29","Burwood East","Three persons","Lone person household",0
+"30","Burwood East","Three persons","Group household",174
+"31","Burwood East","Four persons","One family household: Couple family with no children",40
+"32","Burwood East","Four persons","One family household: Couple family with children",2116
+"33","Burwood East","Four persons","One family household: One parent family",172
+"34","Burwood East","Four persons","One family household: Other family",20
+"35","Burwood East","Four persons","Two or more family household: Couple family with no children",28
+"36","Burwood East","Four persons","Two or more family household: Couple family with children",0
+"37","Burwood East","Four persons","Two or more family household: One parent family",28
+"38","Burwood East","Four persons","Two or more family household: Other family",0
+"39","Burwood East","Four persons","Lone person household",0
+"40","Burwood East","Four persons","Group household",212
+"41","Burwood East","Five persons","One family household: Couple family with no children",40
+"42","Burwood East","Five persons","One family household: Couple family with children",920
+"43","Burwood East","Five persons","One family household: One parent family",55
+"44","Burwood East","Five persons","One family household: Other family",20
+"45","Burwood East","Five persons","Two or more family household: Couple family with no children",0
+"46","Burwood East","Five persons","Two or more family household: Couple family with children",20
+"47","Burwood East","Five persons","Two or more family household: One parent family",40
+"48","Burwood East","Five persons","Two or more family household: Other family",0
+"49","Burwood East","Five persons","Lone person household",0
+"50","Burwood East","Five persons","Group household",100
+"51","Burwood East","Six or more persons","One family household: Couple family with no children",60
+"52","Burwood East","Six or more persons","One family household: Couple family with children",306
+"53","Burwood East","Six or more persons","One family household: One parent family",36
+"54","Burwood East","Six or more persons","One family household: Other family",0
+"55","Burwood East","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Burwood East","Six or more persons","Two or more family household: Couple family with children",102
+"57","Burwood East","Six or more persons","Two or more family household: One parent family",18
+"58","Burwood East","Six or more persons","Two or more family household: Other family",0
+"59","Burwood East","Six or more persons","Lone person household",0
+"60","Burwood East","Six or more persons","Group household",114

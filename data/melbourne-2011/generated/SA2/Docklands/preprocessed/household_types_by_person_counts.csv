@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Docklands","One person","One family household: Couple family with no children",0
+"2","Docklands","One person","One family household: Couple family with children",0
+"3","Docklands","One person","One family household: One parent family",0
+"4","Docklands","One person","One family household: Other family",0
+"5","Docklands","One person","Two or more family household: Couple family with no children",0
+"6","Docklands","One person","Two or more family household: Couple family with children",0
+"7","Docklands","One person","Two or more family household: One parent family",0
+"8","Docklands","One person","Two or more family household: Other family",0
+"9","Docklands","One person","Lone person household",888
+"10","Docklands","One person","Group household",0
+"11","Docklands","Two persons","One family household: Couple family with no children",1696
+"12","Docklands","Two persons","One family household: Couple family with children",0
+"13","Docklands","Two persons","One family household: One parent family",118
+"14","Docklands","Two persons","One family household: Other family",112
+"15","Docklands","Two persons","Two or more family household: Couple family with no children",0
+"16","Docklands","Two persons","Two or more family household: Couple family with children",0
+"17","Docklands","Two persons","Two or more family household: One parent family",0
+"18","Docklands","Two persons","Two or more family household: Other family",0
+"19","Docklands","Two persons","Lone person household",0
+"20","Docklands","Two persons","Group household",452
+"21","Docklands","Three persons","One family household: Couple family with no children",129
+"22","Docklands","Three persons","One family household: Couple family with children",516
+"23","Docklands","Three persons","One family household: One parent family",87
+"24","Docklands","Three persons","One family household: Other family",27
+"25","Docklands","Three persons","Two or more family household: Couple family with no children",0
+"26","Docklands","Three persons","Two or more family household: Couple family with children",0
+"27","Docklands","Three persons","Two or more family household: One parent family",0
+"28","Docklands","Three persons","Two or more family household: Other family",0
+"29","Docklands","Three persons","Lone person household",0
+"30","Docklands","Three persons","Group household",147
+"31","Docklands","Four persons","One family household: Couple family with no children",20
+"32","Docklands","Four persons","One family household: Couple family with children",284
+"33","Docklands","Four persons","One family household: One parent family",28
+"34","Docklands","Four persons","One family household: Other family",40
+"35","Docklands","Four persons","Two or more family household: Couple family with no children",0
+"36","Docklands","Four persons","Two or more family household: Couple family with children",0
+"37","Docklands","Four persons","Two or more family household: One parent family",0
+"38","Docklands","Four persons","Two or more family household: Other family",0
+"39","Docklands","Four persons","Lone person household",0
+"40","Docklands","Four persons","Group household",60
+"41","Docklands","Five persons","One family household: Couple family with no children",15
+"42","Docklands","Five persons","One family household: Couple family with children",60
+"43","Docklands","Five persons","One family household: One parent family",0
+"44","Docklands","Five persons","One family household: Other family",0
+"45","Docklands","Five persons","Two or more family household: Couple family with no children",0
+"46","Docklands","Five persons","Two or more family household: Couple family with children",0
+"47","Docklands","Five persons","Two or more family household: One parent family",0
+"48","Docklands","Five persons","Two or more family household: Other family",0
+"49","Docklands","Five persons","Lone person household",0
+"50","Docklands","Five persons","Group household",0
+"51","Docklands","Six or more persons","One family household: Couple family with no children",0
+"52","Docklands","Six or more persons","One family household: Couple family with children",18
+"53","Docklands","Six or more persons","One family household: One parent family",0
+"54","Docklands","Six or more persons","One family household: Other family",0
+"55","Docklands","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Docklands","Six or more persons","Two or more family household: Couple family with children",0
+"57","Docklands","Six or more persons","Two or more family household: One parent family",0
+"58","Docklands","Six or more persons","Two or more family household: Other family",0
+"59","Docklands","Six or more persons","Lone person household",0
+"60","Docklands","Six or more persons","Group household",18

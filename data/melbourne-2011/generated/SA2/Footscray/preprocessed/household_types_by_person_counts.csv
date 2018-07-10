@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Footscray","One person","One family household: Couple family with no children",0
+"2","Footscray","One person","One family household: Couple family with children",0
+"3","Footscray","One person","One family household: One parent family",0
+"4","Footscray","One person","One family household: Other family",0
+"5","Footscray","One person","Two or more family household: Couple family with no children",0
+"6","Footscray","One person","Two or more family household: Couple family with children",0
+"7","Footscray","One person","Two or more family household: One parent family",0
+"8","Footscray","One person","Two or more family household: Other family",0
+"9","Footscray","One person","Lone person household",1578
+"10","Footscray","One person","Group household",0
+"11","Footscray","Two persons","One family household: Couple family with no children",1982
+"12","Footscray","Two persons","One family household: Couple family with children",0
+"13","Footscray","Two persons","One family household: One parent family",462
+"14","Footscray","Two persons","One family household: Other family",170
+"15","Footscray","Two persons","Two or more family household: Couple family with no children",0
+"16","Footscray","Two persons","Two or more family household: Couple family with children",0
+"17","Footscray","Two persons","Two or more family household: One parent family",0
+"18","Footscray","Two persons","Two or more family household: Other family",0
+"19","Footscray","Two persons","Lone person household",0
+"20","Footscray","Two persons","Group household",640
+"21","Footscray","Three persons","One family household: Couple family with no children",306
+"22","Footscray","Three persons","One family household: Couple family with children",1290
+"23","Footscray","Three persons","One family household: One parent family",381
+"24","Footscray","Three persons","One family household: Other family",78
+"25","Footscray","Three persons","Two or more family household: Couple family with no children",0
+"26","Footscray","Three persons","Two or more family household: Couple family with children",0
+"27","Footscray","Three persons","Two or more family household: One parent family",0
+"28","Footscray","Three persons","Two or more family household: Other family",0
+"29","Footscray","Three persons","Lone person household",0
+"30","Footscray","Three persons","Group household",429
+"31","Footscray","Four persons","One family household: Couple family with no children",96
+"32","Footscray","Four persons","One family household: Couple family with children",1504
+"33","Footscray","Four persons","One family household: One parent family",208
+"34","Footscray","Four persons","One family household: Other family",52
+"35","Footscray","Four persons","Two or more family household: Couple family with no children",36
+"36","Footscray","Four persons","Two or more family household: Couple family with children",0
+"37","Footscray","Four persons","Two or more family household: One parent family",24
+"38","Footscray","Four persons","Two or more family household: Other family",0
+"39","Footscray","Four persons","Lone person household",0
+"40","Footscray","Four persons","Group household",240
+"41","Footscray","Five persons","One family household: Couple family with no children",80
+"42","Footscray","Five persons","One family household: Couple family with children",565
+"43","Footscray","Five persons","One family household: One parent family",75
+"44","Footscray","Five persons","One family household: Other family",30
+"45","Footscray","Five persons","Two or more family household: Couple family with no children",20
+"46","Footscray","Five persons","Two or more family household: Couple family with children",60
+"47","Footscray","Five persons","Two or more family household: One parent family",15
+"48","Footscray","Five persons","Two or more family household: Other family",0
+"49","Footscray","Five persons","Lone person household",0
+"50","Footscray","Five persons","Group household",160
+"51","Footscray","Six or more persons","One family household: Couple family with no children",18
+"52","Footscray","Six or more persons","One family household: Couple family with children",312
+"53","Footscray","Six or more persons","One family household: One parent family",24
+"54","Footscray","Six or more persons","One family household: Other family",0
+"55","Footscray","Six or more persons","Two or more family household: Couple family with no children",42
+"56","Footscray","Six or more persons","Two or more family household: Couple family with children",120
+"57","Footscray","Six or more persons","Two or more family household: One parent family",24
+"58","Footscray","Six or more persons","Two or more family household: Other family",0
+"59","Footscray","Six or more persons","Lone person household",0
+"60","Footscray","Six or more persons","Group household",90

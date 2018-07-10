@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Ormond - Glen Huntly","One person","One family household: Couple family with no children",0
+"2","Ormond - Glen Huntly","One person","One family household: Couple family with children",0
+"3","Ormond - Glen Huntly","One person","One family household: One parent family",0
+"4","Ormond - Glen Huntly","One person","One family household: Other family",0
+"5","Ormond - Glen Huntly","One person","Two or more family household: Couple family with no children",0
+"6","Ormond - Glen Huntly","One person","Two or more family household: Couple family with children",0
+"7","Ormond - Glen Huntly","One person","Two or more family household: One parent family",0
+"8","Ormond - Glen Huntly","One person","Two or more family household: Other family",0
+"9","Ormond - Glen Huntly","One person","Lone person household",1580
+"10","Ormond - Glen Huntly","One person","Group household",0
+"11","Ormond - Glen Huntly","Two persons","One family household: Couple family with no children",2048
+"12","Ormond - Glen Huntly","Two persons","One family household: Couple family with children",0
+"13","Ormond - Glen Huntly","Two persons","One family household: One parent family",382
+"14","Ormond - Glen Huntly","Two persons","One family household: Other family",162
+"15","Ormond - Glen Huntly","Two persons","Two or more family household: Couple family with no children",0
+"16","Ormond - Glen Huntly","Two persons","Two or more family household: Couple family with children",0
+"17","Ormond - Glen Huntly","Two persons","Two or more family household: One parent family",0
+"18","Ormond - Glen Huntly","Two persons","Two or more family household: Other family",0
+"19","Ormond - Glen Huntly","Two persons","Lone person household",0
+"20","Ormond - Glen Huntly","Two persons","Group household",460
+"21","Ormond - Glen Huntly","Three persons","One family household: Couple family with no children",219
+"22","Ormond - Glen Huntly","Three persons","One family household: Couple family with children",1512
+"23","Ormond - Glen Huntly","Three persons","One family household: One parent family",336
+"24","Ormond - Glen Huntly","Three persons","One family household: Other family",60
+"25","Ormond - Glen Huntly","Three persons","Two or more family household: Couple family with no children",0
+"26","Ormond - Glen Huntly","Three persons","Two or more family household: Couple family with children",0
+"27","Ormond - Glen Huntly","Three persons","Two or more family household: One parent family",0
+"28","Ormond - Glen Huntly","Three persons","Two or more family household: Other family",0
+"29","Ormond - Glen Huntly","Three persons","Lone person household",0
+"30","Ormond - Glen Huntly","Three persons","Group household",303
+"31","Ormond - Glen Huntly","Four persons","One family household: Couple family with no children",124
+"32","Ormond - Glen Huntly","Four persons","One family household: Couple family with children",2580
+"33","Ormond - Glen Huntly","Four persons","One family household: One parent family",160
+"34","Ormond - Glen Huntly","Four persons","One family household: Other family",24
+"35","Ormond - Glen Huntly","Four persons","Two or more family household: Couple family with no children",36
+"36","Ormond - Glen Huntly","Four persons","Two or more family household: Couple family with children",0
+"37","Ormond - Glen Huntly","Four persons","Two or more family household: One parent family",12
+"38","Ormond - Glen Huntly","Four persons","Two or more family household: Other family",0
+"39","Ormond - Glen Huntly","Four persons","Lone person household",0
+"40","Ormond - Glen Huntly","Four persons","Group household",172
+"41","Ormond - Glen Huntly","Five persons","One family household: Couple family with no children",55
+"42","Ormond - Glen Huntly","Five persons","One family household: Couple family with children",1030
+"43","Ormond - Glen Huntly","Five persons","One family household: One parent family",15
+"44","Ormond - Glen Huntly","Five persons","One family household: Other family",0
+"45","Ormond - Glen Huntly","Five persons","Two or more family household: Couple family with no children",40
+"46","Ormond - Glen Huntly","Five persons","Two or more family household: Couple family with children",25
+"47","Ormond - Glen Huntly","Five persons","Two or more family household: One parent family",15
+"48","Ormond - Glen Huntly","Five persons","Two or more family household: Other family",0
+"49","Ormond - Glen Huntly","Five persons","Lone person household",0
+"50","Ormond - Glen Huntly","Five persons","Group household",60
+"51","Ormond - Glen Huntly","Six or more persons","One family household: Couple family with no children",18
+"52","Ormond - Glen Huntly","Six or more persons","One family household: Couple family with children",234
+"53","Ormond - Glen Huntly","Six or more persons","One family household: One parent family",0
+"54","Ormond - Glen Huntly","Six or more persons","One family household: Other family",0
+"55","Ormond - Glen Huntly","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Ormond - Glen Huntly","Six or more persons","Two or more family household: Couple family with children",66
+"57","Ormond - Glen Huntly","Six or more persons","Two or more family household: One parent family",0
+"58","Ormond - Glen Huntly","Six or more persons","Two or more family household: Other family",0
+"59","Ormond - Glen Huntly","Six or more persons","Lone person household",0
+"60","Ormond - Glen Huntly","Six or more persons","Group household",42

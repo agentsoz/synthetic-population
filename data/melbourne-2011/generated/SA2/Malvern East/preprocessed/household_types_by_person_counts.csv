@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Malvern East","One person","One family household: Couple family with no children",0
+"2","Malvern East","One person","One family household: Couple family with children",0
+"3","Malvern East","One person","One family household: One parent family",0
+"4","Malvern East","One person","One family household: Other family",0
+"5","Malvern East","One person","Two or more family household: Couple family with no children",0
+"6","Malvern East","One person","Two or more family household: Couple family with children",0
+"7","Malvern East","One person","Two or more family household: One parent family",0
+"8","Malvern East","One person","Two or more family household: Other family",0
+"9","Malvern East","One person","Lone person household",1788
+"10","Malvern East","One person","Group household",0
+"11","Malvern East","Two persons","One family household: Couple family with no children",2996
+"12","Malvern East","Two persons","One family household: Couple family with children",0
+"13","Malvern East","Two persons","One family household: One parent family",556
+"14","Malvern East","Two persons","One family household: Other family",208
+"15","Malvern East","Two persons","Two or more family household: Couple family with no children",0
+"16","Malvern East","Two persons","Two or more family household: Couple family with children",0
+"17","Malvern East","Two persons","Two or more family household: One parent family",0
+"18","Malvern East","Two persons","Two or more family household: Other family",0
+"19","Malvern East","Two persons","Lone person household",0
+"20","Malvern East","Two persons","Group household",552
+"21","Malvern East","Three persons","One family household: Couple family with no children",240
+"22","Malvern East","Three persons","One family household: Couple family with children",2292
+"23","Malvern East","Three persons","One family household: One parent family",522
+"24","Malvern East","Three persons","One family household: Other family",84
+"25","Malvern East","Three persons","Two or more family household: Couple family with no children",0
+"26","Malvern East","Three persons","Two or more family household: Couple family with children",0
+"27","Malvern East","Three persons","Two or more family household: One parent family",0
+"28","Malvern East","Three persons","Two or more family household: Other family",0
+"29","Malvern East","Three persons","Lone person household",0
+"30","Malvern East","Three persons","Group household",438
+"31","Malvern East","Four persons","One family household: Couple family with no children",76
+"32","Malvern East","Four persons","One family household: Couple family with children",4948
+"33","Malvern East","Four persons","One family household: One parent family",212
+"34","Malvern East","Four persons","One family household: Other family",48
+"35","Malvern East","Four persons","Two or more family household: Couple family with no children",16
+"36","Malvern East","Four persons","Two or more family household: Couple family with children",0
+"37","Malvern East","Four persons","Two or more family household: One parent family",16
+"38","Malvern East","Four persons","Two or more family household: Other family",0
+"39","Malvern East","Four persons","Lone person household",0
+"40","Malvern East","Four persons","Group household",280
+"41","Malvern East","Five persons","One family household: Couple family with no children",45
+"42","Malvern East","Five persons","One family household: Couple family with children",2495
+"43","Malvern East","Five persons","One family household: One parent family",75
+"44","Malvern East","Five persons","One family household: Other family",0
+"45","Malvern East","Five persons","Two or more family household: Couple family with no children",0
+"46","Malvern East","Five persons","Two or more family household: Couple family with children",65
+"47","Malvern East","Five persons","Two or more family household: One parent family",15
+"48","Malvern East","Five persons","Two or more family household: Other family",0
+"49","Malvern East","Five persons","Lone person household",0
+"50","Malvern East","Five persons","Group household",100
+"51","Malvern East","Six or more persons","One family household: Couple family with no children",36
+"52","Malvern East","Six or more persons","One family household: Couple family with children",684
+"53","Malvern East","Six or more persons","One family household: One parent family",24
+"54","Malvern East","Six or more persons","One family household: Other family",18
+"55","Malvern East","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Malvern East","Six or more persons","Two or more family household: Couple family with children",72
+"57","Malvern East","Six or more persons","Two or more family household: One parent family",36
+"58","Malvern East","Six or more persons","Two or more family household: Other family",0
+"59","Malvern East","Six or more persons","Lone person household",0
+"60","Malvern East","Six or more persons","Group household",114

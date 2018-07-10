@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Doncaster East","One person","One family household: Couple family with no children",0
+"2","Doncaster East","One person","One family household: Couple family with children",0
+"3","Doncaster East","One person","One family household: One parent family",0
+"4","Doncaster East","One person","One family household: Other family",0
+"5","Doncaster East","One person","Two or more family household: Couple family with no children",0
+"6","Doncaster East","One person","Two or more family household: Couple family with children",0
+"7","Doncaster East","One person","Two or more family household: One parent family",0
+"8","Doncaster East","One person","Two or more family household: Other family",0
+"9","Doncaster East","One person","Lone person household",1662
+"10","Doncaster East","One person","Group household",0
+"11","Doncaster East","Two persons","One family household: Couple family with no children",4646
+"12","Doncaster East","Two persons","One family household: Couple family with children",0
+"13","Doncaster East","Two persons","One family household: One parent family",960
+"14","Doncaster East","Two persons","One family household: Other family",190
+"15","Doncaster East","Two persons","Two or more family household: Couple family with no children",0
+"16","Doncaster East","Two persons","Two or more family household: Couple family with children",0
+"17","Doncaster East","Two persons","Two or more family household: One parent family",0
+"18","Doncaster East","Two persons","Two or more family household: Other family",0
+"19","Doncaster East","Two persons","Lone person household",0
+"20","Doncaster East","Two persons","Group household",290
+"21","Doncaster East","Three persons","One family household: Couple family with no children",357
+"22","Doncaster East","Three persons","One family household: Couple family with children",3924
+"23","Doncaster East","Three persons","One family household: One parent family",1068
+"24","Doncaster East","Three persons","One family household: Other family",69
+"25","Doncaster East","Three persons","Two or more family household: Couple family with no children",0
+"26","Doncaster East","Three persons","Two or more family household: Couple family with children",0
+"27","Doncaster East","Three persons","Two or more family household: One parent family",0
+"28","Doncaster East","Three persons","Two or more family household: Other family",0
+"29","Doncaster East","Three persons","Lone person household",0
+"30","Doncaster East","Three persons","Group household",144
+"31","Doncaster East","Four persons","One family household: Couple family with no children",56
+"32","Doncaster East","Four persons","One family household: Couple family with children",6832
+"33","Doncaster East","Four persons","One family household: One parent family",408
+"34","Doncaster East","Four persons","One family household: Other family",12
+"35","Doncaster East","Four persons","Two or more family household: Couple family with no children",104
+"36","Doncaster East","Four persons","Two or more family household: Couple family with children",0
+"37","Doncaster East","Four persons","Two or more family household: One parent family",76
+"38","Doncaster East","Four persons","Two or more family household: Other family",0
+"39","Doncaster East","Four persons","Lone person household",0
+"40","Doncaster East","Four persons","Group household",72
+"41","Doncaster East","Five persons","One family household: Couple family with no children",15
+"42","Doncaster East","Five persons","One family household: Couple family with children",3220
+"43","Doncaster East","Five persons","One family household: One parent family",155
+"44","Doncaster East","Five persons","One family household: Other family",0
+"45","Doncaster East","Five persons","Two or more family household: Couple family with no children",25
+"46","Doncaster East","Five persons","Two or more family household: Couple family with children",265
+"47","Doncaster East","Five persons","Two or more family household: One parent family",75
+"48","Doncaster East","Five persons","Two or more family household: Other family",0
+"49","Doncaster East","Five persons","Lone person household",0
+"50","Doncaster East","Five persons","Group household",25
+"51","Doncaster East","Six or more persons","One family household: Couple family with no children",0
+"52","Doncaster East","Six or more persons","One family household: Couple family with children",984
+"53","Doncaster East","Six or more persons","One family household: One parent family",42
+"54","Doncaster East","Six or more persons","One family household: Other family",0
+"55","Doncaster East","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Doncaster East","Six or more persons","Two or more family household: Couple family with children",414
+"57","Doncaster East","Six or more persons","Two or more family household: One parent family",48
+"58","Doncaster East","Six or more persons","Two or more family household: Other family",18
+"59","Doncaster East","Six or more persons","Lone person household",0
+"60","Doncaster East","Six or more persons","Group household",18

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Hillside","One person","One family household: Couple family with no children",0
+"2","Hillside","One person","One family household: Couple family with children",0
+"3","Hillside","One person","One family household: One parent family",0
+"4","Hillside","One person","One family household: Other family",0
+"5","Hillside","One person","Two or more family household: Couple family with no children",0
+"6","Hillside","One person","Two or more family household: Couple family with children",0
+"7","Hillside","One person","Two or more family household: One parent family",0
+"8","Hillside","One person","Two or more family household: Other family",0
+"9","Hillside","One person","Lone person household",453
+"10","Hillside","One person","Group household",0
+"11","Hillside","Two persons","One family household: Couple family with no children",1496
+"12","Hillside","Two persons","One family household: Couple family with children",0
+"13","Hillside","Two persons","One family household: One parent family",336
+"14","Hillside","Two persons","One family household: Other family",64
+"15","Hillside","Two persons","Two or more family household: Couple family with no children",0
+"16","Hillside","Two persons","Two or more family household: Couple family with children",0
+"17","Hillside","Two persons","Two or more family household: One parent family",0
+"18","Hillside","Two persons","Two or more family household: Other family",0
+"19","Hillside","Two persons","Lone person household",0
+"20","Hillside","Two persons","Group household",84
+"21","Hillside","Three persons","One family household: Couple family with no children",117
+"22","Hillside","Three persons","One family household: Couple family with children",1890
+"23","Hillside","Three persons","One family household: One parent family",591
+"24","Hillside","Three persons","One family household: Other family",12
+"25","Hillside","Three persons","Two or more family household: Couple family with no children",0
+"26","Hillside","Three persons","Two or more family household: Couple family with children",0
+"27","Hillside","Three persons","Two or more family household: One parent family",0
+"28","Hillside","Three persons","Two or more family household: Other family",0
+"29","Hillside","Three persons","Lone person household",0
+"30","Hillside","Three persons","Group household",27
+"31","Hillside","Four persons","One family household: Couple family with no children",12
+"32","Hillside","Four persons","One family household: Couple family with children",5056
+"33","Hillside","Four persons","One family household: One parent family",344
+"34","Hillside","Four persons","One family household: Other family",12
+"35","Hillside","Four persons","Two or more family household: Couple family with no children",44
+"36","Hillside","Four persons","Two or more family household: Couple family with children",0
+"37","Hillside","Four persons","Two or more family household: One parent family",36
+"38","Hillside","Four persons","Two or more family household: Other family",0
+"39","Hillside","Four persons","Lone person household",0
+"40","Hillside","Four persons","Group household",0
+"41","Hillside","Five persons","One family household: Couple family with no children",0
+"42","Hillside","Five persons","One family household: Couple family with children",2700
+"43","Hillside","Five persons","One family household: One parent family",125
+"44","Hillside","Five persons","One family household: Other family",0
+"45","Hillside","Five persons","Two or more family household: Couple family with no children",35
+"46","Hillside","Five persons","Two or more family household: Couple family with children",110
+"47","Hillside","Five persons","Two or more family household: One parent family",65
+"48","Hillside","Five persons","Two or more family household: Other family",0
+"49","Hillside","Five persons","Lone person household",0
+"50","Hillside","Five persons","Group household",15
+"51","Hillside","Six or more persons","One family household: Couple family with no children",0
+"52","Hillside","Six or more persons","One family household: Couple family with children",1032
+"53","Hillside","Six or more persons","One family household: One parent family",60
+"54","Hillside","Six or more persons","One family household: Other family",0
+"55","Hillside","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Hillside","Six or more persons","Two or more family household: Couple family with children",222
+"57","Hillside","Six or more persons","Two or more family household: One parent family",42
+"58","Hillside","Six or more persons","Two or more family household: Other family",0
+"59","Hillside","Six or more persons","Lone person household",0
+"60","Hillside","Six or more persons","Group household",0

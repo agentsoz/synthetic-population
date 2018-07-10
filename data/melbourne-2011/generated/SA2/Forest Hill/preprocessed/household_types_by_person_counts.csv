@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Forest Hill","One person","One family household: Couple family with no children",0
+"2","Forest Hill","One person","One family household: Couple family with children",0
+"3","Forest Hill","One person","One family household: One parent family",0
+"4","Forest Hill","One person","One family household: Other family",0
+"5","Forest Hill","One person","Two or more family household: Couple family with no children",0
+"6","Forest Hill","One person","Two or more family household: Couple family with children",0
+"7","Forest Hill","One person","Two or more family household: One parent family",0
+"8","Forest Hill","One person","Two or more family household: Other family",0
+"9","Forest Hill","One person","Lone person household",1139
+"10","Forest Hill","One person","Group household",0
+"11","Forest Hill","Two persons","One family household: Couple family with no children",1718
+"12","Forest Hill","Two persons","One family household: Couple family with children",0
+"13","Forest Hill","Two persons","One family household: One parent family",516
+"14","Forest Hill","Two persons","One family household: Other family",106
+"15","Forest Hill","Two persons","Two or more family household: Couple family with no children",0
+"16","Forest Hill","Two persons","Two or more family household: Couple family with children",0
+"17","Forest Hill","Two persons","Two or more family household: One parent family",0
+"18","Forest Hill","Two persons","Two or more family household: Other family",0
+"19","Forest Hill","Two persons","Lone person household",0
+"20","Forest Hill","Two persons","Group household",152
+"21","Forest Hill","Three persons","One family household: Couple family with no children",105
+"22","Forest Hill","Three persons","One family household: Couple family with children",1230
+"23","Forest Hill","Three persons","One family household: One parent family",372
+"24","Forest Hill","Three persons","One family household: Other family",30
+"25","Forest Hill","Three persons","Two or more family household: Couple family with no children",0
+"26","Forest Hill","Three persons","Two or more family household: Couple family with children",0
+"27","Forest Hill","Three persons","Two or more family household: One parent family",0
+"28","Forest Hill","Three persons","Two or more family household: Other family",0
+"29","Forest Hill","Three persons","Lone person household",0
+"30","Forest Hill","Three persons","Group household",81
+"31","Forest Hill","Four persons","One family household: Couple family with no children",40
+"32","Forest Hill","Four persons","One family household: Couple family with children",2272
+"33","Forest Hill","Four persons","One family household: One parent family",140
+"34","Forest Hill","Four persons","One family household: Other family",0
+"35","Forest Hill","Four persons","Two or more family household: Couple family with no children",36
+"36","Forest Hill","Four persons","Two or more family household: Couple family with children",0
+"37","Forest Hill","Four persons","Two or more family household: One parent family",24
+"38","Forest Hill","Four persons","Two or more family household: Other family",0
+"39","Forest Hill","Four persons","Lone person household",0
+"40","Forest Hill","Four persons","Group household",12
+"41","Forest Hill","Five persons","One family household: Couple family with no children",15
+"42","Forest Hill","Five persons","One family household: Couple family with children",910
+"43","Forest Hill","Five persons","One family household: One parent family",90
+"44","Forest Hill","Five persons","One family household: Other family",0
+"45","Forest Hill","Five persons","Two or more family household: Couple family with no children",15
+"46","Forest Hill","Five persons","Two or more family household: Couple family with children",25
+"47","Forest Hill","Five persons","Two or more family household: One parent family",40
+"48","Forest Hill","Five persons","Two or more family household: Other family",0
+"49","Forest Hill","Five persons","Lone person household",0
+"50","Forest Hill","Five persons","Group household",30
+"51","Forest Hill","Six or more persons","One family household: Couple family with no children",0
+"52","Forest Hill","Six or more persons","One family household: Couple family with children",324
+"53","Forest Hill","Six or more persons","One family household: One parent family",18
+"54","Forest Hill","Six or more persons","One family household: Other family",0
+"55","Forest Hill","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Forest Hill","Six or more persons","Two or more family household: Couple family with children",60
+"57","Forest Hill","Six or more persons","Two or more family household: One parent family",48
+"58","Forest Hill","Six or more persons","Two or more family household: Other family",0
+"59","Forest Hill","Six or more persons","Lone person household",0
+"60","Forest Hill","Six or more persons","Group household",18

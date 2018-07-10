@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Eltham","One person","One family household: Couple family with no children",0
+"2","Eltham","One person","One family household: Couple family with children",0
+"3","Eltham","One person","One family household: One parent family",0
+"4","Eltham","One person","One family household: Other family",0
+"5","Eltham","One person","Two or more family household: Couple family with no children",0
+"6","Eltham","One person","Two or more family household: Couple family with children",0
+"7","Eltham","One person","Two or more family household: One parent family",0
+"8","Eltham","One person","Two or more family household: Other family",0
+"9","Eltham","One person","Lone person household",1164
+"10","Eltham","One person","Group household",0
+"11","Eltham","Two persons","One family household: Couple family with no children",3468
+"12","Eltham","Two persons","One family household: Couple family with children",0
+"13","Eltham","Two persons","One family household: One parent family",716
+"14","Eltham","Two persons","One family household: Other family",70
+"15","Eltham","Two persons","Two or more family household: Couple family with no children",0
+"16","Eltham","Two persons","Two or more family household: Couple family with children",0
+"17","Eltham","Two persons","Two or more family household: One parent family",0
+"18","Eltham","Two persons","Two or more family household: Other family",0
+"19","Eltham","Two persons","Lone person household",0
+"20","Eltham","Two persons","Group household",154
+"21","Eltham","Three persons","One family household: Couple family with no children",153
+"22","Eltham","Three persons","One family household: Couple family with children",2961
+"23","Eltham","Three persons","One family household: One parent family",759
+"24","Eltham","Three persons","One family household: Other family",36
+"25","Eltham","Three persons","Two or more family household: Couple family with no children",0
+"26","Eltham","Three persons","Two or more family household: Couple family with children",0
+"27","Eltham","Three persons","Two or more family household: One parent family",0
+"28","Eltham","Three persons","Two or more family household: Other family",0
+"29","Eltham","Three persons","Lone person household",0
+"30","Eltham","Three persons","Group household",12
+"31","Eltham","Four persons","One family household: Couple family with no children",16
+"32","Eltham","Four persons","One family household: Couple family with children",7100
+"33","Eltham","Four persons","One family household: One parent family",404
+"34","Eltham","Four persons","One family household: Other family",0
+"35","Eltham","Four persons","Two or more family household: Couple family with no children",48
+"36","Eltham","Four persons","Two or more family household: Couple family with children",0
+"37","Eltham","Four persons","Two or more family household: One parent family",72
+"38","Eltham","Four persons","Two or more family household: Other family",0
+"39","Eltham","Four persons","Lone person household",0
+"40","Eltham","Four persons","Group household",0
+"41","Eltham","Five persons","One family household: Couple family with no children",0
+"42","Eltham","Five persons","One family household: Couple family with children",3540
+"43","Eltham","Five persons","One family household: One parent family",85
+"44","Eltham","Five persons","One family household: Other family",0
+"45","Eltham","Five persons","Two or more family household: Couple family with no children",15
+"46","Eltham","Five persons","Two or more family household: Couple family with children",85
+"47","Eltham","Five persons","Two or more family household: One parent family",45
+"48","Eltham","Five persons","Two or more family household: Other family",0
+"49","Eltham","Five persons","Lone person household",0
+"50","Eltham","Five persons","Group household",0
+"51","Eltham","Six or more persons","One family household: Couple family with no children",0
+"52","Eltham","Six or more persons","One family household: Couple family with children",1134
+"53","Eltham","Six or more persons","One family household: One parent family",0
+"54","Eltham","Six or more persons","One family household: Other family",0
+"55","Eltham","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Eltham","Six or more persons","Two or more family household: Couple family with children",120
+"57","Eltham","Six or more persons","Two or more family household: One parent family",18
+"58","Eltham","Six or more persons","Two or more family household: Other family",0
+"59","Eltham","Six or more persons","Lone person household",0
+"60","Eltham","Six or more persons","Group household",0

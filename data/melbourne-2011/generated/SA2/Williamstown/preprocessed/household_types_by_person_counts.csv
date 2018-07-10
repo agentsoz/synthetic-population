@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Williamstown","One person","One family household: Couple family with no children",0
+"2","Williamstown","One person","One family household: Couple family with children",0
+"3","Williamstown","One person","One family household: One parent family",0
+"4","Williamstown","One person","One family household: Other family",0
+"5","Williamstown","One person","Two or more family household: Couple family with no children",0
+"6","Williamstown","One person","Two or more family household: Couple family with children",0
+"7","Williamstown","One person","Two or more family household: One parent family",0
+"8","Williamstown","One person","Two or more family household: Other family",0
+"9","Williamstown","One person","Lone person household",1536
+"10","Williamstown","One person","Group household",0
+"11","Williamstown","Two persons","One family household: Couple family with no children",2452
+"12","Williamstown","Two persons","One family household: Couple family with children",0
+"13","Williamstown","Two persons","One family household: One parent family",534
+"14","Williamstown","Two persons","One family household: Other family",72
+"15","Williamstown","Two persons","Two or more family household: Couple family with no children",0
+"16","Williamstown","Two persons","Two or more family household: Couple family with children",0
+"17","Williamstown","Two persons","Two or more family household: One parent family",0
+"18","Williamstown","Two persons","Two or more family household: Other family",0
+"19","Williamstown","Two persons","Lone person household",0
+"20","Williamstown","Two persons","Group household",240
+"21","Williamstown","Three persons","One family household: Couple family with no children",90
+"22","Williamstown","Three persons","One family household: Couple family with children",1770
+"23","Williamstown","Three persons","One family household: One parent family",522
+"24","Williamstown","Three persons","One family household: Other family",39
+"25","Williamstown","Three persons","Two or more family household: Couple family with no children",0
+"26","Williamstown","Three persons","Two or more family household: Couple family with children",0
+"27","Williamstown","Three persons","Two or more family household: One parent family",0
+"28","Williamstown","Three persons","Two or more family household: Other family",0
+"29","Williamstown","Three persons","Lone person household",0
+"30","Williamstown","Three persons","Group household",69
+"31","Williamstown","Four persons","One family household: Couple family with no children",24
+"32","Williamstown","Four persons","One family household: Couple family with children",3904
+"33","Williamstown","Four persons","One family household: One parent family",216
+"34","Williamstown","Four persons","One family household: Other family",12
+"35","Williamstown","Four persons","Two or more family household: Couple family with no children",44
+"36","Williamstown","Four persons","Two or more family household: Couple family with children",0
+"37","Williamstown","Four persons","Two or more family household: One parent family",12
+"38","Williamstown","Four persons","Two or more family household: Other family",0
+"39","Williamstown","Four persons","Lone person household",0
+"40","Williamstown","Four persons","Group household",16
+"41","Williamstown","Five persons","One family household: Couple family with no children",0
+"42","Williamstown","Five persons","One family household: Couple family with children",1900
+"43","Williamstown","Five persons","One family household: One parent family",20
+"44","Williamstown","Five persons","One family household: Other family",0
+"45","Williamstown","Five persons","Two or more family household: Couple family with no children",0
+"46","Williamstown","Five persons","Two or more family household: Couple family with children",45
+"47","Williamstown","Five persons","Two or more family household: One parent family",0
+"48","Williamstown","Five persons","Two or more family household: Other family",0
+"49","Williamstown","Five persons","Lone person household",0
+"50","Williamstown","Five persons","Group household",0
+"51","Williamstown","Six or more persons","One family household: Couple family with no children",0
+"52","Williamstown","Six or more persons","One family household: Couple family with children",468
+"53","Williamstown","Six or more persons","One family household: One parent family",18
+"54","Williamstown","Six or more persons","One family household: Other family",0
+"55","Williamstown","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Williamstown","Six or more persons","Two or more family household: Couple family with children",42
+"57","Williamstown","Six or more persons","Two or more family household: One parent family",0
+"58","Williamstown","Six or more persons","Two or more family household: Other family",0
+"59","Williamstown","Six or more persons","Lone person household",0
+"60","Williamstown","Six or more persons","Group household",0

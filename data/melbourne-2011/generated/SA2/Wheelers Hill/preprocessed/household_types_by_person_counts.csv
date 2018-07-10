@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Wheelers Hill","One person","One family household: Couple family with no children",0
+"2","Wheelers Hill","One person","One family household: Couple family with children",0
+"3","Wheelers Hill","One person","One family household: One parent family",0
+"4","Wheelers Hill","One person","One family household: Other family",0
+"5","Wheelers Hill","One person","Two or more family household: Couple family with no children",0
+"6","Wheelers Hill","One person","Two or more family household: Couple family with children",0
+"7","Wheelers Hill","One person","Two or more family household: One parent family",0
+"8","Wheelers Hill","One person","Two or more family household: Other family",0
+"9","Wheelers Hill","One person","Lone person household",937
+"10","Wheelers Hill","One person","Group household",0
+"11","Wheelers Hill","Two persons","One family household: Couple family with no children",3620
+"12","Wheelers Hill","Two persons","One family household: Couple family with children",0
+"13","Wheelers Hill","Two persons","One family household: One parent family",558
+"14","Wheelers Hill","Two persons","One family household: Other family",104
+"15","Wheelers Hill","Two persons","Two or more family household: Couple family with no children",0
+"16","Wheelers Hill","Two persons","Two or more family household: Couple family with children",0
+"17","Wheelers Hill","Two persons","Two or more family household: One parent family",0
+"18","Wheelers Hill","Two persons","Two or more family household: Other family",0
+"19","Wheelers Hill","Two persons","Lone person household",0
+"20","Wheelers Hill","Two persons","Group household",150
+"21","Wheelers Hill","Three persons","One family household: Couple family with no children",219
+"22","Wheelers Hill","Three persons","One family household: Couple family with children",2913
+"23","Wheelers Hill","Three persons","One family household: One parent family",582
+"24","Wheelers Hill","Three persons","One family household: Other family",33
+"25","Wheelers Hill","Three persons","Two or more family household: Couple family with no children",0
+"26","Wheelers Hill","Three persons","Two or more family household: Couple family with children",0
+"27","Wheelers Hill","Three persons","Two or more family household: One parent family",0
+"28","Wheelers Hill","Three persons","Two or more family household: Other family",0
+"29","Wheelers Hill","Three persons","Lone person household",0
+"30","Wheelers Hill","Three persons","Group household",54
+"31","Wheelers Hill","Four persons","One family household: Couple family with no children",12
+"32","Wheelers Hill","Four persons","One family household: Couple family with children",5376
+"33","Wheelers Hill","Four persons","One family household: One parent family",292
+"34","Wheelers Hill","Four persons","One family household: Other family",24
+"35","Wheelers Hill","Four persons","Two or more family household: Couple family with no children",84
+"36","Wheelers Hill","Four persons","Two or more family household: Couple family with children",0
+"37","Wheelers Hill","Four persons","Two or more family household: One parent family",36
+"38","Wheelers Hill","Four persons","Two or more family household: Other family",0
+"39","Wheelers Hill","Four persons","Lone person household",0
+"40","Wheelers Hill","Four persons","Group household",44
+"41","Wheelers Hill","Five persons","One family household: Couple family with no children",15
+"42","Wheelers Hill","Five persons","One family household: Couple family with children",2055
+"43","Wheelers Hill","Five persons","One family household: One parent family",75
+"44","Wheelers Hill","Five persons","One family household: Other family",0
+"45","Wheelers Hill","Five persons","Two or more family household: Couple family with no children",35
+"46","Wheelers Hill","Five persons","Two or more family household: Couple family with children",140
+"47","Wheelers Hill","Five persons","Two or more family household: One parent family",70
+"48","Wheelers Hill","Five persons","Two or more family household: Other family",0
+"49","Wheelers Hill","Five persons","Lone person household",0
+"50","Wheelers Hill","Five persons","Group household",35
+"51","Wheelers Hill","Six or more persons","One family household: Couple family with no children",0
+"52","Wheelers Hill","Six or more persons","One family household: Couple family with children",714
+"53","Wheelers Hill","Six or more persons","One family household: One parent family",18
+"54","Wheelers Hill","Six or more persons","One family household: Other family",0
+"55","Wheelers Hill","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Wheelers Hill","Six or more persons","Two or more family household: Couple family with children",270
+"57","Wheelers Hill","Six or more persons","Two or more family household: One parent family",36
+"58","Wheelers Hill","Six or more persons","Two or more family household: Other family",0
+"59","Wheelers Hill","Six or more persons","Lone person household",0
+"60","Wheelers Hill","Six or more persons","Group household",24

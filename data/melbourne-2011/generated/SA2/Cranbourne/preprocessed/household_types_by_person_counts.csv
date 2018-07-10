@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Cranbourne","One person","One family household: Couple family with no children",0
+"2","Cranbourne","One person","One family household: Couple family with children",0
+"3","Cranbourne","One person","One family household: One parent family",0
+"4","Cranbourne","One person","One family household: Other family",0
+"5","Cranbourne","One person","Two or more family household: Couple family with no children",0
+"6","Cranbourne","One person","Two or more family household: Couple family with children",0
+"7","Cranbourne","One person","Two or more family household: One parent family",0
+"8","Cranbourne","One person","Two or more family household: Other family",0
+"9","Cranbourne","One person","Lone person household",1515
+"10","Cranbourne","One person","Group household",0
+"11","Cranbourne","Two persons","One family household: Couple family with no children",2648
+"12","Cranbourne","Two persons","One family household: Couple family with children",0
+"13","Cranbourne","Two persons","One family household: One parent family",900
+"14","Cranbourne","Two persons","One family household: Other family",134
+"15","Cranbourne","Two persons","Two or more family household: Couple family with no children",0
+"16","Cranbourne","Two persons","Two or more family household: Couple family with children",0
+"17","Cranbourne","Two persons","Two or more family household: One parent family",0
+"18","Cranbourne","Two persons","Two or more family household: Other family",0
+"19","Cranbourne","Two persons","Lone person household",0
+"20","Cranbourne","Two persons","Group household",328
+"21","Cranbourne","Three persons","One family household: Couple family with no children",249
+"22","Cranbourne","Three persons","One family household: Couple family with children",2079
+"23","Cranbourne","Three persons","One family household: One parent family",1062
+"24","Cranbourne","Three persons","One family household: Other family",57
+"25","Cranbourne","Three persons","Two or more family household: Couple family with no children",0
+"26","Cranbourne","Three persons","Two or more family household: Couple family with children",0
+"27","Cranbourne","Three persons","Two or more family household: One parent family",0
+"28","Cranbourne","Three persons","Two or more family household: Other family",0
+"29","Cranbourne","Three persons","Lone person household",0
+"30","Cranbourne","Three persons","Group household",81
+"31","Cranbourne","Four persons","One family household: Couple family with no children",24
+"32","Cranbourne","Four persons","One family household: Couple family with children",3292
+"33","Cranbourne","Four persons","One family household: One parent family",632
+"34","Cranbourne","Four persons","One family household: Other family",0
+"35","Cranbourne","Four persons","Two or more family household: Couple family with no children",76
+"36","Cranbourne","Four persons","Two or more family household: Couple family with children",0
+"37","Cranbourne","Four persons","Two or more family household: One parent family",56
+"38","Cranbourne","Four persons","Two or more family household: Other family",0
+"39","Cranbourne","Four persons","Lone person household",0
+"40","Cranbourne","Four persons","Group household",12
+"41","Cranbourne","Five persons","One family household: Couple family with no children",15
+"42","Cranbourne","Five persons","One family household: Couple family with children",1960
+"43","Cranbourne","Five persons","One family household: One parent family",280
+"44","Cranbourne","Five persons","One family household: Other family",15
+"45","Cranbourne","Five persons","Two or more family household: Couple family with no children",0
+"46","Cranbourne","Five persons","Two or more family household: Couple family with children",100
+"47","Cranbourne","Five persons","Two or more family household: One parent family",60
+"48","Cranbourne","Five persons","Two or more family household: Other family",0
+"49","Cranbourne","Five persons","Lone person household",0
+"50","Cranbourne","Five persons","Group household",15
+"51","Cranbourne","Six or more persons","One family household: Couple family with no children",0
+"52","Cranbourne","Six or more persons","One family household: Couple family with children",1326
+"53","Cranbourne","Six or more persons","One family household: One parent family",180
+"54","Cranbourne","Six or more persons","One family household: Other family",0
+"55","Cranbourne","Six or more persons","Two or more family household: Couple family with no children",24
+"56","Cranbourne","Six or more persons","Two or more family household: Couple family with children",270
+"57","Cranbourne","Six or more persons","Two or more family household: One parent family",156
+"58","Cranbourne","Six or more persons","Two or more family household: Other family",0
+"59","Cranbourne","Six or more persons","Lone person household",0
+"60","Cranbourne","Six or more persons","Group household",0

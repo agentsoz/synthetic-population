@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","St Kilda","One person","One family household: Couple family with no children",0
+"2","St Kilda","One person","One family household: Couple family with children",0
+"3","St Kilda","One person","One family household: One parent family",0
+"4","St Kilda","One person","One family household: Other family",0
+"5","St Kilda","One person","Two or more family household: Couple family with no children",0
+"6","St Kilda","One person","Two or more family household: Couple family with children",0
+"7","St Kilda","One person","Two or more family household: One parent family",0
+"8","St Kilda","One person","Two or more family household: Other family",0
+"9","St Kilda","One person","Lone person household",5107
+"10","St Kilda","One person","Group household",0
+"11","St Kilda","Two persons","One family household: Couple family with no children",5364
+"12","St Kilda","Two persons","One family household: Couple family with children",0
+"13","St Kilda","Two persons","One family household: One parent family",604
+"14","St Kilda","Two persons","One family household: Other family",266
+"15","St Kilda","Two persons","Two or more family household: Couple family with no children",0
+"16","St Kilda","Two persons","Two or more family household: Couple family with children",0
+"17","St Kilda","Two persons","Two or more family household: One parent family",0
+"18","St Kilda","Two persons","Two or more family household: Other family",0
+"19","St Kilda","Two persons","Lone person household",0
+"20","St Kilda","Two persons","Group household",2096
+"21","St Kilda","Three persons","One family household: Couple family with no children",366
+"22","St Kilda","Three persons","One family household: Couple family with children",1509
+"23","St Kilda","Three persons","One family household: One parent family",342
+"24","St Kilda","Three persons","One family household: Other family",111
+"25","St Kilda","Three persons","Two or more family household: Couple family with no children",0
+"26","St Kilda","Three persons","Two or more family household: Couple family with children",0
+"27","St Kilda","Three persons","Two or more family household: One parent family",0
+"28","St Kilda","Three persons","Two or more family household: Other family",0
+"29","St Kilda","Three persons","Lone person household",0
+"30","St Kilda","Three persons","Group household",648
+"31","St Kilda","Four persons","One family household: Couple family with no children",96
+"32","St Kilda","Four persons","One family household: Couple family with children",1468
+"33","St Kilda","Four persons","One family household: One parent family",116
+"34","St Kilda","Four persons","One family household: Other family",0
+"35","St Kilda","Four persons","Two or more family household: Couple family with no children",48
+"36","St Kilda","Four persons","Two or more family household: Couple family with children",0
+"37","St Kilda","Four persons","Two or more family household: One parent family",0
+"38","St Kilda","Four persons","Two or more family household: Other family",0
+"39","St Kilda","Four persons","Lone person household",0
+"40","St Kilda","Four persons","Group household",224
+"41","St Kilda","Five persons","One family household: Couple family with no children",0
+"42","St Kilda","Five persons","One family household: Couple family with children",440
+"43","St Kilda","Five persons","One family household: One parent family",15
+"44","St Kilda","Five persons","One family household: Other family",0
+"45","St Kilda","Five persons","Two or more family household: Couple family with no children",20
+"46","St Kilda","Five persons","Two or more family household: Couple family with children",0
+"47","St Kilda","Five persons","Two or more family household: One parent family",15
+"48","St Kilda","Five persons","Two or more family household: Other family",0
+"49","St Kilda","Five persons","Lone person household",0
+"50","St Kilda","Five persons","Group household",30
+"51","St Kilda","Six or more persons","One family household: Couple family with no children",0
+"52","St Kilda","Six or more persons","One family household: Couple family with children",156
+"53","St Kilda","Six or more persons","One family household: One parent family",0
+"54","St Kilda","Six or more persons","One family household: Other family",0
+"55","St Kilda","Six or more persons","Two or more family household: Couple family with no children",0
+"56","St Kilda","Six or more persons","Two or more family household: Couple family with children",24
+"57","St Kilda","Six or more persons","Two or more family household: One parent family",0
+"58","St Kilda","Six or more persons","Two or more family household: Other family",0
+"59","St Kilda","Six or more persons","Lone person household",0
+"60","St Kilda","Six or more persons","Group household",18

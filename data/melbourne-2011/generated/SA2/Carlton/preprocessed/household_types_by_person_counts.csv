@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Carlton","One person","One family household: Couple family with no children",0
+"2","Carlton","One person","One family household: Couple family with children",0
+"3","Carlton","One person","One family household: One parent family",0
+"4","Carlton","One person","One family household: Other family",0
+"5","Carlton","One person","Two or more family household: Couple family with no children",0
+"6","Carlton","One person","Two or more family household: Couple family with children",0
+"7","Carlton","One person","Two or more family household: One parent family",0
+"8","Carlton","One person","Two or more family household: Other family",0
+"9","Carlton","One person","Lone person household",3025
+"10","Carlton","One person","Group household",0
+"11","Carlton","Two persons","One family household: Couple family with no children",1848
+"12","Carlton","Two persons","One family household: Couple family with children",0
+"13","Carlton","Two persons","One family household: One parent family",336
+"14","Carlton","Two persons","One family household: Other family",496
+"15","Carlton","Two persons","Two or more family household: Couple family with no children",0
+"16","Carlton","Two persons","Two or more family household: Couple family with children",0
+"17","Carlton","Two persons","Two or more family household: One parent family",0
+"18","Carlton","Two persons","Two or more family household: Other family",0
+"19","Carlton","Two persons","Lone person household",0
+"20","Carlton","Two persons","Group household",1690
+"21","Carlton","Three persons","One family household: Couple family with no children",201
+"22","Carlton","Three persons","One family household: Couple family with children",510
+"23","Carlton","Three persons","One family household: One parent family",249
+"24","Carlton","Three persons","One family household: Other family",180
+"25","Carlton","Three persons","Two or more family household: Couple family with no children",0
+"26","Carlton","Three persons","Two or more family household: Couple family with children",0
+"27","Carlton","Three persons","Two or more family household: One parent family",0
+"28","Carlton","Three persons","Two or more family household: Other family",0
+"29","Carlton","Three persons","Lone person household",0
+"30","Carlton","Three persons","Group household",822
+"31","Carlton","Four persons","One family household: Couple family with no children",72
+"32","Carlton","Four persons","One family household: Couple family with children",528
+"33","Carlton","Four persons","One family household: One parent family",176
+"34","Carlton","Four persons","One family household: Other family",72
+"35","Carlton","Four persons","Two or more family household: Couple family with no children",12
+"36","Carlton","Four persons","Two or more family household: Couple family with children",0
+"37","Carlton","Four persons","Two or more family household: One parent family",16
+"38","Carlton","Four persons","Two or more family household: Other family",0
+"39","Carlton","Four persons","Lone person household",0
+"40","Carlton","Four persons","Group household",428
+"41","Carlton","Five persons","One family household: Couple family with no children",25
+"42","Carlton","Five persons","One family household: Couple family with children",230
+"43","Carlton","Five persons","One family household: One parent family",60
+"44","Carlton","Five persons","One family household: Other family",20
+"45","Carlton","Five persons","Two or more family household: Couple family with no children",0
+"46","Carlton","Five persons","Two or more family household: Couple family with children",0
+"47","Carlton","Five persons","Two or more family household: One parent family",15
+"48","Carlton","Five persons","Two or more family household: Other family",0
+"49","Carlton","Five persons","Lone person household",0
+"50","Carlton","Five persons","Group household",165
+"51","Carlton","Six or more persons","One family household: Couple family with no children",0
+"52","Carlton","Six or more persons","One family household: Couple family with children",276
+"53","Carlton","Six or more persons","One family household: One parent family",114
+"54","Carlton","Six or more persons","One family household: Other family",0
+"55","Carlton","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Carlton","Six or more persons","Two or more family household: Couple family with children",0
+"57","Carlton","Six or more persons","Two or more family household: One parent family",18
+"58","Carlton","Six or more persons","Two or more family household: Other family",0
+"59","Carlton","Six or more persons","Lone person household",0
+"60","Carlton","Six or more persons","Group household",54

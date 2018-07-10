@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Gisborne","One person","One family household: Couple family with no children",0
+"2","Gisborne","One person","One family household: Couple family with children",0
+"3","Gisborne","One person","One family household: One parent family",0
+"4","Gisborne","One person","One family household: Other family",0
+"5","Gisborne","One person","Two or more family household: Couple family with no children",0
+"6","Gisborne","One person","Two or more family household: Couple family with children",0
+"7","Gisborne","One person","Two or more family household: One parent family",0
+"8","Gisborne","One person","Two or more family household: Other family",0
+"9","Gisborne","One person","Lone person household",560
+"10","Gisborne","One person","Group household",0
+"11","Gisborne","Two persons","One family household: Couple family with no children",1934
+"12","Gisborne","Two persons","One family household: Couple family with children",0
+"13","Gisborne","Two persons","One family household: One parent family",282
+"14","Gisborne","Two persons","One family household: Other family",22
+"15","Gisborne","Two persons","Two or more family household: Couple family with no children",0
+"16","Gisborne","Two persons","Two or more family household: Couple family with children",0
+"17","Gisborne","Two persons","Two or more family household: One parent family",0
+"18","Gisborne","Two persons","Two or more family household: Other family",0
+"19","Gisborne","Two persons","Lone person household",0
+"20","Gisborne","Two persons","Group household",80
+"21","Gisborne","Three persons","One family household: Couple family with no children",84
+"22","Gisborne","Three persons","One family household: Couple family with children",1335
+"23","Gisborne","Three persons","One family household: One parent family",369
+"24","Gisborne","Three persons","One family household: Other family",12
+"25","Gisborne","Three persons","Two or more family household: Couple family with no children",0
+"26","Gisborne","Three persons","Two or more family household: Couple family with children",0
+"27","Gisborne","Three persons","Two or more family household: One parent family",0
+"28","Gisborne","Three persons","Two or more family household: Other family",0
+"29","Gisborne","Three persons","Lone person household",0
+"30","Gisborne","Three persons","Group household",24
+"31","Gisborne","Four persons","One family household: Couple family with no children",0
+"32","Gisborne","Four persons","One family household: Couple family with children",2948
+"33","Gisborne","Four persons","One family household: One parent family",240
+"34","Gisborne","Four persons","One family household: Other family",0
+"35","Gisborne","Four persons","Two or more family household: Couple family with no children",16
+"36","Gisborne","Four persons","Two or more family household: Couple family with children",0
+"37","Gisborne","Four persons","Two or more family household: One parent family",16
+"38","Gisborne","Four persons","Two or more family household: Other family",0
+"39","Gisborne","Four persons","Lone person household",0
+"40","Gisborne","Four persons","Group household",0
+"41","Gisborne","Five persons","One family household: Couple family with no children",0
+"42","Gisborne","Five persons","One family household: Couple family with children",1820
+"43","Gisborne","Five persons","One family household: One parent family",55
+"44","Gisborne","Five persons","One family household: Other family",0
+"45","Gisborne","Five persons","Two or more family household: Couple family with no children",0
+"46","Gisborne","Five persons","Two or more family household: Couple family with children",30
+"47","Gisborne","Five persons","Two or more family household: One parent family",15
+"48","Gisborne","Five persons","Two or more family household: Other family",0
+"49","Gisborne","Five persons","Lone person household",0
+"50","Gisborne","Five persons","Group household",0
+"51","Gisborne","Six or more persons","One family household: Couple family with no children",0
+"52","Gisborne","Six or more persons","One family household: Couple family with children",648
+"53","Gisborne","Six or more persons","One family household: One parent family",18
+"54","Gisborne","Six or more persons","One family household: Other family",0
+"55","Gisborne","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Gisborne","Six or more persons","Two or more family household: Couple family with children",96
+"57","Gisborne","Six or more persons","Two or more family household: One parent family",0
+"58","Gisborne","Six or more persons","Two or more family household: Other family",0
+"59","Gisborne","Six or more persons","Lone person household",0
+"60","Gisborne","Six or more persons","Group household",0

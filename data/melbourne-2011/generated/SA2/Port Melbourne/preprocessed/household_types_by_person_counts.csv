@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Port Melbourne","One person","One family household: Couple family with no children",0
+"2","Port Melbourne","One person","One family household: Couple family with children",0
+"3","Port Melbourne","One person","One family household: One parent family",0
+"4","Port Melbourne","One person","One family household: Other family",0
+"5","Port Melbourne","One person","Two or more family household: Couple family with no children",0
+"6","Port Melbourne","One person","Two or more family household: Couple family with children",0
+"7","Port Melbourne","One person","Two or more family household: One parent family",0
+"8","Port Melbourne","One person","Two or more family household: Other family",0
+"9","Port Melbourne","One person","Lone person household",2331
+"10","Port Melbourne","One person","Group household",0
+"11","Port Melbourne","Two persons","One family household: Couple family with no children",3818
+"12","Port Melbourne","Two persons","One family household: Couple family with children",0
+"13","Port Melbourne","Two persons","One family household: One parent family",550
+"14","Port Melbourne","Two persons","One family household: Other family",126
+"15","Port Melbourne","Two persons","Two or more family household: Couple family with no children",0
+"16","Port Melbourne","Two persons","Two or more family household: Couple family with children",0
+"17","Port Melbourne","Two persons","Two or more family household: One parent family",0
+"18","Port Melbourne","Two persons","Two or more family household: Other family",0
+"19","Port Melbourne","Two persons","Lone person household",0
+"20","Port Melbourne","Two persons","Group household",656
+"21","Port Melbourne","Three persons","One family household: Couple family with no children",180
+"22","Port Melbourne","Three persons","One family household: Couple family with children",1695
+"23","Port Melbourne","Three persons","One family household: One parent family",402
+"24","Port Melbourne","Three persons","One family household: Other family",48
+"25","Port Melbourne","Three persons","Two or more family household: Couple family with no children",0
+"26","Port Melbourne","Three persons","Two or more family household: Couple family with children",0
+"27","Port Melbourne","Three persons","Two or more family household: One parent family",0
+"28","Port Melbourne","Three persons","Two or more family household: Other family",0
+"29","Port Melbourne","Three persons","Lone person household",0
+"30","Port Melbourne","Three persons","Group household",321
+"31","Port Melbourne","Four persons","One family household: Couple family with no children",40
+"32","Port Melbourne","Four persons","One family household: Couple family with children",1896
+"33","Port Melbourne","Four persons","One family household: One parent family",136
+"34","Port Melbourne","Four persons","One family household: Other family",0
+"35","Port Melbourne","Four persons","Two or more family household: Couple family with no children",52
+"36","Port Melbourne","Four persons","Two or more family household: Couple family with children",0
+"37","Port Melbourne","Four persons","Two or more family household: One parent family",16
+"38","Port Melbourne","Four persons","Two or more family household: Other family",0
+"39","Port Melbourne","Four persons","Lone person household",0
+"40","Port Melbourne","Four persons","Group household",52
+"41","Port Melbourne","Five persons","One family household: Couple family with no children",15
+"42","Port Melbourne","Five persons","One family household: Couple family with children",675
+"43","Port Melbourne","Five persons","One family household: One parent family",25
+"44","Port Melbourne","Five persons","One family household: Other family",0
+"45","Port Melbourne","Five persons","Two or more family household: Couple family with no children",0
+"46","Port Melbourne","Five persons","Two or more family household: Couple family with children",0
+"47","Port Melbourne","Five persons","Two or more family household: One parent family",30
+"48","Port Melbourne","Five persons","Two or more family household: Other family",0
+"49","Port Melbourne","Five persons","Lone person household",0
+"50","Port Melbourne","Five persons","Group household",15
+"51","Port Melbourne","Six or more persons","One family household: Couple family with no children",0
+"52","Port Melbourne","Six or more persons","One family household: Couple family with children",108
+"53","Port Melbourne","Six or more persons","One family household: One parent family",18
+"54","Port Melbourne","Six or more persons","One family household: Other family",0
+"55","Port Melbourne","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Port Melbourne","Six or more persons","Two or more family household: Couple family with children",42
+"57","Port Melbourne","Six or more persons","Two or more family household: One parent family",0
+"58","Port Melbourne","Six or more persons","Two or more family household: Other family",0
+"59","Port Melbourne","Six or more persons","Lone person household",0
+"60","Port Melbourne","Six or more persons","Group household",0

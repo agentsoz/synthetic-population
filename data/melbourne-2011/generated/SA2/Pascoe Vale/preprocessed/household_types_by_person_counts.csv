@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Pascoe Vale","One person","One family household: Couple family with no children",0
+"2","Pascoe Vale","One person","One family household: Couple family with children",0
+"3","Pascoe Vale","One person","One family household: One parent family",0
+"4","Pascoe Vale","One person","One family household: Other family",0
+"5","Pascoe Vale","One person","Two or more family household: Couple family with no children",0
+"6","Pascoe Vale","One person","Two or more family household: Couple family with children",0
+"7","Pascoe Vale","One person","Two or more family household: One parent family",0
+"8","Pascoe Vale","One person","Two or more family household: Other family",0
+"9","Pascoe Vale","One person","Lone person household",2263
+"10","Pascoe Vale","One person","Group household",0
+"11","Pascoe Vale","Two persons","One family household: Couple family with no children",3676
+"12","Pascoe Vale","Two persons","One family household: Couple family with children",0
+"13","Pascoe Vale","Two persons","One family household: One parent family",858
+"14","Pascoe Vale","Two persons","One family household: Other family",232
+"15","Pascoe Vale","Two persons","Two or more family household: Couple family with no children",0
+"16","Pascoe Vale","Two persons","Two or more family household: Couple family with children",0
+"17","Pascoe Vale","Two persons","Two or more family household: One parent family",0
+"18","Pascoe Vale","Two persons","Two or more family household: Other family",0
+"19","Pascoe Vale","Two persons","Lone person household",0
+"20","Pascoe Vale","Two persons","Group household",504
+"21","Pascoe Vale","Three persons","One family household: Couple family with no children",342
+"22","Pascoe Vale","Three persons","One family household: Couple family with children",2355
+"23","Pascoe Vale","Three persons","One family household: One parent family",753
+"24","Pascoe Vale","Three persons","One family household: Other family",60
+"25","Pascoe Vale","Three persons","Two or more family household: Couple family with no children",0
+"26","Pascoe Vale","Three persons","Two or more family household: Couple family with children",0
+"27","Pascoe Vale","Three persons","Two or more family household: One parent family",0
+"28","Pascoe Vale","Three persons","Two or more family household: Other family",0
+"29","Pascoe Vale","Three persons","Lone person household",0
+"30","Pascoe Vale","Three persons","Group household",192
+"31","Pascoe Vale","Four persons","One family household: Couple family with no children",52
+"32","Pascoe Vale","Four persons","One family household: Couple family with children",4208
+"33","Pascoe Vale","Four persons","One family household: One parent family",348
+"34","Pascoe Vale","Four persons","One family household: Other family",20
+"35","Pascoe Vale","Four persons","Two or more family household: Couple family with no children",68
+"36","Pascoe Vale","Four persons","Two or more family household: Couple family with children",0
+"37","Pascoe Vale","Four persons","Two or more family household: One parent family",72
+"38","Pascoe Vale","Four persons","Two or more family household: Other family",0
+"39","Pascoe Vale","Four persons","Lone person household",0
+"40","Pascoe Vale","Four persons","Group household",96
+"41","Pascoe Vale","Five persons","One family household: Couple family with no children",15
+"42","Pascoe Vale","Five persons","One family household: Couple family with children",1985
+"43","Pascoe Vale","Five persons","One family household: One parent family",95
+"44","Pascoe Vale","Five persons","One family household: Other family",35
+"45","Pascoe Vale","Five persons","Two or more family household: Couple family with no children",15
+"46","Pascoe Vale","Five persons","Two or more family household: Couple family with children",55
+"47","Pascoe Vale","Five persons","Two or more family household: One parent family",30
+"48","Pascoe Vale","Five persons","Two or more family household: Other family",0
+"49","Pascoe Vale","Five persons","Lone person household",0
+"50","Pascoe Vale","Five persons","Group household",75
+"51","Pascoe Vale","Six or more persons","One family household: Couple family with no children",0
+"52","Pascoe Vale","Six or more persons","One family household: Couple family with children",906
+"53","Pascoe Vale","Six or more persons","One family household: One parent family",42
+"54","Pascoe Vale","Six or more persons","One family household: Other family",0
+"55","Pascoe Vale","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Pascoe Vale","Six or more persons","Two or more family household: Couple family with children",126
+"57","Pascoe Vale","Six or more persons","Two or more family household: One parent family",42
+"58","Pascoe Vale","Six or more persons","Two or more family household: Other family",0
+"59","Pascoe Vale","Six or more persons","Lone person household",0
+"60","Pascoe Vale","Six or more persons","Group household",18

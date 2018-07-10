@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Altona North","One person","One family household: Couple family with no children",0
+"2","Altona North","One person","One family household: Couple family with children",0
+"3","Altona North","One person","One family household: One parent family",0
+"4","Altona North","One person","One family household: Other family",0
+"5","Altona North","One person","Two or more family household: Couple family with no children",0
+"6","Altona North","One person","Two or more family household: Couple family with children",0
+"7","Altona North","One person","Two or more family household: One parent family",0
+"8","Altona North","One person","Two or more family household: Other family",0
+"9","Altona North","One person","Lone person household",1223
+"10","Altona North","One person","Group household",0
+"11","Altona North","Two persons","One family household: Couple family with no children",2268
+"12","Altona North","Two persons","One family household: Couple family with children",0
+"13","Altona North","Two persons","One family household: One parent family",604
+"14","Altona North","Two persons","One family household: Other family",138
+"15","Altona North","Two persons","Two or more family household: Couple family with no children",0
+"16","Altona North","Two persons","Two or more family household: Couple family with children",0
+"17","Altona North","Two persons","Two or more family household: One parent family",0
+"18","Altona North","Two persons","Two or more family household: Other family",0
+"19","Altona North","Two persons","Lone person household",0
+"20","Altona North","Two persons","Group household",280
+"21","Altona North","Three persons","One family household: Couple family with no children",156
+"22","Altona North","Three persons","One family household: Couple family with children",1404
+"23","Altona North","Three persons","One family household: One parent family",519
+"24","Altona North","Three persons","One family household: Other family",33
+"25","Altona North","Three persons","Two or more family household: Couple family with no children",0
+"26","Altona North","Three persons","Two or more family household: Couple family with children",0
+"27","Altona North","Three persons","Two or more family household: One parent family",0
+"28","Altona North","Three persons","Two or more family household: Other family",0
+"29","Altona North","Three persons","Lone person household",0
+"30","Altona North","Three persons","Group household",102
+"31","Altona North","Four persons","One family household: Couple family with no children",40
+"32","Altona North","Four persons","One family household: Couple family with children",1796
+"33","Altona North","Four persons","One family household: One parent family",272
+"34","Altona North","Four persons","One family household: Other family",0
+"35","Altona North","Four persons","Two or more family household: Couple family with no children",56
+"36","Altona North","Four persons","Two or more family household: Couple family with children",0
+"37","Altona North","Four persons","Two or more family household: One parent family",76
+"38","Altona North","Four persons","Two or more family household: Other family",0
+"39","Altona North","Four persons","Lone person household",0
+"40","Altona North","Four persons","Group household",36
+"41","Altona North","Five persons","One family household: Couple family with no children",15
+"42","Altona North","Five persons","One family household: Couple family with children",1115
+"43","Altona North","Five persons","One family household: One parent family",120
+"44","Altona North","Five persons","One family household: Other family",15
+"45","Altona North","Five persons","Two or more family household: Couple family with no children",0
+"46","Altona North","Five persons","Two or more family household: Couple family with children",15
+"47","Altona North","Five persons","Two or more family household: One parent family",80
+"48","Altona North","Five persons","Two or more family household: Other family",0
+"49","Altona North","Five persons","Lone person household",0
+"50","Altona North","Five persons","Group household",15
+"51","Altona North","Six or more persons","One family household: Couple family with no children",0
+"52","Altona North","Six or more persons","One family household: Couple family with children",918
+"53","Altona North","Six or more persons","One family household: One parent family",60
+"54","Altona North","Six or more persons","One family household: Other family",0
+"55","Altona North","Six or more persons","Two or more family household: Couple family with no children",36
+"56","Altona North","Six or more persons","Two or more family household: Couple family with children",234
+"57","Altona North","Six or more persons","Two or more family household: One parent family",72
+"58","Altona North","Six or more persons","Two or more family household: Other family",0
+"59","Altona North","Six or more persons","Lone person household",0
+"60","Altona North","Six or more persons","Group household",18

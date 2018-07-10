@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Laverton","One person","One family household: Couple family with no children",0
+"2","Laverton","One person","One family household: Couple family with children",0
+"3","Laverton","One person","One family household: One parent family",0
+"4","Laverton","One person","One family household: Other family",0
+"5","Laverton","One person","Two or more family household: Couple family with no children",0
+"6","Laverton","One person","Two or more family household: Couple family with children",0
+"7","Laverton","One person","Two or more family household: One parent family",0
+"8","Laverton","One person","Two or more family household: Other family",0
+"9","Laverton","One person","Lone person household",454
+"10","Laverton","One person","Group household",0
+"11","Laverton","Two persons","One family household: Couple family with no children",658
+"12","Laverton","Two persons","One family household: Couple family with children",0
+"13","Laverton","Two persons","One family household: One parent family",238
+"14","Laverton","Two persons","One family household: Other family",54
+"15","Laverton","Two persons","Two or more family household: Couple family with no children",0
+"16","Laverton","Two persons","Two or more family household: Couple family with children",0
+"17","Laverton","Two persons","Two or more family household: One parent family",0
+"18","Laverton","Two persons","Two or more family household: Other family",0
+"19","Laverton","Two persons","Lone person household",0
+"20","Laverton","Two persons","Group household",188
+"21","Laverton","Three persons","One family household: Couple family with no children",96
+"22","Laverton","Three persons","One family household: Couple family with children",546
+"23","Laverton","Three persons","One family household: One parent family",267
+"24","Laverton","Three persons","One family household: Other family",24
+"25","Laverton","Three persons","Two or more family household: Couple family with no children",0
+"26","Laverton","Three persons","Two or more family household: Couple family with children",0
+"27","Laverton","Three persons","Two or more family household: One parent family",0
+"28","Laverton","Three persons","Two or more family household: Other family",0
+"29","Laverton","Three persons","Lone person household",0
+"30","Laverton","Three persons","Group household",69
+"31","Laverton","Four persons","One family household: Couple family with no children",44
+"32","Laverton","Four persons","One family household: Couple family with children",732
+"33","Laverton","Four persons","One family household: One parent family",156
+"34","Laverton","Four persons","One family household: Other family",36
+"35","Laverton","Four persons","Two or more family household: Couple family with no children",36
+"36","Laverton","Four persons","Two or more family household: Couple family with children",0
+"37","Laverton","Four persons","Two or more family household: One parent family",12
+"38","Laverton","Four persons","Two or more family household: Other family",0
+"39","Laverton","Four persons","Lone person household",0
+"40","Laverton","Four persons","Group household",76
+"41","Laverton","Five persons","One family household: Couple family with no children",25
+"42","Laverton","Five persons","One family household: Couple family with children",380
+"43","Laverton","Five persons","One family household: One parent family",100
+"44","Laverton","Five persons","One family household: Other family",0
+"45","Laverton","Five persons","Two or more family household: Couple family with no children",40
+"46","Laverton","Five persons","Two or more family household: Couple family with children",40
+"47","Laverton","Five persons","Two or more family household: One parent family",30
+"48","Laverton","Five persons","Two or more family household: Other family",0
+"49","Laverton","Five persons","Lone person household",0
+"50","Laverton","Five persons","Group household",30
+"51","Laverton","Six or more persons","One family household: Couple family with no children",18
+"52","Laverton","Six or more persons","One family household: Couple family with children",252
+"53","Laverton","Six or more persons","One family household: One parent family",30
+"54","Laverton","Six or more persons","One family household: Other family",0
+"55","Laverton","Six or more persons","Two or more family household: Couple family with no children",24
+"56","Laverton","Six or more persons","Two or more family household: Couple family with children",126
+"57","Laverton","Six or more persons","Two or more family household: One parent family",36
+"58","Laverton","Six or more persons","Two or more family household: Other family",0
+"59","Laverton","Six or more persons","Lone person household",0
+"60","Laverton","Six or more persons","Group household",18

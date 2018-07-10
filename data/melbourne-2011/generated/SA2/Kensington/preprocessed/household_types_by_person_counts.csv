@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Kensington","One person","One family household: Couple family with no children",0
+"2","Kensington","One person","One family household: Couple family with children",0
+"3","Kensington","One person","One family household: One parent family",0
+"4","Kensington","One person","One family household: Other family",0
+"5","Kensington","One person","Two or more family household: Couple family with no children",0
+"6","Kensington","One person","Two or more family household: Couple family with children",0
+"7","Kensington","One person","Two or more family household: One parent family",0
+"8","Kensington","One person","Two or more family household: Other family",0
+"9","Kensington","One person","Lone person household",1304
+"10","Kensington","One person","Group household",0
+"11","Kensington","Two persons","One family household: Couple family with no children",2126
+"12","Kensington","Two persons","One family household: Couple family with children",0
+"13","Kensington","Two persons","One family household: One parent family",296
+"14","Kensington","Two persons","One family household: Other family",130
+"15","Kensington","Two persons","Two or more family household: Couple family with no children",0
+"16","Kensington","Two persons","Two or more family household: Couple family with children",0
+"17","Kensington","Two persons","Two or more family household: One parent family",0
+"18","Kensington","Two persons","Two or more family household: Other family",0
+"19","Kensington","Two persons","Lone person household",0
+"20","Kensington","Two persons","Group household",634
+"21","Kensington","Three persons","One family household: Couple family with no children",180
+"22","Kensington","Three persons","One family household: Couple family with children",1122
+"23","Kensington","Three persons","One family household: One parent family",291
+"24","Kensington","Three persons","One family household: Other family",84
+"25","Kensington","Three persons","Two or more family household: Couple family with no children",0
+"26","Kensington","Three persons","Two or more family household: Couple family with children",0
+"27","Kensington","Three persons","Two or more family household: One parent family",0
+"28","Kensington","Three persons","Two or more family household: Other family",0
+"29","Kensington","Three persons","Lone person household",0
+"30","Kensington","Three persons","Group household",453
+"31","Kensington","Four persons","One family household: Couple family with no children",72
+"32","Kensington","Four persons","One family household: Couple family with children",1320
+"33","Kensington","Four persons","One family household: One parent family",100
+"34","Kensington","Four persons","One family household: Other family",24
+"35","Kensington","Four persons","Two or more family household: Couple family with no children",16
+"36","Kensington","Four persons","Two or more family household: Couple family with children",0
+"37","Kensington","Four persons","Two or more family household: One parent family",24
+"38","Kensington","Four persons","Two or more family household: Other family",12
+"39","Kensington","Four persons","Lone person household",0
+"40","Kensington","Four persons","Group household",208
+"41","Kensington","Five persons","One family household: Couple family with no children",40
+"42","Kensington","Five persons","One family household: Couple family with children",440
+"43","Kensington","Five persons","One family household: One parent family",15
+"44","Kensington","Five persons","One family household: Other family",0
+"45","Kensington","Five persons","Two or more family household: Couple family with no children",0
+"46","Kensington","Five persons","Two or more family household: Couple family with children",15
+"47","Kensington","Five persons","Two or more family household: One parent family",0
+"48","Kensington","Five persons","Two or more family household: Other family",0
+"49","Kensington","Five persons","Lone person household",0
+"50","Kensington","Five persons","Group household",70
+"51","Kensington","Six or more persons","One family household: Couple family with no children",0
+"52","Kensington","Six or more persons","One family household: Couple family with children",204
+"53","Kensington","Six or more persons","One family household: One parent family",0
+"54","Kensington","Six or more persons","One family household: Other family",0
+"55","Kensington","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Kensington","Six or more persons","Two or more family household: Couple family with children",24
+"57","Kensington","Six or more persons","Two or more family household: One parent family",0
+"58","Kensington","Six or more persons","Two or more family household: Other family",0
+"59","Kensington","Six or more persons","Lone person household",0
+"60","Kensington","Six or more persons","Group household",0

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Yarraville","One person","One family household: Couple family with no children",0
+"2","Yarraville","One person","One family household: Couple family with children",0
+"3","Yarraville","One person","One family household: One parent family",0
+"4","Yarraville","One person","One family household: Other family",0
+"5","Yarraville","One person","Two or more family household: Couple family with no children",0
+"6","Yarraville","One person","Two or more family household: Couple family with children",0
+"7","Yarraville","One person","Two or more family household: One parent family",0
+"8","Yarraville","One person","Two or more family household: Other family",0
+"9","Yarraville","One person","Lone person household",1400
+"10","Yarraville","One person","Group household",0
+"11","Yarraville","Two persons","One family household: Couple family with no children",2604
+"12","Yarraville","Two persons","One family household: Couple family with children",0
+"13","Yarraville","Two persons","One family household: One parent family",554
+"14","Yarraville","Two persons","One family household: Other family",128
+"15","Yarraville","Two persons","Two or more family household: Couple family with no children",0
+"16","Yarraville","Two persons","Two or more family household: Couple family with children",0
+"17","Yarraville","Two persons","Two or more family household: One parent family",0
+"18","Yarraville","Two persons","Two or more family household: Other family",0
+"19","Yarraville","Two persons","Lone person household",0
+"20","Yarraville","Two persons","Group household",474
+"21","Yarraville","Three persons","One family household: Couple family with no children",198
+"22","Yarraville","Three persons","One family household: Couple family with children",1944
+"23","Yarraville","Three persons","One family household: One parent family",432
+"24","Yarraville","Three persons","One family household: Other family",39
+"25","Yarraville","Three persons","Two or more family household: Couple family with no children",0
+"26","Yarraville","Three persons","Two or more family household: Couple family with children",0
+"27","Yarraville","Three persons","Two or more family household: One parent family",0
+"28","Yarraville","Three persons","Two or more family household: Other family",0
+"29","Yarraville","Three persons","Lone person household",0
+"30","Yarraville","Three persons","Group household",240
+"31","Yarraville","Four persons","One family household: Couple family with no children",44
+"32","Yarraville","Four persons","One family household: Couple family with children",2880
+"33","Yarraville","Four persons","One family household: One parent family",232
+"34","Yarraville","Four persons","One family household: Other family",24
+"35","Yarraville","Four persons","Two or more family household: Couple family with no children",20
+"36","Yarraville","Four persons","Two or more family household: Couple family with children",0
+"37","Yarraville","Four persons","Two or more family household: One parent family",20
+"38","Yarraville","Four persons","Two or more family household: Other family",0
+"39","Yarraville","Four persons","Lone person household",0
+"40","Yarraville","Four persons","Group household",80
+"41","Yarraville","Five persons","One family household: Couple family with no children",20
+"42","Yarraville","Five persons","One family household: Couple family with children",1085
+"43","Yarraville","Five persons","One family household: One parent family",70
+"44","Yarraville","Five persons","One family household: Other family",0
+"45","Yarraville","Five persons","Two or more family household: Couple family with no children",0
+"46","Yarraville","Five persons","Two or more family household: Couple family with children",20
+"47","Yarraville","Five persons","Two or more family household: One parent family",45
+"48","Yarraville","Five persons","Two or more family household: Other family",0
+"49","Yarraville","Five persons","Lone person household",0
+"50","Yarraville","Five persons","Group household",15
+"51","Yarraville","Six or more persons","One family household: Couple family with no children",0
+"52","Yarraville","Six or more persons","One family household: Couple family with children",258
+"53","Yarraville","Six or more persons","One family household: One parent family",42
+"54","Yarraville","Six or more persons","One family household: Other family",0
+"55","Yarraville","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Yarraville","Six or more persons","Two or more family household: Couple family with children",114
+"57","Yarraville","Six or more persons","Two or more family household: One parent family",24
+"58","Yarraville","Six or more persons","Two or more family household: Other family",0
+"59","Yarraville","Six or more persons","Lone person household",0
+"60","Yarraville","Six or more persons","Group household",0

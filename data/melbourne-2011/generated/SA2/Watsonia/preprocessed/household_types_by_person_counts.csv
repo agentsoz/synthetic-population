@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Watsonia","One person","One family household: Couple family with no children",0
+"2","Watsonia","One person","One family household: Couple family with children",0
+"3","Watsonia","One person","One family household: One parent family",0
+"4","Watsonia","One person","One family household: Other family",0
+"5","Watsonia","One person","Two or more family household: Couple family with no children",0
+"6","Watsonia","One person","Two or more family household: Couple family with children",0
+"7","Watsonia","One person","Two or more family household: One parent family",0
+"8","Watsonia","One person","Two or more family household: Other family",0
+"9","Watsonia","One person","Lone person household",764
+"10","Watsonia","One person","Group household",0
+"11","Watsonia","Two persons","One family household: Couple family with no children",1712
+"12","Watsonia","Two persons","One family household: Couple family with children",0
+"13","Watsonia","Two persons","One family household: One parent family",408
+"14","Watsonia","Two persons","One family household: Other family",58
+"15","Watsonia","Two persons","Two or more family household: Couple family with no children",0
+"16","Watsonia","Two persons","Two or more family household: Couple family with children",0
+"17","Watsonia","Two persons","Two or more family household: One parent family",0
+"18","Watsonia","Two persons","Two or more family household: Other family",0
+"19","Watsonia","Two persons","Lone person household",0
+"20","Watsonia","Two persons","Group household",142
+"21","Watsonia","Three persons","One family household: Couple family with no children",78
+"22","Watsonia","Three persons","One family household: Couple family with children",1185
+"23","Watsonia","Three persons","One family household: One parent family",393
+"24","Watsonia","Three persons","One family household: Other family",21
+"25","Watsonia","Three persons","Two or more family household: Couple family with no children",0
+"26","Watsonia","Three persons","Two or more family household: Couple family with children",0
+"27","Watsonia","Three persons","Two or more family household: One parent family",0
+"28","Watsonia","Three persons","Two or more family household: Other family",0
+"29","Watsonia","Three persons","Lone person household",0
+"30","Watsonia","Three persons","Group household",60
+"31","Watsonia","Four persons","One family household: Couple family with no children",28
+"32","Watsonia","Four persons","One family household: Couple family with children",2008
+"33","Watsonia","Four persons","One family household: One parent family",244
+"34","Watsonia","Four persons","One family household: Other family",12
+"35","Watsonia","Four persons","Two or more family household: Couple family with no children",40
+"36","Watsonia","Four persons","Two or more family household: Couple family with children",0
+"37","Watsonia","Four persons","Two or more family household: One parent family",20
+"38","Watsonia","Four persons","Two or more family household: Other family",0
+"39","Watsonia","Four persons","Lone person household",0
+"40","Watsonia","Four persons","Group household",16
+"41","Watsonia","Five persons","One family household: Couple family with no children",0
+"42","Watsonia","Five persons","One family household: Couple family with children",880
+"43","Watsonia","Five persons","One family household: One parent family",70
+"44","Watsonia","Five persons","One family household: Other family",0
+"45","Watsonia","Five persons","Two or more family household: Couple family with no children",0
+"46","Watsonia","Five persons","Two or more family household: Couple family with children",35
+"47","Watsonia","Five persons","Two or more family household: One parent family",20
+"48","Watsonia","Five persons","Two or more family household: Other family",0
+"49","Watsonia","Five persons","Lone person household",0
+"50","Watsonia","Five persons","Group household",45
+"51","Watsonia","Six or more persons","One family household: Couple family with no children",0
+"52","Watsonia","Six or more persons","One family household: Couple family with children",348
+"53","Watsonia","Six or more persons","One family household: One parent family",0
+"54","Watsonia","Six or more persons","One family household: Other family",0
+"55","Watsonia","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Watsonia","Six or more persons","Two or more family household: Couple family with children",48
+"57","Watsonia","Six or more persons","Two or more family household: One parent family",0
+"58","Watsonia","Six or more persons","Two or more family household: Other family",0
+"59","Watsonia","Six or more persons","Lone person household",0
+"60","Watsonia","Six or more persons","Group household",0

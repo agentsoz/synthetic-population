@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Mentone","One person","One family household: Couple family with no children",0
+"2","Mentone","One person","One family household: Couple family with children",0
+"3","Mentone","One person","One family household: One parent family",0
+"4","Mentone","One person","One family household: Other family",0
+"5","Mentone","One person","Two or more family household: Couple family with no children",0
+"6","Mentone","One person","Two or more family household: Couple family with children",0
+"7","Mentone","One person","Two or more family household: One parent family",0
+"8","Mentone","One person","Two or more family household: Other family",0
+"9","Mentone","One person","Lone person household",1557
+"10","Mentone","One person","Group household",0
+"11","Mentone","Two persons","One family household: Couple family with no children",2342
+"12","Mentone","Two persons","One family household: Couple family with children",0
+"13","Mentone","Two persons","One family household: One parent family",566
+"14","Mentone","Two persons","One family household: Other family",88
+"15","Mentone","Two persons","Two or more family household: Couple family with no children",0
+"16","Mentone","Two persons","Two or more family household: Couple family with children",0
+"17","Mentone","Two persons","Two or more family household: One parent family",0
+"18","Mentone","Two persons","Two or more family household: Other family",0
+"19","Mentone","Two persons","Lone person household",0
+"20","Mentone","Two persons","Group household",230
+"21","Mentone","Three persons","One family household: Couple family with no children",117
+"22","Mentone","Three persons","One family household: Couple family with children",1338
+"23","Mentone","Three persons","One family household: One parent family",393
+"24","Mentone","Three persons","One family household: Other family",18
+"25","Mentone","Three persons","Two or more family household: Couple family with no children",0
+"26","Mentone","Three persons","Two or more family household: Couple family with children",0
+"27","Mentone","Three persons","Two or more family household: One parent family",0
+"28","Mentone","Three persons","Two or more family household: Other family",0
+"29","Mentone","Three persons","Lone person household",0
+"30","Mentone","Three persons","Group household",33
+"31","Mentone","Four persons","One family household: Couple family with no children",20
+"32","Mentone","Four persons","One family household: Couple family with children",2500
+"33","Mentone","Four persons","One family household: One parent family",136
+"34","Mentone","Four persons","One family household: Other family",0
+"35","Mentone","Four persons","Two or more family household: Couple family with no children",28
+"36","Mentone","Four persons","Two or more family household: Couple family with children",0
+"37","Mentone","Four persons","Two or more family household: One parent family",16
+"38","Mentone","Four persons","Two or more family household: Other family",0
+"39","Mentone","Four persons","Lone person household",0
+"40","Mentone","Four persons","Group household",16
+"41","Mentone","Five persons","One family household: Couple family with no children",0
+"42","Mentone","Five persons","One family household: Couple family with children",985
+"43","Mentone","Five persons","One family household: One parent family",0
+"44","Mentone","Five persons","One family household: Other family",0
+"45","Mentone","Five persons","Two or more family household: Couple family with no children",0
+"46","Mentone","Five persons","Two or more family household: Couple family with children",0
+"47","Mentone","Five persons","Two or more family household: One parent family",0
+"48","Mentone","Five persons","Two or more family household: Other family",0
+"49","Mentone","Five persons","Lone person household",0
+"50","Mentone","Five persons","Group household",0
+"51","Mentone","Six or more persons","One family household: Couple family with no children",0
+"52","Mentone","Six or more persons","One family household: Couple family with children",342
+"53","Mentone","Six or more persons","One family household: One parent family",24
+"54","Mentone","Six or more persons","One family household: Other family",0
+"55","Mentone","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Mentone","Six or more persons","Two or more family household: Couple family with children",36
+"57","Mentone","Six or more persons","Two or more family household: One parent family",0
+"58","Mentone","Six or more persons","Two or more family household: Other family",0
+"59","Mentone","Six or more persons","Lone person household",0
+"60","Mentone","Six or more persons","Group household",0

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Romsey","One person","One family household: Couple family with no children",0
+"2","Romsey","One person","One family household: Couple family with children",0
+"3","Romsey","One person","One family household: One parent family",0
+"4","Romsey","One person","One family household: Other family",0
+"5","Romsey","One person","Two or more family household: Couple family with no children",0
+"6","Romsey","One person","Two or more family household: Couple family with children",0
+"7","Romsey","One person","Two or more family household: One parent family",0
+"8","Romsey","One person","Two or more family household: Other family",0
+"9","Romsey","One person","Lone person household",563
+"10","Romsey","One person","Group household",0
+"11","Romsey","Two persons","One family household: Couple family with no children",1676
+"12","Romsey","Two persons","One family household: Couple family with children",0
+"13","Romsey","Two persons","One family household: One parent family",226
+"14","Romsey","Two persons","One family household: Other family",28
+"15","Romsey","Two persons","Two or more family household: Couple family with no children",0
+"16","Romsey","Two persons","Two or more family household: Couple family with children",0
+"17","Romsey","Two persons","Two or more family household: One parent family",0
+"18","Romsey","Two persons","Two or more family household: Other family",0
+"19","Romsey","Two persons","Lone person household",0
+"20","Romsey","Two persons","Group household",106
+"21","Romsey","Three persons","One family household: Couple family with no children",81
+"22","Romsey","Three persons","One family household: Couple family with children",1035
+"23","Romsey","Three persons","One family household: One parent family",258
+"24","Romsey","Three persons","One family household: Other family",9
+"25","Romsey","Three persons","Two or more family household: Couple family with no children",0
+"26","Romsey","Three persons","Two or more family household: Couple family with children",0
+"27","Romsey","Three persons","Two or more family household: One parent family",0
+"28","Romsey","Three persons","Two or more family household: Other family",0
+"29","Romsey","Three persons","Lone person household",0
+"30","Romsey","Three persons","Group household",9
+"31","Romsey","Four persons","One family household: Couple family with no children",16
+"32","Romsey","Four persons","One family household: Couple family with children",1852
+"33","Romsey","Four persons","One family household: One parent family",172
+"34","Romsey","Four persons","One family household: Other family",0
+"35","Romsey","Four persons","Two or more family household: Couple family with no children",20
+"36","Romsey","Four persons","Two or more family household: Couple family with children",0
+"37","Romsey","Four persons","Two or more family household: One parent family",40
+"38","Romsey","Four persons","Two or more family household: Other family",0
+"39","Romsey","Four persons","Lone person household",0
+"40","Romsey","Four persons","Group household",0
+"41","Romsey","Five persons","One family household: Couple family with no children",0
+"42","Romsey","Five persons","One family household: Couple family with children",1075
+"43","Romsey","Five persons","One family household: One parent family",50
+"44","Romsey","Five persons","One family household: Other family",0
+"45","Romsey","Five persons","Two or more family household: Couple family with no children",0
+"46","Romsey","Five persons","Two or more family household: Couple family with children",75
+"47","Romsey","Five persons","Two or more family household: One parent family",25
+"48","Romsey","Five persons","Two or more family household: Other family",0
+"49","Romsey","Five persons","Lone person household",0
+"50","Romsey","Five persons","Group household",0
+"51","Romsey","Six or more persons","One family household: Couple family with no children",0
+"52","Romsey","Six or more persons","One family household: Couple family with children",606
+"53","Romsey","Six or more persons","One family household: One parent family",36
+"54","Romsey","Six or more persons","One family household: Other family",0
+"55","Romsey","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Romsey","Six or more persons","Two or more family household: Couple family with children",66
+"57","Romsey","Six or more persons","Two or more family household: One parent family",18
+"58","Romsey","Six or more persons","Two or more family household: Other family",0
+"59","Romsey","Six or more persons","Lone person household",0
+"60","Romsey","Six or more persons","Group household",0

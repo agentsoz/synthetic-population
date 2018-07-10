@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Ivanhoe","One person","One family household: Couple family with no children",0
+"2","Ivanhoe","One person","One family household: Couple family with children",0
+"3","Ivanhoe","One person","One family household: One parent family",0
+"4","Ivanhoe","One person","One family household: Other family",0
+"5","Ivanhoe","One person","Two or more family household: Couple family with no children",0
+"6","Ivanhoe","One person","Two or more family household: Couple family with children",0
+"7","Ivanhoe","One person","Two or more family household: One parent family",0
+"8","Ivanhoe","One person","Two or more family household: Other family",0
+"9","Ivanhoe","One person","Lone person household",1192
+"10","Ivanhoe","One person","Group household",0
+"11","Ivanhoe","Two persons","One family household: Couple family with no children",1776
+"12","Ivanhoe","Two persons","One family household: Couple family with children",0
+"13","Ivanhoe","Two persons","One family household: One parent family",378
+"14","Ivanhoe","Two persons","One family household: Other family",114
+"15","Ivanhoe","Two persons","Two or more family household: Couple family with no children",0
+"16","Ivanhoe","Two persons","Two or more family household: Couple family with children",0
+"17","Ivanhoe","Two persons","Two or more family household: One parent family",0
+"18","Ivanhoe","Two persons","Two or more family household: Other family",0
+"19","Ivanhoe","Two persons","Lone person household",0
+"20","Ivanhoe","Two persons","Group household",270
+"21","Ivanhoe","Three persons","One family household: Couple family with no children",129
+"22","Ivanhoe","Three persons","One family household: Couple family with children",1314
+"23","Ivanhoe","Three persons","One family household: One parent family",345
+"24","Ivanhoe","Three persons","One family household: Other family",15
+"25","Ivanhoe","Three persons","Two or more family household: Couple family with no children",0
+"26","Ivanhoe","Three persons","Two or more family household: Couple family with children",0
+"27","Ivanhoe","Three persons","Two or more family household: One parent family",0
+"28","Ivanhoe","Three persons","Two or more family household: Other family",0
+"29","Ivanhoe","Three persons","Lone person household",0
+"30","Ivanhoe","Three persons","Group household",120
+"31","Ivanhoe","Four persons","One family household: Couple family with no children",12
+"32","Ivanhoe","Four persons","One family household: Couple family with children",2844
+"33","Ivanhoe","Four persons","One family household: One parent family",168
+"34","Ivanhoe","Four persons","One family household: Other family",12
+"35","Ivanhoe","Four persons","Two or more family household: Couple family with no children",24
+"36","Ivanhoe","Four persons","Two or more family household: Couple family with children",0
+"37","Ivanhoe","Four persons","Two or more family household: One parent family",36
+"38","Ivanhoe","Four persons","Two or more family household: Other family",0
+"39","Ivanhoe","Four persons","Lone person household",0
+"40","Ivanhoe","Four persons","Group household",52
+"41","Ivanhoe","Five persons","One family household: Couple family with no children",0
+"42","Ivanhoe","Five persons","One family household: Couple family with children",1205
+"43","Ivanhoe","Five persons","One family household: One parent family",75
+"44","Ivanhoe","Five persons","One family household: Other family",0
+"45","Ivanhoe","Five persons","Two or more family household: Couple family with no children",0
+"46","Ivanhoe","Five persons","Two or more family household: Couple family with children",15
+"47","Ivanhoe","Five persons","Two or more family household: One parent family",0
+"48","Ivanhoe","Five persons","Two or more family household: Other family",0
+"49","Ivanhoe","Five persons","Lone person household",0
+"50","Ivanhoe","Five persons","Group household",20
+"51","Ivanhoe","Six or more persons","One family household: Couple family with no children",0
+"52","Ivanhoe","Six or more persons","One family household: Couple family with children",324
+"53","Ivanhoe","Six or more persons","One family household: One parent family",0
+"54","Ivanhoe","Six or more persons","One family household: Other family",0
+"55","Ivanhoe","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Ivanhoe","Six or more persons","Two or more family household: Couple family with children",78
+"57","Ivanhoe","Six or more persons","Two or more family household: One parent family",0
+"58","Ivanhoe","Six or more persons","Two or more family household: Other family",0
+"59","Ivanhoe","Six or more persons","Lone person household",0
+"60","Ivanhoe","Six or more persons","Group household",0

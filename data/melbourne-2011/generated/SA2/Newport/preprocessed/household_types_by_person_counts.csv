@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Newport","One person","One family household: Couple family with no children",0
+"2","Newport","One person","One family household: Couple family with children",0
+"3","Newport","One person","One family household: One parent family",0
+"4","Newport","One person","One family household: Other family",0
+"5","Newport","One person","Two or more family household: Couple family with no children",0
+"6","Newport","One person","Two or more family household: Couple family with children",0
+"7","Newport","One person","Two or more family household: One parent family",0
+"8","Newport","One person","Two or more family household: Other family",0
+"9","Newport","One person","Lone person household",1604
+"10","Newport","One person","Group household",0
+"11","Newport","Two persons","One family household: Couple family with no children",2798
+"12","Newport","Two persons","One family household: Couple family with children",0
+"13","Newport","Two persons","One family household: One parent family",654
+"14","Newport","Two persons","One family household: Other family",172
+"15","Newport","Two persons","Two or more family household: Couple family with no children",0
+"16","Newport","Two persons","Two or more family household: Couple family with children",0
+"17","Newport","Two persons","Two or more family household: One parent family",0
+"18","Newport","Two persons","Two or more family household: Other family",0
+"19","Newport","Two persons","Lone person household",0
+"20","Newport","Two persons","Group household",472
+"21","Newport","Three persons","One family household: Couple family with no children",243
+"22","Newport","Three persons","One family household: Couple family with children",2052
+"23","Newport","Three persons","One family household: One parent family",588
+"24","Newport","Three persons","One family household: Other family",42
+"25","Newport","Three persons","Two or more family household: Couple family with no children",0
+"26","Newport","Three persons","Two or more family household: Couple family with children",0
+"27","Newport","Three persons","Two or more family household: One parent family",0
+"28","Newport","Three persons","Two or more family household: Other family",0
+"29","Newport","Three persons","Lone person household",0
+"30","Newport","Three persons","Group household",168
+"31","Newport","Four persons","One family household: Couple family with no children",32
+"32","Newport","Four persons","One family household: Couple family with children",3740
+"33","Newport","Four persons","One family household: One parent family",192
+"34","Newport","Four persons","One family household: Other family",12
+"35","Newport","Four persons","Two or more family household: Couple family with no children",36
+"36","Newport","Four persons","Two or more family household: Couple family with children",0
+"37","Newport","Four persons","Two or more family household: One parent family",32
+"38","Newport","Four persons","Two or more family household: Other family",0
+"39","Newport","Four persons","Lone person household",0
+"40","Newport","Four persons","Group household",84
+"41","Newport","Five persons","One family household: Couple family with no children",15
+"42","Newport","Five persons","One family household: Couple family with children",1530
+"43","Newport","Five persons","One family household: One parent family",35
+"44","Newport","Five persons","One family household: Other family",0
+"45","Newport","Five persons","Two or more family household: Couple family with no children",15
+"46","Newport","Five persons","Two or more family household: Couple family with children",25
+"47","Newport","Five persons","Two or more family household: One parent family",35
+"48","Newport","Five persons","Two or more family household: Other family",0
+"49","Newport","Five persons","Lone person household",0
+"50","Newport","Five persons","Group household",50
+"51","Newport","Six or more persons","One family household: Couple family with no children",18
+"52","Newport","Six or more persons","One family household: Couple family with children",444
+"53","Newport","Six or more persons","One family household: One parent family",42
+"54","Newport","Six or more persons","One family household: Other family",0
+"55","Newport","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Newport","Six or more persons","Two or more family household: Couple family with children",78
+"57","Newport","Six or more persons","Two or more family household: One parent family",18
+"58","Newport","Six or more persons","Two or more family household: Other family",0
+"59","Newport","Six or more persons","Lone person household",0
+"60","Newport","Six or more persons","Group household",18

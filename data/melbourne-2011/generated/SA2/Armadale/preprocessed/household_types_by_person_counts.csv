@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Armadale","One person","One family household: Couple family with no children",0
+"2","Armadale","One person","One family household: Couple family with children",0
+"3","Armadale","One person","One family household: One parent family",0
+"4","Armadale","One person","One family household: Other family",0
+"5","Armadale","One person","Two or more family household: Couple family with no children",0
+"6","Armadale","One person","Two or more family household: Couple family with children",0
+"7","Armadale","One person","Two or more family household: One parent family",0
+"8","Armadale","One person","Two or more family household: Other family",0
+"9","Armadale","One person","Lone person household",1358
+"10","Armadale","One person","Group household",0
+"11","Armadale","Two persons","One family household: Couple family with no children",1998
+"12","Armadale","Two persons","One family household: Couple family with children",0
+"13","Armadale","Two persons","One family household: One parent family",248
+"14","Armadale","Two persons","One family household: Other family",122
+"15","Armadale","Two persons","Two or more family household: Couple family with no children",0
+"16","Armadale","Two persons","Two or more family household: Couple family with children",0
+"17","Armadale","Two persons","Two or more family household: One parent family",0
+"18","Armadale","Two persons","Two or more family household: Other family",0
+"19","Armadale","Two persons","Lone person household",0
+"20","Armadale","Two persons","Group household",506
+"21","Armadale","Three persons","One family household: Couple family with no children",105
+"22","Armadale","Three persons","One family household: Couple family with children",822
+"23","Armadale","Three persons","One family household: One parent family",237
+"24","Armadale","Three persons","One family household: Other family",39
+"25","Armadale","Three persons","Two or more family household: Couple family with no children",0
+"26","Armadale","Three persons","Two or more family household: Couple family with children",0
+"27","Armadale","Three persons","Two or more family household: One parent family",0
+"28","Armadale","Three persons","Two or more family household: Other family",0
+"29","Armadale","Three persons","Lone person household",0
+"30","Armadale","Three persons","Group household",219
+"31","Armadale","Four persons","One family household: Couple family with no children",12
+"32","Armadale","Four persons","One family household: Couple family with children",1332
+"33","Armadale","Four persons","One family household: One parent family",68
+"34","Armadale","Four persons","One family household: Other family",12
+"35","Armadale","Four persons","Two or more family household: Couple family with no children",0
+"36","Armadale","Four persons","Two or more family household: Couple family with children",0
+"37","Armadale","Four persons","Two or more family household: One parent family",12
+"38","Armadale","Four persons","Two or more family household: Other family",0
+"39","Armadale","Four persons","Lone person household",0
+"40","Armadale","Four persons","Group household",60
+"41","Armadale","Five persons","One family household: Couple family with no children",15
+"42","Armadale","Five persons","One family household: Couple family with children",610
+"43","Armadale","Five persons","One family household: One parent family",15
+"44","Armadale","Five persons","One family household: Other family",0
+"45","Armadale","Five persons","Two or more family household: Couple family with no children",0
+"46","Armadale","Five persons","Two or more family household: Couple family with children",0
+"47","Armadale","Five persons","Two or more family household: One parent family",0
+"48","Armadale","Five persons","Two or more family household: Other family",0
+"49","Armadale","Five persons","Lone person household",0
+"50","Armadale","Five persons","Group household",30
+"51","Armadale","Six or more persons","One family household: Couple family with no children",0
+"52","Armadale","Six or more persons","One family household: Couple family with children",138
+"53","Armadale","Six or more persons","One family household: One parent family",0
+"54","Armadale","Six or more persons","One family household: Other family",0
+"55","Armadale","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Armadale","Six or more persons","Two or more family household: Couple family with children",0
+"57","Armadale","Six or more persons","Two or more family household: One parent family",0
+"58","Armadale","Six or more persons","Two or more family household: Other family",0
+"59","Armadale","Six or more persons","Lone person household",0
+"60","Armadale","Six or more persons","Group household",18

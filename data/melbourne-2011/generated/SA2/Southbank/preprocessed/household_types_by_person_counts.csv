@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Southbank","One person","One family household: Couple family with no children",0
+"2","Southbank","One person","One family household: Couple family with children",0
+"3","Southbank","One person","One family household: One parent family",0
+"4","Southbank","One person","One family household: Other family",0
+"5","Southbank","One person","Two or more family household: Couple family with no children",0
+"6","Southbank","One person","Two or more family household: Couple family with children",0
+"7","Southbank","One person","Two or more family household: One parent family",0
+"8","Southbank","One person","Two or more family household: Other family",0
+"9","Southbank","One person","Lone person household",1737
+"10","Southbank","One person","Group household",0
+"11","Southbank","Two persons","One family household: Couple family with no children",2832
+"12","Southbank","Two persons","One family household: Couple family with children",0
+"13","Southbank","Two persons","One family household: One parent family",232
+"14","Southbank","Two persons","One family household: Other family",420
+"15","Southbank","Two persons","Two or more family household: Couple family with no children",0
+"16","Southbank","Two persons","Two or more family household: Couple family with children",0
+"17","Southbank","Two persons","Two or more family household: One parent family",0
+"18","Southbank","Two persons","Two or more family household: Other family",0
+"19","Southbank","Two persons","Lone person household",0
+"20","Southbank","Two persons","Group household",1098
+"21","Southbank","Three persons","One family household: Couple family with no children",336
+"22","Southbank","Three persons","One family household: Couple family with children",903
+"23","Southbank","Three persons","One family household: One parent family",165
+"24","Southbank","Three persons","One family household: Other family",234
+"25","Southbank","Three persons","Two or more family household: Couple family with no children",0
+"26","Southbank","Three persons","Two or more family household: Couple family with children",0
+"27","Southbank","Three persons","Two or more family household: One parent family",0
+"28","Southbank","Three persons","Two or more family household: Other family",0
+"29","Southbank","Three persons","Lone person household",0
+"30","Southbank","Three persons","Group household",762
+"31","Southbank","Four persons","One family household: Couple family with no children",124
+"32","Southbank","Four persons","One family household: Couple family with children",492
+"33","Southbank","Four persons","One family household: One parent family",60
+"34","Southbank","Four persons","One family household: Other family",48
+"35","Southbank","Four persons","Two or more family household: Couple family with no children",28
+"36","Southbank","Four persons","Two or more family household: Couple family with children",0
+"37","Southbank","Four persons","Two or more family household: One parent family",12
+"38","Southbank","Four persons","Two or more family household: Other family",0
+"39","Southbank","Four persons","Lone person household",0
+"40","Southbank","Four persons","Group household",216
+"41","Southbank","Five persons","One family household: Couple family with no children",15
+"42","Southbank","Five persons","One family household: Couple family with children",105
+"43","Southbank","Five persons","One family household: One parent family",0
+"44","Southbank","Five persons","One family household: Other family",0
+"45","Southbank","Five persons","Two or more family household: Couple family with no children",0
+"46","Southbank","Five persons","Two or more family household: Couple family with children",0
+"47","Southbank","Five persons","Two or more family household: One parent family",15
+"48","Southbank","Five persons","Two or more family household: Other family",0
+"49","Southbank","Five persons","Lone person household",0
+"50","Southbank","Five persons","Group household",40
+"51","Southbank","Six or more persons","One family household: Couple family with no children",0
+"52","Southbank","Six or more persons","One family household: Couple family with children",18
+"53","Southbank","Six or more persons","One family household: One parent family",0
+"54","Southbank","Six or more persons","One family household: Other family",0
+"55","Southbank","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Southbank","Six or more persons","Two or more family household: Couple family with children",0
+"57","Southbank","Six or more persons","Two or more family household: One parent family",0
+"58","Southbank","Six or more persons","Two or more family household: Other family",0
+"59","Southbank","Six or more persons","Lone person household",0
+"60","Southbank","Six or more persons","Group household",18

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Sunshine West","One person","One family household: Couple family with no children",0
+"2","Sunshine West","One person","One family household: Couple family with children",0
+"3","Sunshine West","One person","One family household: One parent family",0
+"4","Sunshine West","One person","One family household: Other family",0
+"5","Sunshine West","One person","Two or more family household: Couple family with no children",0
+"6","Sunshine West","One person","Two or more family household: Couple family with children",0
+"7","Sunshine West","One person","Two or more family household: One parent family",0
+"8","Sunshine West","One person","Two or more family household: Other family",0
+"9","Sunshine West","One person","Lone person household",991
+"10","Sunshine West","One person","Group household",0
+"11","Sunshine West","Two persons","One family household: Couple family with no children",2292
+"12","Sunshine West","Two persons","One family household: Couple family with children",0
+"13","Sunshine West","Two persons","One family household: One parent family",696
+"14","Sunshine West","Two persons","One family household: Other family",152
+"15","Sunshine West","Two persons","Two or more family household: Couple family with no children",0
+"16","Sunshine West","Two persons","Two or more family household: Couple family with children",0
+"17","Sunshine West","Two persons","Two or more family household: One parent family",0
+"18","Sunshine West","Two persons","Two or more family household: Other family",0
+"19","Sunshine West","Two persons","Lone person household",0
+"20","Sunshine West","Two persons","Group household",236
+"21","Sunshine West","Three persons","One family household: Couple family with no children",237
+"22","Sunshine West","Three persons","One family household: Couple family with children",1908
+"23","Sunshine West","Three persons","One family household: One parent family",870
+"24","Sunshine West","Three persons","One family household: Other family",93
+"25","Sunshine West","Three persons","Two or more family household: Couple family with no children",0
+"26","Sunshine West","Three persons","Two or more family household: Couple family with children",0
+"27","Sunshine West","Three persons","Two or more family household: One parent family",0
+"28","Sunshine West","Three persons","Two or more family household: Other family",0
+"29","Sunshine West","Three persons","Lone person household",0
+"30","Sunshine West","Three persons","Group household",93
+"31","Sunshine West","Four persons","One family household: Couple family with no children",76
+"32","Sunshine West","Four persons","One family household: Couple family with children",2620
+"33","Sunshine West","Four persons","One family household: One parent family",608
+"34","Sunshine West","Four persons","One family household: Other family",16
+"35","Sunshine West","Four persons","Two or more family household: Couple family with no children",108
+"36","Sunshine West","Four persons","Two or more family household: Couple family with children",0
+"37","Sunshine West","Four persons","Two or more family household: One parent family",84
+"38","Sunshine West","Four persons","Two or more family household: Other family",12
+"39","Sunshine West","Four persons","Lone person household",0
+"40","Sunshine West","Four persons","Group household",100
+"41","Sunshine West","Five persons","One family household: Couple family with no children",40
+"42","Sunshine West","Five persons","One family household: Couple family with children",1595
+"43","Sunshine West","Five persons","One family household: One parent family",310
+"44","Sunshine West","Five persons","One family household: Other family",0
+"45","Sunshine West","Five persons","Two or more family household: Couple family with no children",45
+"46","Sunshine West","Five persons","Two or more family household: Couple family with children",145
+"47","Sunshine West","Five persons","Two or more family household: One parent family",110
+"48","Sunshine West","Five persons","Two or more family household: Other family",0
+"49","Sunshine West","Five persons","Lone person household",0
+"50","Sunshine West","Five persons","Group household",70
+"51","Sunshine West","Six or more persons","One family household: Couple family with no children",18
+"52","Sunshine West","Six or more persons","One family household: Couple family with children",1272
+"53","Sunshine West","Six or more persons","One family household: One parent family",192
+"54","Sunshine West","Six or more persons","One family household: Other family",0
+"55","Sunshine West","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Sunshine West","Six or more persons","Two or more family household: Couple family with children",474
+"57","Sunshine West","Six or more persons","Two or more family household: One parent family",210
+"58","Sunshine West","Six or more persons","Two or more family household: Other family",0
+"59","Sunshine West","Six or more persons","Lone person household",0
+"60","Sunshine West","Six or more persons","Group household",18

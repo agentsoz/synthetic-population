@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Mulgrave","One person","One family household: Couple family with no children",0
+"2","Mulgrave","One person","One family household: Couple family with children",0
+"3","Mulgrave","One person","One family household: One parent family",0
+"4","Mulgrave","One person","One family household: Other family",0
+"5","Mulgrave","One person","Two or more family household: Couple family with no children",0
+"6","Mulgrave","One person","Two or more family household: Couple family with children",0
+"7","Mulgrave","One person","Two or more family household: One parent family",0
+"8","Mulgrave","One person","Two or more family household: Other family",0
+"9","Mulgrave","One person","Lone person household",1066
+"10","Mulgrave","One person","Group household",0
+"11","Mulgrave","Two persons","One family household: Couple family with no children",3180
+"12","Mulgrave","Two persons","One family household: Couple family with children",0
+"13","Mulgrave","Two persons","One family household: One parent family",600
+"14","Mulgrave","Two persons","One family household: Other family",126
+"15","Mulgrave","Two persons","Two or more family household: Couple family with no children",0
+"16","Mulgrave","Two persons","Two or more family household: Couple family with children",0
+"17","Mulgrave","Two persons","Two or more family household: One parent family",0
+"18","Mulgrave","Two persons","Two or more family household: Other family",0
+"19","Mulgrave","Two persons","Lone person household",0
+"20","Mulgrave","Two persons","Group household",242
+"21","Mulgrave","Three persons","One family household: Couple family with no children",225
+"22","Mulgrave","Three persons","One family household: Couple family with children",2685
+"23","Mulgrave","Three persons","One family household: One parent family",627
+"24","Mulgrave","Three persons","One family household: Other family",66
+"25","Mulgrave","Three persons","Two or more family household: Couple family with no children",0
+"26","Mulgrave","Three persons","Two or more family household: Couple family with children",0
+"27","Mulgrave","Three persons","Two or more family household: One parent family",0
+"28","Mulgrave","Three persons","Two or more family household: Other family",0
+"29","Mulgrave","Three persons","Lone person household",0
+"30","Mulgrave","Three persons","Group household",144
+"31","Mulgrave","Four persons","One family household: Couple family with no children",80
+"32","Mulgrave","Four persons","One family household: Couple family with children",4256
+"33","Mulgrave","Four persons","One family household: One parent family",300
+"34","Mulgrave","Four persons","One family household: Other family",12
+"35","Mulgrave","Four persons","Two or more family household: Couple family with no children",64
+"36","Mulgrave","Four persons","Two or more family household: Couple family with children",0
+"37","Mulgrave","Four persons","Two or more family household: One parent family",60
+"38","Mulgrave","Four persons","Two or more family household: Other family",0
+"39","Mulgrave","Four persons","Lone person household",0
+"40","Mulgrave","Four persons","Group household",56
+"41","Mulgrave","Five persons","One family household: Couple family with no children",35
+"42","Mulgrave","Five persons","One family household: Couple family with children",1880
+"43","Mulgrave","Five persons","One family household: One parent family",105
+"44","Mulgrave","Five persons","One family household: Other family",0
+"45","Mulgrave","Five persons","Two or more family household: Couple family with no children",15
+"46","Mulgrave","Five persons","Two or more family household: Couple family with children",175
+"47","Mulgrave","Five persons","Two or more family household: One parent family",70
+"48","Mulgrave","Five persons","Two or more family household: Other family",0
+"49","Mulgrave","Five persons","Lone person household",0
+"50","Mulgrave","Five persons","Group household",30
+"51","Mulgrave","Six or more persons","One family household: Couple family with no children",18
+"52","Mulgrave","Six or more persons","One family household: Couple family with children",594
+"53","Mulgrave","Six or more persons","One family household: One parent family",60
+"54","Mulgrave","Six or more persons","One family household: Other family",0
+"55","Mulgrave","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Mulgrave","Six or more persons","Two or more family household: Couple family with children",252
+"57","Mulgrave","Six or more persons","Two or more family household: One parent family",78
+"58","Mulgrave","Six or more persons","Two or more family household: Other family",0
+"59","Mulgrave","Six or more persons","Lone person household",0
+"60","Mulgrave","Six or more persons","Group household",18

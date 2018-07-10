@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Epping","One person","One family household: Couple family with no children",0
+"2","Epping","One person","One family household: Couple family with children",0
+"3","Epping","One person","One family household: One parent family",0
+"4","Epping","One person","One family household: Other family",0
+"5","Epping","One person","Two or more family household: Couple family with no children",0
+"6","Epping","One person","Two or more family household: Couple family with children",0
+"7","Epping","One person","Two or more family household: One parent family",0
+"8","Epping","One person","Two or more family household: Other family",0
+"9","Epping","One person","Lone person household",1309
+"10","Epping","One person","Group household",0
+"11","Epping","Two persons","One family household: Couple family with no children",3510
+"12","Epping","Two persons","One family household: Couple family with children",0
+"13","Epping","Two persons","One family household: One parent family",900
+"14","Epping","Two persons","One family household: Other family",146
+"15","Epping","Two persons","Two or more family household: Couple family with no children",0
+"16","Epping","Two persons","Two or more family household: Couple family with children",0
+"17","Epping","Two persons","Two or more family household: One parent family",0
+"18","Epping","Two persons","Two or more family household: Other family",0
+"19","Epping","Two persons","Lone person household",0
+"20","Epping","Two persons","Group household",292
+"21","Epping","Three persons","One family household: Couple family with no children",282
+"22","Epping","Three persons","One family household: Couple family with children",3579
+"23","Epping","Three persons","One family household: One parent family",1236
+"24","Epping","Three persons","One family household: Other family",78
+"25","Epping","Three persons","Two or more family household: Couple family with no children",0
+"26","Epping","Three persons","Two or more family household: Couple family with children",0
+"27","Epping","Three persons","Two or more family household: One parent family",0
+"28","Epping","Three persons","Two or more family household: Other family",0
+"29","Epping","Three persons","Lone person household",0
+"30","Epping","Three persons","Group household",93
+"31","Epping","Four persons","One family household: Couple family with no children",40
+"32","Epping","Four persons","One family household: Couple family with children",6572
+"33","Epping","Four persons","One family household: One parent family",792
+"34","Epping","Four persons","One family household: Other family",32
+"35","Epping","Four persons","Two or more family household: Couple family with no children",128
+"36","Epping","Four persons","Two or more family household: Couple family with children",0
+"37","Epping","Four persons","Two or more family household: One parent family",88
+"38","Epping","Four persons","Two or more family household: Other family",0
+"39","Epping","Four persons","Lone person household",0
+"40","Epping","Four persons","Group household",44
+"41","Epping","Five persons","One family household: Couple family with no children",15
+"42","Epping","Five persons","One family household: Couple family with children",3225
+"43","Epping","Five persons","One family household: One parent family",350
+"44","Epping","Five persons","One family household: Other family",15
+"45","Epping","Five persons","Two or more family household: Couple family with no children",30
+"46","Epping","Five persons","Two or more family household: Couple family with children",220
+"47","Epping","Five persons","Two or more family household: One parent family",135
+"48","Epping","Five persons","Two or more family household: Other family",0
+"49","Epping","Five persons","Lone person household",0
+"50","Epping","Five persons","Group household",20
+"51","Epping","Six or more persons","One family household: Couple family with no children",0
+"52","Epping","Six or more persons","One family household: Couple family with children",1476
+"53","Epping","Six or more persons","One family household: One parent family",90
+"54","Epping","Six or more persons","One family household: Other family",0
+"55","Epping","Six or more persons","Two or more family household: Couple family with no children",54
+"56","Epping","Six or more persons","Two or more family household: Couple family with children",630
+"57","Epping","Six or more persons","Two or more family household: One parent family",150
+"58","Epping","Six or more persons","Two or more family household: Other family",24
+"59","Epping","Six or more persons","Lone person household",0
+"60","Epping","Six or more persons","Group household",0

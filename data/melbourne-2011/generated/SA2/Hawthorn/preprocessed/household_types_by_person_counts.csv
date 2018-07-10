@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Hawthorn","One person","One family household: Couple family with no children",0
+"2","Hawthorn","One person","One family household: Couple family with children",0
+"3","Hawthorn","One person","One family household: One parent family",0
+"4","Hawthorn","One person","One family household: Other family",0
+"5","Hawthorn","One person","Two or more family household: Couple family with no children",0
+"6","Hawthorn","One person","Two or more family household: Couple family with children",0
+"7","Hawthorn","One person","Two or more family household: One parent family",0
+"8","Hawthorn","One person","Two or more family household: Other family",0
+"9","Hawthorn","One person","Lone person household",2896
+"10","Hawthorn","One person","Group household",0
+"11","Hawthorn","Two persons","One family household: Couple family with no children",3876
+"12","Hawthorn","Two persons","One family household: Couple family with children",0
+"13","Hawthorn","Two persons","One family household: One parent family",492
+"14","Hawthorn","Two persons","One family household: Other family",298
+"15","Hawthorn","Two persons","Two or more family household: Couple family with no children",0
+"16","Hawthorn","Two persons","Two or more family household: Couple family with children",0
+"17","Hawthorn","Two persons","Two or more family household: One parent family",0
+"18","Hawthorn","Two persons","Two or more family household: Other family",0
+"19","Hawthorn","Two persons","Lone person household",0
+"20","Hawthorn","Two persons","Group household",1292
+"21","Hawthorn","Three persons","One family household: Couple family with no children",378
+"22","Hawthorn","Three persons","One family household: Couple family with children",1785
+"23","Hawthorn","Three persons","One family household: One parent family",405
+"24","Hawthorn","Three persons","One family household: Other family",105
+"25","Hawthorn","Three persons","Two or more family household: Couple family with no children",0
+"26","Hawthorn","Three persons","Two or more family household: Couple family with children",0
+"27","Hawthorn","Three persons","Two or more family household: One parent family",0
+"28","Hawthorn","Three persons","Two or more family household: Other family",0
+"29","Hawthorn","Three persons","Lone person household",0
+"30","Hawthorn","Three persons","Group household",633
+"31","Hawthorn","Four persons","One family household: Couple family with no children",128
+"32","Hawthorn","Four persons","One family household: Couple family with children",3316
+"33","Hawthorn","Four persons","One family household: One parent family",120
+"34","Hawthorn","Four persons","One family household: Other family",32
+"35","Hawthorn","Four persons","Two or more family household: Couple family with no children",52
+"36","Hawthorn","Four persons","Two or more family household: Couple family with children",0
+"37","Hawthorn","Four persons","Two or more family household: One parent family",16
+"38","Hawthorn","Four persons","Two or more family household: Other family",0
+"39","Hawthorn","Four persons","Lone person household",0
+"40","Hawthorn","Four persons","Group household",268
+"41","Hawthorn","Five persons","One family household: Couple family with no children",0
+"42","Hawthorn","Five persons","One family household: Couple family with children",1680
+"43","Hawthorn","Five persons","One family household: One parent family",0
+"44","Hawthorn","Five persons","One family household: Other family",15
+"45","Hawthorn","Five persons","Two or more family household: Couple family with no children",0
+"46","Hawthorn","Five persons","Two or more family household: Couple family with children",70
+"47","Hawthorn","Five persons","Two or more family household: One parent family",0
+"48","Hawthorn","Five persons","Two or more family household: Other family",0
+"49","Hawthorn","Five persons","Lone person household",0
+"50","Hawthorn","Five persons","Group household",100
+"51","Hawthorn","Six or more persons","One family household: Couple family with no children",0
+"52","Hawthorn","Six or more persons","One family household: Couple family with children",546
+"53","Hawthorn","Six or more persons","One family household: One parent family",0
+"54","Hawthorn","Six or more persons","One family household: Other family",0
+"55","Hawthorn","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Hawthorn","Six or more persons","Two or more family household: Couple family with children",90
+"57","Hawthorn","Six or more persons","Two or more family household: One parent family",0
+"58","Hawthorn","Six or more persons","Two or more family household: Other family",0
+"59","Hawthorn","Six or more persons","Lone person household",0
+"60","Hawthorn","Six or more persons","Group household",48

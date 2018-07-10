@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Flemington","One person","One family household: Couple family with no children",0
+"2","Flemington","One person","One family household: Couple family with children",0
+"3","Flemington","One person","One family household: One parent family",0
+"4","Flemington","One person","One family household: Other family",0
+"5","Flemington","One person","Two or more family household: Couple family with no children",0
+"6","Flemington","One person","Two or more family household: Couple family with children",0
+"7","Flemington","One person","Two or more family household: One parent family",0
+"8","Flemington","One person","Two or more family household: Other family",0
+"9","Flemington","One person","Lone person household",1334
+"10","Flemington","One person","Group household",0
+"11","Flemington","Two persons","One family household: Couple family with no children",1498
+"12","Flemington","Two persons","One family household: Couple family with children",0
+"13","Flemington","Two persons","One family household: One parent family",386
+"14","Flemington","Two persons","One family household: Other family",156
+"15","Flemington","Two persons","Two or more family household: Couple family with no children",0
+"16","Flemington","Two persons","Two or more family household: Couple family with children",0
+"17","Flemington","Two persons","Two or more family household: One parent family",0
+"18","Flemington","Two persons","Two or more family household: Other family",0
+"19","Flemington","Two persons","Lone person household",0
+"20","Flemington","Two persons","Group household",570
+"21","Flemington","Three persons","One family household: Couple family with no children",177
+"22","Flemington","Three persons","One family household: Couple family with children",771
+"23","Flemington","Three persons","One family household: One parent family",429
+"24","Flemington","Three persons","One family household: Other family",72
+"25","Flemington","Three persons","Two or more family household: Couple family with no children",0
+"26","Flemington","Three persons","Two or more family household: Couple family with children",0
+"27","Flemington","Three persons","Two or more family household: One parent family",0
+"28","Flemington","Three persons","Two or more family household: Other family",0
+"29","Flemington","Three persons","Lone person household",0
+"30","Flemington","Three persons","Group household",192
+"31","Flemington","Four persons","One family household: Couple family with no children",44
+"32","Flemington","Four persons","One family household: Couple family with children",1060
+"33","Flemington","Four persons","One family household: One parent family",252
+"34","Flemington","Four persons","One family household: Other family",12
+"35","Flemington","Four persons","Two or more family household: Couple family with no children",12
+"36","Flemington","Four persons","Two or more family household: Couple family with children",0
+"37","Flemington","Four persons","Two or more family household: One parent family",24
+"38","Flemington","Four persons","Two or more family household: Other family",0
+"39","Flemington","Four persons","Lone person household",0
+"40","Flemington","Four persons","Group household",96
+"41","Flemington","Five persons","One family household: Couple family with no children",0
+"42","Flemington","Five persons","One family household: Couple family with children",545
+"43","Flemington","Five persons","One family household: One parent family",110
+"44","Flemington","Five persons","One family household: Other family",0
+"45","Flemington","Five persons","Two or more family household: Couple family with no children",0
+"46","Flemington","Five persons","Two or more family household: Couple family with children",0
+"47","Flemington","Five persons","Two or more family household: One parent family",15
+"48","Flemington","Five persons","Two or more family household: Other family",0
+"49","Flemington","Five persons","Lone person household",0
+"50","Flemington","Five persons","Group household",40
+"51","Flemington","Six or more persons","One family household: Couple family with no children",0
+"52","Flemington","Six or more persons","One family household: Couple family with children",336
+"53","Flemington","Six or more persons","One family household: One parent family",102
+"54","Flemington","Six or more persons","One family household: Other family",0
+"55","Flemington","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Flemington","Six or more persons","Two or more family household: Couple family with children",0
+"57","Flemington","Six or more persons","Two or more family household: One parent family",0
+"58","Flemington","Six or more persons","Two or more family household: Other family",0
+"59","Flemington","Six or more persons","Lone person household",0
+"60","Flemington","Six or more persons","Group household",0

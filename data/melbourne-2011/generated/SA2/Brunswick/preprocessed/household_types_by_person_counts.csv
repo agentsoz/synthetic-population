@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Brunswick","One person","One family household: Couple family with no children",0
+"2","Brunswick","One person","One family household: Couple family with children",0
+"3","Brunswick","One person","One family household: One parent family",0
+"4","Brunswick","One person","One family household: Other family",0
+"5","Brunswick","One person","Two or more family household: Couple family with no children",0
+"6","Brunswick","One person","Two or more family household: Couple family with children",0
+"7","Brunswick","One person","Two or more family household: One parent family",0
+"8","Brunswick","One person","Two or more family household: Other family",0
+"9","Brunswick","One person","Lone person household",2699
+"10","Brunswick","One person","Group household",0
+"11","Brunswick","Two persons","One family household: Couple family with no children",4356
+"12","Brunswick","Two persons","One family household: Couple family with children",0
+"13","Brunswick","Two persons","One family household: One parent family",740
+"14","Brunswick","Two persons","One family household: Other family",256
+"15","Brunswick","Two persons","Two or more family household: Couple family with no children",0
+"16","Brunswick","Two persons","Two or more family household: Couple family with children",0
+"17","Brunswick","Two persons","Two or more family household: One parent family",0
+"18","Brunswick","Two persons","Two or more family household: Other family",0
+"19","Brunswick","Two persons","Lone person household",0
+"20","Brunswick","Two persons","Group household",1574
+"21","Brunswick","Three persons","One family household: Couple family with no children",489
+"22","Brunswick","Three persons","One family household: Couple family with children",2439
+"23","Brunswick","Three persons","One family household: One parent family",456
+"24","Brunswick","Three persons","One family household: Other family",141
+"25","Brunswick","Three persons","Two or more family household: Couple family with no children",0
+"26","Brunswick","Three persons","Two or more family household: Couple family with children",0
+"27","Brunswick","Three persons","Two or more family household: One parent family",0
+"28","Brunswick","Three persons","Two or more family household: Other family",0
+"29","Brunswick","Three persons","Lone person household",0
+"30","Brunswick","Three persons","Group household",1413
+"31","Brunswick","Four persons","One family household: Couple family with no children",180
+"32","Brunswick","Four persons","One family household: Couple family with children",2972
+"33","Brunswick","Four persons","One family household: One parent family",148
+"34","Brunswick","Four persons","One family household: Other family",68
+"35","Brunswick","Four persons","Two or more family household: Couple family with no children",76
+"36","Brunswick","Four persons","Two or more family household: Couple family with children",0
+"37","Brunswick","Four persons","Two or more family household: One parent family",60
+"38","Brunswick","Four persons","Two or more family household: Other family",0
+"39","Brunswick","Four persons","Lone person household",0
+"40","Brunswick","Four persons","Group household",708
+"41","Brunswick","Five persons","One family household: Couple family with no children",30
+"42","Brunswick","Five persons","One family household: Couple family with children",1030
+"43","Brunswick","Five persons","One family household: One parent family",65
+"44","Brunswick","Five persons","One family household: Other family",50
+"45","Brunswick","Five persons","Two or more family household: Couple family with no children",15
+"46","Brunswick","Five persons","Two or more family household: Couple family with children",75
+"47","Brunswick","Five persons","Two or more family household: One parent family",30
+"48","Brunswick","Five persons","Two or more family household: Other family",0
+"49","Brunswick","Five persons","Lone person household",0
+"50","Brunswick","Five persons","Group household",220
+"51","Brunswick","Six or more persons","One family household: Couple family with no children",18
+"52","Brunswick","Six or more persons","One family household: Couple family with children",408
+"53","Brunswick","Six or more persons","One family household: One parent family",24
+"54","Brunswick","Six or more persons","One family household: Other family",0
+"55","Brunswick","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Brunswick","Six or more persons","Two or more family household: Couple family with children",138
+"57","Brunswick","Six or more persons","Two or more family household: One parent family",48
+"58","Brunswick","Six or more persons","Two or more family household: Other family",0
+"59","Brunswick","Six or more persons","Lone person household",0
+"60","Brunswick","Six or more persons","Group household",78

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Fawkner","One person","One family household: Couple family with no children",0
+"2","Fawkner","One person","One family household: Couple family with children",0
+"3","Fawkner","One person","One family household: One parent family",0
+"4","Fawkner","One person","One family household: Other family",0
+"5","Fawkner","One person","Two or more family household: Couple family with no children",0
+"6","Fawkner","One person","Two or more family household: Couple family with children",0
+"7","Fawkner","One person","Two or more family household: One parent family",0
+"8","Fawkner","One person","Two or more family household: Other family",0
+"9","Fawkner","One person","Lone person household",978
+"10","Fawkner","One person","Group household",0
+"11","Fawkner","Two persons","One family household: Couple family with no children",1888
+"12","Fawkner","Two persons","One family household: Couple family with children",0
+"13","Fawkner","Two persons","One family household: One parent family",582
+"14","Fawkner","Two persons","One family household: Other family",124
+"15","Fawkner","Two persons","Two or more family household: Couple family with no children",0
+"16","Fawkner","Two persons","Two or more family household: Couple family with children",0
+"17","Fawkner","Two persons","Two or more family household: One parent family",0
+"18","Fawkner","Two persons","Two or more family household: Other family",0
+"19","Fawkner","Two persons","Lone person household",0
+"20","Fawkner","Two persons","Group household",180
+"21","Fawkner","Three persons","One family household: Couple family with no children",108
+"22","Fawkner","Three persons","One family household: Couple family with children",1203
+"23","Fawkner","Three persons","One family household: One parent family",456
+"24","Fawkner","Three persons","One family household: Other family",48
+"25","Fawkner","Three persons","Two or more family household: Couple family with no children",0
+"26","Fawkner","Three persons","Two or more family household: Couple family with children",0
+"27","Fawkner","Three persons","Two or more family household: One parent family",0
+"28","Fawkner","Three persons","Two or more family household: Other family",0
+"29","Fawkner","Three persons","Lone person household",0
+"30","Fawkner","Three persons","Group household",36
+"31","Fawkner","Four persons","One family household: Couple family with no children",44
+"32","Fawkner","Four persons","One family household: Couple family with children",2044
+"33","Fawkner","Four persons","One family household: One parent family",232
+"34","Fawkner","Four persons","One family household: Other family",44
+"35","Fawkner","Four persons","Two or more family household: Couple family with no children",28
+"36","Fawkner","Four persons","Two or more family household: Couple family with children",0
+"37","Fawkner","Four persons","Two or more family household: One parent family",20
+"38","Fawkner","Four persons","Two or more family household: Other family",0
+"39","Fawkner","Four persons","Lone person household",0
+"40","Fawkner","Four persons","Group household",28
+"41","Fawkner","Five persons","One family household: Couple family with no children",45
+"42","Fawkner","Five persons","One family household: Couple family with children",1515
+"43","Fawkner","Five persons","One family household: One parent family",155
+"44","Fawkner","Five persons","One family household: Other family",0
+"45","Fawkner","Five persons","Two or more family household: Couple family with no children",0
+"46","Fawkner","Five persons","Two or more family household: Couple family with children",50
+"47","Fawkner","Five persons","Two or more family household: One parent family",45
+"48","Fawkner","Five persons","Two or more family household: Other family",0
+"49","Fawkner","Five persons","Lone person household",0
+"50","Fawkner","Five persons","Group household",60
+"51","Fawkner","Six or more persons","One family household: Couple family with no children",0
+"52","Fawkner","Six or more persons","One family household: Couple family with children",1206
+"53","Fawkner","Six or more persons","One family household: One parent family",54
+"54","Fawkner","Six or more persons","One family household: Other family",0
+"55","Fawkner","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Fawkner","Six or more persons","Two or more family household: Couple family with children",312
+"57","Fawkner","Six or more persons","Two or more family household: One parent family",66
+"58","Fawkner","Six or more persons","Two or more family household: Other family",0
+"59","Fawkner","Six or more persons","Lone person household",0
+"60","Fawkner","Six or more persons","Group household",42

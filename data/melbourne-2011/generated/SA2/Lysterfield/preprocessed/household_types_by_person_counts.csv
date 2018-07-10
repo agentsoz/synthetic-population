@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Lysterfield","One person","One family household: Couple family with no children",0
+"2","Lysterfield","One person","One family household: Couple family with children",0
+"3","Lysterfield","One person","One family household: One parent family",0
+"4","Lysterfield","One person","One family household: Other family",0
+"5","Lysterfield","One person","Two or more family household: Couple family with no children",0
+"6","Lysterfield","One person","Two or more family household: Couple family with children",0
+"7","Lysterfield","One person","Two or more family household: One parent family",0
+"8","Lysterfield","One person","Two or more family household: Other family",0
+"9","Lysterfield","One person","Lone person household",145
+"10","Lysterfield","One person","Group household",0
+"11","Lysterfield","Two persons","One family household: Couple family with no children",646
+"12","Lysterfield","Two persons","One family household: Couple family with children",0
+"13","Lysterfield","Two persons","One family household: One parent family",114
+"14","Lysterfield","Two persons","One family household: Other family",18
+"15","Lysterfield","Two persons","Two or more family household: Couple family with no children",0
+"16","Lysterfield","Two persons","Two or more family household: Couple family with children",0
+"17","Lysterfield","Two persons","Two or more family household: One parent family",0
+"18","Lysterfield","Two persons","Two or more family household: Other family",0
+"19","Lysterfield","Two persons","Lone person household",0
+"20","Lysterfield","Two persons","Group household",34
+"21","Lysterfield","Three persons","One family household: Couple family with no children",72
+"22","Lysterfield","Three persons","One family household: Couple family with children",963
+"23","Lysterfield","Three persons","One family household: One parent family",165
+"24","Lysterfield","Three persons","One family household: Other family",9
+"25","Lysterfield","Three persons","Two or more family household: Couple family with no children",0
+"26","Lysterfield","Three persons","Two or more family household: Couple family with children",0
+"27","Lysterfield","Three persons","Two or more family household: One parent family",0
+"28","Lysterfield","Three persons","Two or more family household: Other family",0
+"29","Lysterfield","Three persons","Lone person household",0
+"30","Lysterfield","Three persons","Group household",0
+"31","Lysterfield","Four persons","One family household: Couple family with no children",0
+"32","Lysterfield","Four persons","One family household: Couple family with children",2212
+"33","Lysterfield","Four persons","One family household: One parent family",96
+"34","Lysterfield","Four persons","One family household: Other family",0
+"35","Lysterfield","Four persons","Two or more family household: Couple family with no children",12
+"36","Lysterfield","Four persons","Two or more family household: Couple family with children",0
+"37","Lysterfield","Four persons","Two or more family household: One parent family",16
+"38","Lysterfield","Four persons","Two or more family household: Other family",0
+"39","Lysterfield","Four persons","Lone person household",0
+"40","Lysterfield","Four persons","Group household",0
+"41","Lysterfield","Five persons","One family household: Couple family with no children",0
+"42","Lysterfield","Five persons","One family household: Couple family with children",1325
+"43","Lysterfield","Five persons","One family household: One parent family",20
+"44","Lysterfield","Five persons","One family household: Other family",0
+"45","Lysterfield","Five persons","Two or more family household: Couple family with no children",0
+"46","Lysterfield","Five persons","Two or more family household: Couple family with children",60
+"47","Lysterfield","Five persons","Two or more family household: One parent family",15
+"48","Lysterfield","Five persons","Two or more family household: Other family",0
+"49","Lysterfield","Five persons","Lone person household",0
+"50","Lysterfield","Five persons","Group household",0
+"51","Lysterfield","Six or more persons","One family household: Couple family with no children",0
+"52","Lysterfield","Six or more persons","One family household: Couple family with children",396
+"53","Lysterfield","Six or more persons","One family household: One parent family",0
+"54","Lysterfield","Six or more persons","One family household: Other family",0
+"55","Lysterfield","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Lysterfield","Six or more persons","Two or more family household: Couple family with children",18
+"57","Lysterfield","Six or more persons","Two or more family household: One parent family",0
+"58","Lysterfield","Six or more persons","Two or more family household: Other family",0
+"59","Lysterfield","Six or more persons","Lone person household",0
+"60","Lysterfield","Six or more persons","Group household",0

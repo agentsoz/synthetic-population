@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Seabrook","One person","One family household: Couple family with no children",0
+"2","Seabrook","One person","One family household: Couple family with children",0
+"3","Seabrook","One person","One family household: One parent family",0
+"4","Seabrook","One person","One family household: Other family",0
+"5","Seabrook","One person","Two or more family household: Couple family with no children",0
+"6","Seabrook","One person","Two or more family household: Couple family with children",0
+"7","Seabrook","One person","Two or more family household: One parent family",0
+"8","Seabrook","One person","Two or more family household: Other family",0
+"9","Seabrook","One person","Lone person household",236
+"10","Seabrook","One person","Group household",0
+"11","Seabrook","Two persons","One family household: Couple family with no children",650
+"12","Seabrook","Two persons","One family household: Couple family with children",0
+"13","Seabrook","Two persons","One family household: One parent family",150
+"14","Seabrook","Two persons","One family household: Other family",26
+"15","Seabrook","Two persons","Two or more family household: Couple family with no children",0
+"16","Seabrook","Two persons","Two or more family household: Couple family with children",0
+"17","Seabrook","Two persons","Two or more family household: One parent family",0
+"18","Seabrook","Two persons","Two or more family household: Other family",0
+"19","Seabrook","Two persons","Lone person household",0
+"20","Seabrook","Two persons","Group household",72
+"21","Seabrook","Three persons","One family household: Couple family with no children",33
+"22","Seabrook","Three persons","One family household: Couple family with children",726
+"23","Seabrook","Three persons","One family household: One parent family",216
+"24","Seabrook","Three persons","One family household: Other family",9
+"25","Seabrook","Three persons","Two or more family household: Couple family with no children",0
+"26","Seabrook","Three persons","Two or more family household: Couple family with children",0
+"27","Seabrook","Three persons","Two or more family household: One parent family",0
+"28","Seabrook","Three persons","Two or more family household: Other family",0
+"29","Seabrook","Three persons","Lone person household",0
+"30","Seabrook","Three persons","Group household",21
+"31","Seabrook","Four persons","One family household: Couple family with no children",16
+"32","Seabrook","Four persons","One family household: Couple family with children",1444
+"33","Seabrook","Four persons","One family household: One parent family",116
+"34","Seabrook","Four persons","One family household: Other family",0
+"35","Seabrook","Four persons","Two or more family household: Couple family with no children",0
+"36","Seabrook","Four persons","Two or more family household: Couple family with children",0
+"37","Seabrook","Four persons","Two or more family household: One parent family",16
+"38","Seabrook","Four persons","Two or more family household: Other family",0
+"39","Seabrook","Four persons","Lone person household",0
+"40","Seabrook","Four persons","Group household",12
+"41","Seabrook","Five persons","One family household: Couple family with no children",0
+"42","Seabrook","Five persons","One family household: Couple family with children",645
+"43","Seabrook","Five persons","One family household: One parent family",15
+"44","Seabrook","Five persons","One family household: Other family",0
+"45","Seabrook","Five persons","Two or more family household: Couple family with no children",15
+"46","Seabrook","Five persons","Two or more family household: Couple family with children",15
+"47","Seabrook","Five persons","Two or more family household: One parent family",25
+"48","Seabrook","Five persons","Two or more family household: Other family",0
+"49","Seabrook","Five persons","Lone person household",0
+"50","Seabrook","Five persons","Group household",0
+"51","Seabrook","Six or more persons","One family household: Couple family with no children",0
+"52","Seabrook","Six or more persons","One family household: Couple family with children",240
+"53","Seabrook","Six or more persons","One family household: One parent family",24
+"54","Seabrook","Six or more persons","One family household: Other family",0
+"55","Seabrook","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Seabrook","Six or more persons","Two or more family household: Couple family with children",36
+"57","Seabrook","Six or more persons","Two or more family household: One parent family",18
+"58","Seabrook","Six or more persons","Two or more family household: Other family",0
+"59","Seabrook","Six or more persons","Lone person household",0
+"60","Seabrook","Six or more persons","Group household",0

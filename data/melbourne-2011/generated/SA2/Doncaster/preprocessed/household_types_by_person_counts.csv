@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Doncaster","One person","One family household: Couple family with no children",0
+"2","Doncaster","One person","One family household: Couple family with children",0
+"3","Doncaster","One person","One family household: One parent family",0
+"4","Doncaster","One person","One family household: Other family",0
+"5","Doncaster","One person","Two or more family household: Couple family with no children",0
+"6","Doncaster","One person","Two or more family household: Couple family with children",0
+"7","Doncaster","One person","Two or more family household: One parent family",0
+"8","Doncaster","One person","Two or more family household: Other family",0
+"9","Doncaster","One person","Lone person household",1519
+"10","Doncaster","One person","Group household",0
+"11","Doncaster","Two persons","One family household: Couple family with no children",3726
+"12","Doncaster","Two persons","One family household: Couple family with children",0
+"13","Doncaster","Two persons","One family household: One parent family",698
+"14","Doncaster","Two persons","One family household: Other family",166
+"15","Doncaster","Two persons","Two or more family household: Couple family with no children",0
+"16","Doncaster","Two persons","Two or more family household: Couple family with children",0
+"17","Doncaster","Two persons","Two or more family household: One parent family",0
+"18","Doncaster","Two persons","Two or more family household: Other family",0
+"19","Doncaster","Two persons","Lone person household",0
+"20","Doncaster","Two persons","Group household",224
+"21","Doncaster","Three persons","One family household: Couple family with no children",303
+"22","Doncaster","Three persons","One family household: Couple family with children",2625
+"23","Doncaster","Three persons","One family household: One parent family",654
+"24","Doncaster","Three persons","One family household: Other family",90
+"25","Doncaster","Three persons","Two or more family household: Couple family with no children",0
+"26","Doncaster","Three persons","Two or more family household: Couple family with children",0
+"27","Doncaster","Three persons","Two or more family household: One parent family",0
+"28","Doncaster","Three persons","Two or more family household: Other family",0
+"29","Doncaster","Three persons","Lone person household",0
+"30","Doncaster","Three persons","Group household",156
+"31","Doncaster","Four persons","One family household: Couple family with no children",120
+"32","Doncaster","Four persons","One family household: Couple family with children",4076
+"33","Doncaster","Four persons","One family household: One parent family",352
+"34","Doncaster","Four persons","One family household: Other family",12
+"35","Doncaster","Four persons","Two or more family household: Couple family with no children",68
+"36","Doncaster","Four persons","Two or more family household: Couple family with children",0
+"37","Doncaster","Four persons","Two or more family household: One parent family",68
+"38","Doncaster","Four persons","Two or more family household: Other family",0
+"39","Doncaster","Four persons","Lone person household",0
+"40","Doncaster","Four persons","Group household",60
+"41","Doncaster","Five persons","One family household: Couple family with no children",25
+"42","Doncaster","Five persons","One family household: Couple family with children",1615
+"43","Doncaster","Five persons","One family household: One parent family",60
+"44","Doncaster","Five persons","One family household: Other family",0
+"45","Doncaster","Five persons","Two or more family household: Couple family with no children",35
+"46","Doncaster","Five persons","Two or more family household: Couple family with children",180
+"47","Doncaster","Five persons","Two or more family household: One parent family",55
+"48","Doncaster","Five persons","Two or more family household: Other family",0
+"49","Doncaster","Five persons","Lone person household",0
+"50","Doncaster","Five persons","Group household",30
+"51","Doncaster","Six or more persons","One family household: Couple family with no children",18
+"52","Doncaster","Six or more persons","One family household: Couple family with children",462
+"53","Doncaster","Six or more persons","One family household: One parent family",36
+"54","Doncaster","Six or more persons","One family household: Other family",0
+"55","Doncaster","Six or more persons","Two or more family household: Couple family with no children",30
+"56","Doncaster","Six or more persons","Two or more family household: Couple family with children",294
+"57","Doncaster","Six or more persons","Two or more family household: One parent family",54
+"58","Doncaster","Six or more persons","Two or more family household: Other family",0
+"59","Doncaster","Six or more persons","Lone person household",0
+"60","Doncaster","Six or more persons","Group household",0

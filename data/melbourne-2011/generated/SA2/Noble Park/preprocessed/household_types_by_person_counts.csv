@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Noble Park","One person","One family household: Couple family with no children",0
+"2","Noble Park","One person","One family household: Couple family with children",0
+"3","Noble Park","One person","One family household: One parent family",0
+"4","Noble Park","One person","One family household: Other family",0
+"5","Noble Park","One person","Two or more family household: Couple family with no children",0
+"6","Noble Park","One person","Two or more family household: Couple family with children",0
+"7","Noble Park","One person","Two or more family household: One parent family",0
+"8","Noble Park","One person","Two or more family household: Other family",0
+"9","Noble Park","One person","Lone person household",2767
+"10","Noble Park","One person","Group household",0
+"11","Noble Park","Two persons","One family household: Couple family with no children",3806
+"12","Noble Park","Two persons","One family household: Couple family with children",0
+"13","Noble Park","Two persons","One family household: One parent family",1390
+"14","Noble Park","Two persons","One family household: Other family",298
+"15","Noble Park","Two persons","Two or more family household: Couple family with no children",0
+"16","Noble Park","Two persons","Two or more family household: Couple family with children",0
+"17","Noble Park","Two persons","Two or more family household: One parent family",0
+"18","Noble Park","Two persons","Two or more family household: Other family",0
+"19","Noble Park","Two persons","Lone person household",0
+"20","Noble Park","Two persons","Group household",596
+"21","Noble Park","Three persons","One family household: Couple family with no children",519
+"22","Noble Park","Three persons","One family household: Couple family with children",3183
+"23","Noble Park","Three persons","One family household: One parent family",1290
+"24","Noble Park","Three persons","One family household: Other family",138
+"25","Noble Park","Three persons","Two or more family household: Couple family with no children",0
+"26","Noble Park","Three persons","Two or more family household: Couple family with children",0
+"27","Noble Park","Three persons","Two or more family household: One parent family",0
+"28","Noble Park","Three persons","Two or more family household: Other family",0
+"29","Noble Park","Three persons","Lone person household",0
+"30","Noble Park","Three persons","Group household",186
+"31","Noble Park","Four persons","One family household: Couple family with no children",232
+"32","Noble Park","Four persons","One family household: Couple family with children",4172
+"33","Noble Park","Four persons","One family household: One parent family",772
+"34","Noble Park","Four persons","One family household: Other family",68
+"35","Noble Park","Four persons","Two or more family household: Couple family with no children",124
+"36","Noble Park","Four persons","Two or more family household: Couple family with children",0
+"37","Noble Park","Four persons","Two or more family household: One parent family",92
+"38","Noble Park","Four persons","Two or more family household: Other family",0
+"39","Noble Park","Four persons","Lone person household",0
+"40","Noble Park","Four persons","Group household",152
+"41","Noble Park","Five persons","One family household: Couple family with no children",90
+"42","Noble Park","Five persons","One family household: Couple family with children",2300
+"43","Noble Park","Five persons","One family household: One parent family",435
+"44","Noble Park","Five persons","One family household: Other family",30
+"45","Noble Park","Five persons","Two or more family household: Couple family with no children",45
+"46","Noble Park","Five persons","Two or more family household: Couple family with children",280
+"47","Noble Park","Five persons","Two or more family household: One parent family",140
+"48","Noble Park","Five persons","Two or more family household: Other family",0
+"49","Noble Park","Five persons","Lone person household",0
+"50","Noble Park","Five persons","Group household",95
+"51","Noble Park","Six or more persons","One family household: Couple family with no children",60
+"52","Noble Park","Six or more persons","One family household: Couple family with children",1764
+"53","Noble Park","Six or more persons","One family household: One parent family",246
+"54","Noble Park","Six or more persons","One family household: Other family",24
+"55","Noble Park","Six or more persons","Two or more family household: Couple family with no children",102
+"56","Noble Park","Six or more persons","Two or more family household: Couple family with children",690
+"57","Noble Park","Six or more persons","Two or more family household: One parent family",246
+"58","Noble Park","Six or more persons","Two or more family household: Other family",0
+"59","Noble Park","Six or more persons","Lone person household",0
+"60","Noble Park","Six or more persons","Group household",18

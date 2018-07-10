@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Thomastown","One person","One family household: Couple family with no children",0
+"2","Thomastown","One person","One family household: Couple family with children",0
+"3","Thomastown","One person","One family household: One parent family",0
+"4","Thomastown","One person","One family household: Other family",0
+"5","Thomastown","One person","Two or more family household: Couple family with no children",0
+"6","Thomastown","One person","Two or more family household: Couple family with children",0
+"7","Thomastown","One person","Two or more family household: One parent family",0
+"8","Thomastown","One person","Two or more family household: Other family",0
+"9","Thomastown","One person","Lone person household",1199
+"10","Thomastown","One person","Group household",0
+"11","Thomastown","Two persons","One family household: Couple family with no children",3190
+"12","Thomastown","Two persons","One family household: Couple family with children",0
+"13","Thomastown","Two persons","One family household: One parent family",820
+"14","Thomastown","Two persons","One family household: Other family",154
+"15","Thomastown","Two persons","Two or more family household: Couple family with no children",0
+"16","Thomastown","Two persons","Two or more family household: Couple family with children",0
+"17","Thomastown","Two persons","Two or more family household: One parent family",0
+"18","Thomastown","Two persons","Two or more family household: Other family",0
+"19","Thomastown","Two persons","Lone person household",0
+"20","Thomastown","Two persons","Group household",194
+"21","Thomastown","Three persons","One family household: Couple family with no children",270
+"22","Thomastown","Three persons","One family household: Couple family with children",2670
+"23","Thomastown","Three persons","One family household: One parent family",858
+"24","Thomastown","Three persons","One family household: Other family",39
+"25","Thomastown","Three persons","Two or more family household: Couple family with no children",0
+"26","Thomastown","Three persons","Two or more family household: Couple family with children",0
+"27","Thomastown","Three persons","Two or more family household: One parent family",0
+"28","Thomastown","Three persons","Two or more family household: Other family",0
+"29","Thomastown","Three persons","Lone person household",0
+"30","Thomastown","Three persons","Group household",48
+"31","Thomastown","Four persons","One family household: Couple family with no children",112
+"32","Thomastown","Four persons","One family household: Couple family with children",3840
+"33","Thomastown","Four persons","One family household: One parent family",440
+"34","Thomastown","Four persons","One family household: Other family",28
+"35","Thomastown","Four persons","Two or more family household: Couple family with no children",128
+"36","Thomastown","Four persons","Two or more family household: Couple family with children",0
+"37","Thomastown","Four persons","Two or more family household: One parent family",144
+"38","Thomastown","Four persons","Two or more family household: Other family",12
+"39","Thomastown","Four persons","Lone person household",0
+"40","Thomastown","Four persons","Group household",72
+"41","Thomastown","Five persons","One family household: Couple family with no children",50
+"42","Thomastown","Five persons","One family household: Couple family with children",1970
+"43","Thomastown","Five persons","One family household: One parent family",275
+"44","Thomastown","Five persons","One family household: Other family",15
+"45","Thomastown","Five persons","Two or more family household: Couple family with no children",25
+"46","Thomastown","Five persons","Two or more family household: Couple family with children",255
+"47","Thomastown","Five persons","Two or more family household: One parent family",70
+"48","Thomastown","Five persons","Two or more family household: Other family",0
+"49","Thomastown","Five persons","Lone person household",0
+"50","Thomastown","Five persons","Group household",50
+"51","Thomastown","Six or more persons","One family household: Couple family with no children",0
+"52","Thomastown","Six or more persons","One family household: Couple family with children",1404
+"53","Thomastown","Six or more persons","One family household: One parent family",168
+"54","Thomastown","Six or more persons","One family household: Other family",0
+"55","Thomastown","Six or more persons","Two or more family household: Couple family with no children",48
+"56","Thomastown","Six or more persons","Two or more family household: Couple family with children",582
+"57","Thomastown","Six or more persons","Two or more family household: One parent family",234
+"58","Thomastown","Six or more persons","Two or more family household: Other family",0
+"59","Thomastown","Six or more persons","Lone person household",0
+"60","Thomastown","Six or more persons","Group household",18

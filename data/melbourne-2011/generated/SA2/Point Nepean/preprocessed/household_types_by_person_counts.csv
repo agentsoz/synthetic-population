@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Point Nepean","One person","One family household: Couple family with no children",0
+"2","Point Nepean","One person","One family household: Couple family with children",0
+"3","Point Nepean","One person","One family household: One parent family",0
+"4","Point Nepean","One person","One family household: Other family",0
+"5","Point Nepean","One person","Two or more family household: Couple family with no children",0
+"6","Point Nepean","One person","Two or more family household: Couple family with children",0
+"7","Point Nepean","One person","Two or more family household: One parent family",0
+"8","Point Nepean","One person","Two or more family household: Other family",0
+"9","Point Nepean","One person","Lone person household",1934
+"10","Point Nepean","One person","Group household",0
+"11","Point Nepean","Two persons","One family household: Couple family with no children",4060
+"12","Point Nepean","Two persons","One family household: Couple family with children",0
+"13","Point Nepean","Two persons","One family household: One parent family",616
+"14","Point Nepean","Two persons","One family household: Other family",58
+"15","Point Nepean","Two persons","Two or more family household: Couple family with no children",0
+"16","Point Nepean","Two persons","Two or more family household: Couple family with children",0
+"17","Point Nepean","Two persons","Two or more family household: One parent family",0
+"18","Point Nepean","Two persons","Two or more family household: Other family",0
+"19","Point Nepean","Two persons","Lone person household",0
+"20","Point Nepean","Two persons","Group household",336
+"21","Point Nepean","Three persons","One family household: Couple family with no children",96
+"22","Point Nepean","Three persons","One family household: Couple family with children",1440
+"23","Point Nepean","Three persons","One family household: One parent family",567
+"24","Point Nepean","Three persons","One family household: Other family",21
+"25","Point Nepean","Three persons","Two or more family household: Couple family with no children",0
+"26","Point Nepean","Three persons","Two or more family household: Couple family with children",0
+"27","Point Nepean","Three persons","Two or more family household: One parent family",0
+"28","Point Nepean","Three persons","Two or more family household: Other family",0
+"29","Point Nepean","Three persons","Lone person household",0
+"30","Point Nepean","Three persons","Group household",51
+"31","Point Nepean","Four persons","One family household: Couple family with no children",16
+"32","Point Nepean","Four persons","One family household: Couple family with children",2460
+"33","Point Nepean","Four persons","One family household: One parent family",264
+"34","Point Nepean","Four persons","One family household: Other family",0
+"35","Point Nepean","Four persons","Two or more family household: Couple family with no children",28
+"36","Point Nepean","Four persons","Two or more family household: Couple family with children",0
+"37","Point Nepean","Four persons","Two or more family household: One parent family",56
+"38","Point Nepean","Four persons","Two or more family household: Other family",0
+"39","Point Nepean","Four persons","Lone person household",0
+"40","Point Nepean","Four persons","Group household",28
+"41","Point Nepean","Five persons","One family household: Couple family with no children",0
+"42","Point Nepean","Five persons","One family household: Couple family with children",1195
+"43","Point Nepean","Five persons","One family household: One parent family",120
+"44","Point Nepean","Five persons","One family household: Other family",0
+"45","Point Nepean","Five persons","Two or more family household: Couple family with no children",0
+"46","Point Nepean","Five persons","Two or more family household: Couple family with children",25
+"47","Point Nepean","Five persons","Two or more family household: One parent family",25
+"48","Point Nepean","Five persons","Two or more family household: Other family",0
+"49","Point Nepean","Five persons","Lone person household",0
+"50","Point Nepean","Five persons","Group household",0
+"51","Point Nepean","Six or more persons","One family household: Couple family with no children",0
+"52","Point Nepean","Six or more persons","One family household: Couple family with children",498
+"53","Point Nepean","Six or more persons","One family household: One parent family",54
+"54","Point Nepean","Six or more persons","One family household: Other family",0
+"55","Point Nepean","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Point Nepean","Six or more persons","Two or more family household: Couple family with children",18
+"57","Point Nepean","Six or more persons","Two or more family household: One parent family",18
+"58","Point Nepean","Six or more persons","Two or more family household: Other family",0
+"59","Point Nepean","Six or more persons","Lone person household",0
+"60","Point Nepean","Six or more persons","Group household",0

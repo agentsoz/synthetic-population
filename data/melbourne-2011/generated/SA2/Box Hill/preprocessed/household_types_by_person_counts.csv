@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Box Hill","One person","One family household: Couple family with no children",0
+"2","Box Hill","One person","One family household: Couple family with children",0
+"3","Box Hill","One person","One family household: One parent family",0
+"4","Box Hill","One person","One family household: Other family",0
+"5","Box Hill","One person","Two or more family household: Couple family with no children",0
+"6","Box Hill","One person","Two or more family household: Couple family with children",0
+"7","Box Hill","One person","Two or more family household: One parent family",0
+"8","Box Hill","One person","Two or more family household: Other family",0
+"9","Box Hill","One person","Lone person household",1874
+"10","Box Hill","One person","Group household",0
+"11","Box Hill","Two persons","One family household: Couple family with no children",2422
+"12","Box Hill","Two persons","One family household: Couple family with children",0
+"13","Box Hill","Two persons","One family household: One parent family",658
+"14","Box Hill","Two persons","One family household: Other family",232
+"15","Box Hill","Two persons","Two or more family household: Couple family with no children",0
+"16","Box Hill","Two persons","Two or more family household: Couple family with children",0
+"17","Box Hill","Two persons","Two or more family household: One parent family",0
+"18","Box Hill","Two persons","Two or more family household: Other family",0
+"19","Box Hill","Two persons","Lone person household",0
+"20","Box Hill","Two persons","Group household",564
+"21","Box Hill","Three persons","One family household: Couple family with no children",363
+"22","Box Hill","Three persons","One family household: Couple family with children",1890
+"23","Box Hill","Three persons","One family household: One parent family",618
+"24","Box Hill","Three persons","One family household: Other family",69
+"25","Box Hill","Three persons","Two or more family household: Couple family with no children",0
+"26","Box Hill","Three persons","Two or more family household: Couple family with children",0
+"27","Box Hill","Three persons","Two or more family household: One parent family",0
+"28","Box Hill","Three persons","Two or more family household: Other family",0
+"29","Box Hill","Three persons","Lone person household",0
+"30","Box Hill","Three persons","Group household",306
+"31","Box Hill","Four persons","One family household: Couple family with no children",164
+"32","Box Hill","Four persons","One family household: Couple family with children",3248
+"33","Box Hill","Four persons","One family household: One parent family",192
+"34","Box Hill","Four persons","One family household: Other family",52
+"35","Box Hill","Four persons","Two or more family household: Couple family with no children",84
+"36","Box Hill","Four persons","Two or more family household: Couple family with children",0
+"37","Box Hill","Four persons","Two or more family household: One parent family",40
+"38","Box Hill","Four persons","Two or more family household: Other family",0
+"39","Box Hill","Four persons","Lone person household",0
+"40","Box Hill","Four persons","Group household",252
+"41","Box Hill","Five persons","One family household: Couple family with no children",70
+"42","Box Hill","Five persons","One family household: Couple family with children",1580
+"43","Box Hill","Five persons","One family household: One parent family",105
+"44","Box Hill","Five persons","One family household: Other family",40
+"45","Box Hill","Five persons","Two or more family household: Couple family with no children",40
+"46","Box Hill","Five persons","Two or more family household: Couple family with children",75
+"47","Box Hill","Five persons","Two or more family household: One parent family",0
+"48","Box Hill","Five persons","Two or more family household: Other family",0
+"49","Box Hill","Five persons","Lone person household",0
+"50","Box Hill","Five persons","Group household",175
+"51","Box Hill","Six or more persons","One family household: Couple family with no children",54
+"52","Box Hill","Six or more persons","One family household: Couple family with children",492
+"53","Box Hill","Six or more persons","One family household: One parent family",66
+"54","Box Hill","Six or more persons","One family household: Other family",0
+"55","Box Hill","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Box Hill","Six or more persons","Two or more family household: Couple family with children",114
+"57","Box Hill","Six or more persons","Two or more family household: One parent family",0
+"58","Box Hill","Six or more persons","Two or more family household: Other family",0
+"59","Box Hill","Six or more persons","Lone person household",0
+"60","Box Hill","Six or more persons","Group household",72

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","South Melbourne","One person","One family household: Couple family with no children",0
+"2","South Melbourne","One person","One family household: Couple family with children",0
+"3","South Melbourne","One person","One family household: One parent family",0
+"4","South Melbourne","One person","One family household: Other family",0
+"5","South Melbourne","One person","Two or more family household: Couple family with no children",0
+"6","South Melbourne","One person","Two or more family household: Couple family with children",0
+"7","South Melbourne","One person","Two or more family household: One parent family",0
+"8","South Melbourne","One person","Two or more family household: Other family",0
+"9","South Melbourne","One person","Lone person household",1578
+"10","South Melbourne","One person","Group household",0
+"11","South Melbourne","Two persons","One family household: Couple family with no children",2436
+"12","South Melbourne","Two persons","One family household: Couple family with children",0
+"13","South Melbourne","Two persons","One family household: One parent family",388
+"14","South Melbourne","Two persons","One family household: Other family",118
+"15","South Melbourne","Two persons","Two or more family household: Couple family with no children",0
+"16","South Melbourne","Two persons","Two or more family household: Couple family with children",0
+"17","South Melbourne","Two persons","Two or more family household: One parent family",0
+"18","South Melbourne","Two persons","Two or more family household: Other family",0
+"19","South Melbourne","Two persons","Lone person household",0
+"20","South Melbourne","Two persons","Group household",520
+"21","South Melbourne","Three persons","One family household: Couple family with no children",159
+"22","South Melbourne","Three persons","One family household: Couple family with children",882
+"23","South Melbourne","Three persons","One family household: One parent family",321
+"24","South Melbourne","Three persons","One family household: Other family",78
+"25","South Melbourne","Three persons","Two or more family household: Couple family with no children",0
+"26","South Melbourne","Three persons","Two or more family household: Couple family with children",0
+"27","South Melbourne","Three persons","Two or more family household: One parent family",0
+"28","South Melbourne","Three persons","Two or more family household: Other family",0
+"29","South Melbourne","Three persons","Lone person household",0
+"30","South Melbourne","Three persons","Group household",303
+"31","South Melbourne","Four persons","One family household: Couple family with no children",48
+"32","South Melbourne","Four persons","One family household: Couple family with children",1196
+"33","South Melbourne","Four persons","One family household: One parent family",116
+"34","South Melbourne","Four persons","One family household: Other family",40
+"35","South Melbourne","Four persons","Two or more family household: Couple family with no children",24
+"36","South Melbourne","Four persons","Two or more family household: Couple family with children",0
+"37","South Melbourne","Four persons","Two or more family household: One parent family",12
+"38","South Melbourne","Four persons","Two or more family household: Other family",0
+"39","South Melbourne","Four persons","Lone person household",0
+"40","South Melbourne","Four persons","Group household",60
+"41","South Melbourne","Five persons","One family household: Couple family with no children",0
+"42","South Melbourne","Five persons","One family household: Couple family with children",325
+"43","South Melbourne","Five persons","One family household: One parent family",15
+"44","South Melbourne","Five persons","One family household: Other family",0
+"45","South Melbourne","Five persons","Two or more family household: Couple family with no children",0
+"46","South Melbourne","Five persons","Two or more family household: Couple family with children",15
+"47","South Melbourne","Five persons","Two or more family household: One parent family",0
+"48","South Melbourne","Five persons","Two or more family household: Other family",0
+"49","South Melbourne","Five persons","Lone person household",0
+"50","South Melbourne","Five persons","Group household",15
+"51","South Melbourne","Six or more persons","One family household: Couple family with no children",0
+"52","South Melbourne","Six or more persons","One family household: Couple family with children",54
+"53","South Melbourne","Six or more persons","One family household: One parent family",24
+"54","South Melbourne","Six or more persons","One family household: Other family",0
+"55","South Melbourne","Six or more persons","Two or more family household: Couple family with no children",0
+"56","South Melbourne","Six or more persons","Two or more family household: Couple family with children",18
+"57","South Melbourne","Six or more persons","Two or more family household: One parent family",0
+"58","South Melbourne","Six or more persons","Two or more family household: Other family",0
+"59","South Melbourne","Six or more persons","Lone person household",0
+"60","South Melbourne","Six or more persons","Group household",0

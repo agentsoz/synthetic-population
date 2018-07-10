@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Sydenham","One person","One family household: Couple family with no children",0
+"2","Sydenham","One person","One family household: Couple family with children",0
+"3","Sydenham","One person","One family household: One parent family",0
+"4","Sydenham","One person","One family household: Other family",0
+"5","Sydenham","One person","Two or more family household: Couple family with no children",0
+"6","Sydenham","One person","Two or more family household: Couple family with children",0
+"7","Sydenham","One person","Two or more family household: One parent family",0
+"8","Sydenham","One person","Two or more family household: Other family",0
+"9","Sydenham","One person","Lone person household",575
+"10","Sydenham","One person","Group household",0
+"11","Sydenham","Two persons","One family household: Couple family with no children",1196
+"12","Sydenham","Two persons","One family household: Couple family with children",0
+"13","Sydenham","Two persons","One family household: One parent family",360
+"14","Sydenham","Two persons","One family household: Other family",62
+"15","Sydenham","Two persons","Two or more family household: Couple family with no children",0
+"16","Sydenham","Two persons","Two or more family household: Couple family with children",0
+"17","Sydenham","Two persons","Two or more family household: One parent family",0
+"18","Sydenham","Two persons","Two or more family household: Other family",0
+"19","Sydenham","Two persons","Lone person household",0
+"20","Sydenham","Two persons","Group household",130
+"21","Sydenham","Three persons","One family household: Couple family with no children",123
+"22","Sydenham","Three persons","One family household: Couple family with children",1389
+"23","Sydenham","Three persons","One family household: One parent family",585
+"24","Sydenham","Three persons","One family household: Other family",21
+"25","Sydenham","Three persons","Two or more family household: Couple family with no children",0
+"26","Sydenham","Three persons","Two or more family household: Couple family with children",0
+"27","Sydenham","Three persons","Two or more family household: One parent family",0
+"28","Sydenham","Three persons","Two or more family household: Other family",0
+"29","Sydenham","Three persons","Lone person household",0
+"30","Sydenham","Three persons","Group household",39
+"31","Sydenham","Four persons","One family household: Couple family with no children",68
+"32","Sydenham","Four persons","One family household: Couple family with children",2912
+"33","Sydenham","Four persons","One family household: One parent family",320
+"34","Sydenham","Four persons","One family household: Other family",12
+"35","Sydenham","Four persons","Two or more family household: Couple family with no children",40
+"36","Sydenham","Four persons","Two or more family household: Couple family with children",0
+"37","Sydenham","Four persons","Two or more family household: One parent family",28
+"38","Sydenham","Four persons","Two or more family household: Other family",0
+"39","Sydenham","Four persons","Lone person household",0
+"40","Sydenham","Four persons","Group household",44
+"41","Sydenham","Five persons","One family household: Couple family with no children",40
+"42","Sydenham","Five persons","One family household: Couple family with children",1605
+"43","Sydenham","Five persons","One family household: One parent family",85
+"44","Sydenham","Five persons","One family household: Other family",0
+"45","Sydenham","Five persons","Two or more family household: Couple family with no children",0
+"46","Sydenham","Five persons","Two or more family household: Couple family with children",100
+"47","Sydenham","Five persons","Two or more family household: One parent family",20
+"48","Sydenham","Five persons","Two or more family household: Other family",0
+"49","Sydenham","Five persons","Lone person household",0
+"50","Sydenham","Five persons","Group household",0
+"51","Sydenham","Six or more persons","One family household: Couple family with no children",0
+"52","Sydenham","Six or more persons","One family household: Couple family with children",630
+"53","Sydenham","Six or more persons","One family household: One parent family",48
+"54","Sydenham","Six or more persons","One family household: Other family",0
+"55","Sydenham","Six or more persons","Two or more family household: Couple family with no children",30
+"56","Sydenham","Six or more persons","Two or more family household: Couple family with children",186
+"57","Sydenham","Six or more persons","Two or more family household: One parent family",0
+"58","Sydenham","Six or more persons","Two or more family household: Other family",0
+"59","Sydenham","Six or more persons","Lone person household",0
+"60","Sydenham","Six or more persons","Group household",0

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Kinglake","One person","One family household: Couple family with no children",0
+"2","Kinglake","One person","One family household: Couple family with children",0
+"3","Kinglake","One person","One family household: One parent family",0
+"4","Kinglake","One person","One family household: Other family",0
+"5","Kinglake","One person","Two or more family household: Couple family with no children",0
+"6","Kinglake","One person","Two or more family household: Couple family with children",0
+"7","Kinglake","One person","Two or more family household: One parent family",0
+"8","Kinglake","One person","Two or more family household: Other family",0
+"9","Kinglake","One person","Lone person household",232
+"10","Kinglake","One person","Group household",0
+"11","Kinglake","Two persons","One family household: Couple family with no children",598
+"12","Kinglake","Two persons","One family household: Couple family with children",0
+"13","Kinglake","Two persons","One family household: One parent family",92
+"14","Kinglake","Two persons","One family household: Other family",6
+"15","Kinglake","Two persons","Two or more family household: Couple family with no children",0
+"16","Kinglake","Two persons","Two or more family household: Couple family with children",0
+"17","Kinglake","Two persons","Two or more family household: One parent family",0
+"18","Kinglake","Two persons","Two or more family household: Other family",0
+"19","Kinglake","Two persons","Lone person household",0
+"20","Kinglake","Two persons","Group household",46
+"21","Kinglake","Three persons","One family household: Couple family with no children",24
+"22","Kinglake","Three persons","One family household: Couple family with children",450
+"23","Kinglake","Three persons","One family household: One parent family",123
+"24","Kinglake","Three persons","One family household: Other family",0
+"25","Kinglake","Three persons","Two or more family household: Couple family with no children",0
+"26","Kinglake","Three persons","Two or more family household: Couple family with children",0
+"27","Kinglake","Three persons","Two or more family household: One parent family",0
+"28","Kinglake","Three persons","Two or more family household: Other family",0
+"29","Kinglake","Three persons","Lone person household",0
+"30","Kinglake","Three persons","Group household",0
+"31","Kinglake","Four persons","One family household: Couple family with no children",0
+"32","Kinglake","Four persons","One family household: Couple family with children",928
+"33","Kinglake","Four persons","One family household: One parent family",76
+"34","Kinglake","Four persons","One family household: Other family",0
+"35","Kinglake","Four persons","Two or more family household: Couple family with no children",0
+"36","Kinglake","Four persons","Two or more family household: Couple family with children",0
+"37","Kinglake","Four persons","Two or more family household: One parent family",16
+"38","Kinglake","Four persons","Two or more family household: Other family",0
+"39","Kinglake","Four persons","Lone person household",0
+"40","Kinglake","Four persons","Group household",0
+"41","Kinglake","Five persons","One family household: Couple family with no children",0
+"42","Kinglake","Five persons","One family household: Couple family with children",390
+"43","Kinglake","Five persons","One family household: One parent family",20
+"44","Kinglake","Five persons","One family household: Other family",0
+"45","Kinglake","Five persons","Two or more family household: Couple family with no children",0
+"46","Kinglake","Five persons","Two or more family household: Couple family with children",0
+"47","Kinglake","Five persons","Two or more family household: One parent family",0
+"48","Kinglake","Five persons","Two or more family household: Other family",0
+"49","Kinglake","Five persons","Lone person household",0
+"50","Kinglake","Five persons","Group household",0
+"51","Kinglake","Six or more persons","One family household: Couple family with no children",0
+"52","Kinglake","Six or more persons","One family household: Couple family with children",228
+"53","Kinglake","Six or more persons","One family household: One parent family",0
+"54","Kinglake","Six or more persons","One family household: Other family",0
+"55","Kinglake","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Kinglake","Six or more persons","Two or more family household: Couple family with children",42
+"57","Kinglake","Six or more persons","Two or more family household: One parent family",0
+"58","Kinglake","Six or more persons","Two or more family household: Other family",0
+"59","Kinglake","Six or more persons","Lone person household",0
+"60","Kinglake","Six or more persons","Group household",0

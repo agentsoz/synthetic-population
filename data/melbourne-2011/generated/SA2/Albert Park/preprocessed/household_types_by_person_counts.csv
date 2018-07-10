@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Albert Park","One person","One family household: Couple family with no children",0
+"2","Albert Park","One person","One family household: Couple family with children",0
+"3","Albert Park","One person","One family household: One parent family",0
+"4","Albert Park","One person","One family household: Other family",0
+"5","Albert Park","One person","Two or more family household: Couple family with no children",0
+"6","Albert Park","One person","Two or more family household: Couple family with children",0
+"7","Albert Park","One person","Two or more family household: One parent family",0
+"8","Albert Park","One person","Two or more family household: Other family",0
+"9","Albert Park","One person","Lone person household",1951
+"10","Albert Park","One person","Group household",0
+"11","Albert Park","Two persons","One family household: Couple family with no children",3710
+"12","Albert Park","Two persons","One family household: Couple family with children",0
+"13","Albert Park","Two persons","One family household: One parent family",422
+"14","Albert Park","Two persons","One family household: Other family",178
+"15","Albert Park","Two persons","Two or more family household: Couple family with no children",0
+"16","Albert Park","Two persons","Two or more family household: Couple family with children",0
+"17","Albert Park","Two persons","Two or more family household: One parent family",0
+"18","Albert Park","Two persons","Two or more family household: Other family",0
+"19","Albert Park","Two persons","Lone person household",0
+"20","Albert Park","Two persons","Group household",686
+"21","Albert Park","Three persons","One family household: Couple family with no children",189
+"22","Albert Park","Three persons","One family household: Couple family with children",1755
+"23","Albert Park","Three persons","One family household: One parent family",342
+"24","Albert Park","Three persons","One family household: Other family",63
+"25","Albert Park","Three persons","Two or more family household: Couple family with no children",0
+"26","Albert Park","Three persons","Two or more family household: Couple family with children",0
+"27","Albert Park","Three persons","Two or more family household: One parent family",0
+"28","Albert Park","Three persons","Two or more family household: Other family",0
+"29","Albert Park","Three persons","Lone person household",0
+"30","Albert Park","Three persons","Group household",345
+"31","Albert Park","Four persons","One family household: Couple family with no children",44
+"32","Albert Park","Four persons","One family household: Couple family with children",2016
+"33","Albert Park","Four persons","One family household: One parent family",112
+"34","Albert Park","Four persons","One family household: Other family",12
+"35","Albert Park","Four persons","Two or more family household: Couple family with no children",24
+"36","Albert Park","Four persons","Two or more family household: Couple family with children",0
+"37","Albert Park","Four persons","Two or more family household: One parent family",0
+"38","Albert Park","Four persons","Two or more family household: Other family",0
+"39","Albert Park","Four persons","Lone person household",0
+"40","Albert Park","Four persons","Group household",120
+"41","Albert Park","Five persons","One family household: Couple family with no children",15
+"42","Albert Park","Five persons","One family household: Couple family with children",715
+"43","Albert Park","Five persons","One family household: One parent family",20
+"44","Albert Park","Five persons","One family household: Other family",20
+"45","Albert Park","Five persons","Two or more family household: Couple family with no children",0
+"46","Albert Park","Five persons","Two or more family household: Couple family with children",35
+"47","Albert Park","Five persons","Two or more family household: One parent family",15
+"48","Albert Park","Five persons","Two or more family household: Other family",0
+"49","Albert Park","Five persons","Lone person household",0
+"50","Albert Park","Five persons","Group household",25
+"51","Albert Park","Six or more persons","One family household: Couple family with no children",0
+"52","Albert Park","Six or more persons","One family household: Couple family with children",174
+"53","Albert Park","Six or more persons","One family household: One parent family",0
+"54","Albert Park","Six or more persons","One family household: Other family",0
+"55","Albert Park","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Albert Park","Six or more persons","Two or more family household: Couple family with children",42
+"57","Albert Park","Six or more persons","Two or more family household: One parent family",0
+"58","Albert Park","Six or more persons","Two or more family household: Other family",0
+"59","Albert Park","Six or more persons","Lone person household",0
+"60","Albert Park","Six or more persons","Group household",0

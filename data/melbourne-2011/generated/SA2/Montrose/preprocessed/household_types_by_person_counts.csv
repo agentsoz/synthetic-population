@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Montrose","One person","One family household: Couple family with no children",0
+"2","Montrose","One person","One family household: Couple family with children",0
+"3","Montrose","One person","One family household: One parent family",0
+"4","Montrose","One person","One family household: Other family",0
+"5","Montrose","One person","Two or more family household: Couple family with no children",0
+"6","Montrose","One person","Two or more family household: Couple family with children",0
+"7","Montrose","One person","Two or more family household: One parent family",0
+"8","Montrose","One person","Two or more family household: Other family",0
+"9","Montrose","One person","Lone person household",439
+"10","Montrose","One person","Group household",0
+"11","Montrose","Two persons","One family household: Couple family with no children",1116
+"12","Montrose","Two persons","One family household: Couple family with children",0
+"13","Montrose","Two persons","One family household: One parent family",194
+"14","Montrose","Two persons","One family household: Other family",22
+"15","Montrose","Two persons","Two or more family household: Couple family with no children",0
+"16","Montrose","Two persons","Two or more family household: Couple family with children",0
+"17","Montrose","Two persons","Two or more family household: One parent family",0
+"18","Montrose","Two persons","Two or more family household: Other family",0
+"19","Montrose","Two persons","Lone person household",0
+"20","Montrose","Two persons","Group household",60
+"21","Montrose","Three persons","One family household: Couple family with no children",45
+"22","Montrose","Three persons","One family household: Couple family with children",729
+"23","Montrose","Three persons","One family household: One parent family",222
+"24","Montrose","Three persons","One family household: Other family",12
+"25","Montrose","Three persons","Two or more family household: Couple family with no children",0
+"26","Montrose","Three persons","Two or more family household: Couple family with children",0
+"27","Montrose","Three persons","Two or more family household: One parent family",0
+"28","Montrose","Three persons","Two or more family household: Other family",0
+"29","Montrose","Three persons","Lone person household",0
+"30","Montrose","Three persons","Group household",0
+"31","Montrose","Four persons","One family household: Couple family with no children",0
+"32","Montrose","Four persons","One family household: Couple family with children",1752
+"33","Montrose","Four persons","One family household: One parent family",140
+"34","Montrose","Four persons","One family household: Other family",0
+"35","Montrose","Four persons","Two or more family household: Couple family with no children",40
+"36","Montrose","Four persons","Two or more family household: Couple family with children",0
+"37","Montrose","Four persons","Two or more family household: One parent family",20
+"38","Montrose","Four persons","Two or more family household: Other family",0
+"39","Montrose","Four persons","Lone person household",0
+"40","Montrose","Four persons","Group household",0
+"41","Montrose","Five persons","One family household: Couple family with no children",0
+"42","Montrose","Five persons","One family household: Couple family with children",960
+"43","Montrose","Five persons","One family household: One parent family",60
+"44","Montrose","Five persons","One family household: Other family",0
+"45","Montrose","Five persons","Two or more family household: Couple family with no children",0
+"46","Montrose","Five persons","Two or more family household: Couple family with children",25
+"47","Montrose","Five persons","Two or more family household: One parent family",0
+"48","Montrose","Five persons","Two or more family household: Other family",0
+"49","Montrose","Five persons","Lone person household",0
+"50","Montrose","Five persons","Group household",0
+"51","Montrose","Six or more persons","One family household: Couple family with no children",0
+"52","Montrose","Six or more persons","One family household: Couple family with children",324
+"53","Montrose","Six or more persons","One family household: One parent family",0
+"54","Montrose","Six or more persons","One family household: Other family",0
+"55","Montrose","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Montrose","Six or more persons","Two or more family household: Couple family with children",36
+"57","Montrose","Six or more persons","Two or more family household: One parent family",18
+"58","Montrose","Six or more persons","Two or more family household: Other family",0
+"59","Montrose","Six or more persons","Lone person household",0
+"60","Montrose","Six or more persons","Group household",0

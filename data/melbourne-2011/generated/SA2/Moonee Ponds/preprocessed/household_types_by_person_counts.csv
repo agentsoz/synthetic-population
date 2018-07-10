@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Moonee Ponds","One person","One family household: Couple family with no children",0
+"2","Moonee Ponds","One person","One family household: Couple family with children",0
+"3","Moonee Ponds","One person","One family household: One parent family",0
+"4","Moonee Ponds","One person","One family household: Other family",0
+"5","Moonee Ponds","One person","Two or more family household: Couple family with no children",0
+"6","Moonee Ponds","One person","Two or more family household: Couple family with children",0
+"7","Moonee Ponds","One person","Two or more family household: One parent family",0
+"8","Moonee Ponds","One person","Two or more family household: Other family",0
+"9","Moonee Ponds","One person","Lone person household",1548
+"10","Moonee Ponds","One person","Group household",0
+"11","Moonee Ponds","Two persons","One family household: Couple family with no children",2320
+"12","Moonee Ponds","Two persons","One family household: Couple family with children",0
+"13","Moonee Ponds","Two persons","One family household: One parent family",372
+"14","Moonee Ponds","Two persons","One family household: Other family",134
+"15","Moonee Ponds","Two persons","Two or more family household: Couple family with no children",0
+"16","Moonee Ponds","Two persons","Two or more family household: Couple family with children",0
+"17","Moonee Ponds","Two persons","Two or more family household: One parent family",0
+"18","Moonee Ponds","Two persons","Two or more family household: Other family",0
+"19","Moonee Ponds","Two persons","Lone person household",0
+"20","Moonee Ponds","Two persons","Group household",432
+"21","Moonee Ponds","Three persons","One family household: Couple family with no children",147
+"22","Moonee Ponds","Three persons","One family household: Couple family with children",1704
+"23","Moonee Ponds","Three persons","One family household: One parent family",369
+"24","Moonee Ponds","Three persons","One family household: Other family",57
+"25","Moonee Ponds","Three persons","Two or more family household: Couple family with no children",0
+"26","Moonee Ponds","Three persons","Two or more family household: Couple family with children",0
+"27","Moonee Ponds","Three persons","Two or more family household: One parent family",0
+"28","Moonee Ponds","Three persons","Two or more family household: Other family",0
+"29","Moonee Ponds","Three persons","Lone person household",0
+"30","Moonee Ponds","Three persons","Group household",297
+"31","Moonee Ponds","Four persons","One family household: Couple family with no children",36
+"32","Moonee Ponds","Four persons","One family household: Couple family with children",2988
+"33","Moonee Ponds","Four persons","One family household: One parent family",172
+"34","Moonee Ponds","Four persons","One family household: Other family",12
+"35","Moonee Ponds","Four persons","Two or more family household: Couple family with no children",44
+"36","Moonee Ponds","Four persons","Two or more family household: Couple family with children",0
+"37","Moonee Ponds","Four persons","Two or more family household: One parent family",12
+"38","Moonee Ponds","Four persons","Two or more family household: Other family",0
+"39","Moonee Ponds","Four persons","Lone person household",0
+"40","Moonee Ponds","Four persons","Group household",108
+"41","Moonee Ponds","Five persons","One family household: Couple family with no children",15
+"42","Moonee Ponds","Five persons","One family household: Couple family with children",1425
+"43","Moonee Ponds","Five persons","One family household: One parent family",45
+"44","Moonee Ponds","Five persons","One family household: Other family",0
+"45","Moonee Ponds","Five persons","Two or more family household: Couple family with no children",0
+"46","Moonee Ponds","Five persons","Two or more family household: Couple family with children",40
+"47","Moonee Ponds","Five persons","Two or more family household: One parent family",0
+"48","Moonee Ponds","Five persons","Two or more family household: Other family",0
+"49","Moonee Ponds","Five persons","Lone person household",0
+"50","Moonee Ponds","Five persons","Group household",30
+"51","Moonee Ponds","Six or more persons","One family household: Couple family with no children",0
+"52","Moonee Ponds","Six or more persons","One family household: Couple family with children",324
+"53","Moonee Ponds","Six or more persons","One family household: One parent family",0
+"54","Moonee Ponds","Six or more persons","One family household: Other family",0
+"55","Moonee Ponds","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Moonee Ponds","Six or more persons","Two or more family household: Couple family with children",60
+"57","Moonee Ponds","Six or more persons","Two or more family household: One parent family",18
+"58","Moonee Ponds","Six or more persons","Two or more family household: Other family",0
+"59","Moonee Ponds","Six or more persons","Lone person household",0
+"60","Moonee Ponds","Six or more persons","Group household",0

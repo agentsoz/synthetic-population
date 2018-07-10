@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Brunswick East","One person","One family household: Couple family with no children",0
+"2","Brunswick East","One person","One family household: Couple family with children",0
+"3","Brunswick East","One person","One family household: One parent family",0
+"4","Brunswick East","One person","One family household: Other family",0
+"5","Brunswick East","One person","Two or more family household: Couple family with no children",0
+"6","Brunswick East","One person","Two or more family household: Couple family with children",0
+"7","Brunswick East","One person","Two or more family household: One parent family",0
+"8","Brunswick East","One person","Two or more family household: Other family",0
+"9","Brunswick East","One person","Lone person household",1048
+"10","Brunswick East","One person","Group household",0
+"11","Brunswick East","Two persons","One family household: Couple family with no children",1702
+"12","Brunswick East","Two persons","One family household: Couple family with children",0
+"13","Brunswick East","Two persons","One family household: One parent family",322
+"14","Brunswick East","Two persons","One family household: Other family",94
+"15","Brunswick East","Two persons","Two or more family household: Couple family with no children",0
+"16","Brunswick East","Two persons","Two or more family household: Couple family with children",0
+"17","Brunswick East","Two persons","Two or more family household: One parent family",0
+"18","Brunswick East","Two persons","Two or more family household: Other family",0
+"19","Brunswick East","Two persons","Lone person household",0
+"20","Brunswick East","Two persons","Group household",552
+"21","Brunswick East","Three persons","One family household: Couple family with no children",171
+"22","Brunswick East","Three persons","One family household: Couple family with children",888
+"23","Brunswick East","Three persons","One family household: One parent family",186
+"24","Brunswick East","Three persons","One family household: Other family",57
+"25","Brunswick East","Three persons","Two or more family household: Couple family with no children",0
+"26","Brunswick East","Three persons","Two or more family household: Couple family with children",0
+"27","Brunswick East","Three persons","Two or more family household: One parent family",0
+"28","Brunswick East","Three persons","Two or more family household: Other family",0
+"29","Brunswick East","Three persons","Lone person household",0
+"30","Brunswick East","Three persons","Group household",558
+"31","Brunswick East","Four persons","One family household: Couple family with no children",80
+"32","Brunswick East","Four persons","One family household: Couple family with children",1280
+"33","Brunswick East","Four persons","One family household: One parent family",56
+"34","Brunswick East","Four persons","One family household: Other family",36
+"35","Brunswick East","Four persons","Two or more family household: Couple family with no children",12
+"36","Brunswick East","Four persons","Two or more family household: Couple family with children",0
+"37","Brunswick East","Four persons","Two or more family household: One parent family",16
+"38","Brunswick East","Four persons","Two or more family household: Other family",0
+"39","Brunswick East","Four persons","Lone person household",0
+"40","Brunswick East","Four persons","Group household",304
+"41","Brunswick East","Five persons","One family household: Couple family with no children",25
+"42","Brunswick East","Five persons","One family household: Couple family with children",380
+"43","Brunswick East","Five persons","One family household: One parent family",0
+"44","Brunswick East","Five persons","One family household: Other family",0
+"45","Brunswick East","Five persons","Two or more family household: Couple family with no children",0
+"46","Brunswick East","Five persons","Two or more family household: Couple family with children",25
+"47","Brunswick East","Five persons","Two or more family household: One parent family",15
+"48","Brunswick East","Five persons","Two or more family household: Other family",0
+"49","Brunswick East","Five persons","Lone person household",0
+"50","Brunswick East","Five persons","Group household",50
+"51","Brunswick East","Six or more persons","One family household: Couple family with no children",0
+"52","Brunswick East","Six or more persons","One family household: Couple family with children",102
+"53","Brunswick East","Six or more persons","One family household: One parent family",0
+"54","Brunswick East","Six or more persons","One family household: Other family",0
+"55","Brunswick East","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Brunswick East","Six or more persons","Two or more family household: Couple family with children",24
+"57","Brunswick East","Six or more persons","Two or more family household: One parent family",0
+"58","Brunswick East","Six or more persons","Two or more family household: Other family",0
+"59","Brunswick East","Six or more persons","Lone person household",0
+"60","Brunswick East","Six or more persons","Group household",0

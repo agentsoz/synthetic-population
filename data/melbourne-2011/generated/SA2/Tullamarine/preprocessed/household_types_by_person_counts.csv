@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Tullamarine","One person","One family household: Couple family with no children",0
+"2","Tullamarine","One person","One family household: Couple family with children",0
+"3","Tullamarine","One person","One family household: One parent family",0
+"4","Tullamarine","One person","One family household: Other family",0
+"5","Tullamarine","One person","Two or more family household: Couple family with no children",0
+"6","Tullamarine","One person","Two or more family household: Couple family with children",0
+"7","Tullamarine","One person","Two or more family household: One parent family",0
+"8","Tullamarine","One person","Two or more family household: Other family",0
+"9","Tullamarine","One person","Lone person household",725
+"10","Tullamarine","One person","Group household",0
+"11","Tullamarine","Two persons","One family household: Couple family with no children",1250
+"12","Tullamarine","Two persons","One family household: Couple family with children",0
+"13","Tullamarine","Two persons","One family household: One parent family",344
+"14","Tullamarine","Two persons","One family household: Other family",88
+"15","Tullamarine","Two persons","Two or more family household: Couple family with no children",0
+"16","Tullamarine","Two persons","Two or more family household: Couple family with children",0
+"17","Tullamarine","Two persons","Two or more family household: One parent family",0
+"18","Tullamarine","Two persons","Two or more family household: Other family",0
+"19","Tullamarine","Two persons","Lone person household",0
+"20","Tullamarine","Two persons","Group household",162
+"21","Tullamarine","Three persons","One family household: Couple family with no children",81
+"22","Tullamarine","Three persons","One family household: Couple family with children",735
+"23","Tullamarine","Three persons","One family household: One parent family",348
+"24","Tullamarine","Three persons","One family household: Other family",21
+"25","Tullamarine","Three persons","Two or more family household: Couple family with no children",0
+"26","Tullamarine","Three persons","Two or more family household: Couple family with children",0
+"27","Tullamarine","Three persons","Two or more family household: One parent family",0
+"28","Tullamarine","Three persons","Two or more family household: Other family",0
+"29","Tullamarine","Three persons","Lone person household",0
+"30","Tullamarine","Three persons","Group household",42
+"31","Tullamarine","Four persons","One family household: Couple family with no children",12
+"32","Tullamarine","Four persons","One family household: Couple family with children",1068
+"33","Tullamarine","Four persons","One family household: One parent family",160
+"34","Tullamarine","Four persons","One family household: Other family",16
+"35","Tullamarine","Four persons","Two or more family household: Couple family with no children",28
+"36","Tullamarine","Four persons","Two or more family household: Couple family with children",0
+"37","Tullamarine","Four persons","Two or more family household: One parent family",40
+"38","Tullamarine","Four persons","Two or more family household: Other family",0
+"39","Tullamarine","Four persons","Lone person household",0
+"40","Tullamarine","Four persons","Group household",12
+"41","Tullamarine","Five persons","One family household: Couple family with no children",0
+"42","Tullamarine","Five persons","One family household: Couple family with children",475
+"43","Tullamarine","Five persons","One family household: One parent family",25
+"44","Tullamarine","Five persons","One family household: Other family",0
+"45","Tullamarine","Five persons","Two or more family household: Couple family with no children",0
+"46","Tullamarine","Five persons","Two or more family household: Couple family with children",45
+"47","Tullamarine","Five persons","Two or more family household: One parent family",20
+"48","Tullamarine","Five persons","Two or more family household: Other family",0
+"49","Tullamarine","Five persons","Lone person household",0
+"50","Tullamarine","Five persons","Group household",0
+"51","Tullamarine","Six or more persons","One family household: Couple family with no children",0
+"52","Tullamarine","Six or more persons","One family household: Couple family with children",174
+"53","Tullamarine","Six or more persons","One family household: One parent family",0
+"54","Tullamarine","Six or more persons","One family household: Other family",0
+"55","Tullamarine","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Tullamarine","Six or more persons","Two or more family household: Couple family with children",24
+"57","Tullamarine","Six or more persons","Two or more family household: One parent family",18
+"58","Tullamarine","Six or more persons","Two or more family household: Other family",0
+"59","Tullamarine","Six or more persons","Lone person household",0
+"60","Tullamarine","Six or more persons","Group household",0

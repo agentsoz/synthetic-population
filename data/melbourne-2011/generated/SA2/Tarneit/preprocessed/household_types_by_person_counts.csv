@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Tarneit","One person","One family household: Couple family with no children",0
+"2","Tarneit","One person","One family household: Couple family with children",0
+"3","Tarneit","One person","One family household: One parent family",0
+"4","Tarneit","One person","One family household: Other family",0
+"5","Tarneit","One person","Two or more family household: Couple family with no children",0
+"6","Tarneit","One person","Two or more family household: Couple family with children",0
+"7","Tarneit","One person","Two or more family household: One parent family",0
+"8","Tarneit","One person","Two or more family household: Other family",0
+"9","Tarneit","One person","Lone person household",849
+"10","Tarneit","One person","Group household",0
+"11","Tarneit","Two persons","One family household: Couple family with no children",2908
+"12","Tarneit","Two persons","One family household: Couple family with children",0
+"13","Tarneit","Two persons","One family household: One parent family",496
+"14","Tarneit","Two persons","One family household: Other family",110
+"15","Tarneit","Two persons","Two or more family household: Couple family with no children",0
+"16","Tarneit","Two persons","Two or more family household: Couple family with children",0
+"17","Tarneit","Two persons","Two or more family household: One parent family",0
+"18","Tarneit","Two persons","Two or more family household: Other family",0
+"19","Tarneit","Two persons","Lone person household",0
+"20","Tarneit","Two persons","Group household",284
+"21","Tarneit","Three persons","One family household: Couple family with no children",351
+"22","Tarneit","Three persons","One family household: Couple family with children",3054
+"23","Tarneit","Three persons","One family household: One parent family",873
+"24","Tarneit","Three persons","One family household: Other family",87
+"25","Tarneit","Three persons","Two or more family household: Couple family with no children",0
+"26","Tarneit","Three persons","Two or more family household: Couple family with children",0
+"27","Tarneit","Three persons","Two or more family household: One parent family",0
+"28","Tarneit","Three persons","Two or more family household: Other family",0
+"29","Tarneit","Three persons","Lone person household",0
+"30","Tarneit","Three persons","Group household",105
+"31","Tarneit","Four persons","One family household: Couple family with no children",92
+"32","Tarneit","Four persons","One family household: Couple family with children",5228
+"33","Tarneit","Four persons","One family household: One parent family",644
+"34","Tarneit","Four persons","One family household: Other family",28
+"35","Tarneit","Four persons","Two or more family household: Couple family with no children",80
+"36","Tarneit","Four persons","Two or more family household: Couple family with children",0
+"37","Tarneit","Four persons","Two or more family household: One parent family",56
+"38","Tarneit","Four persons","Two or more family household: Other family",0
+"39","Tarneit","Four persons","Lone person household",0
+"40","Tarneit","Four persons","Group household",36
+"41","Tarneit","Five persons","One family household: Couple family with no children",15
+"42","Tarneit","Five persons","One family household: Couple family with children",2655
+"43","Tarneit","Five persons","One family household: One parent family",225
+"44","Tarneit","Five persons","One family household: Other family",15
+"45","Tarneit","Five persons","Two or more family household: Couple family with no children",15
+"46","Tarneit","Five persons","Two or more family household: Couple family with children",150
+"47","Tarneit","Five persons","Two or more family household: One parent family",95
+"48","Tarneit","Five persons","Two or more family household: Other family",15
+"49","Tarneit","Five persons","Lone person household",0
+"50","Tarneit","Five persons","Group household",0
+"51","Tarneit","Six or more persons","One family household: Couple family with no children",0
+"52","Tarneit","Six or more persons","One family household: Couple family with children",1566
+"53","Tarneit","Six or more persons","One family household: One parent family",204
+"54","Tarneit","Six or more persons","One family household: Other family",0
+"55","Tarneit","Six or more persons","Two or more family household: Couple family with no children",42
+"56","Tarneit","Six or more persons","Two or more family household: Couple family with children",366
+"57","Tarneit","Six or more persons","Two or more family household: One parent family",144
+"58","Tarneit","Six or more persons","Two or more family household: Other family",24
+"59","Tarneit","Six or more persons","Lone person household",0
+"60","Tarneit","Six or more persons","Group household",0

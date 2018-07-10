@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Carrum Downs","One person","One family household: Couple family with no children",0
+"2","Carrum Downs","One person","One family household: Couple family with children",0
+"3","Carrum Downs","One person","One family household: One parent family",0
+"4","Carrum Downs","One person","One family household: Other family",0
+"5","Carrum Downs","One person","Two or more family household: Couple family with no children",0
+"6","Carrum Downs","One person","Two or more family household: Couple family with children",0
+"7","Carrum Downs","One person","Two or more family household: One parent family",0
+"8","Carrum Downs","One person","Two or more family household: Other family",0
+"9","Carrum Downs","One person","Lone person household",1600
+"10","Carrum Downs","One person","Group household",0
+"11","Carrum Downs","Two persons","One family household: Couple family with no children",2660
+"12","Carrum Downs","Two persons","One family household: Couple family with children",0
+"13","Carrum Downs","Two persons","One family household: One parent family",878
+"14","Carrum Downs","Two persons","One family household: Other family",128
+"15","Carrum Downs","Two persons","Two or more family household: Couple family with no children",0
+"16","Carrum Downs","Two persons","Two or more family household: Couple family with children",0
+"17","Carrum Downs","Two persons","Two or more family household: One parent family",0
+"18","Carrum Downs","Two persons","Two or more family household: Other family",0
+"19","Carrum Downs","Two persons","Lone person household",0
+"20","Carrum Downs","Two persons","Group household",466
+"21","Carrum Downs","Three persons","One family household: Couple family with no children",192
+"22","Carrum Downs","Three persons","One family household: Couple family with children",2274
+"23","Carrum Downs","Three persons","One family household: One parent family",1104
+"24","Carrum Downs","Three persons","One family household: Other family",33
+"25","Carrum Downs","Three persons","Two or more family household: Couple family with no children",0
+"26","Carrum Downs","Three persons","Two or more family household: Couple family with children",0
+"27","Carrum Downs","Three persons","Two or more family household: One parent family",0
+"28","Carrum Downs","Three persons","Two or more family household: Other family",0
+"29","Carrum Downs","Three persons","Lone person household",0
+"30","Carrum Downs","Three persons","Group household",84
+"31","Carrum Downs","Four persons","One family household: Couple family with no children",28
+"32","Carrum Downs","Four persons","One family household: Couple family with children",3732
+"33","Carrum Downs","Four persons","One family household: One parent family",584
+"34","Carrum Downs","Four persons","One family household: Other family",12
+"35","Carrum Downs","Four persons","Two or more family household: Couple family with no children",32
+"36","Carrum Downs","Four persons","Two or more family household: Couple family with children",0
+"37","Carrum Downs","Four persons","Two or more family household: One parent family",64
+"38","Carrum Downs","Four persons","Two or more family household: Other family",0
+"39","Carrum Downs","Four persons","Lone person household",0
+"40","Carrum Downs","Four persons","Group household",40
+"41","Carrum Downs","Five persons","One family household: Couple family with no children",0
+"42","Carrum Downs","Five persons","One family household: Couple family with children",1985
+"43","Carrum Downs","Five persons","One family household: One parent family",190
+"44","Carrum Downs","Five persons","One family household: Other family",0
+"45","Carrum Downs","Five persons","Two or more family household: Couple family with no children",0
+"46","Carrum Downs","Five persons","Two or more family household: Couple family with children",55
+"47","Carrum Downs","Five persons","Two or more family household: One parent family",75
+"48","Carrum Downs","Five persons","Two or more family household: Other family",0
+"49","Carrum Downs","Five persons","Lone person household",0
+"50","Carrum Downs","Five persons","Group household",0
+"51","Carrum Downs","Six or more persons","One family household: Couple family with no children",0
+"52","Carrum Downs","Six or more persons","One family household: Couple family with children",930
+"53","Carrum Downs","Six or more persons","One family household: One parent family",120
+"54","Carrum Downs","Six or more persons","One family household: Other family",0
+"55","Carrum Downs","Six or more persons","Two or more family household: Couple family with no children",42
+"56","Carrum Downs","Six or more persons","Two or more family household: Couple family with children",144
+"57","Carrum Downs","Six or more persons","Two or more family household: One parent family",66
+"58","Carrum Downs","Six or more persons","Two or more family household: Other family",0
+"59","Carrum Downs","Six or more persons","Lone person household",0
+"60","Carrum Downs","Six or more persons","Group household",0

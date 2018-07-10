@@ -1,307 +1,307 @@
-"SA2","Cosine similarity"
-"Abbotsford","0.241007736095786"
-"Airport West","0.579102108587064"
-"Albert Park","0.618196755051402"
-"Alphington - Fairfield","0.47791311484589"
-"Altona","0.601579363566659"
-"Altona Meadows","0.511157846219295"
-"Altona North","0.481349577252948"
-"Ardeer - Albion","0.327854656155723"
-"Armadale","0.544870804112552"
-"Ascot Vale","0.390622944068486"
-"Ashburton (Vic.)","0.465144015229435"
-"Ashwood - Chadstone","0.422468899623402"
-"Aspendale Gardens - Waterways","0.4892990589024"
-"Bacchus Marsh","0.468459833051757"
-"Balwyn","0.577183491356359"
-"Balwyn North","0.533579532556338"
-"Bayswater","0.49690397575323"
-"Bayswater North","0.442843552155782"
-"Beaconsfield - Officer","0.345596326164048"
-"Beaumaris","0.633998483070601"
-"Belgrave - Selby","0.524983202076544"
-"Bentleigh East (North)","0.428917553081724"
-"Bentleigh East (South)","0.496115523933268"
-"Bentleigh - McKinnon","0.472822500627409"
-"Berwick - North","0.558416708102679"
-"Berwick - South","0.256434483936118"
-"Blackburn","0.494984536602487"
-"Blackburn South","0.510062484127227"
-"Boronia","0.514375099241238"
-"Box Hill","0.439161510939008"
-"Box Hill North","0.510612866049759"
-"Braeside","0"
-"Braybrook","0.28717461131804"
-"Brighton East","0.538784232823257"
-"Brighton (Vic.)","0.629847977478026"
-"Broadmeadows","0.271974574873816"
-"Brunswick","0.301282717285448"
-"Brunswick East","0.299572968418594"
-"Brunswick West","0.392004783540513"
-"Bulleen","0.665663656315889"
-"Bundoora - East","0.583730504824625"
-"Bundoora - North","0.420330064775883"
-"Bundoora - West","0.648679445320366"
-"Bunyip - Garfield","0.578196612211319"
-"Burnside","0.425072212603089"
-"Burnside Heights","0.12196774671652"
-"Burwood","0.415446100031009"
-"Burwood East","0.644194034931654"
-"Cairnlea","0.356883638606897"
-"Camberwell","0.55963820066943"
-"Campbellfield - Coolaroo","0.348293675147985"
-"Carlton","0.0905493044386264"
-"Carlton North - Princes Hill","0.416820769408558"
-"Carnegie","0.401996345517389"
-"Caroline Springs","0.247795470157363"
-"Carrum Downs","0.35217523439322"
-"Carrum - Patterson Lakes","0.608252892488954"
-"Caulfield - North","0.462546419187866"
-"Caulfield - South","0.568147396058703"
-"Chelsea - Bonbeach","0.498895453060713"
-"Chelsea Heights","0.517900542715389"
-"Cheltenham - Highett (East)","0.511821342975505"
-"Cheltenham - Highett (West)","0.438311251520709"
-"Chirnside Park","0.569968469210224"
-"Clarinda - Oakleigh South","0.628746915480395"
-"Clayton","0.19387396123128"
-"Clayton South","0.454149387202855"
-"Coburg","0.437484727221212"
-"Coburg North","0.40681091966162"
-"Collingwood","0.200458664850275"
-"Craigieburn - Central","0.332198060383039"
-"Craigieburn - North","0.138667294318079"
-"Craigieburn - South","0.232973473652471"
-"Craigieburn - West","0.0965450566498977"
-"Cranbourne","0.360873356288527"
-"Cranbourne East","0.175329191330244"
-"Cranbourne North","0.208949076326013"
-"Cranbourne South","0.509359016135241"
-"Cranbourne West","0.146496606736396"
-"Croydon - East","0.453179545138264"
-"Croydon Hills - Warranwood","0.532511263356578"
-"Croydon South","0.485134980081339"
-"Croydon - West","0.522370872243543"
-"Dandenong","0.278669002779581"
-"Dandenong North","0.495764713000704"
-"Deer Park - Derrimut","0.266922453311976"
-"Delahey","0.46048971724768"
-"Dingley Village","0.632399429018671"
-"Docklands","0.199431847015237"
-"Doncaster","0.687806784797766"
-"Doncaster East (North)","0.650684284120289"
-"Doncaster East (South)","0.558815739490523"
-"Donvale - Park Orchards","0.606217533983115"
-"Doreen","0.190585797857748"
-"Doveton","0.349882563795956"
-"Dromana","0.714853899258081"
-"East Melbourne","0.598251585770496"
-"Edithvale - Aspendale","0.481255060183682"
-"Elsternwick","0.457769496779938"
-"Eltham","0.593788458825009"
-"Elwood","0.345772445571938"
-"Emerald - Cockatoo","0.543757732389585"
-"Endeavour Hills - North","0.515943936891658"
-"Endeavour Hills - South","0.56789127416958"
-"Epping - East","0.399955889188634"
-"Epping - South","0.473951757310717"
-"Epping - West","0.128805844318624"
-"Essendon - Aberfeldie","0.508834929440393"
-"Fawkner","0.365857823709708"
-"Ferntree Gully (North)","0.514610062033793"
-"Ferntree Gully (South) - Upper Ferntree Gully","0.520058419805403"
-"Fitzroy","0.326803354176299"
-"Fitzroy North","0.434939806991159"
-"Flemington","0.247156775864674"
-"Flemington Racecourse","0"
-"Flinders","0.736797955245689"
-"Footscray","0.233248178774315"
-"Forest Hill","0.537630293427046"
-"Frankston","0.510230780366418"
-"Frankston North","0.470786181322683"
-"Frankston South","0.594188027107238"
-"Gisborne","0.492238979401507"
-"Gladstone Park - Westmeadows","0.581946003789733"
-"Glen Iris - East","0.516397779756686"
-"Glenroy","0.360304954666321"
-"Glen Waverley - East","0.597975256525082"
-"Glen Waverley - West","0.54429719151589"
-"Gowanbrae","0.384973080852528"
-"Greensborough","0.575245079650333"
-"Greenvale - Bulla","0.492726921320872"
-"Hadfield","0.528225720332467"
-"Hallam","0.440024003220195"
-"Hampton","0.508445861642619"
-"Hampton Park - Lynbrook","0.317999707987233"
-"Hastings - Somers","0.567696759707354"
-"Hawthorn","0.415251630213677"
-"Hawthorn East","0.43699848213322"
-"Healesville - Yarra Glen","0.611941440476339"
-"Heidelberg - Rosanna","0.514774572560456"
-"Heidelberg West","0.341958243517623"
-"Hillside","0.285476105010711"
-"Hoppers Crossing - North","0.441113651676116"
-"Hoppers Crossing - South","0.470867825160605"
-"Hughesdale","0.411395624607482"
-"Hurstbridge","0.530076176562169"
-"Ivanhoe","0.560747833079254"
-"Ivanhoe East - Eaglemont","0.645534825361848"
-"Keilor","0.651309034587898"
-"Keilor Downs","0.58589273907843"
-"Keilor East","0.638421400453595"
-"Kensington (Vic.)","0.242358665313997"
-"Kew","0.552925984246627"
-"Kew East","0.508434544905983"
-"Keysborough","0.448069846287988"
-"Kilsyth","0.533209619121773"
-"Kinglake","0.555380717297957"
-"Kingsbury","0.450822816459815"
-"Kings Park (Vic.)","0.464299318639523"
-"Knoxfield - Scoresby","0.526398120592669"
-"Koo Wee Rup","0.507629634691422"
-"Lalor","0.50635365948455"
-"Langwarrin","0.482039566798596"
-"Laverton","0.182484501297612"
-"Lilydale - Coldstream","0.523398831990052"
-"Lynbrook - Lyndhurst","0.189696279064436"
-"Lysterfield","0.507480751621435"
-"Macedon","0.647276350696715"
-"Malvern East","0.501828551710225"
-"Malvern - Glen Iris","0.526653807894021"
-"Maribyrnong","0.389375322880241"
-"Meadow Heights","0.301401739629789"
-"Melbourne","0.0400253834265238"
-"Melbourne Airport","0.131607780882015"
-"Melton","0.418325850766937"
-"Melton South","0.286558305042018"
-"Melton West","0.280953687408886"
-"Mentone","0.576626723101378"
-"Mernda","0.164516068397215"
-"Mickleham - Yuroke","0.273372995899401"
-"Mill Park - North","0.543904897481038"
-"Mill Park - South","0.53597172521164"
-"Mitcham (Vic.)","0.477169370632858"
-"Monbulk - Silvan","0.604947459021289"
-"Montmorency - Briar Hill","0.582741555168585"
-"Montrose","0.554366026213877"
-"Moonee Ponds","0.492526682938113"
-"Moorabbin - Heatherton","0.452466532136249"
-"Mooroolbark","0.454146533878307"
-"Mordialloc - Parkdale","0.479311875662223"
-"Mornington","0.643578105600319"
-"Mount Dandenong - Olinda","0.666676632830742"
-"Mount Eliza","0.587832425062536"
-"Mount Evelyn","0.479128580828448"
-"Mount Martha","0.546126102392336"
-"Mount Waverley - North","0.589120378477526"
-"Mount Waverley - South","0.560079736742629"
-"Mulgrave","0.580377423632357"
-"Murrumbeena","0.447158177830122"
-"Narre Warren North","0.609559516022889"
-"Narre Warren - North East","0.408321974151998"
-"Narre Warren South (East)","0.37118796047674"
-"Narre Warren - South West","0.397322631462252"
-"Narre Warren South (West)","0.265501398572174"
-"Newport","0.354275463776945"
-"Niddrie - Essendon West","0.460201923870993"
-"Noble Park - East","0.306776730396344"
-"Noble Park North","0.554438467563352"
-"Noble Park - West","0.401793714872409"
-"Northcote","0.414213392582695"
-"North Melbourne","0.188303340207479"
-"Nunawading","0.451061133683463"
-"Oakleigh - Huntingdale","0.459040651897113"
-"Ormond - Glen Huntly","0.36534069436275"
-"Pakenham - North","0.234251178924917"
-"Pakenham - South","0.27156181232626"
-"Panton Hill - St Andrews","0.673532510558395"
-"Parkville","0.285178476598885"
-"Pascoe Vale","0.377018634311238"
-"Pascoe Vale South","0.432298260364123"
-"Pearcedale - Tooradin","0.529110067186795"
-"Plenty - Yarrambat","0.579030775963321"
-"Point Cook - East","0.205075190240326"
-"Point Cook - North","0.189321486170913"
-"Point Cook - South","0.0848807487212832"
-"Point Nepean","0.68589751587029"
-"Port Melbourne","0.565207779896238"
-"Port Melbourne Industrial","0"
-"Prahran - Windsor","0.342122481811805"
-"Preston - East","0.41204895834646"
-"Preston - West","0.431718852684843"
-"Research - North Warrandyte","0.589172691484024"
-"Reservoir - East","0.439046017124882"
-"Reservoir - West","0.50623464627044"
-"Richmond (Vic.)","0.322684662815437"
-"Riddells Creek","0.589686706935115"
-"Ringwood","0.431846155756071"
-"Ringwood East","0.481119153757315"
-"Ringwood North","0.588711318252282"
-"Rockbank - Mount Cottrell","0.563762253189383"
-"Romsey","0.597597173756108"
-"Rosebud - McCrae","0.649932746017436"
-"Rowville - Central","0.548450529993745"
-"Rowville - North","0.461342731482489"
-"Rowville - South","0.55582707463554"
-"Roxburgh Park - Somerton","0.23523393332475"
-"Sandringham - Black Rock","0.62441456448441"
-"Seabrook","0.396143535521166"
-"Seaford (Vic.)","0.512692423884112"
-"Seddon - Kingsville","0.264714341120086"
-"Skye - Sandhurst","0.360367279889507"
-"Somerville","0.565452483775827"
-"Southbank","0.162608847633361"
-"South Melbourne","0.480156130336068"
-"South Morang (North)","0.213128682318074"
-"South Morang (South)","0.361306668591534"
-"South Yarra - East","0.320329409677025"
-"South Yarra - West","0.634079485335957"
-"Springvale","0.434230973959444"
-"Springvale South","0.4415766589422"
-"St Albans - North","0.453135806367878"
-"St Albans - South","0.461009554877235"
-"St Kilda","0.314540309429634"
-"St Kilda East","0.250650766291742"
-"Strathmore","0.55108054849474"
-"Sunbury","0.522144266647234"
-"Sunbury - South","0.456250659252197"
-"Sunshine","0.326648779321388"
-"Sunshine North","0.424163363749477"
-"Sunshine West","0.484865512783055"
-"Surrey Hills (East) - Mont Albert","0.560872968650933"
-"Surrey Hills (West) - Canterbury","0.587061989065148"
-"Sydenham","0.345918806881435"
-"Tarneit","0.115154635934989"
-"Taylors Hill","0.192895649614116"
-"Taylors Lakes","0.628858232772319"
-"Templestowe","0.67959588654759"
-"Templestowe Lower","0.633707607369841"
-"The Basin","0.501463729408185"
-"Thomastown","0.569402668391504"
-"Thornbury","0.396416935628499"
-"Toorak","0.738064637115039"
-"Truganina","0.0680952215092068"
-"Tullamarine","0.566576992740496"
-"Upwey - Tecoma","0.522470980461888"
-"Vermont","0.498511841775366"
-"Vermont South","0.678042791962279"
-"Viewbank - Yallambie","0.541198180821407"
-"Wallan","0.351665079559666"
-"Wandin - Seville","0.523469376805879"
-"Wantirna","0.615639896950941"
-"Wantirna South","0.634318667428781"
-"Warrandyte - Wonga Park","0.624162476739193"
-"Watsonia","0.540077996484982"
-"Wattle Glen - Diamond Creek","0.508818523227887"
-"Werribee - East","0.363949420165673"
-"Werribee - South","0.572235404276082"
-"Werribee - West","0.469730957877304"
-"West Footscray - Tottenham","0.300175242985037"
-"Wheelers Hill","0.680761444126674"
-"Whittlesea","0.535353956252391"
-"Williamstown","0.556638908851792"
-"Wollert","0.108840407623271"
-"Wyndham Vale","0.171756993179329"
-"Yarra - North","0.461457299875335"
-"Yarra Valley","0.55606132301578"
-"Yarraville","0.331964865246271"
+SA2,Cosine similarity
+Abbotsford,0.998875130072938
+Airport West,0.998860183608052
+Albert Park,0.998711004494736
+Alphington - Fairfield,0.999161394434461
+Altona,0.999244589280669
+Altona Meadows,0.99937770646907
+Altona North,0.998442485926194
+Ardeer - Albion,0.999226177662474
+Armadale,0.999632236593046
+Ascot Vale,0.999704793585676
+Ashburton (Vic.),0.998290578867939
+Ashwood - Chadstone,0.999408983610137
+Aspendale Gardens - Waterways,0.999719849283338
+Bacchus Marsh,0.999696158140705
+Balwyn,0.999415294685728
+Balwyn North,0.998974795400602
+Bayswater,0.999570032486332
+Bayswater North,0.999448315692223
+Beaconsfield - Officer,0.999874905497626
+Beaumaris,0.995990440383161
+Belgrave - Selby,0.999522844686618
+Bentleigh East (North),0.999661652620145
+Bentleigh East (South),0.999008639697943
+Bentleigh - McKinnon,0.999622790855737
+Berwick - North,0.999544124343451
+Berwick - South,0.999890839388573
+Blackburn,0.999561864763613
+Blackburn South,0.998986038903734
+Boronia,0.999526521488213
+Box Hill,0.998312826664329
+Box Hill North,0.999321780969501
+Braeside,0.66
+Braybrook,0.998140124588197
+Brighton East,0.9973402665409
+Brighton (Vic.),0.99749089528085
+Broadmeadows,0.999538215234008
+Brunswick,0.998797004182311
+Brunswick East,0.998671793871561
+Brunswick West,0.999536664295739
+Bulleen,0.99830104685399
+Bundoora - East,0.998757709458466
+Bundoora - North,0.999459274354291
+Bundoora - West,0.998793849682514
+Bunyip - Garfield,0.99812976066212
+Burnside,0.999740161408135
+Burnside Heights,0.999778690934151
+Burwood,0.99616738094007
+Burwood East,0.998531737415512
+Cairnlea,0.999783960529824
+Camberwell,0.999190276522754
+Campbellfield - Coolaroo,0.999764625718426
+Carlton,0.999148043931427
+Carlton North - Princes Hill,0.998517345344412
+Carnegie,0.999461893619703
+Caroline Springs,0.999947040156553
+Carrum Downs,0.999518389440955
+Carrum - Patterson Lakes,0.999410805812607
+Caulfield - North,0.997856264990049
+Caulfield - South,0.998667495578582
+Chelsea - Bonbeach,0.999445055784031
+Chelsea Heights,0.999342022541748
+Cheltenham - Highett (East),0.999719091978864
+Cheltenham - Highett (West),0.998912472375406
+Chirnside Park,0.999162875786466
+Clarinda - Oakleigh South,0.999251649242188
+Clayton,0.99707304757133
+Clayton South,0.998917083236502
+Coburg,0.999368107477878
+Coburg North,0.999573558680186
+Collingwood,0.998872408504584
+Craigieburn - Central,0.999430239628597
+Craigieburn - North,0.99984879866124
+Craigieburn - South,0.999673517241682
+Craigieburn - West,0.999825913956094
+Cranbourne,0.999416756603388
+Cranbourne East,0.999884465634465
+Cranbourne North,0.999683072543385
+Cranbourne South,0.999615984465507
+Cranbourne West,0.999767012405767
+Croydon - East,0.999630788662591
+Croydon Hills - Warranwood,0.999636678000618
+Croydon South,0.999307507532791
+Croydon - West,0.999490530643872
+Dandenong,0.999435552500385
+Dandenong North,0.999488080797703
+Deer Park - Derrimut,0.999722154170195
+Delahey,0.999215006531607
+Dingley Village,0.997574601456281
+Docklands,0.998691197657911
+Doncaster,0.99874379002371
+Doncaster East (North),0.99884585476977
+Doncaster East (South),0.999592878691495
+Donvale - Park Orchards,0.998139792977349
+Doreen,0.999898611575887
+Doveton,0.999741902693083
+Dromana,0.998007807897509
+East Melbourne,0.999184664619215
+Edithvale - Aspendale,0.999298221306711
+Elsternwick,0.999658753180867
+Eltham,0.998397195218186
+Elwood,0.999612028483839
+Emerald - Cockatoo,0.999558561960157
+Endeavour Hills - North,0.999779707982645
+Endeavour Hills - South,0.999684937402883
+Epping - East,0.999733363769791
+Epping - South,0.999713380537742
+Epping - West,0.999872241348426
+Essendon - Aberfeldie,0.999678464807951
+Fawkner,0.998056300426446
+Ferntree Gully (North),0.999634811242173
+Ferntree Gully (South) - Upper Ferntree Gully,0.999533323411368
+Fitzroy,0.998858820315073
+Fitzroy North,0.998813137021704
+Flemington,0.999600435627975
+Flemington Racecourse,0.861460984507896
+Flinders,0.98878265840552
+Footscray,0.998699530310466
+Forest Hill,0.999388181858984
+Frankston,0.999306495597905
+Frankston North,0.999277542428061
+Frankston South,0.999068900203696
+Gisborne,0.999082895182972
+Gladstone Park - Westmeadows,0.999732844722432
+Glen Iris - East,0.998554481028347
+Glenroy,0.999274240979492
+Glen Waverley - East,0.999302031760796
+Glen Waverley - West,0.999236731821553
+Gowanbrae,0.999633932428006
+Greensborough,0.999287229119314
+Greenvale - Bulla,0.999904115271458
+Hadfield,0.997240659468228
+Hallam,0.99987633700695
+Hampton,0.999171705640001
+Hampton Park - Lynbrook,0.999758781320516
+Hastings - Somers,0.999265203749407
+Hawthorn,0.999237961435575
+Hawthorn East,0.999621751090185
+Healesville - Yarra Glen,0.997917284170149
+Heidelberg - Rosanna,0.99917820552272
+Heidelberg West,0.999587977799761
+Hillside,0.999783067148097
+Hoppers Crossing - North,0.999826849676385
+Hoppers Crossing - South,0.999726296533046
+Hughesdale,0.999406311263487
+Hurstbridge,0.998192083497013
+Ivanhoe,0.999451355182606
+Ivanhoe East - Eaglemont,0.996631815018368
+Keilor,0.998059088020435
+Keilor Downs,0.999680061664683
+Keilor East,0.997430871777712
+Kensington (Vic.),0.999461266166123
+Kew,0.999032000733144
+Kew East,0.999089815166441
+Keysborough,0.999749485296575
+Kilsyth,0.999642781227299
+Kinglake,0.999698922025872
+Kingsbury,0.997764403050794
+Kings Park (Vic.),0.999690081756084
+Knoxfield - Scoresby,0.999553374950275
+Koo Wee Rup,0.999425320760032
+Lalor,0.999417533226361
+Langwarrin,0.999669330162562
+Laverton,0.99891859598132
+Lilydale - Coldstream,0.9995058354398
+Lynbrook - Lyndhurst,0.999897385732635
+Lysterfield,0.99980418157098
+Macedon,0.993434548450391
+Malvern East,0.999492350928048
+Malvern - Glen Iris,0.999341951858858
+Maribyrnong,0.998535083742076
+Meadow Heights,0.99984931843221
+Melbourne,0.997517788050235
+Melbourne Airport,0.835644747879969
+Melton,0.999656297889599
+Melton South,0.99978132675816
+Melton West,0.999784074691521
+Mentone,0.999576487859047
+Mernda,0.999711651890574
+Mickleham - Yuroke,0.99939047262633
+Mill Park - North,0.999655526162474
+Mill Park - South,0.999593097123382
+Mitcham (Vic.),0.999655940689168
+Monbulk - Silvan,0.998250406413539
+Montmorency - Briar Hill,0.997839671368095
+Montrose,0.999711729830015
+Moonee Ponds,0.999500095254286
+Moorabbin - Heatherton,0.999632656975326
+Mooroolbark,0.999705398695175
+Mordialloc - Parkdale,0.999505100620172
+Mornington,0.999058695067705
+Mount Dandenong - Olinda,0.9959036423489
+Mount Eliza,0.996698079243193
+Mount Evelyn,0.999686925068084
+Mount Martha,0.997690474414102
+Mount Waverley - North,0.999144295172086
+Mount Waverley - South,0.999256396259696
+Mulgrave,0.999217026286437
+Murrumbeena,0.999648480063617
+Narre Warren North,0.99963447974818
+Narre Warren - North East,0.999843129908745
+Narre Warren South (East),0.999847447585416
+Narre Warren - South West,0.999797632461807
+Narre Warren South (West),0.999861442589695
+Newport,0.999817630174348
+Niddrie - Essendon West,0.999370453175252
+Noble Park - East,0.999044005056511
+Noble Park North,0.999127348094446
+Noble Park - West,0.99910250526754
+Northcote,0.999220270200467
+North Melbourne,0.998926420090833
+Nunawading,0.999658890754635
+Oakleigh - Huntingdale,0.999352112823235
+Ormond - Glen Huntly,0.99965111695953
+Pakenham - North,0.999769838889954
+Pakenham - South,0.999836581366533
+Panton Hill - St Andrews,0.998531555512395
+Parkville,0.998997509080846
+Pascoe Vale,0.999752882009196
+Pascoe Vale South,0.999087265766722
+Pearcedale - Tooradin,0.99964077420641
+Plenty - Yarrambat,0.999751715653333
+Point Cook - East,0.999750351148235
+Point Cook - North,0.99980564441414
+Point Cook - South,0.999852009503981
+Point Nepean,0.996162431615163
+Port Melbourne,0.999424278596445
+Port Melbourne Industrial,0
+Prahran - Windsor,0.998770476335983
+Preston - East,0.999369049259015
+Preston - West,0.999477405837451
+Research - North Warrandyte,0.997933132206041
+Reservoir - East,0.999479809872807
+Reservoir - West,0.999344059621916
+Richmond (Vic.),0.999049876396339
+Riddells Creek,0.998875540569903
+Ringwood,0.999729279349733
+Ringwood East,0.999734105701047
+Ringwood North,0.998808376429649
+Rockbank - Mount Cottrell,0.999693708792603
+Romsey,0.997730799735043
+Rosebud - McCrae,0.997659389008733
+Rowville - Central,0.999734816081541
+Rowville - North,0.999790890521419
+Rowville - South,0.999719460291136
+Roxburgh Park - Somerton,0.999953478959429
+Sandringham - Black Rock,0.997976609976605
+Seabrook,0.999697922447371
+Seaford (Vic.),0.999586398963714
+Seddon - Kingsville,0.999680781991085
+Skye - Sandhurst,0.999773259241959
+Somerville,0.999530023375398
+Southbank,0.998099516723107
+South Melbourne,0.999632448180171
+South Morang (North),0.999778560653465
+South Morang (South),0.99950455915101
+South Yarra - East,0.999249706873852
+South Yarra - West,0.999395690556331
+Springvale,0.998315834937767
+Springvale South,0.999175357460823
+St Albans - North,0.999300972199868
+St Albans - South,0.998984002954291
+St Kilda,0.999349642043678
+St Kilda East,0.999163092832788
+Strathmore,0.99837870862186
+Sunbury,0.999703357948373
+Sunbury - South,0.999662155598658
+Sunshine,0.998869373687033
+Sunshine North,0.998951171915119
+Sunshine West,0.999390447891381
+Surrey Hills (East) - Mont Albert,0.999612653678437
+Surrey Hills (West) - Canterbury,0.999094487108414
+Sydenham,0.998836675406849
+Tarneit,0.999808416334034
+Taylors Hill,0.999959629315507
+Taylors Lakes,0.999847613411601
+Templestowe,0.998053992516768
+Templestowe Lower,0.997859983798527
+The Basin,0.99975441324475
+Thomastown,0.999376993292743
+Thornbury,0.999432753034629
+Toorak,0.998974119540816
+Truganina,0.999650429602912
+Tullamarine,0.999822251669053
+Upwey - Tecoma,0.999532972365034
+Vermont,0.999271006143603
+Vermont South,0.998219395510234
+Viewbank - Yallambie,0.999474157722628
+Wallan,0.999656818606015
+Wandin - Seville,0.999388728039714
+Wantirna,0.999271964380829
+Wantirna South,0.999681174693204
+Warrandyte - Wonga Park,0.998643989717052
+Watsonia,0.99882522902678
+Wattle Glen - Diamond Creek,0.999775022411344
+Werribee - East,0.999340091355914
+Werribee - South,0.999610873271068
+Werribee - West,0.999639323631167
+West Footscray - Tottenham,0.999176010407631
+Wheelers Hill,0.997872080847607
+Whittlesea,0.999420942824893
+Williamstown,0.999079580801252
+Wollert,0.999722546719969
+Wyndham Vale,0.999735482995031
+Yarra - North,0.998267921961451
+Yarra Valley,0.99929827531361
+Yarraville,0.999790652692306

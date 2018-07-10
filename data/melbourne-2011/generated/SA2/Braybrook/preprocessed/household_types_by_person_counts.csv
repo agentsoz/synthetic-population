@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Braybrook","One person","One family household: Couple family with no children",0
+"2","Braybrook","One person","One family household: Couple family with children",0
+"3","Braybrook","One person","One family household: One parent family",0
+"4","Braybrook","One person","One family household: Other family",0
+"5","Braybrook","One person","Two or more family household: Couple family with no children",0
+"6","Braybrook","One person","Two or more family household: Couple family with children",0
+"7","Braybrook","One person","Two or more family household: One parent family",0
+"8","Braybrook","One person","Two or more family household: Other family",0
+"9","Braybrook","One person","Lone person household",1334
+"10","Braybrook","One person","Group household",0
+"11","Braybrook","Two persons","One family household: Couple family with no children",1674
+"12","Braybrook","Two persons","One family household: Couple family with children",0
+"13","Braybrook","Two persons","One family household: One parent family",678
+"14","Braybrook","Two persons","One family household: Other family",174
+"15","Braybrook","Two persons","Two or more family household: Couple family with no children",0
+"16","Braybrook","Two persons","Two or more family household: Couple family with children",0
+"17","Braybrook","Two persons","Two or more family household: One parent family",0
+"18","Braybrook","Two persons","Two or more family household: Other family",0
+"19","Braybrook","Two persons","Lone person household",0
+"20","Braybrook","Two persons","Group household",406
+"21","Braybrook","Three persons","One family household: Couple family with no children",228
+"22","Braybrook","Three persons","One family household: Couple family with children",1440
+"23","Braybrook","Three persons","One family household: One parent family",783
+"24","Braybrook","Three persons","One family household: Other family",66
+"25","Braybrook","Three persons","Two or more family household: Couple family with no children",0
+"26","Braybrook","Three persons","Two or more family household: Couple family with children",0
+"27","Braybrook","Three persons","Two or more family household: One parent family",0
+"28","Braybrook","Three persons","Two or more family household: Other family",0
+"29","Braybrook","Three persons","Lone person household",0
+"30","Braybrook","Three persons","Group household",252
+"31","Braybrook","Four persons","One family household: Couple family with no children",156
+"32","Braybrook","Four persons","One family household: Couple family with children",2132
+"33","Braybrook","Four persons","One family household: One parent family",556
+"34","Braybrook","Four persons","One family household: Other family",44
+"35","Braybrook","Four persons","Two or more family household: Couple family with no children",48
+"36","Braybrook","Four persons","Two or more family household: Couple family with children",0
+"37","Braybrook","Four persons","Two or more family household: One parent family",56
+"38","Braybrook","Four persons","Two or more family household: Other family",16
+"39","Braybrook","Four persons","Lone person household",0
+"40","Braybrook","Four persons","Group household",172
+"41","Braybrook","Five persons","One family household: Couple family with no children",50
+"42","Braybrook","Five persons","One family household: Couple family with children",1265
+"43","Braybrook","Five persons","One family household: One parent family",240
+"44","Braybrook","Five persons","One family household: Other family",30
+"45","Braybrook","Five persons","Two or more family household: Couple family with no children",35
+"46","Braybrook","Five persons","Two or more family household: Couple family with children",90
+"47","Braybrook","Five persons","Two or more family household: One parent family",70
+"48","Braybrook","Five persons","Two or more family household: Other family",15
+"49","Braybrook","Five persons","Lone person household",0
+"50","Braybrook","Five persons","Group household",70
+"51","Braybrook","Six or more persons","One family household: Couple family with no children",18
+"52","Braybrook","Six or more persons","One family household: Couple family with children",1086
+"53","Braybrook","Six or more persons","One family household: One parent family",276
+"54","Braybrook","Six or more persons","One family household: Other family",24
+"55","Braybrook","Six or more persons","Two or more family household: Couple family with no children",42
+"56","Braybrook","Six or more persons","Two or more family household: Couple family with children",336
+"57","Braybrook","Six or more persons","Two or more family household: One parent family",144
+"58","Braybrook","Six or more persons","Two or more family household: Other family",0
+"59","Braybrook","Six or more persons","Lone person household",0
+"60","Braybrook","Six or more persons","Group household",54

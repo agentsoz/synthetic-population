@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Burwood","One person","One family household: Couple family with no children",0
+"2","Burwood","One person","One family household: Couple family with children",0
+"3","Burwood","One person","One family household: One parent family",0
+"4","Burwood","One person","One family household: Other family",0
+"5","Burwood","One person","Two or more family household: Couple family with no children",0
+"6","Burwood","One person","Two or more family household: Couple family with children",0
+"7","Burwood","One person","Two or more family household: One parent family",0
+"8","Burwood","One person","Two or more family household: Other family",0
+"9","Burwood","One person","Lone person household",1136
+"10","Burwood","One person","Group household",0
+"11","Burwood","Two persons","One family household: Couple family with no children",1378
+"12","Burwood","Two persons","One family household: Couple family with children",0
+"13","Burwood","Two persons","One family household: One parent family",418
+"14","Burwood","Two persons","One family household: Other family",90
+"15","Burwood","Two persons","Two or more family household: Couple family with no children",0
+"16","Burwood","Two persons","Two or more family household: Couple family with children",0
+"17","Burwood","Two persons","Two or more family household: One parent family",0
+"18","Burwood","Two persons","Two or more family household: Other family",0
+"19","Burwood","Two persons","Lone person household",0
+"20","Burwood","Two persons","Group household",292
+"21","Burwood","Three persons","One family household: Couple family with no children",156
+"22","Burwood","Three persons","One family household: Couple family with children",1029
+"23","Burwood","Three persons","One family household: One parent family",351
+"24","Burwood","Three persons","One family household: Other family",39
+"25","Burwood","Three persons","Two or more family household: Couple family with no children",0
+"26","Burwood","Three persons","Two or more family household: Couple family with children",0
+"27","Burwood","Three persons","Two or more family household: One parent family",0
+"28","Burwood","Three persons","Two or more family household: Other family",0
+"29","Burwood","Three persons","Lone person household",0
+"30","Burwood","Three persons","Group household",270
+"31","Burwood","Four persons","One family household: Couple family with no children",104
+"32","Burwood","Four persons","One family household: Couple family with children",1808
+"33","Burwood","Four persons","One family household: One parent family",124
+"34","Burwood","Four persons","One family household: Other family",44
+"35","Burwood","Four persons","Two or more family household: Couple family with no children",40
+"36","Burwood","Four persons","Two or more family household: Couple family with children",0
+"37","Burwood","Four persons","Two or more family household: One parent family",32
+"38","Burwood","Four persons","Two or more family household: Other family",0
+"39","Burwood","Four persons","Lone person household",0
+"40","Burwood","Four persons","Group household",392
+"41","Burwood","Five persons","One family household: Couple family with no children",70
+"42","Burwood","Five persons","One family household: Couple family with children",875
+"43","Burwood","Five persons","One family household: One parent family",30
+"44","Burwood","Five persons","One family household: Other family",15
+"45","Burwood","Five persons","Two or more family household: Couple family with no children",15
+"46","Burwood","Five persons","Two or more family household: Couple family with children",40
+"47","Burwood","Five persons","Two or more family household: One parent family",0
+"48","Burwood","Five persons","Two or more family household: Other family",0
+"49","Burwood","Five persons","Lone person household",0
+"50","Burwood","Five persons","Group household",220
+"51","Burwood","Six or more persons","One family household: Couple family with no children",102
+"52","Burwood","Six or more persons","One family household: Couple family with children",252
+"53","Burwood","Six or more persons","One family household: One parent family",24
+"54","Burwood","Six or more persons","One family household: Other family",18
+"55","Burwood","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Burwood","Six or more persons","Two or more family household: Couple family with children",102
+"57","Burwood","Six or more persons","Two or more family household: One parent family",0
+"58","Burwood","Six or more persons","Two or more family household: Other family",0
+"59","Burwood","Six or more persons","Lone person household",0
+"60","Burwood","Six or more persons","Group household",282

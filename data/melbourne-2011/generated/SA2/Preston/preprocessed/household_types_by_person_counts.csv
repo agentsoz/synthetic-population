@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Preston","One person","One family household: Couple family with no children",0
+"2","Preston","One person","One family household: Couple family with children",0
+"3","Preston","One person","One family household: One parent family",0
+"4","Preston","One person","One family household: Other family",0
+"5","Preston","One person","Two or more family household: Couple family with no children",0
+"6","Preston","One person","Two or more family household: Couple family with children",0
+"7","Preston","One person","Two or more family household: One parent family",0
+"8","Preston","One person","Two or more family household: Other family",0
+"9","Preston","One person","Lone person household",2833
+"10","Preston","One person","Group household",0
+"11","Preston","Two persons","One family household: Couple family with no children",4496
+"12","Preston","Two persons","One family household: Couple family with children",0
+"13","Preston","Two persons","One family household: One parent family",1242
+"14","Preston","Two persons","One family household: Other family",346
+"15","Preston","Two persons","Two or more family household: Couple family with no children",0
+"16","Preston","Two persons","Two or more family household: Couple family with children",0
+"17","Preston","Two persons","Two or more family household: One parent family",0
+"18","Preston","Two persons","Two or more family household: Other family",0
+"19","Preston","Two persons","Lone person household",0
+"20","Preston","Two persons","Group household",998
+"21","Preston","Three persons","One family household: Couple family with no children",486
+"22","Preston","Three persons","One family household: Couple family with children",3450
+"23","Preston","Three persons","One family household: One parent family",1146
+"24","Preston","Three persons","One family household: Other family",141
+"25","Preston","Three persons","Two or more family household: Couple family with no children",0
+"26","Preston","Three persons","Two or more family household: Couple family with children",0
+"27","Preston","Three persons","Two or more family household: One parent family",0
+"28","Preston","Three persons","Two or more family household: Other family",0
+"29","Preston","Three persons","Lone person household",0
+"30","Preston","Three persons","Group household",666
+"31","Preston","Four persons","One family household: Couple family with no children",192
+"32","Preston","Four persons","One family household: Couple family with children",5628
+"33","Preston","Four persons","One family household: One parent family",552
+"34","Preston","Four persons","One family household: Other family",44
+"35","Preston","Four persons","Two or more family household: Couple family with no children",64
+"36","Preston","Four persons","Two or more family household: Couple family with children",0
+"37","Preston","Four persons","Two or more family household: One parent family",72
+"38","Preston","Four persons","Two or more family household: Other family",0
+"39","Preston","Four persons","Lone person household",0
+"40","Preston","Four persons","Group household",312
+"41","Preston","Five persons","One family household: Couple family with no children",80
+"42","Preston","Five persons","One family household: Couple family with children",2510
+"43","Preston","Five persons","One family household: One parent family",170
+"44","Preston","Five persons","One family household: Other family",45
+"45","Preston","Five persons","Two or more family household: Couple family with no children",50
+"46","Preston","Five persons","Two or more family household: Couple family with children",105
+"47","Preston","Five persons","Two or more family household: One parent family",95
+"48","Preston","Five persons","Two or more family household: Other family",0
+"49","Preston","Five persons","Lone person household",0
+"50","Preston","Five persons","Group household",145
+"51","Preston","Six or more persons","One family household: Couple family with no children",60
+"52","Preston","Six or more persons","One family household: Couple family with children",1020
+"53","Preston","Six or more persons","One family household: One parent family",180
+"54","Preston","Six or more persons","One family household: Other family",18
+"55","Preston","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Preston","Six or more persons","Two or more family household: Couple family with children",288
+"57","Preston","Six or more persons","Two or more family household: One parent family",126
+"58","Preston","Six or more persons","Two or more family household: Other family",0
+"59","Preston","Six or more persons","Lone person household",0
+"60","Preston","Six or more persons","Group household",42

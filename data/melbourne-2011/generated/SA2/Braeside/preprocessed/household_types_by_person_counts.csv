@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Braeside","One person","One family household: Couple family with no children",0
+"2","Braeside","One person","One family household: Couple family with children",0
+"3","Braeside","One person","One family household: One parent family",0
+"4","Braeside","One person","One family household: Other family",0
+"5","Braeside","One person","Two or more family household: Couple family with no children",0
+"6","Braeside","One person","Two or more family household: Couple family with children",0
+"7","Braeside","One person","Two or more family household: One parent family",0
+"8","Braeside","One person","Two or more family household: Other family",0
+"9","Braeside","One person","Lone person household",3
+"10","Braeside","One person","Group household",0
+"11","Braeside","Two persons","One family household: Couple family with no children",0
+"12","Braeside","Two persons","One family household: Couple family with children",0
+"13","Braeside","Two persons","One family household: One parent family",0
+"14","Braeside","Two persons","One family household: Other family",0
+"15","Braeside","Two persons","Two or more family household: Couple family with no children",0
+"16","Braeside","Two persons","Two or more family household: Couple family with children",0
+"17","Braeside","Two persons","Two or more family household: One parent family",0
+"18","Braeside","Two persons","Two or more family household: Other family",0
+"19","Braeside","Two persons","Lone person household",0
+"20","Braeside","Two persons","Group household",0
+"21","Braeside","Three persons","One family household: Couple family with no children",0
+"22","Braeside","Three persons","One family household: Couple family with children",0
+"23","Braeside","Three persons","One family household: One parent family",0
+"24","Braeside","Three persons","One family household: Other family",0
+"25","Braeside","Three persons","Two or more family household: Couple family with no children",0
+"26","Braeside","Three persons","Two or more family household: Couple family with children",0
+"27","Braeside","Three persons","Two or more family household: One parent family",0
+"28","Braeside","Three persons","Two or more family household: Other family",0
+"29","Braeside","Three persons","Lone person household",0
+"30","Braeside","Three persons","Group household",0
+"31","Braeside","Four persons","One family household: Couple family with no children",0
+"32","Braeside","Four persons","One family household: Couple family with children",0
+"33","Braeside","Four persons","One family household: One parent family",0
+"34","Braeside","Four persons","One family household: Other family",0
+"35","Braeside","Four persons","Two or more family household: Couple family with no children",0
+"36","Braeside","Four persons","Two or more family household: Couple family with children",0
+"37","Braeside","Four persons","Two or more family household: One parent family",0
+"38","Braeside","Four persons","Two or more family household: Other family",0
+"39","Braeside","Four persons","Lone person household",0
+"40","Braeside","Four persons","Group household",0
+"41","Braeside","Five persons","One family household: Couple family with no children",0
+"42","Braeside","Five persons","One family household: Couple family with children",0
+"43","Braeside","Five persons","One family household: One parent family",0
+"44","Braeside","Five persons","One family household: Other family",0
+"45","Braeside","Five persons","Two or more family household: Couple family with no children",0
+"46","Braeside","Five persons","Two or more family household: Couple family with children",0
+"47","Braeside","Five persons","Two or more family household: One parent family",0
+"48","Braeside","Five persons","Two or more family household: Other family",0
+"49","Braeside","Five persons","Lone person household",0
+"50","Braeside","Five persons","Group household",0
+"51","Braeside","Six or more persons","One family household: Couple family with no children",0
+"52","Braeside","Six or more persons","One family household: Couple family with children",0
+"53","Braeside","Six or more persons","One family household: One parent family",0
+"54","Braeside","Six or more persons","One family household: Other family",0
+"55","Braeside","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Braeside","Six or more persons","Two or more family household: Couple family with children",0
+"57","Braeside","Six or more persons","Two or more family household: One parent family",0
+"58","Braeside","Six or more persons","Two or more family household: Other family",0
+"59","Braeside","Six or more persons","Lone person household",0
+"60","Braeside","Six or more persons","Group household",0

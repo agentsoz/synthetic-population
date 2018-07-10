@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Elwood","One person","One family household: Couple family with no children",0
+"2","Elwood","One person","One family household: Couple family with children",0
+"3","Elwood","One person","One family household: One parent family",0
+"4","Elwood","One person","One family household: Other family",0
+"5","Elwood","One person","Two or more family household: Couple family with no children",0
+"6","Elwood","One person","Two or more family household: Couple family with children",0
+"7","Elwood","One person","Two or more family household: One parent family",0
+"8","Elwood","One person","Two or more family household: Other family",0
+"9","Elwood","One person","Lone person household",2721
+"10","Elwood","One person","Group household",0
+"11","Elwood","Two persons","One family household: Couple family with no children",3286
+"12","Elwood","Two persons","One family household: Couple family with children",0
+"13","Elwood","Two persons","One family household: One parent family",560
+"14","Elwood","Two persons","One family household: Other family",168
+"15","Elwood","Two persons","Two or more family household: Couple family with no children",0
+"16","Elwood","Two persons","Two or more family household: Couple family with children",0
+"17","Elwood","Two persons","Two or more family household: One parent family",0
+"18","Elwood","Two persons","Two or more family household: Other family",0
+"19","Elwood","Two persons","Lone person household",0
+"20","Elwood","Two persons","Group household",1154
+"21","Elwood","Three persons","One family household: Couple family with no children",183
+"22","Elwood","Three persons","One family household: Couple family with children",1479
+"23","Elwood","Three persons","One family household: One parent family",294
+"24","Elwood","Three persons","One family household: Other family",42
+"25","Elwood","Three persons","Two or more family household: Couple family with no children",0
+"26","Elwood","Three persons","Two or more family household: Couple family with children",0
+"27","Elwood","Three persons","Two or more family household: One parent family",0
+"28","Elwood","Three persons","Two or more family household: Other family",0
+"29","Elwood","Three persons","Lone person household",0
+"30","Elwood","Three persons","Group household",291
+"31","Elwood","Four persons","One family household: Couple family with no children",44
+"32","Elwood","Four persons","One family household: Couple family with children",1868
+"33","Elwood","Four persons","One family household: One parent family",68
+"34","Elwood","Four persons","One family household: Other family",28
+"35","Elwood","Four persons","Two or more family household: Couple family with no children",0
+"36","Elwood","Four persons","Two or more family household: Couple family with children",0
+"37","Elwood","Four persons","Two or more family household: One parent family",0
+"38","Elwood","Four persons","Two or more family household: Other family",0
+"39","Elwood","Four persons","Lone person household",0
+"40","Elwood","Four persons","Group household",72
+"41","Elwood","Five persons","One family household: Couple family with no children",15
+"42","Elwood","Five persons","One family household: Couple family with children",650
+"43","Elwood","Five persons","One family household: One parent family",0
+"44","Elwood","Five persons","One family household: Other family",0
+"45","Elwood","Five persons","Two or more family household: Couple family with no children",0
+"46","Elwood","Five persons","Two or more family household: Couple family with children",0
+"47","Elwood","Five persons","Two or more family household: One parent family",0
+"48","Elwood","Five persons","Two or more family household: Other family",0
+"49","Elwood","Five persons","Lone person household",0
+"50","Elwood","Five persons","Group household",15
+"51","Elwood","Six or more persons","One family household: Couple family with no children",0
+"52","Elwood","Six or more persons","One family household: Couple family with children",138
+"53","Elwood","Six or more persons","One family household: One parent family",0
+"54","Elwood","Six or more persons","One family household: Other family",0
+"55","Elwood","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Elwood","Six or more persons","Two or more family household: Couple family with children",0
+"57","Elwood","Six or more persons","Two or more family household: One parent family",0
+"58","Elwood","Six or more persons","Two or more family household: Other family",0
+"59","Elwood","Six or more persons","Lone person household",0
+"60","Elwood","Six or more persons","Group household",0

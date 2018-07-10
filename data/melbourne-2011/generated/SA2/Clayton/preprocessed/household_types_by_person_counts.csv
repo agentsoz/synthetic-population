@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Clayton","One person","One family household: Couple family with no children",0
+"2","Clayton","One person","One family household: Couple family with children",0
+"3","Clayton","One person","One family household: One parent family",0
+"4","Clayton","One person","One family household: Other family",0
+"5","Clayton","One person","Two or more family household: Couple family with no children",0
+"6","Clayton","One person","Two or more family household: Couple family with children",0
+"7","Clayton","One person","Two or more family household: One parent family",0
+"8","Clayton","One person","Two or more family household: Other family",0
+"9","Clayton","One person","Lone person household",1337
+"10","Clayton","One person","Group household",0
+"11","Clayton","Two persons","One family household: Couple family with no children",2054
+"12","Clayton","Two persons","One family household: Couple family with children",0
+"13","Clayton","Two persons","One family household: One parent family",478
+"14","Clayton","Two persons","One family household: Other family",222
+"15","Clayton","Two persons","Two or more family household: Couple family with no children",0
+"16","Clayton","Two persons","Two or more family household: Couple family with children",0
+"17","Clayton","Two persons","Two or more family household: One parent family",0
+"18","Clayton","Two persons","Two or more family household: Other family",0
+"19","Clayton","Two persons","Lone person household",0
+"20","Clayton","Two persons","Group household",728
+"21","Clayton","Three persons","One family household: Couple family with no children",459
+"22","Clayton","Three persons","One family household: Couple family with children",1530
+"23","Clayton","Three persons","One family household: One parent family",387
+"24","Clayton","Three persons","One family household: Other family",159
+"25","Clayton","Three persons","Two or more family household: Couple family with no children",0
+"26","Clayton","Three persons","Two or more family household: Couple family with children",0
+"27","Clayton","Three persons","Two or more family household: One parent family",0
+"28","Clayton","Three persons","Two or more family household: Other family",0
+"29","Clayton","Three persons","Lone person household",0
+"30","Clayton","Three persons","Group household",885
+"31","Clayton","Four persons","One family household: Couple family with no children",340
+"32","Clayton","Four persons","One family household: Couple family with children",1944
+"33","Clayton","Four persons","One family household: One parent family",152
+"34","Clayton","Four persons","One family household: Other family",116
+"35","Clayton","Four persons","Two or more family household: Couple family with no children",92
+"36","Clayton","Four persons","Two or more family household: Couple family with children",0
+"37","Clayton","Four persons","Two or more family household: One parent family",36
+"38","Clayton","Four persons","Two or more family household: Other family",0
+"39","Clayton","Four persons","Lone person household",0
+"40","Clayton","Four persons","Group household",980
+"41","Clayton","Five persons","One family household: Couple family with no children",210
+"42","Clayton","Five persons","One family household: Couple family with children",870
+"43","Clayton","Five persons","One family household: One parent family",80
+"44","Clayton","Five persons","One family household: Other family",60
+"45","Clayton","Five persons","Two or more family household: Couple family with no children",20
+"46","Clayton","Five persons","Two or more family household: Couple family with children",100
+"47","Clayton","Five persons","Two or more family household: One parent family",40
+"48","Clayton","Five persons","Two or more family household: Other family",0
+"49","Clayton","Five persons","Lone person household",0
+"50","Clayton","Five persons","Group household",570
+"51","Clayton","Six or more persons","One family household: Couple family with no children",168
+"52","Clayton","Six or more persons","One family household: Couple family with children",486
+"53","Clayton","Six or more persons","One family household: One parent family",84
+"54","Clayton","Six or more persons","One family household: Other family",36
+"55","Clayton","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Clayton","Six or more persons","Two or more family household: Couple family with children",150
+"57","Clayton","Six or more persons","Two or more family household: One parent family",18
+"58","Clayton","Six or more persons","Two or more family household: Other family",24
+"59","Clayton","Six or more persons","Lone person household",0
+"60","Clayton","Six or more persons","Group household",312

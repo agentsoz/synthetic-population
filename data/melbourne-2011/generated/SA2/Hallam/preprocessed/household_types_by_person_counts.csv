@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Hallam","One person","One family household: Couple family with no children",0
+"2","Hallam","One person","One family household: Couple family with children",0
+"3","Hallam","One person","One family household: One parent family",0
+"4","Hallam","One person","One family household: Other family",0
+"5","Hallam","One person","Two or more family household: Couple family with no children",0
+"6","Hallam","One person","Two or more family household: Couple family with children",0
+"7","Hallam","One person","Two or more family household: One parent family",0
+"8","Hallam","One person","Two or more family household: Other family",0
+"9","Hallam","One person","Lone person household",531
+"10","Hallam","One person","Group household",0
+"11","Hallam","Two persons","One family household: Couple family with no children",1376
+"12","Hallam","Two persons","One family household: Couple family with children",0
+"13","Hallam","Two persons","One family household: One parent family",396
+"14","Hallam","Two persons","One family household: Other family",54
+"15","Hallam","Two persons","Two or more family household: Couple family with no children",0
+"16","Hallam","Two persons","Two or more family household: Couple family with children",0
+"17","Hallam","Two persons","Two or more family household: One parent family",0
+"18","Hallam","Two persons","Two or more family household: Other family",0
+"19","Hallam","Two persons","Lone person household",0
+"20","Hallam","Two persons","Group household",136
+"21","Hallam","Three persons","One family household: Couple family with no children",111
+"22","Hallam","Three persons","One family household: Couple family with children",1260
+"23","Hallam","Three persons","One family household: One parent family",471
+"24","Hallam","Three persons","One family household: Other family",12
+"25","Hallam","Three persons","Two or more family household: Couple family with no children",0
+"26","Hallam","Three persons","Two or more family household: Couple family with children",0
+"27","Hallam","Three persons","Two or more family household: One parent family",0
+"28","Hallam","Three persons","Two or more family household: Other family",0
+"29","Hallam","Three persons","Lone person household",0
+"30","Hallam","Three persons","Group household",30
+"31","Hallam","Four persons","One family household: Couple family with no children",44
+"32","Hallam","Four persons","One family household: Couple family with children",2132
+"33","Hallam","Four persons","One family household: One parent family",228
+"34","Hallam","Four persons","One family household: Other family",0
+"35","Hallam","Four persons","Two or more family household: Couple family with no children",44
+"36","Hallam","Four persons","Two or more family household: Couple family with children",0
+"37","Hallam","Four persons","Two or more family household: One parent family",28
+"38","Hallam","Four persons","Two or more family household: Other family",0
+"39","Hallam","Four persons","Lone person household",0
+"40","Hallam","Four persons","Group household",12
+"41","Hallam","Five persons","One family household: Couple family with no children",0
+"42","Hallam","Five persons","One family household: Couple family with children",1045
+"43","Hallam","Five persons","One family household: One parent family",105
+"44","Hallam","Five persons","One family household: Other family",0
+"45","Hallam","Five persons","Two or more family household: Couple family with no children",0
+"46","Hallam","Five persons","Two or more family household: Couple family with children",125
+"47","Hallam","Five persons","Two or more family household: One parent family",45
+"48","Hallam","Five persons","Two or more family household: Other family",0
+"49","Hallam","Five persons","Lone person household",0
+"50","Hallam","Five persons","Group household",0
+"51","Hallam","Six or more persons","One family household: Couple family with no children",0
+"52","Hallam","Six or more persons","One family household: Couple family with children",714
+"53","Hallam","Six or more persons","One family household: One parent family",96
+"54","Hallam","Six or more persons","One family household: Other family",0
+"55","Hallam","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Hallam","Six or more persons","Two or more family household: Couple family with children",366
+"57","Hallam","Six or more persons","Two or more family household: One parent family",132
+"58","Hallam","Six or more persons","Two or more family household: Other family",0
+"59","Hallam","Six or more persons","Lone person household",0
+"60","Hallam","Six or more persons","Group household",0

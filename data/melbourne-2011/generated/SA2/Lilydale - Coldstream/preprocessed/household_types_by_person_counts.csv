@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Lilydale - Coldstream","One person","One family household: Couple family with no children",0
+"2","Lilydale - Coldstream","One person","One family household: Couple family with children",0
+"3","Lilydale - Coldstream","One person","One family household: One parent family",0
+"4","Lilydale - Coldstream","One person","One family household: Other family",0
+"5","Lilydale - Coldstream","One person","Two or more family household: Couple family with no children",0
+"6","Lilydale - Coldstream","One person","Two or more family household: Couple family with children",0
+"7","Lilydale - Coldstream","One person","Two or more family household: One parent family",0
+"8","Lilydale - Coldstream","One person","Two or more family household: Other family",0
+"9","Lilydale - Coldstream","One person","Lone person household",1355
+"10","Lilydale - Coldstream","One person","Group household",0
+"11","Lilydale - Coldstream","Two persons","One family household: Couple family with no children",3110
+"12","Lilydale - Coldstream","Two persons","One family household: Couple family with children",0
+"13","Lilydale - Coldstream","Two persons","One family household: One parent family",638
+"14","Lilydale - Coldstream","Two persons","One family household: Other family",92
+"15","Lilydale - Coldstream","Two persons","Two or more family household: Couple family with no children",0
+"16","Lilydale - Coldstream","Two persons","Two or more family household: Couple family with children",0
+"17","Lilydale - Coldstream","Two persons","Two or more family household: One parent family",0
+"18","Lilydale - Coldstream","Two persons","Two or more family household: Other family",0
+"19","Lilydale - Coldstream","Two persons","Lone person household",0
+"20","Lilydale - Coldstream","Two persons","Group household",236
+"21","Lilydale - Coldstream","Three persons","One family household: Couple family with no children",153
+"22","Lilydale - Coldstream","Three persons","One family household: Couple family with children",2235
+"23","Lilydale - Coldstream","Three persons","One family household: One parent family",741
+"24","Lilydale - Coldstream","Three persons","One family household: Other family",12
+"25","Lilydale - Coldstream","Three persons","Two or more family household: Couple family with no children",0
+"26","Lilydale - Coldstream","Three persons","Two or more family household: Couple family with children",0
+"27","Lilydale - Coldstream","Three persons","Two or more family household: One parent family",0
+"28","Lilydale - Coldstream","Three persons","Two or more family household: Other family",0
+"29","Lilydale - Coldstream","Three persons","Lone person household",0
+"30","Lilydale - Coldstream","Three persons","Group household",42
+"31","Lilydale - Coldstream","Four persons","One family household: Couple family with no children",12
+"32","Lilydale - Coldstream","Four persons","One family household: Couple family with children",4120
+"33","Lilydale - Coldstream","Four persons","One family household: One parent family",368
+"34","Lilydale - Coldstream","Four persons","One family household: Other family",16
+"35","Lilydale - Coldstream","Four persons","Two or more family household: Couple family with no children",72
+"36","Lilydale - Coldstream","Four persons","Two or more family household: Couple family with children",0
+"37","Lilydale - Coldstream","Four persons","Two or more family household: One parent family",48
+"38","Lilydale - Coldstream","Four persons","Two or more family household: Other family",0
+"39","Lilydale - Coldstream","Four persons","Lone person household",0
+"40","Lilydale - Coldstream","Four persons","Group household",12
+"41","Lilydale - Coldstream","Five persons","One family household: Couple family with no children",0
+"42","Lilydale - Coldstream","Five persons","One family household: Couple family with children",2330
+"43","Lilydale - Coldstream","Five persons","One family household: One parent family",175
+"44","Lilydale - Coldstream","Five persons","One family household: Other family",0
+"45","Lilydale - Coldstream","Five persons","Two or more family household: Couple family with no children",0
+"46","Lilydale - Coldstream","Five persons","Two or more family household: Couple family with children",95
+"47","Lilydale - Coldstream","Five persons","Two or more family household: One parent family",40
+"48","Lilydale - Coldstream","Five persons","Two or more family household: Other family",0
+"49","Lilydale - Coldstream","Five persons","Lone person household",0
+"50","Lilydale - Coldstream","Five persons","Group household",0
+"51","Lilydale - Coldstream","Six or more persons","One family household: Couple family with no children",0
+"52","Lilydale - Coldstream","Six or more persons","One family household: Couple family with children",984
+"53","Lilydale - Coldstream","Six or more persons","One family household: One parent family",36
+"54","Lilydale - Coldstream","Six or more persons","One family household: Other family",0
+"55","Lilydale - Coldstream","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Lilydale - Coldstream","Six or more persons","Two or more family household: Couple family with children",132
+"57","Lilydale - Coldstream","Six or more persons","Two or more family household: One parent family",30
+"58","Lilydale - Coldstream","Six or more persons","Two or more family household: Other family",0
+"59","Lilydale - Coldstream","Six or more persons","Lone person household",0
+"60","Lilydale - Coldstream","Six or more persons","Group household",18

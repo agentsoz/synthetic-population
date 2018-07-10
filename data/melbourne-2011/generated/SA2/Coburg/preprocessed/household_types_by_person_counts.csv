@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Coburg","One person","One family household: Couple family with no children",0
+"2","Coburg","One person","One family household: Couple family with children",0
+"3","Coburg","One person","One family household: One parent family",0
+"4","Coburg","One person","One family household: Other family",0
+"5","Coburg","One person","Two or more family household: Couple family with no children",0
+"6","Coburg","One person","Two or more family household: Couple family with children",0
+"7","Coburg","One person","Two or more family household: One parent family",0
+"8","Coburg","One person","Two or more family household: Other family",0
+"9","Coburg","One person","Lone person household",2190
+"10","Coburg","One person","Group household",0
+"11","Coburg","Two persons","One family household: Couple family with no children",3856
+"12","Coburg","Two persons","One family household: Couple family with children",0
+"13","Coburg","Two persons","One family household: One parent family",900
+"14","Coburg","Two persons","One family household: Other family",238
+"15","Coburg","Two persons","Two or more family household: Couple family with no children",0
+"16","Coburg","Two persons","Two or more family household: Couple family with children",0
+"17","Coburg","Two persons","Two or more family household: One parent family",0
+"18","Coburg","Two persons","Two or more family household: Other family",0
+"19","Coburg","Two persons","Lone person household",0
+"20","Coburg","Two persons","Group household",814
+"21","Coburg","Three persons","One family household: Couple family with no children",336
+"22","Coburg","Three persons","One family household: Couple family with children",3171
+"23","Coburg","Three persons","One family household: One parent family",879
+"24","Coburg","Three persons","One family household: Other family",108
+"25","Coburg","Three persons","Two or more family household: Couple family with no children",0
+"26","Coburg","Three persons","Two or more family household: Couple family with children",0
+"27","Coburg","Three persons","Two or more family household: One parent family",0
+"28","Coburg","Three persons","Two or more family household: Other family",0
+"29","Coburg","Three persons","Lone person household",0
+"30","Coburg","Three persons","Group household",615
+"31","Coburg","Four persons","One family household: Couple family with no children",136
+"32","Coburg","Four persons","One family household: Couple family with children",4716
+"33","Coburg","Four persons","One family household: One parent family",380
+"34","Coburg","Four persons","One family household: Other family",44
+"35","Coburg","Four persons","Two or more family household: Couple family with no children",104
+"36","Coburg","Four persons","Two or more family household: Couple family with children",0
+"37","Coburg","Four persons","Two or more family household: One parent family",36
+"38","Coburg","Four persons","Two or more family household: Other family",0
+"39","Coburg","Four persons","Lone person household",0
+"40","Coburg","Four persons","Group household",396
+"41","Coburg","Five persons","One family household: Couple family with no children",35
+"42","Coburg","Five persons","One family household: Couple family with children",2205
+"43","Coburg","Five persons","One family household: One parent family",145
+"44","Coburg","Five persons","One family household: Other family",15
+"45","Coburg","Five persons","Two or more family household: Couple family with no children",40
+"46","Coburg","Five persons","Two or more family household: Couple family with children",135
+"47","Coburg","Five persons","Two or more family household: One parent family",60
+"48","Coburg","Five persons","Two or more family household: Other family",0
+"49","Coburg","Five persons","Lone person household",0
+"50","Coburg","Five persons","Group household",200
+"51","Coburg","Six or more persons","One family household: Couple family with no children",24
+"52","Coburg","Six or more persons","One family household: Couple family with children",1188
+"53","Coburg","Six or more persons","One family household: One parent family",90
+"54","Coburg","Six or more persons","One family household: Other family",48
+"55","Coburg","Six or more persons","Two or more family household: Couple family with no children",36
+"56","Coburg","Six or more persons","Two or more family household: Couple family with children",234
+"57","Coburg","Six or more persons","Two or more family household: One parent family",72
+"58","Coburg","Six or more persons","Two or more family household: Other family",0
+"59","Coburg","Six or more persons","Lone person household",0
+"60","Coburg","Six or more persons","Group household",78

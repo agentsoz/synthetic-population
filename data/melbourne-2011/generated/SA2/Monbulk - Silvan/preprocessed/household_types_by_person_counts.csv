@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Monbulk - Silvan","One person","One family household: Couple family with no children",0
+"2","Monbulk - Silvan","One person","One family household: Couple family with children",0
+"3","Monbulk - Silvan","One person","One family household: One parent family",0
+"4","Monbulk - Silvan","One person","One family household: Other family",0
+"5","Monbulk - Silvan","One person","Two or more family household: Couple family with no children",0
+"6","Monbulk - Silvan","One person","Two or more family household: Couple family with children",0
+"7","Monbulk - Silvan","One person","Two or more family household: One parent family",0
+"8","Monbulk - Silvan","One person","Two or more family household: Other family",0
+"9","Monbulk - Silvan","One person","Lone person household",375
+"10","Monbulk - Silvan","One person","Group household",0
+"11","Monbulk - Silvan","Two persons","One family household: Couple family with no children",1136
+"12","Monbulk - Silvan","Two persons","One family household: Couple family with children",0
+"13","Monbulk - Silvan","Two persons","One family household: One parent family",200
+"14","Monbulk - Silvan","Two persons","One family household: Other family",22
+"15","Monbulk - Silvan","Two persons","Two or more family household: Couple family with no children",0
+"16","Monbulk - Silvan","Two persons","Two or more family household: Couple family with children",0
+"17","Monbulk - Silvan","Two persons","Two or more family household: One parent family",0
+"18","Monbulk - Silvan","Two persons","Two or more family household: Other family",0
+"19","Monbulk - Silvan","Two persons","Lone person household",0
+"20","Monbulk - Silvan","Two persons","Group household",42
+"21","Monbulk - Silvan","Three persons","One family household: Couple family with no children",63
+"22","Monbulk - Silvan","Three persons","One family household: Couple family with children",639
+"23","Monbulk - Silvan","Three persons","One family household: One parent family",237
+"24","Monbulk - Silvan","Three persons","One family household: Other family",9
+"25","Monbulk - Silvan","Three persons","Two or more family household: Couple family with no children",0
+"26","Monbulk - Silvan","Three persons","Two or more family household: Couple family with children",0
+"27","Monbulk - Silvan","Three persons","Two or more family household: One parent family",0
+"28","Monbulk - Silvan","Three persons","Two or more family household: Other family",0
+"29","Monbulk - Silvan","Three persons","Lone person household",0
+"30","Monbulk - Silvan","Three persons","Group household",0
+"31","Monbulk - Silvan","Four persons","One family household: Couple family with no children",0
+"32","Monbulk - Silvan","Four persons","One family household: Couple family with children",1132
+"33","Monbulk - Silvan","Four persons","One family household: One parent family",88
+"34","Monbulk - Silvan","Four persons","One family household: Other family",0
+"35","Monbulk - Silvan","Four persons","Two or more family household: Couple family with no children",0
+"36","Monbulk - Silvan","Four persons","Two or more family household: Couple family with children",0
+"37","Monbulk - Silvan","Four persons","Two or more family household: One parent family",0
+"38","Monbulk - Silvan","Four persons","Two or more family household: Other family",0
+"39","Monbulk - Silvan","Four persons","Lone person household",0
+"40","Monbulk - Silvan","Four persons","Group household",0
+"41","Monbulk - Silvan","Five persons","One family household: Couple family with no children",0
+"42","Monbulk - Silvan","Five persons","One family household: Couple family with children",815
+"43","Monbulk - Silvan","Five persons","One family household: One parent family",40
+"44","Monbulk - Silvan","Five persons","One family household: Other family",0
+"45","Monbulk - Silvan","Five persons","Two or more family household: Couple family with no children",0
+"46","Monbulk - Silvan","Five persons","Two or more family household: Couple family with children",0
+"47","Monbulk - Silvan","Five persons","Two or more family household: One parent family",15
+"48","Monbulk - Silvan","Five persons","Two or more family household: Other family",0
+"49","Monbulk - Silvan","Five persons","Lone person household",0
+"50","Monbulk - Silvan","Five persons","Group household",0
+"51","Monbulk - Silvan","Six or more persons","One family household: Couple family with no children",0
+"52","Monbulk - Silvan","Six or more persons","One family household: Couple family with children",312
+"53","Monbulk - Silvan","Six or more persons","One family household: One parent family",18
+"54","Monbulk - Silvan","Six or more persons","One family household: Other family",0
+"55","Monbulk - Silvan","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Monbulk - Silvan","Six or more persons","Two or more family household: Couple family with children",120
+"57","Monbulk - Silvan","Six or more persons","Two or more family household: One parent family",0
+"58","Monbulk - Silvan","Six or more persons","Two or more family household: Other family",0
+"59","Monbulk - Silvan","Six or more persons","Lone person household",0
+"60","Monbulk - Silvan","Six or more persons","Group household",0

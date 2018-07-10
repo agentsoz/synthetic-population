@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Templestowe","One person","One family household: Couple family with no children",0
+"2","Templestowe","One person","One family household: Couple family with children",0
+"3","Templestowe","One person","One family household: One parent family",0
+"4","Templestowe","One person","One family household: Other family",0
+"5","Templestowe","One person","Two or more family household: Couple family with no children",0
+"6","Templestowe","One person","Two or more family household: Couple family with children",0
+"7","Templestowe","One person","Two or more family household: One parent family",0
+"8","Templestowe","One person","Two or more family household: Other family",0
+"9","Templestowe","One person","Lone person household",733
+"10","Templestowe","One person","Group household",0
+"11","Templestowe","Two persons","One family household: Couple family with no children",2740
+"12","Templestowe","Two persons","One family household: Couple family with children",0
+"13","Templestowe","Two persons","One family household: One parent family",442
+"14","Templestowe","Two persons","One family household: Other family",94
+"15","Templestowe","Two persons","Two or more family household: Couple family with no children",0
+"16","Templestowe","Two persons","Two or more family household: Couple family with children",0
+"17","Templestowe","Two persons","Two or more family household: One parent family",0
+"18","Templestowe","Two persons","Two or more family household: Other family",0
+"19","Templestowe","Two persons","Lone person household",0
+"20","Templestowe","Two persons","Group household",112
+"21","Templestowe","Three persons","One family household: Couple family with no children",144
+"22","Templestowe","Three persons","One family household: Couple family with children",2271
+"23","Templestowe","Three persons","One family household: One parent family",459
+"24","Templestowe","Three persons","One family household: Other family",30
+"25","Templestowe","Three persons","Two or more family household: Couple family with no children",0
+"26","Templestowe","Three persons","Two or more family household: Couple family with children",0
+"27","Templestowe","Three persons","Two or more family household: One parent family",0
+"28","Templestowe","Three persons","Two or more family household: Other family",0
+"29","Templestowe","Three persons","Lone person household",0
+"30","Templestowe","Three persons","Group household",57
+"31","Templestowe","Four persons","One family household: Couple family with no children",24
+"32","Templestowe","Four persons","One family household: Couple family with children",4560
+"33","Templestowe","Four persons","One family household: One parent family",232
+"34","Templestowe","Four persons","One family household: Other family",0
+"35","Templestowe","Four persons","Two or more family household: Couple family with no children",116
+"36","Templestowe","Four persons","Two or more family household: Couple family with children",0
+"37","Templestowe","Four persons","Two or more family household: One parent family",36
+"38","Templestowe","Four persons","Two or more family household: Other family",12
+"39","Templestowe","Four persons","Lone person household",0
+"40","Templestowe","Four persons","Group household",16
+"41","Templestowe","Five persons","One family household: Couple family with no children",0
+"42","Templestowe","Five persons","One family household: Couple family with children",2360
+"43","Templestowe","Five persons","One family household: One parent family",60
+"44","Templestowe","Five persons","One family household: Other family",0
+"45","Templestowe","Five persons","Two or more family household: Couple family with no children",15
+"46","Templestowe","Five persons","Two or more family household: Couple family with children",125
+"47","Templestowe","Five persons","Two or more family household: One parent family",80
+"48","Templestowe","Five persons","Two or more family household: Other family",0
+"49","Templestowe","Five persons","Lone person household",0
+"50","Templestowe","Five persons","Group household",0
+"51","Templestowe","Six or more persons","One family household: Couple family with no children",0
+"52","Templestowe","Six or more persons","One family household: Couple family with children",792
+"53","Templestowe","Six or more persons","One family household: One parent family",30
+"54","Templestowe","Six or more persons","One family household: Other family",18
+"55","Templestowe","Six or more persons","Two or more family household: Couple family with no children",24
+"56","Templestowe","Six or more persons","Two or more family household: Couple family with children",282
+"57","Templestowe","Six or more persons","Two or more family household: One parent family",24
+"58","Templestowe","Six or more persons","Two or more family household: Other family",0
+"59","Templestowe","Six or more persons","Lone person household",0
+"60","Templestowe","Six or more persons","Group household",0

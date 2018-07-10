@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Macedon","One person","One family household: Couple family with no children",0
+"2","Macedon","One person","One family household: Couple family with children",0
+"3","Macedon","One person","One family household: One parent family",0
+"4","Macedon","One person","One family household: Other family",0
+"5","Macedon","One person","Two or more family household: Couple family with no children",0
+"6","Macedon","One person","Two or more family household: Couple family with children",0
+"7","Macedon","One person","Two or more family household: One parent family",0
+"8","Macedon","One person","Two or more family household: Other family",0
+"9","Macedon","One person","Lone person household",201
+"10","Macedon","One person","Group household",0
+"11","Macedon","Two persons","One family household: Couple family with no children",726
+"12","Macedon","Two persons","One family household: Couple family with children",0
+"13","Macedon","Two persons","One family household: One parent family",90
+"14","Macedon","Two persons","One family household: Other family",8
+"15","Macedon","Two persons","Two or more family household: Couple family with no children",0
+"16","Macedon","Two persons","Two or more family household: Couple family with children",0
+"17","Macedon","Two persons","Two or more family household: One parent family",0
+"18","Macedon","Two persons","Two or more family household: Other family",0
+"19","Macedon","Two persons","Lone person household",0
+"20","Macedon","Two persons","Group household",38
+"21","Macedon","Three persons","One family household: Couple family with no children",27
+"22","Macedon","Three persons","One family household: Couple family with children",396
+"23","Macedon","Three persons","One family household: One parent family",93
+"24","Macedon","Three persons","One family household: Other family",0
+"25","Macedon","Three persons","Two or more family household: Couple family with no children",0
+"26","Macedon","Three persons","Two or more family household: Couple family with children",0
+"27","Macedon","Three persons","Two or more family household: One parent family",0
+"28","Macedon","Three persons","Two or more family household: Other family",0
+"29","Macedon","Three persons","Lone person household",0
+"30","Macedon","Three persons","Group household",9
+"31","Macedon","Four persons","One family household: Couple family with no children",0
+"32","Macedon","Four persons","One family household: Couple family with children",748
+"33","Macedon","Four persons","One family household: One parent family",40
+"34","Macedon","Four persons","One family household: Other family",0
+"35","Macedon","Four persons","Two or more family household: Couple family with no children",12
+"36","Macedon","Four persons","Two or more family household: Couple family with children",0
+"37","Macedon","Four persons","Two or more family household: One parent family",12
+"38","Macedon","Four persons","Two or more family household: Other family",0
+"39","Macedon","Four persons","Lone person household",0
+"40","Macedon","Four persons","Group household",0
+"41","Macedon","Five persons","One family household: Couple family with no children",0
+"42","Macedon","Five persons","One family household: Couple family with children",455
+"43","Macedon","Five persons","One family household: One parent family",15
+"44","Macedon","Five persons","One family household: Other family",0
+"45","Macedon","Five persons","Two or more family household: Couple family with no children",0
+"46","Macedon","Five persons","Two or more family household: Couple family with children",15
+"47","Macedon","Five persons","Two or more family household: One parent family",0
+"48","Macedon","Five persons","Two or more family household: Other family",0
+"49","Macedon","Five persons","Lone person household",0
+"50","Macedon","Five persons","Group household",0
+"51","Macedon","Six or more persons","One family household: Couple family with no children",0
+"52","Macedon","Six or more persons","One family household: Couple family with children",162
+"53","Macedon","Six or more persons","One family household: One parent family",0
+"54","Macedon","Six or more persons","One family household: Other family",0
+"55","Macedon","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Macedon","Six or more persons","Two or more family household: Couple family with children",24
+"57","Macedon","Six or more persons","Two or more family household: One parent family",0
+"58","Macedon","Six or more persons","Two or more family household: Other family",0
+"59","Macedon","Six or more persons","Lone person household",0
+"60","Macedon","Six or more persons","Group household",0

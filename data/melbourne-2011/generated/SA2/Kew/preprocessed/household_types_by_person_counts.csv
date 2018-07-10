@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Kew","One person","One family household: Couple family with no children",0
+"2","Kew","One person","One family household: Couple family with children",0
+"3","Kew","One person","One family household: One parent family",0
+"4","Kew","One person","One family household: Other family",0
+"5","Kew","One person","Two or more family household: Couple family with no children",0
+"6","Kew","One person","Two or more family household: Couple family with children",0
+"7","Kew","One person","Two or more family household: One parent family",0
+"8","Kew","One person","Two or more family household: Other family",0
+"9","Kew","One person","Lone person household",2043
+"10","Kew","One person","Group household",0
+"11","Kew","Two persons","One family household: Couple family with no children",3826
+"12","Kew","Two persons","One family household: Couple family with children",0
+"13","Kew","Two persons","One family household: One parent family",732
+"14","Kew","Two persons","One family household: Other family",202
+"15","Kew","Two persons","Two or more family household: Couple family with no children",0
+"16","Kew","Two persons","Two or more family household: Couple family with children",0
+"17","Kew","Two persons","Two or more family household: One parent family",0
+"18","Kew","Two persons","Two or more family household: Other family",0
+"19","Kew","Two persons","Lone person household",0
+"20","Kew","Two persons","Group household",674
+"21","Kew","Three persons","One family household: Couple family with no children",276
+"22","Kew","Three persons","One family household: Couple family with children",2520
+"23","Kew","Three persons","One family household: One parent family",639
+"24","Kew","Three persons","One family household: Other family",93
+"25","Kew","Three persons","Two or more family household: Couple family with no children",0
+"26","Kew","Three persons","Two or more family household: Couple family with children",0
+"27","Kew","Three persons","Two or more family household: One parent family",0
+"28","Kew","Three persons","Two or more family household: Other family",0
+"29","Kew","Three persons","Lone person household",0
+"30","Kew","Three persons","Group household",405
+"31","Kew","Four persons","One family household: Couple family with no children",84
+"32","Kew","Four persons","One family household: Couple family with children",5096
+"33","Kew","Four persons","One family household: One parent family",324
+"34","Kew","Four persons","One family household: Other family",12
+"35","Kew","Four persons","Two or more family household: Couple family with no children",48
+"36","Kew","Four persons","Two or more family household: Couple family with children",0
+"37","Kew","Four persons","Two or more family household: One parent family",40
+"38","Kew","Four persons","Two or more family household: Other family",0
+"39","Kew","Four persons","Lone person household",0
+"40","Kew","Four persons","Group household",232
+"41","Kew","Five persons","One family household: Couple family with no children",35
+"42","Kew","Five persons","One family household: Couple family with children",2930
+"43","Kew","Five persons","One family household: One parent family",100
+"44","Kew","Five persons","One family household: Other family",0
+"45","Kew","Five persons","Two or more family household: Couple family with no children",15
+"46","Kew","Five persons","Two or more family household: Couple family with children",65
+"47","Kew","Five persons","Two or more family household: One parent family",15
+"48","Kew","Five persons","Two or more family household: Other family",0
+"49","Kew","Five persons","Lone person household",0
+"50","Kew","Five persons","Group household",70
+"51","Kew","Six or more persons","One family household: Couple family with no children",0
+"52","Kew","Six or more persons","One family household: Couple family with children",882
+"53","Kew","Six or more persons","One family household: One parent family",0
+"54","Kew","Six or more persons","One family household: Other family",18
+"55","Kew","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Kew","Six or more persons","Two or more family household: Couple family with children",126
+"57","Kew","Six or more persons","Two or more family household: One parent family",0
+"58","Kew","Six or more persons","Two or more family household: Other family",0
+"59","Kew","Six or more persons","Lone person household",0
+"60","Kew","Six or more persons","Group household",48

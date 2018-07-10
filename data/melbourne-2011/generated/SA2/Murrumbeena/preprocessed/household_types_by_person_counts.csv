@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Murrumbeena","One person","One family household: Couple family with no children",0
+"2","Murrumbeena","One person","One family household: Couple family with children",0
+"3","Murrumbeena","One person","One family household: One parent family",0
+"4","Murrumbeena","One person","One family household: Other family",0
+"5","Murrumbeena","One person","Two or more family household: Couple family with no children",0
+"6","Murrumbeena","One person","Two or more family household: Couple family with children",0
+"7","Murrumbeena","One person","Two or more family household: One parent family",0
+"8","Murrumbeena","One person","Two or more family household: Other family",0
+"9","Murrumbeena","One person","Lone person household",1099
+"10","Murrumbeena","One person","Group household",0
+"11","Murrumbeena","Two persons","One family household: Couple family with no children",1488
+"12","Murrumbeena","Two persons","One family household: Couple family with children",0
+"13","Murrumbeena","Two persons","One family household: One parent family",242
+"14","Murrumbeena","Two persons","One family household: Other family",112
+"15","Murrumbeena","Two persons","Two or more family household: Couple family with no children",0
+"16","Murrumbeena","Two persons","Two or more family household: Couple family with children",0
+"17","Murrumbeena","Two persons","Two or more family household: One parent family",0
+"18","Murrumbeena","Two persons","Two or more family household: Other family",0
+"19","Murrumbeena","Two persons","Lone person household",0
+"20","Murrumbeena","Two persons","Group household",240
+"21","Murrumbeena","Three persons","One family household: Couple family with no children",105
+"22","Murrumbeena","Three persons","One family household: Couple family with children",1134
+"23","Murrumbeena","Three persons","One family household: One parent family",216
+"24","Murrumbeena","Three persons","One family household: Other family",21
+"25","Murrumbeena","Three persons","Two or more family household: Couple family with no children",0
+"26","Murrumbeena","Three persons","Two or more family household: Couple family with children",0
+"27","Murrumbeena","Three persons","Two or more family household: One parent family",0
+"28","Murrumbeena","Three persons","Two or more family household: Other family",0
+"29","Murrumbeena","Three persons","Lone person household",0
+"30","Murrumbeena","Three persons","Group household",111
+"31","Murrumbeena","Four persons","One family household: Couple family with no children",56
+"32","Murrumbeena","Four persons","One family household: Couple family with children",2100
+"33","Murrumbeena","Four persons","One family household: One parent family",60
+"34","Murrumbeena","Four persons","One family household: Other family",0
+"35","Murrumbeena","Four persons","Two or more family household: Couple family with no children",36
+"36","Murrumbeena","Four persons","Two or more family household: Couple family with children",0
+"37","Murrumbeena","Four persons","Two or more family household: One parent family",12
+"38","Murrumbeena","Four persons","Two or more family household: Other family",0
+"39","Murrumbeena","Four persons","Lone person household",0
+"40","Murrumbeena","Four persons","Group household",60
+"41","Murrumbeena","Five persons","One family household: Couple family with no children",15
+"42","Murrumbeena","Five persons","One family household: Couple family with children",875
+"43","Murrumbeena","Five persons","One family household: One parent family",15
+"44","Murrumbeena","Five persons","One family household: Other family",0
+"45","Murrumbeena","Five persons","Two or more family household: Couple family with no children",0
+"46","Murrumbeena","Five persons","Two or more family household: Couple family with children",20
+"47","Murrumbeena","Five persons","Two or more family household: One parent family",20
+"48","Murrumbeena","Five persons","Two or more family household: Other family",0
+"49","Murrumbeena","Five persons","Lone person household",0
+"50","Murrumbeena","Five persons","Group household",35
+"51","Murrumbeena","Six or more persons","One family household: Couple family with no children",0
+"52","Murrumbeena","Six or more persons","One family household: Couple family with children",120
+"53","Murrumbeena","Six or more persons","One family household: One parent family",0
+"54","Murrumbeena","Six or more persons","One family household: Other family",0
+"55","Murrumbeena","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Murrumbeena","Six or more persons","Two or more family household: Couple family with children",42
+"57","Murrumbeena","Six or more persons","Two or more family household: One parent family",0
+"58","Murrumbeena","Six or more persons","Two or more family household: Other family",0
+"59","Murrumbeena","Six or more persons","Lone person household",0
+"60","Murrumbeena","Six or more persons","Group household",24

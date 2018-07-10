@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Reservoir - West","One person","One family household: Couple family with no children",0
+"2","Reservoir - West","One person","One family household: Couple family with children",0
+"3","Reservoir - West","One person","One family household: One parent family",0
+"4","Reservoir - West","One person","One family household: Other family",0
+"5","Reservoir - West","One person","Two or more family household: Couple family with no children",0
+"6","Reservoir - West","One person","Two or more family household: Couple family with children",0
+"7","Reservoir - West","One person","Two or more family household: One parent family",0
+"8","Reservoir - West","One person","Two or more family household: Other family",0
+"9","Reservoir - West","One person","Lone person household",2183
+"10","Reservoir - West","One person","Group household",0
+"11","Reservoir - West","Two persons","One family household: Couple family with no children",3938
+"12","Reservoir - West","Two persons","One family household: Couple family with children",0
+"13","Reservoir - West","Two persons","One family household: One parent family",1098
+"14","Reservoir - West","Two persons","One family household: Other family",234
+"15","Reservoir - West","Two persons","Two or more family household: Couple family with no children",0
+"16","Reservoir - West","Two persons","Two or more family household: Couple family with children",0
+"17","Reservoir - West","Two persons","Two or more family household: One parent family",0
+"18","Reservoir - West","Two persons","Two or more family household: Other family",0
+"19","Reservoir - West","Two persons","Lone person household",0
+"20","Reservoir - West","Two persons","Group household",478
+"21","Reservoir - West","Three persons","One family household: Couple family with no children",312
+"22","Reservoir - West","Three persons","One family household: Couple family with children",2790
+"23","Reservoir - West","Three persons","One family household: One parent family",852
+"24","Reservoir - West","Three persons","One family household: Other family",78
+"25","Reservoir - West","Three persons","Two or more family household: Couple family with no children",0
+"26","Reservoir - West","Three persons","Two or more family household: Couple family with children",0
+"27","Reservoir - West","Three persons","Two or more family household: One parent family",0
+"28","Reservoir - West","Three persons","Two or more family household: Other family",0
+"29","Reservoir - West","Three persons","Lone person household",0
+"30","Reservoir - West","Three persons","Group household",222
+"31","Reservoir - West","Four persons","One family household: Couple family with no children",160
+"32","Reservoir - West","Four persons","One family household: Couple family with children",4092
+"33","Reservoir - West","Four persons","One family household: One parent family",420
+"34","Reservoir - West","Four persons","One family household: Other family",32
+"35","Reservoir - West","Four persons","Two or more family household: Couple family with no children",84
+"36","Reservoir - West","Four persons","Two or more family household: Couple family with children",0
+"37","Reservoir - West","Four persons","Two or more family household: One parent family",68
+"38","Reservoir - West","Four persons","Two or more family household: Other family",0
+"39","Reservoir - West","Four persons","Lone person household",0
+"40","Reservoir - West","Four persons","Group household",112
+"41","Reservoir - West","Five persons","One family household: Couple family with no children",30
+"42","Reservoir - West","Five persons","One family household: Couple family with children",2315
+"43","Reservoir - West","Five persons","One family household: One parent family",190
+"44","Reservoir - West","Five persons","One family household: Other family",20
+"45","Reservoir - West","Five persons","Two or more family household: Couple family with no children",50
+"46","Reservoir - West","Five persons","Two or more family household: Couple family with children",95
+"47","Reservoir - West","Five persons","Two or more family household: One parent family",85
+"48","Reservoir - West","Five persons","Two or more family household: Other family",15
+"49","Reservoir - West","Five persons","Lone person household",0
+"50","Reservoir - West","Five persons","Group household",100
+"51","Reservoir - West","Six or more persons","One family household: Couple family with no children",18
+"52","Reservoir - West","Six or more persons","One family household: Couple family with children",966
+"53","Reservoir - West","Six or more persons","One family household: One parent family",108
+"54","Reservoir - West","Six or more persons","One family household: Other family",0
+"55","Reservoir - West","Six or more persons","Two or more family household: Couple family with no children",42
+"56","Reservoir - West","Six or more persons","Two or more family household: Couple family with children",258
+"57","Reservoir - West","Six or more persons","Two or more family household: One parent family",66
+"58","Reservoir - West","Six or more persons","Two or more family household: Other family",0
+"59","Reservoir - West","Six or more persons","Lone person household",0
+"60","Reservoir - West","Six or more persons","Group household",42

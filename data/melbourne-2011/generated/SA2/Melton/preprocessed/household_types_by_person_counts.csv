@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Melton","One person","One family household: Couple family with no children",0
+"2","Melton","One person","One family household: Couple family with children",0
+"3","Melton","One person","One family household: One parent family",0
+"4","Melton","One person","One family household: Other family",0
+"5","Melton","One person","Two or more family household: Couple family with no children",0
+"6","Melton","One person","Two or more family household: Couple family with children",0
+"7","Melton","One person","Two or more family household: One parent family",0
+"8","Melton","One person","Two or more family household: Other family",0
+"9","Melton","One person","Lone person household",1411
+"10","Melton","One person","Group household",0
+"11","Melton","Two persons","One family household: Couple family with no children",2864
+"12","Melton","Two persons","One family household: Couple family with children",0
+"13","Melton","Two persons","One family household: One parent family",838
+"14","Melton","Two persons","One family household: Other family",116
+"15","Melton","Two persons","Two or more family household: Couple family with no children",0
+"16","Melton","Two persons","Two or more family household: Couple family with children",0
+"17","Melton","Two persons","Two or more family household: One parent family",0
+"18","Melton","Two persons","Two or more family household: Other family",0
+"19","Melton","Two persons","Lone person household",0
+"20","Melton","Two persons","Group household",318
+"21","Melton","Three persons","One family household: Couple family with no children",219
+"22","Melton","Three persons","One family household: Couple family with children",2070
+"23","Melton","Three persons","One family household: One parent family",1044
+"24","Melton","Three persons","One family household: Other family",15
+"25","Melton","Three persons","Two or more family household: Couple family with no children",0
+"26","Melton","Three persons","Two or more family household: Couple family with children",0
+"27","Melton","Three persons","Two or more family household: One parent family",0
+"28","Melton","Three persons","Two or more family household: Other family",0
+"29","Melton","Three persons","Lone person household",0
+"30","Melton","Three persons","Group household",36
+"31","Melton","Four persons","One family household: Couple family with no children",12
+"32","Melton","Four persons","One family household: Couple family with children",3136
+"33","Melton","Four persons","One family household: One parent family",592
+"34","Melton","Four persons","One family household: Other family",16
+"35","Melton","Four persons","Two or more family household: Couple family with no children",52
+"36","Melton","Four persons","Two or more family household: Couple family with children",0
+"37","Melton","Four persons","Two or more family household: One parent family",40
+"38","Melton","Four persons","Two or more family household: Other family",16
+"39","Melton","Four persons","Lone person household",0
+"40","Melton","Four persons","Group household",28
+"41","Melton","Five persons","One family household: Couple family with no children",15
+"42","Melton","Five persons","One family household: Couple family with children",1820
+"43","Melton","Five persons","One family household: One parent family",250
+"44","Melton","Five persons","One family household: Other family",0
+"45","Melton","Five persons","Two or more family household: Couple family with no children",0
+"46","Melton","Five persons","Two or more family household: Couple family with children",80
+"47","Melton","Five persons","Two or more family household: One parent family",70
+"48","Melton","Five persons","Two or more family household: Other family",0
+"49","Melton","Five persons","Lone person household",0
+"50","Melton","Five persons","Group household",15
+"51","Melton","Six or more persons","One family household: Couple family with no children",0
+"52","Melton","Six or more persons","One family household: Couple family with children",1014
+"53","Melton","Six or more persons","One family household: One parent family",210
+"54","Melton","Six or more persons","One family household: Other family",0
+"55","Melton","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Melton","Six or more persons","Two or more family household: Couple family with children",198
+"57","Melton","Six or more persons","Two or more family household: One parent family",132
+"58","Melton","Six or more persons","Two or more family household: Other family",0
+"59","Melton","Six or more persons","Lone person household",0
+"60","Melton","Six or more persons","Group household",0

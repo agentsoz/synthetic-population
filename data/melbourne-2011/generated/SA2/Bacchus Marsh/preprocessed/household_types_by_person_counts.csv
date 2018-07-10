@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Bacchus Marsh","One person","One family household: Couple family with no children",0
+"2","Bacchus Marsh","One person","One family household: Couple family with children",0
+"3","Bacchus Marsh","One person","One family household: One parent family",0
+"4","Bacchus Marsh","One person","One family household: Other family",0
+"5","Bacchus Marsh","One person","Two or more family household: Couple family with no children",0
+"6","Bacchus Marsh","One person","Two or more family household: Couple family with children",0
+"7","Bacchus Marsh","One person","Two or more family household: One parent family",0
+"8","Bacchus Marsh","One person","Two or more family household: Other family",0
+"9","Bacchus Marsh","One person","Lone person household",1345
+"10","Bacchus Marsh","One person","Group household",0
+"11","Bacchus Marsh","Two persons","One family household: Couple family with no children",2870
+"12","Bacchus Marsh","Two persons","One family household: Couple family with children",0
+"13","Bacchus Marsh","Two persons","One family household: One parent family",670
+"14","Bacchus Marsh","Two persons","One family household: Other family",90
+"15","Bacchus Marsh","Two persons","Two or more family household: Couple family with no children",0
+"16","Bacchus Marsh","Two persons","Two or more family household: Couple family with children",0
+"17","Bacchus Marsh","Two persons","Two or more family household: One parent family",0
+"18","Bacchus Marsh","Two persons","Two or more family household: Other family",0
+"19","Bacchus Marsh","Two persons","Lone person household",0
+"20","Bacchus Marsh","Two persons","Group household",224
+"21","Bacchus Marsh","Three persons","One family household: Couple family with no children",138
+"22","Bacchus Marsh","Three persons","One family household: Couple family with children",1998
+"23","Bacchus Marsh","Three persons","One family household: One parent family",789
+"24","Bacchus Marsh","Three persons","One family household: Other family",36
+"25","Bacchus Marsh","Three persons","Two or more family household: Couple family with no children",0
+"26","Bacchus Marsh","Three persons","Two or more family household: Couple family with children",0
+"27","Bacchus Marsh","Three persons","Two or more family household: One parent family",0
+"28","Bacchus Marsh","Three persons","Two or more family household: Other family",0
+"29","Bacchus Marsh","Three persons","Lone person household",0
+"30","Bacchus Marsh","Three persons","Group household",45
+"31","Bacchus Marsh","Four persons","One family household: Couple family with no children",12
+"32","Bacchus Marsh","Four persons","One family household: Couple family with children",3856
+"33","Bacchus Marsh","Four persons","One family household: One parent family",444
+"34","Bacchus Marsh","Four persons","One family household: Other family",0
+"35","Bacchus Marsh","Four persons","Two or more family household: Couple family with no children",24
+"36","Bacchus Marsh","Four persons","Two or more family household: Couple family with children",0
+"37","Bacchus Marsh","Four persons","Two or more family household: One parent family",44
+"38","Bacchus Marsh","Four persons","Two or more family household: Other family",0
+"39","Bacchus Marsh","Four persons","Lone person household",0
+"40","Bacchus Marsh","Four persons","Group household",12
+"41","Bacchus Marsh","Five persons","One family household: Couple family with no children",0
+"42","Bacchus Marsh","Five persons","One family household: Couple family with children",2220
+"43","Bacchus Marsh","Five persons","One family household: One parent family",155
+"44","Bacchus Marsh","Five persons","One family household: Other family",0
+"45","Bacchus Marsh","Five persons","Two or more family household: Couple family with no children",0
+"46","Bacchus Marsh","Five persons","Two or more family household: Couple family with children",50
+"47","Bacchus Marsh","Five persons","Two or more family household: One parent family",70
+"48","Bacchus Marsh","Five persons","Two or more family household: Other family",0
+"49","Bacchus Marsh","Five persons","Lone person household",0
+"50","Bacchus Marsh","Five persons","Group household",0
+"51","Bacchus Marsh","Six or more persons","One family household: Couple family with no children",0
+"52","Bacchus Marsh","Six or more persons","One family household: Couple family with children",918
+"53","Bacchus Marsh","Six or more persons","One family household: One parent family",96
+"54","Bacchus Marsh","Six or more persons","One family household: Other family",0
+"55","Bacchus Marsh","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Bacchus Marsh","Six or more persons","Two or more family household: Couple family with children",150
+"57","Bacchus Marsh","Six or more persons","Two or more family household: One parent family",18
+"58","Bacchus Marsh","Six or more persons","Two or more family household: Other family",0
+"59","Bacchus Marsh","Six or more persons","Lone person household",0
+"60","Bacchus Marsh","Six or more persons","Group household",0

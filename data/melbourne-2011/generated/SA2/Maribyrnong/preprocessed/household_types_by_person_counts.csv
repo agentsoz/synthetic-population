@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Maribyrnong","One person","One family household: Couple family with no children",0
+"2","Maribyrnong","One person","One family household: Couple family with children",0
+"3","Maribyrnong","One person","One family household: One parent family",0
+"4","Maribyrnong","One person","One family household: Other family",0
+"5","Maribyrnong","One person","Two or more family household: Couple family with no children",0
+"6","Maribyrnong","One person","Two or more family household: Couple family with children",0
+"7","Maribyrnong","One person","Two or more family household: One parent family",0
+"8","Maribyrnong","One person","Two or more family household: Other family",0
+"9","Maribyrnong","One person","Lone person household",786
+"10","Maribyrnong","One person","Group household",0
+"11","Maribyrnong","Two persons","One family household: Couple family with no children",1520
+"12","Maribyrnong","Two persons","One family household: Couple family with children",0
+"13","Maribyrnong","Two persons","One family household: One parent family",274
+"14","Maribyrnong","Two persons","One family household: Other family",116
+"15","Maribyrnong","Two persons","Two or more family household: Couple family with no children",0
+"16","Maribyrnong","Two persons","Two or more family household: Couple family with children",0
+"17","Maribyrnong","Two persons","Two or more family household: One parent family",0
+"18","Maribyrnong","Two persons","Two or more family household: Other family",0
+"19","Maribyrnong","Two persons","Lone person household",0
+"20","Maribyrnong","Two persons","Group household",322
+"21","Maribyrnong","Three persons","One family household: Couple family with no children",210
+"22","Maribyrnong","Three persons","One family household: Couple family with children",1275
+"23","Maribyrnong","Three persons","One family household: One parent family",300
+"24","Maribyrnong","Three persons","One family household: Other family",87
+"25","Maribyrnong","Three persons","Two or more family household: Couple family with no children",0
+"26","Maribyrnong","Three persons","Two or more family household: Couple family with children",0
+"27","Maribyrnong","Three persons","Two or more family household: One parent family",0
+"28","Maribyrnong","Three persons","Two or more family household: Other family",0
+"29","Maribyrnong","Three persons","Lone person household",0
+"30","Maribyrnong","Three persons","Group household",243
+"31","Maribyrnong","Four persons","One family household: Couple family with no children",96
+"32","Maribyrnong","Four persons","One family household: Couple family with children",2108
+"33","Maribyrnong","Four persons","One family household: One parent family",168
+"34","Maribyrnong","Four persons","One family household: Other family",20
+"35","Maribyrnong","Four persons","Two or more family household: Couple family with no children",36
+"36","Maribyrnong","Four persons","Two or more family household: Couple family with children",0
+"37","Maribyrnong","Four persons","Two or more family household: One parent family",12
+"38","Maribyrnong","Four persons","Two or more family household: Other family",0
+"39","Maribyrnong","Four persons","Lone person household",0
+"40","Maribyrnong","Four persons","Group household",96
+"41","Maribyrnong","Five persons","One family household: Couple family with no children",50
+"42","Maribyrnong","Five persons","One family household: Couple family with children",950
+"43","Maribyrnong","Five persons","One family household: One parent family",55
+"44","Maribyrnong","Five persons","One family household: Other family",0
+"45","Maribyrnong","Five persons","Two or more family household: Couple family with no children",15
+"46","Maribyrnong","Five persons","Two or more family household: Couple family with children",55
+"47","Maribyrnong","Five persons","Two or more family household: One parent family",15
+"48","Maribyrnong","Five persons","Two or more family household: Other family",0
+"49","Maribyrnong","Five persons","Lone person household",0
+"50","Maribyrnong","Five persons","Group household",60
+"51","Maribyrnong","Six or more persons","One family household: Couple family with no children",0
+"52","Maribyrnong","Six or more persons","One family household: Couple family with children",366
+"53","Maribyrnong","Six or more persons","One family household: One parent family",18
+"54","Maribyrnong","Six or more persons","One family household: Other family",0
+"55","Maribyrnong","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Maribyrnong","Six or more persons","Two or more family household: Couple family with children",120
+"57","Maribyrnong","Six or more persons","Two or more family household: One parent family",24
+"58","Maribyrnong","Six or more persons","Two or more family household: Other family",0
+"59","Maribyrnong","Six or more persons","Lone person household",0
+"60","Maribyrnong","Six or more persons","Group household",36

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Airport West","One person","One family household: Couple family with no children",0
+"2","Airport West","One person","One family household: Couple family with children",0
+"3","Airport West","One person","One family household: One parent family",0
+"4","Airport West","One person","One family household: Other family",0
+"5","Airport West","One person","Two or more family household: Couple family with no children",0
+"6","Airport West","One person","Two or more family household: Couple family with children",0
+"7","Airport West","One person","Two or more family household: One parent family",0
+"8","Airport West","One person","Two or more family household: Other family",0
+"9","Airport West","One person","Lone person household",722
+"10","Airport West","One person","Group household",0
+"11","Airport West","Two persons","One family household: Couple family with no children",1468
+"12","Airport West","Two persons","One family household: Couple family with children",0
+"13","Airport West","Two persons","One family household: One parent family",420
+"14","Airport West","Two persons","One family household: Other family",82
+"15","Airport West","Two persons","Two or more family household: Couple family with no children",0
+"16","Airport West","Two persons","Two or more family household: Couple family with children",0
+"17","Airport West","Two persons","Two or more family household: One parent family",0
+"18","Airport West","Two persons","Two or more family household: Other family",0
+"19","Airport West","Two persons","Lone person household",0
+"20","Airport West","Two persons","Group household",152
+"21","Airport West","Three persons","One family household: Couple family with no children",54
+"22","Airport West","Three persons","One family household: Couple family with children",933
+"23","Airport West","Three persons","One family household: One parent family",336
+"24","Airport West","Three persons","One family household: Other family",27
+"25","Airport West","Three persons","Two or more family household: Couple family with no children",0
+"26","Airport West","Three persons","Two or more family household: Couple family with children",0
+"27","Airport West","Three persons","Two or more family household: One parent family",0
+"28","Airport West","Three persons","Two or more family household: Other family",0
+"29","Airport West","Three persons","Lone person household",0
+"30","Airport West","Three persons","Group household",45
+"31","Airport West","Four persons","One family household: Couple family with no children",0
+"32","Airport West","Four persons","One family household: Couple family with children",1276
+"33","Airport West","Four persons","One family household: One parent family",220
+"34","Airport West","Four persons","One family household: Other family",12
+"35","Airport West","Four persons","Two or more family household: Couple family with no children",24
+"36","Airport West","Four persons","Two or more family household: Couple family with children",0
+"37","Airport West","Four persons","Two or more family household: One parent family",36
+"38","Airport West","Four persons","Two or more family household: Other family",0
+"39","Airport West","Four persons","Lone person household",0
+"40","Airport West","Four persons","Group household",20
+"41","Airport West","Five persons","One family household: Couple family with no children",0
+"42","Airport West","Five persons","One family household: Couple family with children",625
+"43","Airport West","Five persons","One family household: One parent family",40
+"44","Airport West","Five persons","One family household: Other family",0
+"45","Airport West","Five persons","Two or more family household: Couple family with no children",0
+"46","Airport West","Five persons","Two or more family household: Couple family with children",0
+"47","Airport West","Five persons","Two or more family household: One parent family",0
+"48","Airport West","Five persons","Two or more family household: Other family",0
+"49","Airport West","Five persons","Lone person household",0
+"50","Airport West","Five persons","Group household",15
+"51","Airport West","Six or more persons","One family household: Couple family with no children",0
+"52","Airport West","Six or more persons","One family household: Couple family with children",102
+"53","Airport West","Six or more persons","One family household: One parent family",0
+"54","Airport West","Six or more persons","One family household: Other family",0
+"55","Airport West","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Airport West","Six or more persons","Two or more family household: Couple family with children",36
+"57","Airport West","Six or more persons","Two or more family household: One parent family",24
+"58","Airport West","Six or more persons","Two or more family household: Other family",0
+"59","Airport West","Six or more persons","Lone person household",0
+"60","Airport West","Six or more persons","Group household",0

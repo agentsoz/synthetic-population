@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Fitzroy","One person","One family household: Couple family with no children",0
+"2","Fitzroy","One person","One family household: Couple family with children",0
+"3","Fitzroy","One person","One family household: One parent family",0
+"4","Fitzroy","One person","One family household: Other family",0
+"5","Fitzroy","One person","Two or more family household: Couple family with no children",0
+"6","Fitzroy","One person","Two or more family household: Couple family with children",0
+"7","Fitzroy","One person","Two or more family household: One parent family",0
+"8","Fitzroy","One person","Two or more family household: Other family",0
+"9","Fitzroy","One person","Lone person household",1233
+"10","Fitzroy","One person","Group household",0
+"11","Fitzroy","Two persons","One family household: Couple family with no children",1884
+"12","Fitzroy","Two persons","One family household: Couple family with children",0
+"13","Fitzroy","Two persons","One family household: One parent family",338
+"14","Fitzroy","Two persons","One family household: Other family",114
+"15","Fitzroy","Two persons","Two or more family household: Couple family with no children",0
+"16","Fitzroy","Two persons","Two or more family household: Couple family with children",0
+"17","Fitzroy","Two persons","Two or more family household: One parent family",0
+"18","Fitzroy","Two persons","Two or more family household: Other family",0
+"19","Fitzroy","Two persons","Lone person household",0
+"20","Fitzroy","Two persons","Group household",712
+"21","Fitzroy","Three persons","One family household: Couple family with no children",195
+"22","Fitzroy","Three persons","One family household: Couple family with children",669
+"23","Fitzroy","Three persons","One family household: One parent family",309
+"24","Fitzroy","Three persons","One family household: Other family",54
+"25","Fitzroy","Three persons","Two or more family household: Couple family with no children",0
+"26","Fitzroy","Three persons","Two or more family household: Couple family with children",0
+"27","Fitzroy","Three persons","Two or more family household: One parent family",0
+"28","Fitzroy","Three persons","Two or more family household: Other family",0
+"29","Fitzroy","Three persons","Lone person household",0
+"30","Fitzroy","Three persons","Group household",489
+"31","Fitzroy","Four persons","One family household: Couple family with no children",64
+"32","Fitzroy","Four persons","One family household: Couple family with children",740
+"33","Fitzroy","Four persons","One family household: One parent family",160
+"34","Fitzroy","Four persons","One family household: Other family",48
+"35","Fitzroy","Four persons","Two or more family household: Couple family with no children",12
+"36","Fitzroy","Four persons","Two or more family household: Couple family with children",0
+"37","Fitzroy","Four persons","Two or more family household: One parent family",12
+"38","Fitzroy","Four persons","Two or more family household: Other family",0
+"39","Fitzroy","Four persons","Lone person household",0
+"40","Fitzroy","Four persons","Group household",312
+"41","Fitzroy","Five persons","One family household: Couple family with no children",20
+"42","Fitzroy","Five persons","One family household: Couple family with children",255
+"43","Fitzroy","Five persons","One family household: One parent family",75
+"44","Fitzroy","Five persons","One family household: Other family",0
+"45","Fitzroy","Five persons","Two or more family household: Couple family with no children",0
+"46","Fitzroy","Five persons","Two or more family household: Couple family with children",0
+"47","Fitzroy","Five persons","Two or more family household: One parent family",15
+"48","Fitzroy","Five persons","Two or more family household: Other family",0
+"49","Fitzroy","Five persons","Lone person household",0
+"50","Fitzroy","Five persons","Group household",100
+"51","Fitzroy","Six or more persons","One family household: Couple family with no children",0
+"52","Fitzroy","Six or more persons","One family household: Couple family with children",150
+"53","Fitzroy","Six or more persons","One family household: One parent family",60
+"54","Fitzroy","Six or more persons","One family household: Other family",0
+"55","Fitzroy","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Fitzroy","Six or more persons","Two or more family household: Couple family with children",18
+"57","Fitzroy","Six or more persons","Two or more family household: One parent family",0
+"58","Fitzroy","Six or more persons","Two or more family household: Other family",0
+"59","Fitzroy","Six or more persons","Lone person household",0
+"60","Fitzroy","Six or more persons","Group household",24

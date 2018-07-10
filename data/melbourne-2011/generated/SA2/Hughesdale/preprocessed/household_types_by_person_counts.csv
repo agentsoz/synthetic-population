@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Hughesdale","One person","One family household: Couple family with no children",0
+"2","Hughesdale","One person","One family household: Couple family with children",0
+"3","Hughesdale","One person","One family household: One parent family",0
+"4","Hughesdale","One person","One family household: Other family",0
+"5","Hughesdale","One person","Two or more family household: Couple family with no children",0
+"6","Hughesdale","One person","Two or more family household: Couple family with children",0
+"7","Hughesdale","One person","Two or more family household: One parent family",0
+"8","Hughesdale","One person","Two or more family household: Other family",0
+"9","Hughesdale","One person","Lone person household",663
+"10","Hughesdale","One person","Group household",0
+"11","Hughesdale","Two persons","One family household: Couple family with no children",1024
+"12","Hughesdale","Two persons","One family household: Couple family with children",0
+"13","Hughesdale","Two persons","One family household: One parent family",230
+"14","Hughesdale","Two persons","One family household: Other family",58
+"15","Hughesdale","Two persons","Two or more family household: Couple family with no children",0
+"16","Hughesdale","Two persons","Two or more family household: Couple family with children",0
+"17","Hughesdale","Two persons","Two or more family household: One parent family",0
+"18","Hughesdale","Two persons","Two or more family household: Other family",0
+"19","Hughesdale","Two persons","Lone person household",0
+"20","Hughesdale","Two persons","Group household",170
+"21","Hughesdale","Three persons","One family household: Couple family with no children",132
+"22","Hughesdale","Three persons","One family household: Couple family with children",939
+"23","Hughesdale","Three persons","One family household: One parent family",207
+"24","Hughesdale","Three persons","One family household: Other family",42
+"25","Hughesdale","Three persons","Two or more family household: Couple family with no children",0
+"26","Hughesdale","Three persons","Two or more family household: Couple family with children",0
+"27","Hughesdale","Three persons","Two or more family household: One parent family",0
+"28","Hughesdale","Three persons","Two or more family household: Other family",0
+"29","Hughesdale","Three persons","Lone person household",0
+"30","Hughesdale","Three persons","Group household",147
+"31","Hughesdale","Four persons","One family household: Couple family with no children",96
+"32","Hughesdale","Four persons","One family household: Couple family with children",1580
+"33","Hughesdale","Four persons","One family household: One parent family",84
+"34","Hughesdale","Four persons","One family household: Other family",32
+"35","Hughesdale","Four persons","Two or more family household: Couple family with no children",40
+"36","Hughesdale","Four persons","Two or more family household: Couple family with children",0
+"37","Hughesdale","Four persons","Two or more family household: One parent family",12
+"38","Hughesdale","Four persons","Two or more family household: Other family",0
+"39","Hughesdale","Four persons","Lone person household",0
+"40","Hughesdale","Four persons","Group household",88
+"41","Hughesdale","Five persons","One family household: Couple family with no children",25
+"42","Hughesdale","Five persons","One family household: Couple family with children",675
+"43","Hughesdale","Five persons","One family household: One parent family",15
+"44","Hughesdale","Five persons","One family household: Other family",0
+"45","Hughesdale","Five persons","Two or more family household: Couple family with no children",30
+"46","Hughesdale","Five persons","Two or more family household: Couple family with children",25
+"47","Hughesdale","Five persons","Two or more family household: One parent family",30
+"48","Hughesdale","Five persons","Two or more family household: Other family",0
+"49","Hughesdale","Five persons","Lone person household",0
+"50","Hughesdale","Five persons","Group household",55
+"51","Hughesdale","Six or more persons","One family household: Couple family with no children",0
+"52","Hughesdale","Six or more persons","One family household: Couple family with children",228
+"53","Hughesdale","Six or more persons","One family household: One parent family",0
+"54","Hughesdale","Six or more persons","One family household: Other family",0
+"55","Hughesdale","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Hughesdale","Six or more persons","Two or more family household: Couple family with children",60
+"57","Hughesdale","Six or more persons","Two or more family household: One parent family",0
+"58","Hughesdale","Six or more persons","Two or more family household: Other family",0
+"59","Hughesdale","Six or more persons","Lone person household",0
+"60","Hughesdale","Six or more persons","Group household",18

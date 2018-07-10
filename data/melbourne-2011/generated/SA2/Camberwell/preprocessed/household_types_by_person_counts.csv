@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Camberwell","One person","One family household: Couple family with no children",0
+"2","Camberwell","One person","One family household: Couple family with children",0
+"3","Camberwell","One person","One family household: One parent family",0
+"4","Camberwell","One person","One family household: Other family",0
+"5","Camberwell","One person","Two or more family household: Couple family with no children",0
+"6","Camberwell","One person","Two or more family household: Couple family with children",0
+"7","Camberwell","One person","Two or more family household: One parent family",0
+"8","Camberwell","One person","Two or more family household: Other family",0
+"9","Camberwell","One person","Lone person household",1421
+"10","Camberwell","One person","Group household",0
+"11","Camberwell","Two persons","One family household: Couple family with no children",3240
+"12","Camberwell","Two persons","One family household: Couple family with children",0
+"13","Camberwell","Two persons","One family household: One parent family",558
+"14","Camberwell","Two persons","One family household: Other family",126
+"15","Camberwell","Two persons","Two or more family household: Couple family with no children",0
+"16","Camberwell","Two persons","Two or more family household: Couple family with children",0
+"17","Camberwell","Two persons","Two or more family household: One parent family",0
+"18","Camberwell","Two persons","Two or more family household: Other family",0
+"19","Camberwell","Two persons","Lone person household",0
+"20","Camberwell","Two persons","Group household",304
+"21","Camberwell","Three persons","One family household: Couple family with no children",165
+"22","Camberwell","Three persons","One family household: Couple family with children",2337
+"23","Camberwell","Three persons","One family household: One parent family",546
+"24","Camberwell","Three persons","One family household: Other family",75
+"25","Camberwell","Three persons","Two or more family household: Couple family with no children",0
+"26","Camberwell","Three persons","Two or more family household: Couple family with children",0
+"27","Camberwell","Three persons","Two or more family household: One parent family",0
+"28","Camberwell","Three persons","Two or more family household: Other family",0
+"29","Camberwell","Three persons","Lone person household",0
+"30","Camberwell","Three persons","Group household",180
+"31","Camberwell","Four persons","One family household: Couple family with no children",64
+"32","Camberwell","Four persons","One family household: Couple family with children",5304
+"33","Camberwell","Four persons","One family household: One parent family",268
+"34","Camberwell","Four persons","One family household: Other family",20
+"35","Camberwell","Four persons","Two or more family household: Couple family with no children",36
+"36","Camberwell","Four persons","Two or more family household: Couple family with children",0
+"37","Camberwell","Four persons","Two or more family household: One parent family",12
+"38","Camberwell","Four persons","Two or more family household: Other family",0
+"39","Camberwell","Four persons","Lone person household",0
+"40","Camberwell","Four persons","Group household",100
+"41","Camberwell","Five persons","One family household: Couple family with no children",15
+"42","Camberwell","Five persons","One family household: Couple family with children",2910
+"43","Camberwell","Five persons","One family household: One parent family",55
+"44","Camberwell","Five persons","One family household: Other family",0
+"45","Camberwell","Five persons","Two or more family household: Couple family with no children",0
+"46","Camberwell","Five persons","Two or more family household: Couple family with children",65
+"47","Camberwell","Five persons","Two or more family household: One parent family",35
+"48","Camberwell","Five persons","Two or more family household: Other family",0
+"49","Camberwell","Five persons","Lone person household",0
+"50","Camberwell","Five persons","Group household",50
+"51","Camberwell","Six or more persons","One family household: Couple family with no children",0
+"52","Camberwell","Six or more persons","One family household: Couple family with children",720
+"53","Camberwell","Six or more persons","One family household: One parent family",18
+"54","Camberwell","Six or more persons","One family household: Other family",0
+"55","Camberwell","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Camberwell","Six or more persons","Two or more family household: Couple family with children",114
+"57","Camberwell","Six or more persons","Two or more family household: One parent family",0
+"58","Camberwell","Six or more persons","Two or more family household: Other family",0
+"59","Camberwell","Six or more persons","Lone person household",0
+"60","Camberwell","Six or more persons","Group household",18

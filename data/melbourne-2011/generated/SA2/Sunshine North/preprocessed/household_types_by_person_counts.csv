@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Sunshine North","One person","One family household: Couple family with no children",0
+"2","Sunshine North","One person","One family household: Couple family with children",0
+"3","Sunshine North","One person","One family household: One parent family",0
+"4","Sunshine North","One person","One family household: Other family",0
+"5","Sunshine North","One person","Two or more family household: Couple family with no children",0
+"6","Sunshine North","One person","Two or more family household: Couple family with children",0
+"7","Sunshine North","One person","Two or more family household: One parent family",0
+"8","Sunshine North","One person","Two or more family household: Other family",0
+"9","Sunshine North","One person","Lone person household",718
+"10","Sunshine North","One person","Group household",0
+"11","Sunshine North","Two persons","One family household: Couple family with no children",1168
+"12","Sunshine North","Two persons","One family household: Couple family with children",0
+"13","Sunshine North","Two persons","One family household: One parent family",422
+"14","Sunshine North","Two persons","One family household: Other family",114
+"15","Sunshine North","Two persons","Two or more family household: Couple family with no children",0
+"16","Sunshine North","Two persons","Two or more family household: Couple family with children",0
+"17","Sunshine North","Two persons","Two or more family household: One parent family",0
+"18","Sunshine North","Two persons","Two or more family household: Other family",0
+"19","Sunshine North","Two persons","Lone person household",0
+"20","Sunshine North","Two persons","Group household",154
+"21","Sunshine North","Three persons","One family household: Couple family with no children",132
+"22","Sunshine North","Three persons","One family household: Couple family with children",1038
+"23","Sunshine North","Three persons","One family household: One parent family",573
+"24","Sunshine North","Three persons","One family household: Other family",42
+"25","Sunshine North","Three persons","Two or more family household: Couple family with no children",0
+"26","Sunshine North","Three persons","Two or more family household: Couple family with children",0
+"27","Sunshine North","Three persons","Two or more family household: One parent family",0
+"28","Sunshine North","Three persons","Two or more family household: Other family",0
+"29","Sunshine North","Three persons","Lone person household",0
+"30","Sunshine North","Three persons","Group household",90
+"31","Sunshine North","Four persons","One family household: Couple family with no children",52
+"32","Sunshine North","Four persons","One family household: Couple family with children",1808
+"33","Sunshine North","Four persons","One family household: One parent family",392
+"34","Sunshine North","Four persons","One family household: Other family",32
+"35","Sunshine North","Four persons","Two or more family household: Couple family with no children",24
+"36","Sunshine North","Four persons","Two or more family household: Couple family with children",0
+"37","Sunshine North","Four persons","Two or more family household: One parent family",36
+"38","Sunshine North","Four persons","Two or more family household: Other family",0
+"39","Sunshine North","Four persons","Lone person household",0
+"40","Sunshine North","Four persons","Group household",52
+"41","Sunshine North","Five persons","One family household: Couple family with no children",25
+"42","Sunshine North","Five persons","One family household: Couple family with children",1195
+"43","Sunshine North","Five persons","One family household: One parent family",150
+"44","Sunshine North","Five persons","One family household: Other family",35
+"45","Sunshine North","Five persons","Two or more family household: Couple family with no children",0
+"46","Sunshine North","Five persons","Two or more family household: Couple family with children",135
+"47","Sunshine North","Five persons","Two or more family household: One parent family",100
+"48","Sunshine North","Five persons","Two or more family household: Other family",0
+"49","Sunshine North","Five persons","Lone person household",0
+"50","Sunshine North","Five persons","Group household",25
+"51","Sunshine North","Six or more persons","One family household: Couple family with no children",0
+"52","Sunshine North","Six or more persons","One family household: Couple family with children",690
+"53","Sunshine North","Six or more persons","One family household: One parent family",102
+"54","Sunshine North","Six or more persons","One family household: Other family",0
+"55","Sunshine North","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Sunshine North","Six or more persons","Two or more family household: Couple family with children",312
+"57","Sunshine North","Six or more persons","Two or more family household: One parent family",72
+"58","Sunshine North","Six or more persons","Two or more family household: Other family",18
+"59","Sunshine North","Six or more persons","Lone person household",0
+"60","Sunshine North","Six or more persons","Group household",18

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Truganina","One person","One family household: Couple family with no children",0
+"2","Truganina","One person","One family household: Couple family with children",0
+"3","Truganina","One person","One family household: One parent family",0
+"4","Truganina","One person","One family household: Other family",0
+"5","Truganina","One person","Two or more family household: Couple family with no children",0
+"6","Truganina","One person","Two or more family household: Couple family with children",0
+"7","Truganina","One person","Two or more family household: One parent family",0
+"8","Truganina","One person","Two or more family household: Other family",0
+"9","Truganina","One person","Lone person household",461
+"10","Truganina","One person","Group household",0
+"11","Truganina","Two persons","One family household: Couple family with no children",1328
+"12","Truganina","Two persons","One family household: Couple family with children",0
+"13","Truganina","Two persons","One family household: One parent family",246
+"14","Truganina","Two persons","One family household: Other family",72
+"15","Truganina","Two persons","Two or more family household: Couple family with no children",0
+"16","Truganina","Two persons","Two or more family household: Couple family with children",0
+"17","Truganina","Two persons","Two or more family household: One parent family",0
+"18","Truganina","Two persons","Two or more family household: Other family",0
+"19","Truganina","Two persons","Lone person household",0
+"20","Truganina","Two persons","Group household",232
+"21","Truganina","Three persons","One family household: Couple family with no children",240
+"22","Truganina","Three persons","One family household: Couple family with children",1389
+"23","Truganina","Three persons","One family household: One parent family",309
+"24","Truganina","Three persons","One family household: Other family",45
+"25","Truganina","Three persons","Two or more family household: Couple family with no children",0
+"26","Truganina","Three persons","Two or more family household: Couple family with children",0
+"27","Truganina","Three persons","Two or more family household: One parent family",0
+"28","Truganina","Three persons","Two or more family household: Other family",0
+"29","Truganina","Three persons","Lone person household",0
+"30","Truganina","Three persons","Group household",72
+"31","Truganina","Four persons","One family household: Couple family with no children",76
+"32","Truganina","Four persons","One family household: Couple family with children",2056
+"33","Truganina","Four persons","One family household: One parent family",300
+"34","Truganina","Four persons","One family household: Other family",16
+"35","Truganina","Four persons","Two or more family household: Couple family with no children",56
+"36","Truganina","Four persons","Two or more family household: Couple family with children",0
+"37","Truganina","Four persons","Two or more family household: One parent family",12
+"38","Truganina","Four persons","Two or more family household: Other family",0
+"39","Truganina","Four persons","Lone person household",0
+"40","Truganina","Four persons","Group household",20
+"41","Truganina","Five persons","One family household: Couple family with no children",20
+"42","Truganina","Five persons","One family household: Couple family with children",1055
+"43","Truganina","Five persons","One family household: One parent family",115
+"44","Truganina","Five persons","One family household: Other family",15
+"45","Truganina","Five persons","Two or more family household: Couple family with no children",0
+"46","Truganina","Five persons","Two or more family household: Couple family with children",85
+"47","Truganina","Five persons","Two or more family household: One parent family",15
+"48","Truganina","Five persons","Two or more family household: Other family",0
+"49","Truganina","Five persons","Lone person household",0
+"50","Truganina","Five persons","Group household",15
+"51","Truganina","Six or more persons","One family household: Couple family with no children",0
+"52","Truganina","Six or more persons","One family household: Couple family with children",972
+"53","Truganina","Six or more persons","One family household: One parent family",96
+"54","Truganina","Six or more persons","One family household: Other family",0
+"55","Truganina","Six or more persons","Two or more family household: Couple family with no children",30
+"56","Truganina","Six or more persons","Two or more family household: Couple family with children",294
+"57","Truganina","Six or more persons","Two or more family household: One parent family",90
+"58","Truganina","Six or more persons","Two or more family household: Other family",0
+"59","Truganina","Six or more persons","Lone person household",0
+"60","Truganina","Six or more persons","Group household",0

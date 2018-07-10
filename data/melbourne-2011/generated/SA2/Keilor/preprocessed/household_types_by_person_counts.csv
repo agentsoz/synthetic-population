@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Keilor","One person","One family household: Couple family with no children",0
+"2","Keilor","One person","One family household: Couple family with children",0
+"3","Keilor","One person","One family household: One parent family",0
+"4","Keilor","One person","One family household: Other family",0
+"5","Keilor","One person","Two or more family household: Couple family with no children",0
+"6","Keilor","One person","Two or more family household: Couple family with children",0
+"7","Keilor","One person","Two or more family household: One parent family",0
+"8","Keilor","One person","Two or more family household: Other family",0
+"9","Keilor","One person","Lone person household",546
+"10","Keilor","One person","Group household",0
+"11","Keilor","Two persons","One family household: Couple family with no children",1668
+"12","Keilor","Two persons","One family household: Couple family with children",0
+"13","Keilor","Two persons","One family household: One parent family",262
+"14","Keilor","Two persons","One family household: Other family",54
+"15","Keilor","Two persons","Two or more family household: Couple family with no children",0
+"16","Keilor","Two persons","Two or more family household: Couple family with children",0
+"17","Keilor","Two persons","Two or more family household: One parent family",0
+"18","Keilor","Two persons","Two or more family household: Other family",0
+"19","Keilor","Two persons","Lone person household",0
+"20","Keilor","Two persons","Group household",72
+"21","Keilor","Three persons","One family household: Couple family with no children",66
+"22","Keilor","Three persons","One family household: Couple family with children",1149
+"23","Keilor","Three persons","One family household: One parent family",336
+"24","Keilor","Three persons","One family household: Other family",9
+"25","Keilor","Three persons","Two or more family household: Couple family with no children",0
+"26","Keilor","Three persons","Two or more family household: Couple family with children",0
+"27","Keilor","Three persons","Two or more family household: One parent family",0
+"28","Keilor","Three persons","Two or more family household: Other family",0
+"29","Keilor","Three persons","Lone person household",0
+"30","Keilor","Three persons","Group household",9
+"31","Keilor","Four persons","One family household: Couple family with no children",12
+"32","Keilor","Four persons","One family household: Couple family with children",1972
+"33","Keilor","Four persons","One family household: One parent family",156
+"34","Keilor","Four persons","One family household: Other family",0
+"35","Keilor","Four persons","Two or more family household: Couple family with no children",36
+"36","Keilor","Four persons","Two or more family household: Couple family with children",0
+"37","Keilor","Four persons","Two or more family household: One parent family",12
+"38","Keilor","Four persons","Two or more family household: Other family",0
+"39","Keilor","Four persons","Lone person household",0
+"40","Keilor","Four persons","Group household",0
+"41","Keilor","Five persons","One family household: Couple family with no children",0
+"42","Keilor","Five persons","One family household: Couple family with children",1035
+"43","Keilor","Five persons","One family household: One parent family",50
+"44","Keilor","Five persons","One family household: Other family",0
+"45","Keilor","Five persons","Two or more family household: Couple family with no children",0
+"46","Keilor","Five persons","Two or more family household: Couple family with children",55
+"47","Keilor","Five persons","Two or more family household: One parent family",40
+"48","Keilor","Five persons","Two or more family household: Other family",0
+"49","Keilor","Five persons","Lone person household",0
+"50","Keilor","Five persons","Group household",0
+"51","Keilor","Six or more persons","One family household: Couple family with no children",0
+"52","Keilor","Six or more persons","One family household: Couple family with children",372
+"53","Keilor","Six or more persons","One family household: One parent family",0
+"54","Keilor","Six or more persons","One family household: Other family",0
+"55","Keilor","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Keilor","Six or more persons","Two or more family household: Couple family with children",60
+"57","Keilor","Six or more persons","Two or more family household: One parent family",30
+"58","Keilor","Six or more persons","Two or more family household: Other family",0
+"59","Keilor","Six or more persons","Lone person household",0
+"60","Keilor","Six or more persons","Group household",0

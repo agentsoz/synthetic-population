@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Parkville","One person","One family household: Couple family with no children",0
+"2","Parkville","One person","One family household: Couple family with children",0
+"3","Parkville","One person","One family household: One parent family",0
+"4","Parkville","One person","One family household: Other family",0
+"5","Parkville","One person","Two or more family household: Couple family with no children",0
+"6","Parkville","One person","Two or more family household: Couple family with children",0
+"7","Parkville","One person","Two or more family household: One parent family",0
+"8","Parkville","One person","Two or more family household: Other family",0
+"9","Parkville","One person","Lone person household",421
+"10","Parkville","One person","Group household",0
+"11","Parkville","Two persons","One family household: Couple family with no children",756
+"12","Parkville","Two persons","One family household: Couple family with children",0
+"13","Parkville","Two persons","One family household: One parent family",124
+"14","Parkville","Two persons","One family household: Other family",58
+"15","Parkville","Two persons","Two or more family household: Couple family with no children",0
+"16","Parkville","Two persons","Two or more family household: Couple family with children",0
+"17","Parkville","Two persons","Two or more family household: One parent family",0
+"18","Parkville","Two persons","Two or more family household: Other family",0
+"19","Parkville","Two persons","Lone person household",0
+"20","Parkville","Two persons","Group household",304
+"21","Parkville","Three persons","One family household: Couple family with no children",75
+"22","Parkville","Three persons","One family household: Couple family with children",357
+"23","Parkville","Three persons","One family household: One parent family",54
+"24","Parkville","Three persons","One family household: Other family",33
+"25","Parkville","Three persons","Two or more family household: Couple family with no children",0
+"26","Parkville","Three persons","Two or more family household: Couple family with children",0
+"27","Parkville","Three persons","Two or more family household: One parent family",0
+"28","Parkville","Three persons","Two or more family household: Other family",0
+"29","Parkville","Three persons","Lone person household",0
+"30","Parkville","Three persons","Group household",189
+"31","Parkville","Four persons","One family household: Couple family with no children",32
+"32","Parkville","Four persons","One family household: Couple family with children",388
+"33","Parkville","Four persons","One family household: One parent family",24
+"34","Parkville","Four persons","One family household: Other family",20
+"35","Parkville","Four persons","Two or more family household: Couple family with no children",12
+"36","Parkville","Four persons","Two or more family household: Couple family with children",0
+"37","Parkville","Four persons","Two or more family household: One parent family",12
+"38","Parkville","Four persons","Two or more family household: Other family",0
+"39","Parkville","Four persons","Lone person household",0
+"40","Parkville","Four persons","Group household",212
+"41","Parkville","Five persons","One family household: Couple family with no children",15
+"42","Parkville","Five persons","One family household: Couple family with children",205
+"43","Parkville","Five persons","One family household: One parent family",15
+"44","Parkville","Five persons","One family household: Other family",30
+"45","Parkville","Five persons","Two or more family household: Couple family with no children",15
+"46","Parkville","Five persons","Two or more family household: Couple family with children",15
+"47","Parkville","Five persons","Two or more family household: One parent family",0
+"48","Parkville","Five persons","Two or more family household: Other family",0
+"49","Parkville","Five persons","Lone person household",0
+"50","Parkville","Five persons","Group household",110
+"51","Parkville","Six or more persons","One family household: Couple family with no children",0
+"52","Parkville","Six or more persons","One family household: Couple family with children",42
+"53","Parkville","Six or more persons","One family household: One parent family",0
+"54","Parkville","Six or more persons","One family household: Other family",0
+"55","Parkville","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Parkville","Six or more persons","Two or more family household: Couple family with children",18
+"57","Parkville","Six or more persons","Two or more family household: One parent family",0
+"58","Parkville","Six or more persons","Two or more family household: Other family",0
+"59","Parkville","Six or more persons","Lone person household",0
+"60","Parkville","Six or more persons","Group household",48

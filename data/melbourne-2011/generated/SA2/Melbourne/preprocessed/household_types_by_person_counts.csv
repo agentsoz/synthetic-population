@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Melbourne","One person","One family household: Couple family with no children",0
+"2","Melbourne","One person","One family household: Couple family with children",0
+"3","Melbourne","One person","One family household: One parent family",0
+"4","Melbourne","One person","One family household: Other family",0
+"5","Melbourne","One person","Two or more family household: Couple family with no children",0
+"6","Melbourne","One person","Two or more family household: Couple family with children",0
+"7","Melbourne","One person","Two or more family household: One parent family",0
+"8","Melbourne","One person","Two or more family household: Other family",0
+"9","Melbourne","One person","Lone person household",3752
+"10","Melbourne","One person","Group household",0
+"11","Melbourne","Two persons","One family household: Couple family with no children",3920
+"12","Melbourne","Two persons","One family household: Couple family with children",0
+"13","Melbourne","Two persons","One family household: One parent family",400
+"14","Melbourne","Two persons","One family household: Other family",1056
+"15","Melbourne","Two persons","Two or more family household: Couple family with no children",0
+"16","Melbourne","Two persons","Two or more family household: Couple family with children",0
+"17","Melbourne","Two persons","Two or more family household: One parent family",0
+"18","Melbourne","Two persons","Two or more family household: Other family",0
+"19","Melbourne","Two persons","Lone person household",0
+"20","Melbourne","Two persons","Group household",2442
+"21","Melbourne","Three persons","One family household: Couple family with no children",456
+"22","Melbourne","Three persons","One family household: Couple family with children",981
+"23","Melbourne","Three persons","One family household: One parent family",180
+"24","Melbourne","Three persons","One family household: Other family",378
+"25","Melbourne","Three persons","Two or more family household: Couple family with no children",0
+"26","Melbourne","Three persons","Two or more family household: Couple family with children",0
+"27","Melbourne","Three persons","Two or more family household: One parent family",0
+"28","Melbourne","Three persons","Two or more family household: Other family",0
+"29","Melbourne","Three persons","Lone person household",0
+"30","Melbourne","Three persons","Group household",1212
+"31","Melbourne","Four persons","One family household: Couple family with no children",192
+"32","Melbourne","Four persons","One family household: Couple family with children",468
+"33","Melbourne","Four persons","One family household: One parent family",48
+"34","Melbourne","Four persons","One family household: Other family",92
+"35","Melbourne","Four persons","Two or more family household: Couple family with no children",20
+"36","Melbourne","Four persons","Two or more family household: Couple family with children",0
+"37","Melbourne","Four persons","Two or more family household: One parent family",12
+"38","Melbourne","Four persons","Two or more family household: Other family",0
+"39","Melbourne","Four persons","Lone person household",0
+"40","Melbourne","Four persons","Group household",528
+"41","Melbourne","Five persons","One family household: Couple family with no children",75
+"42","Melbourne","Five persons","One family household: Couple family with children",135
+"43","Melbourne","Five persons","One family household: One parent family",15
+"44","Melbourne","Five persons","One family household: Other family",50
+"45","Melbourne","Five persons","Two or more family household: Couple family with no children",0
+"46","Melbourne","Five persons","Two or more family household: Couple family with children",0
+"47","Melbourne","Five persons","Two or more family household: One parent family",0
+"48","Melbourne","Five persons","Two or more family household: Other family",0
+"49","Melbourne","Five persons","Lone person household",0
+"50","Melbourne","Five persons","Group household",120
+"51","Melbourne","Six or more persons","One family household: Couple family with no children",0
+"52","Melbourne","Six or more persons","One family household: Couple family with children",18
+"53","Melbourne","Six or more persons","One family household: One parent family",0
+"54","Melbourne","Six or more persons","One family household: Other family",0
+"55","Melbourne","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Melbourne","Six or more persons","Two or more family household: Couple family with children",18
+"57","Melbourne","Six or more persons","Two or more family household: One parent family",0
+"58","Melbourne","Six or more persons","Two or more family household: Other family",0
+"59","Melbourne","Six or more persons","Lone person household",0
+"60","Melbourne","Six or more persons","Group household",48

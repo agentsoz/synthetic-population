@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Cairnlea","One person","One family household: Couple family with no children",0
+"2","Cairnlea","One person","One family household: Couple family with children",0
+"3","Cairnlea","One person","One family household: One parent family",0
+"4","Cairnlea","One person","One family household: Other family",0
+"5","Cairnlea","One person","Two or more family household: Couple family with no children",0
+"6","Cairnlea","One person","Two or more family household: Couple family with children",0
+"7","Cairnlea","One person","Two or more family household: One parent family",0
+"8","Cairnlea","One person","Two or more family household: Other family",0
+"9","Cairnlea","One person","Lone person household",233
+"10","Cairnlea","One person","Group household",0
+"11","Cairnlea","Two persons","One family household: Couple family with no children",586
+"12","Cairnlea","Two persons","One family household: Couple family with children",0
+"13","Cairnlea","Two persons","One family household: One parent family",150
+"14","Cairnlea","Two persons","One family household: Other family",58
+"15","Cairnlea","Two persons","Two or more family household: Couple family with no children",0
+"16","Cairnlea","Two persons","Two or more family household: Couple family with children",0
+"17","Cairnlea","Two persons","Two or more family household: One parent family",0
+"18","Cairnlea","Two persons","Two or more family household: Other family",0
+"19","Cairnlea","Two persons","Lone person household",0
+"20","Cairnlea","Two persons","Group household",44
+"21","Cairnlea","Three persons","One family household: Couple family with no children",87
+"22","Cairnlea","Three persons","One family household: Couple family with children",1053
+"23","Cairnlea","Three persons","One family household: One parent family",348
+"24","Cairnlea","Three persons","One family household: Other family",36
+"25","Cairnlea","Three persons","Two or more family household: Couple family with no children",0
+"26","Cairnlea","Three persons","Two or more family household: Couple family with children",0
+"27","Cairnlea","Three persons","Two or more family household: One parent family",0
+"28","Cairnlea","Three persons","Two or more family household: Other family",0
+"29","Cairnlea","Three persons","Lone person household",0
+"30","Cairnlea","Three persons","Group household",42
+"31","Cairnlea","Four persons","One family household: Couple family with no children",24
+"32","Cairnlea","Four persons","One family household: Couple family with children",2348
+"33","Cairnlea","Four persons","One family household: One parent family",272
+"34","Cairnlea","Four persons","One family household: Other family",12
+"35","Cairnlea","Four persons","Two or more family household: Couple family with no children",44
+"36","Cairnlea","Four persons","Two or more family household: Couple family with children",0
+"37","Cairnlea","Four persons","Two or more family household: One parent family",16
+"38","Cairnlea","Four persons","Two or more family household: Other family",0
+"39","Cairnlea","Four persons","Lone person household",0
+"40","Cairnlea","Four persons","Group household",0
+"41","Cairnlea","Five persons","One family household: Couple family with no children",15
+"42","Cairnlea","Five persons","One family household: Couple family with children",1385
+"43","Cairnlea","Five persons","One family household: One parent family",150
+"44","Cairnlea","Five persons","One family household: Other family",15
+"45","Cairnlea","Five persons","Two or more family household: Couple family with no children",25
+"46","Cairnlea","Five persons","Two or more family household: Couple family with children",75
+"47","Cairnlea","Five persons","Two or more family household: One parent family",70
+"48","Cairnlea","Five persons","Two or more family household: Other family",0
+"49","Cairnlea","Five persons","Lone person household",0
+"50","Cairnlea","Five persons","Group household",0
+"51","Cairnlea","Six or more persons","One family household: Couple family with no children",0
+"52","Cairnlea","Six or more persons","One family household: Couple family with children",660
+"53","Cairnlea","Six or more persons","One family household: One parent family",78
+"54","Cairnlea","Six or more persons","One family household: Other family",0
+"55","Cairnlea","Six or more persons","Two or more family household: Couple family with no children",48
+"56","Cairnlea","Six or more persons","Two or more family household: Couple family with children",432
+"57","Cairnlea","Six or more persons","Two or more family household: One parent family",108
+"58","Cairnlea","Six or more persons","Two or more family household: Other family",0
+"59","Cairnlea","Six or more persons","Lone person household",0
+"60","Cairnlea","Six or more persons","Group household",0

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Heidelberg West","One person","One family household: Couple family with no children",0
+"2","Heidelberg West","One person","One family household: Couple family with children",0
+"3","Heidelberg West","One person","One family household: One parent family",0
+"4","Heidelberg West","One person","One family household: Other family",0
+"5","Heidelberg West","One person","Two or more family household: Couple family with no children",0
+"6","Heidelberg West","One person","Two or more family household: Couple family with children",0
+"7","Heidelberg West","One person","Two or more family household: One parent family",0
+"8","Heidelberg West","One person","Two or more family household: Other family",0
+"9","Heidelberg West","One person","Lone person household",1615
+"10","Heidelberg West","One person","Group household",0
+"11","Heidelberg West","Two persons","One family household: Couple family with no children",1736
+"12","Heidelberg West","Two persons","One family household: Couple family with children",0
+"13","Heidelberg West","Two persons","One family household: One parent family",844
+"14","Heidelberg West","Two persons","One family household: Other family",162
+"15","Heidelberg West","Two persons","Two or more family household: Couple family with no children",0
+"16","Heidelberg West","Two persons","Two or more family household: Couple family with children",0
+"17","Heidelberg West","Two persons","Two or more family household: One parent family",0
+"18","Heidelberg West","Two persons","Two or more family household: Other family",0
+"19","Heidelberg West","Two persons","Lone person household",0
+"20","Heidelberg West","Two persons","Group household",466
+"21","Heidelberg West","Three persons","One family household: Couple family with no children",207
+"22","Heidelberg West","Three persons","One family household: Couple family with children",1377
+"23","Heidelberg West","Three persons","One family household: One parent family",789
+"24","Heidelberg West","Three persons","One family household: Other family",54
+"25","Heidelberg West","Three persons","Two or more family household: Couple family with no children",0
+"26","Heidelberg West","Three persons","Two or more family household: Couple family with children",0
+"27","Heidelberg West","Three persons","Two or more family household: One parent family",0
+"28","Heidelberg West","Three persons","Two or more family household: Other family",0
+"29","Heidelberg West","Three persons","Lone person household",0
+"30","Heidelberg West","Three persons","Group household",216
+"31","Heidelberg West","Four persons","One family household: Couple family with no children",56
+"32","Heidelberg West","Four persons","One family household: Couple family with children",1728
+"33","Heidelberg West","Four persons","One family household: One parent family",376
+"34","Heidelberg West","Four persons","One family household: Other family",32
+"35","Heidelberg West","Four persons","Two or more family household: Couple family with no children",32
+"36","Heidelberg West","Four persons","Two or more family household: Couple family with children",0
+"37","Heidelberg West","Four persons","Two or more family household: One parent family",64
+"38","Heidelberg West","Four persons","Two or more family household: Other family",0
+"39","Heidelberg West","Four persons","Lone person household",0
+"40","Heidelberg West","Four persons","Group household",92
+"41","Heidelberg West","Five persons","One family household: Couple family with no children",40
+"42","Heidelberg West","Five persons","One family household: Couple family with children",895
+"43","Heidelberg West","Five persons","One family household: One parent family",215
+"44","Heidelberg West","Five persons","One family household: Other family",20
+"45","Heidelberg West","Five persons","Two or more family household: Couple family with no children",15
+"46","Heidelberg West","Five persons","Two or more family household: Couple family with children",80
+"47","Heidelberg West","Five persons","Two or more family household: One parent family",30
+"48","Heidelberg West","Five persons","Two or more family household: Other family",0
+"49","Heidelberg West","Five persons","Lone person household",0
+"50","Heidelberg West","Five persons","Group household",85
+"51","Heidelberg West","Six or more persons","One family household: Couple family with no children",18
+"52","Heidelberg West","Six or more persons","One family household: Couple family with children",768
+"53","Heidelberg West","Six or more persons","One family household: One parent family",180
+"54","Heidelberg West","Six or more persons","One family household: Other family",30
+"55","Heidelberg West","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Heidelberg West","Six or more persons","Two or more family household: Couple family with children",102
+"57","Heidelberg West","Six or more persons","Two or more family household: One parent family",48
+"58","Heidelberg West","Six or more persons","Two or more family household: Other family",0
+"59","Heidelberg West","Six or more persons","Lone person household",0
+"60","Heidelberg West","Six or more persons","Group household",18

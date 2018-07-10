@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Coburg North","One person","One family household: Couple family with no children",0
+"2","Coburg North","One person","One family household: Couple family with children",0
+"3","Coburg North","One person","One family household: One parent family",0
+"4","Coburg North","One person","One family household: Other family",0
+"5","Coburg North","One person","Two or more family household: Couple family with no children",0
+"6","Coburg North","One person","Two or more family household: Couple family with children",0
+"7","Coburg North","One person","Two or more family household: One parent family",0
+"8","Coburg North","One person","Two or more family household: Other family",0
+"9","Coburg North","One person","Lone person household",618
+"10","Coburg North","One person","Group household",0
+"11","Coburg North","Two persons","One family household: Couple family with no children",1064
+"12","Coburg North","Two persons","One family household: Couple family with children",0
+"13","Coburg North","Two persons","One family household: One parent family",332
+"14","Coburg North","Two persons","One family household: Other family",54
+"15","Coburg North","Two persons","Two or more family household: Couple family with no children",0
+"16","Coburg North","Two persons","Two or more family household: Couple family with children",0
+"17","Coburg North","Two persons","Two or more family household: One parent family",0
+"18","Coburg North","Two persons","Two or more family household: Other family",0
+"19","Coburg North","Two persons","Lone person household",0
+"20","Coburg North","Two persons","Group household",148
+"21","Coburg North","Three persons","One family household: Couple family with no children",84
+"22","Coburg North","Three persons","One family household: Couple family with children",726
+"23","Coburg North","Three persons","One family household: One parent family",234
+"24","Coburg North","Three persons","One family household: Other family",30
+"25","Coburg North","Three persons","Two or more family household: Couple family with no children",0
+"26","Coburg North","Three persons","Two or more family household: Couple family with children",0
+"27","Coburg North","Three persons","Two or more family household: One parent family",0
+"28","Coburg North","Three persons","Two or more family household: Other family",0
+"29","Coburg North","Three persons","Lone person household",0
+"30","Coburg North","Three persons","Group household",111
+"31","Coburg North","Four persons","One family household: Couple family with no children",40
+"32","Coburg North","Four persons","One family household: Couple family with children",1296
+"33","Coburg North","Four persons","One family household: One parent family",112
+"34","Coburg North","Four persons","One family household: Other family",12
+"35","Coburg North","Four persons","Two or more family household: Couple family with no children",44
+"36","Coburg North","Four persons","Two or more family household: Couple family with children",0
+"37","Coburg North","Four persons","Two or more family household: One parent family",20
+"38","Coburg North","Four persons","Two or more family household: Other family",0
+"39","Coburg North","Four persons","Lone person household",0
+"40","Coburg North","Four persons","Group household",44
+"41","Coburg North","Five persons","One family household: Couple family with no children",0
+"42","Coburg North","Five persons","One family household: Couple family with children",525
+"43","Coburg North","Five persons","One family household: One parent family",65
+"44","Coburg North","Five persons","One family household: Other family",0
+"45","Coburg North","Five persons","Two or more family household: Couple family with no children",20
+"46","Coburg North","Five persons","Two or more family household: Couple family with children",30
+"47","Coburg North","Five persons","Two or more family household: One parent family",0
+"48","Coburg North","Five persons","Two or more family household: Other family",0
+"49","Coburg North","Five persons","Lone person household",0
+"50","Coburg North","Five persons","Group household",45
+"51","Coburg North","Six or more persons","One family household: Couple family with no children",42
+"52","Coburg North","Six or more persons","One family household: Couple family with children",204
+"53","Coburg North","Six or more persons","One family household: One parent family",0
+"54","Coburg North","Six or more persons","One family household: Other family",0
+"55","Coburg North","Six or more persons","Two or more family household: Couple family with no children",18
+"56","Coburg North","Six or more persons","Two or more family household: Couple family with children",78
+"57","Coburg North","Six or more persons","Two or more family household: One parent family",24
+"58","Coburg North","Six or more persons","Two or more family household: Other family",0
+"59","Coburg North","Six or more persons","Lone person household",0
+"60","Coburg North","Six or more persons","Group household",18

@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Vermont","One person","One family household: Couple family with no children",0
+"2","Vermont","One person","One family household: Couple family with children",0
+"3","Vermont","One person","One family household: One parent family",0
+"4","Vermont","One person","One family household: Other family",0
+"5","Vermont","One person","Two or more family household: Couple family with no children",0
+"6","Vermont","One person","Two or more family household: Couple family with children",0
+"7","Vermont","One person","Two or more family household: One parent family",0
+"8","Vermont","One person","Two or more family household: Other family",0
+"9","Vermont","One person","Lone person household",770
+"10","Vermont","One person","Group household",0
+"11","Vermont","Two persons","One family household: Couple family with no children",1836
+"12","Vermont","Two persons","One family household: Couple family with children",0
+"13","Vermont","Two persons","One family household: One parent family",372
+"14","Vermont","Two persons","One family household: Other family",48
+"15","Vermont","Two persons","Two or more family household: Couple family with no children",0
+"16","Vermont","Two persons","Two or more family household: Couple family with children",0
+"17","Vermont","Two persons","Two or more family household: One parent family",0
+"18","Vermont","Two persons","Two or more family household: Other family",0
+"19","Vermont","Two persons","Lone person household",0
+"20","Vermont","Two persons","Group household",114
+"21","Vermont","Three persons","One family household: Couple family with no children",90
+"22","Vermont","Three persons","One family household: Couple family with children",1230
+"23","Vermont","Three persons","One family household: One parent family",396
+"24","Vermont","Three persons","One family household: Other family",9
+"25","Vermont","Three persons","Two or more family household: Couple family with no children",0
+"26","Vermont","Three persons","Two or more family household: Couple family with children",0
+"27","Vermont","Three persons","Two or more family household: One parent family",0
+"28","Vermont","Three persons","Two or more family household: Other family",0
+"29","Vermont","Three persons","Lone person household",0
+"30","Vermont","Three persons","Group household",30
+"31","Vermont","Four persons","One family household: Couple family with no children",12
+"32","Vermont","Four persons","One family household: Couple family with children",2560
+"33","Vermont","Four persons","One family household: One parent family",132
+"34","Vermont","Four persons","One family household: Other family",0
+"35","Vermont","Four persons","Two or more family household: Couple family with no children",48
+"36","Vermont","Four persons","Two or more family household: Couple family with children",0
+"37","Vermont","Four persons","Two or more family household: One parent family",16
+"38","Vermont","Four persons","Two or more family household: Other family",0
+"39","Vermont","Four persons","Lone person household",0
+"40","Vermont","Four persons","Group household",0
+"41","Vermont","Five persons","One family household: Couple family with no children",0
+"42","Vermont","Five persons","One family household: Couple family with children",1115
+"43","Vermont","Five persons","One family household: One parent family",55
+"44","Vermont","Five persons","One family household: Other family",0
+"45","Vermont","Five persons","Two or more family household: Couple family with no children",35
+"46","Vermont","Five persons","Two or more family household: Couple family with children",45
+"47","Vermont","Five persons","Two or more family household: One parent family",45
+"48","Vermont","Five persons","Two or more family household: Other family",0
+"49","Vermont","Five persons","Lone person household",0
+"50","Vermont","Five persons","Group household",15
+"51","Vermont","Six or more persons","One family household: Couple family with no children",0
+"52","Vermont","Six or more persons","One family household: Couple family with children",402
+"53","Vermont","Six or more persons","One family household: One parent family",48
+"54","Vermont","Six or more persons","One family household: Other family",0
+"55","Vermont","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Vermont","Six or more persons","Two or more family household: Couple family with children",84
+"57","Vermont","Six or more persons","Two or more family household: One parent family",0
+"58","Vermont","Six or more persons","Two or more family household: Other family",0
+"59","Vermont","Six or more persons","Lone person household",0
+"60","Vermont","Six or more persons","Group household",0

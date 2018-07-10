@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Werribee","One person","One family household: Couple family with no children",0
+"2","Werribee","One person","One family household: Couple family with children",0
+"3","Werribee","One person","One family household: One parent family",0
+"4","Werribee","One person","One family household: Other family",0
+"5","Werribee","One person","Two or more family household: Couple family with no children",0
+"6","Werribee","One person","Two or more family household: Couple family with children",0
+"7","Werribee","One person","Two or more family household: One parent family",0
+"8","Werribee","One person","Two or more family household: Other family",0
+"9","Werribee","One person","Lone person household",2342
+"10","Werribee","One person","Group household",0
+"11","Werribee","Two persons","One family household: Couple family with no children",4244
+"12","Werribee","Two persons","One family household: Couple family with children",0
+"13","Werribee","Two persons","One family household: One parent family",1366
+"14","Werribee","Two persons","One family household: Other family",184
+"15","Werribee","Two persons","Two or more family household: Couple family with no children",0
+"16","Werribee","Two persons","Two or more family household: Couple family with children",0
+"17","Werribee","Two persons","Two or more family household: One parent family",0
+"18","Werribee","Two persons","Two or more family household: Other family",0
+"19","Werribee","Two persons","Lone person household",0
+"20","Werribee","Two persons","Group household",516
+"21","Werribee","Three persons","One family household: Couple family with no children",270
+"22","Werribee","Three persons","One family household: Couple family with children",3456
+"23","Werribee","Three persons","One family household: One parent family",1692
+"24","Werribee","Three persons","One family household: Other family",63
+"25","Werribee","Three persons","Two or more family household: Couple family with no children",0
+"26","Werribee","Three persons","Two or more family household: Couple family with children",0
+"27","Werribee","Three persons","Two or more family household: One parent family",0
+"28","Werribee","Three persons","Two or more family household: Other family",0
+"29","Werribee","Three persons","Lone person household",0
+"30","Werribee","Three persons","Group household",135
+"31","Werribee","Four persons","One family household: Couple family with no children",72
+"32","Werribee","Four persons","One family household: Couple family with children",5712
+"33","Werribee","Four persons","One family household: One parent family",936
+"34","Werribee","Four persons","One family household: Other family",28
+"35","Werribee","Four persons","Two or more family household: Couple family with no children",104
+"36","Werribee","Four persons","Two or more family household: Couple family with children",0
+"37","Werribee","Four persons","Two or more family household: One parent family",112
+"38","Werribee","Four persons","Two or more family household: Other family",12
+"39","Werribee","Four persons","Lone person household",0
+"40","Werribee","Four persons","Group household",12
+"41","Werribee","Five persons","One family household: Couple family with no children",15
+"42","Werribee","Five persons","One family household: Couple family with children",3235
+"43","Werribee","Five persons","One family household: One parent family",415
+"44","Werribee","Five persons","One family household: Other family",15
+"45","Werribee","Five persons","Two or more family household: Couple family with no children",20
+"46","Werribee","Five persons","Two or more family household: Couple family with children",150
+"47","Werribee","Five persons","Two or more family household: One parent family",110
+"48","Werribee","Five persons","Two or more family household: Other family",0
+"49","Werribee","Five persons","Lone person household",0
+"50","Werribee","Five persons","Group household",15
+"51","Werribee","Six or more persons","One family household: Couple family with no children",0
+"52","Werribee","Six or more persons","One family household: Couple family with children",1770
+"53","Werribee","Six or more persons","One family household: One parent family",180
+"54","Werribee","Six or more persons","One family household: Other family",0
+"55","Werribee","Six or more persons","Two or more family household: Couple family with no children",0
+"56","Werribee","Six or more persons","Two or more family household: Couple family with children",306
+"57","Werribee","Six or more persons","Two or more family household: One parent family",186
+"58","Werribee","Six or more persons","Two or more family household: Other family",0
+"59","Werribee","Six or more persons","Lone person household",0
+"60","Werribee","Six or more persons","Group household",0

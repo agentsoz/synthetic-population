@@ -1,0 +1,61 @@
+"","SA","Household Size","Family household type","Households count"
+"1","Lalor","One person","One family household: Couple family with no children",0
+"2","Lalor","One person","One family household: Couple family with children",0
+"3","Lalor","One person","One family household: One parent family",0
+"4","Lalor","One person","One family household: Other family",0
+"5","Lalor","One person","Two or more family household: Couple family with no children",0
+"6","Lalor","One person","Two or more family household: Couple family with children",0
+"7","Lalor","One person","Two or more family household: One parent family",0
+"8","Lalor","One person","Two or more family household: Other family",0
+"9","Lalor","One person","Lone person household",1180
+"10","Lalor","One person","Group household",0
+"11","Lalor","Two persons","One family household: Couple family with no children",3120
+"12","Lalor","Two persons","One family household: Couple family with children",0
+"13","Lalor","Two persons","One family household: One parent family",888
+"14","Lalor","Two persons","One family household: Other family",148
+"15","Lalor","Two persons","Two or more family household: Couple family with no children",0
+"16","Lalor","Two persons","Two or more family household: Couple family with children",0
+"17","Lalor","Two persons","Two or more family household: One parent family",0
+"18","Lalor","Two persons","Two or more family household: Other family",0
+"19","Lalor","Two persons","Lone person household",0
+"20","Lalor","Two persons","Group household",182
+"21","Lalor","Three persons","One family household: Couple family with no children",276
+"22","Lalor","Three persons","One family household: Couple family with children",2487
+"23","Lalor","Three persons","One family household: One parent family",891
+"24","Lalor","Three persons","One family household: Other family",57
+"25","Lalor","Three persons","Two or more family household: Couple family with no children",0
+"26","Lalor","Three persons","Two or more family household: Couple family with children",0
+"27","Lalor","Three persons","Two or more family household: One parent family",0
+"28","Lalor","Three persons","Two or more family household: Other family",0
+"29","Lalor","Three persons","Lone person household",0
+"30","Lalor","Three persons","Group household",69
+"31","Lalor","Four persons","One family household: Couple family with no children",100
+"32","Lalor","Four persons","One family household: Couple family with children",3392
+"33","Lalor","Four persons","One family household: One parent family",616
+"34","Lalor","Four persons","One family household: Other family",0
+"35","Lalor","Four persons","Two or more family household: Couple family with no children",140
+"36","Lalor","Four persons","Two or more family household: Couple family with children",0
+"37","Lalor","Four persons","Two or more family household: One parent family",124
+"38","Lalor","Four persons","Two or more family household: Other family",0
+"39","Lalor","Four persons","Lone person household",0
+"40","Lalor","Four persons","Group household",16
+"41","Lalor","Five persons","One family household: Couple family with no children",15
+"42","Lalor","Five persons","One family household: Couple family with children",2035
+"43","Lalor","Five persons","One family household: One parent family",200
+"44","Lalor","Five persons","One family household: Other family",0
+"45","Lalor","Five persons","Two or more family household: Couple family with no children",65
+"46","Lalor","Five persons","Two or more family household: Couple family with children",185
+"47","Lalor","Five persons","Two or more family household: One parent family",95
+"48","Lalor","Five persons","Two or more family household: Other family",15
+"49","Lalor","Five persons","Lone person household",0
+"50","Lalor","Five persons","Group household",30
+"51","Lalor","Six or more persons","One family household: Couple family with no children",18
+"52","Lalor","Six or more persons","One family household: Couple family with children",1518
+"53","Lalor","Six or more persons","One family household: One parent family",204
+"54","Lalor","Six or more persons","One family household: Other family",0
+"55","Lalor","Six or more persons","Two or more family household: Couple family with no children",54
+"56","Lalor","Six or more persons","Two or more family household: Couple family with children",510
+"57","Lalor","Six or more persons","Two or more family household: One parent family",264
+"58","Lalor","Six or more persons","Two or more family household: Other family",0
+"59","Lalor","Six or more persons","Lone person household",0
+"60","Lalor","Six or more persons","Group household",0
