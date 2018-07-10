@@ -14,31 +14,31 @@ source("ft.R")
 option_list = list(
   make_option(
     c("--generateddata"),
-    default = "../data/melbourne-2016/generated/SA2",
+    default = "../data/melbourne-2011/generated/SA2",
     help = "Generated data files location. [default= %default]",
     metavar = "DIR"
   ),
   make_option(
     c("--rawhouseholds"),
-    default = "../data/melbourne-2016/raw/Households_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Households_2011_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--rawpersons"),
-    default = "../data/melbourne-2016/raw/Persons_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Persons_2011_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--sa2agedist"),
-    default = "../data/melbourne-2016/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip",
+    default = "../data/melbourne-2011/raw/Persons_percentage_by_age_2011_Greater_Melbourne_SA2s.zip",
     help = "Distribution of person percentages by Age in each SA2. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2016/analysis",
+    default = "../data/melbourne-2011/analysis",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -292,6 +292,9 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                                      sep = "")
     synthetic_population_dist  = read.csv(synthetic_population_csv)$Persons
     
+    #cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    #synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
@@ -401,6 +404,11 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
                                      "/population/output_household_types.csv.gz",
                                      sep = "")
     synthetic_population_dist  = read.csv(synthetic_population_csv)$NofHouseholds
+    
+    #remove impossible categories
+    #cleaned_dist = cleaned_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
+    #synthetic_population_dist = synthetic_population_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
+    
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
