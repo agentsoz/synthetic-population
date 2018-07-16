@@ -323,8 +323,6 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
                              "/preprocessed/household_types.csv.gz",
                              sep = "")
     cleaned_dist = read.csv(cleaned_data_csv)
-    cleaned_dist = CombineSixSevenEightHhsInput(cleaned_dist)
-    cleaned_dist = CombineTwoThreeFamilyHhsInput(cleaned_dist)
     cleaned_dist = cleaned_dist$Households.count
     
     synthetic_population_csv = paste(data_home,
@@ -569,8 +567,6 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
 
 EvaluatePersonsProcessedVsSynthesised()
 EvaluateAgeCatsPersonsProcessedVsSynthesised()
-
-
 EvaluateHouseholdProcessedVsSynthesised()
 
 
