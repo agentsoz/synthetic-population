@@ -15,31 +15,31 @@ source("reduce_categories.R")
 option_list = list(
   make_option(
     c("--generateddata"),
-    default = "../data/melbourne-2016/generated/SA2",
+    default = "../data/melbourne-2011/generated/SA2",
     help = "Generated data files location. [default= %default]",
     metavar = "DIR"
   ),
   make_option(
     c("--rawhouseholds"),
-    default = "../data/melbourne-2016/raw/Households_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Households_2011_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--rawpersons"),
-    default = "../data/melbourne-2016/raw/Persons_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Persons_2011_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--sa2agedist"),
-    default = "../data/melbourne-2016/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip",
+    default = "../data/melbourne-2011/raw/Persons_percentage_by_age_2011_Greater_Melbourne_SA2s.zip",
     help = "Distribution of person percentages by Age in each SA2. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2016/analysis",
+    default = "../data/melbourne-2011/analysis",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -574,8 +574,6 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
 
 EvaluatePersonsProcessedVsSynthesised()
 EvaluateAgeCatsPersonsProcessedVsSynthesised()
-
-
 EvaluateHouseholdProcessedVsSynthesised()
 
 
