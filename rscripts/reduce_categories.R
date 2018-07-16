@@ -1,3 +1,4 @@
+library(plyr)
 CombineChildCatsInInput <- function(p_marg){
   child_cats = c("U15Child", "Student", "O15Child")
   child_rows_ids = which(p_marg$Relationship.status %in% child_cats)
@@ -6,19 +7,17 @@ CombineChildCatsInInput <- function(p_marg){
   p_marg <- p_marg[-which(p_marg$Relationship.status %in% c("Student", "O15Child")),]
   revalue(p_marg$Relationship.status, c("U15Child" = "Children")) -> p_marg$Relationship.status
   p_marg[which(p_marg$Relationship.status == "Children"),"Persons.count"] = children_nums
-  rownames(p_marg) <- c(1:nrow(p_marg))
   return(p_marg)
 }
 
 CombineChildCatsInOutput <- function(p_marg){
   child_cats = c("U15_CHILD", "STUDENT", "O15_CHILD")
-  child_rows_ids = which(p_marg$Relationship.status %in% child_cats)
-  children_nums = rowSums(matrix(p_marg[child_rows_ids,5], ncol = length(child_cats)))
+  child_rows_ids = which(p_marg$Relationship %in% child_cats)
+  children_nums = rowSums(matrix(p_marg[child_rows_ids,"Persons"], ncol = length(child_cats)))
   
-  p_marg <- p_marg[-which(p_marg$Relationship.status %in% c("STUDENT", "O15_CHILD")),]
-  revalue(p_marg$Relationship.status, c("U15_CHILD" = "CHILDREN")) -> p_marg$Relationship.status
-  p_marg[which(p_marg$Relationship.status == "CHILDREN"),"Persons"] = children_nums
-  rownames(p_marg) <- c(1:nrow(p_marg))
+  p_marg <- p_marg[-which(p_marg$Relationship %in% c("STUDENT", "O15_CHILD")),]
+  revalue(p_marg$Relationship, c("U15_CHILD" = "CHILDREN")) -> p_marg$Relationship
+  p_marg[which(p_marg$Relationship == "CHILDREN"),"Persons"] = children_nums
   return(p_marg)
 }
 
@@ -126,7 +125,7 @@ CombineSixSevenEightHhsInput <- function(h_marg){
 CombineSixSevenEightHhsOutput <- function(h_marg){
   
   hhsize_6_7_8 = h_marg[which(h_marg$NofPersons %in% c(6, 7, 8)),]
-  six_or_more_hh_count = rowSums(matrix(hhsize_6_7_8$NofPersons, ncol = 3))
+  six_or_more_hh_count = rowSums(matrix(hhsize_6_7_8$NofHouseholds, ncol = 3))
   h_marg[which(h_marg$NofPersons == 6),"NofHouseholds"] <- six_or_more_hh_count
   h_marg <- h_marg[-which(h_marg$NofPersons %in% c(7, 8)),]
   return(h_marg)
