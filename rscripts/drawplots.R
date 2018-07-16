@@ -74,3 +74,21 @@ DrawErrorFrequencyPlot <- function(dist1, dist2,plot_main_title){
     xaxt = "n"
   )
 }
+
+DrawQQPlot <- function(census_dist, synth_dist, out_file,
+                       plot_main_title,
+                       plot_xlab,
+                       plot_ylab,
+                       xlabels,
+                       legend,
+                       sa2){
+  library(ggplot2)
+  
+  pdf(out_file)
+  theme_set(theme_bw()+theme(legend.position="none",text = element_text(size = 20),plot.title = element_text(hjust = -1), axis.text.x = element_text(hjust=0.7)))
+  
+  p1 <- qplot(census_dist, synth_dist, xlab=plot_xlab, ylab=plot_ylab, main = plot_main_title, color="am")
+  p1 <- p1 + geom_point(size = 4)+geom_abline(aes(colour='A', slope = 1, intercept=0))
+  print(p1)
+  dev.off()
+}
