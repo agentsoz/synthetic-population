@@ -205,6 +205,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist = synthetic_population_dist$Persons
     
+    #Removing impossible categories
     cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     
@@ -300,10 +301,6 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                   "/persons-preprocessed-vs-generated-absolute-percentage-deviation-reduced-cats.csv",
                   sep = "")
   write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
-  
-  # ggplot(data=error_by_cat, aes(x=error_by_cat[,1], y=len, group=supp)) +
-  #   geom_line()
-  # 
 }
 
 EvaluateHouseholdProcessedVsSynthesised <- function() {
@@ -333,7 +330,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist = synthetic_population_dist$NofHouseholds
     
-    #remove impossible categories - NOTE: below works because we don't reset the row numbers after combining categories.
+    #Removing impossible categories
     cleaned_dist = cleaned_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
     synthetic_population_dist = synthetic_population_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
     
