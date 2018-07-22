@@ -198,6 +198,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     
     cleaned_dist = Combine85orMoreCatsInInput(cleaned_dist)
     cleaned_dist = CombineChildCatsInInput(cleaned_dist)
+    rownames(cleaned_dist) <- NULL
     cleaned_dist = cleaned_dist$Persons.count
     
     synthetic_population_csv = paste(data_home,
@@ -209,10 +210,12 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     
     synthetic_population_dist = Combine85orMoreCatsInOutput(synthetic_population_dist)
     synthetic_population_dist = CombineChildCatsInOutput(synthetic_population_dist)
+    rownames(synthetic_population_dist) <- NULL
     synthetic_population_dist = synthetic_population_dist$Persons
     
-    cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
-    synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    cleaned_dist = cleaned_dist[-c(7,14,21,28,49,56,63,70)]
+    
+    synthetic_population_dist = synthetic_population_dist[-c(7,14,21,28,49,56,63,70)]
     
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
@@ -327,6 +330,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     cleaned_dist = read.csv(cleaned_data_csv)
     cleaned_dist = CombineSixSevenEightHhsInput(cleaned_dist)
     cleaned_dist = CombineTwoThreeFamilyHhsInput(cleaned_dist)
+    rownames(cleaned_dist) <- NULL
     cleaned_dist = cleaned_dist$Households.count
     
     synthetic_population_csv = paste(data_home,
@@ -337,11 +341,12 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist = CombineSixSevenEightHhsOutput(synthetic_population_dist)
     synthetic_population_dist = CombineTwoThreeFamilyHhsOutput(synthetic_population_dist)
+    rownames(synthetic_population_dist) <- NULL
     synthetic_population_dist = synthetic_population_dist$NofHouseholds
     
     #remove impossible categories - NOTE: below works because we don't reset the row numbers after combining categories.
-    cleaned_dist = cleaned_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
-    synthetic_population_dist = synthetic_population_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
+    cleaned_dist = cleaned_dist[-c(1:8,10,12,15:19,25:29,36,39,49,59)]
+    synthetic_population_dist = synthetic_population_dist[-c(1:8,10,12,15:19,25:29,36,39,49,59)]
     
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
@@ -572,10 +577,10 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
 }
 
+
+EvaluateHouseholdProcessedVsSynthesised()
 EvaluatePersonsProcessedVsSynthesised()
 EvaluateAgeCatsPersonsProcessedVsSynthesised()
-EvaluateHouseholdProcessedVsSynthesised()
-
 
 
 
