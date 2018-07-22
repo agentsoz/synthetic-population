@@ -373,7 +373,6 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
       sep = "/"
     )
     DrawQQPlot(cleaned_dist, synthetic_population_dist,qqplot_pdf,"", "Preprocessed-census households","Synthesised households",sa2 = sa2_list[i])
-    
   }
   
   colnames(wilcoxon_test_result) <-
@@ -450,7 +449,6 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
                              "/preprocessed/person_types.csv.gz",
                              sep = "")
     cleaned_dist = read.csv(cleaned_data_csv)
-    cleaned_dist = Combine85orMoreCatsInInput(cleaned_dist)
     cleaned_dist = cleaned_dist$Persons.count
     
     cleaned_dist = rowSums(matrix(cleaned_dist, nrow = 7))
