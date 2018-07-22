@@ -88,7 +88,8 @@ DrawQQPlot <- function(census_dist, synth_dist, out_file,
   theme_set(theme_bw()+theme(legend.position="none",text = element_text(size = 20),plot.title = element_text(hjust = -1), axis.text.x = element_text(hjust=0.7)))
   
   p1 <- qplot(census_dist, synth_dist, xlab=plot_xlab, ylab=plot_ylab, main = plot_main_title, color="am")
-  p1 <- p1 + geom_point(size = 4)+geom_abline(aes(colour='A', slope = 1, intercept=0))
+  p1 <- p1 + geom_point(position=position_jitter(h=0.1, w=0.1),
+                        shape = 21, alpha = 0.5, size = 3)+  geom_abline(aes(colour='A', slope = 1, intercept=0))
   print(p1)
   dev.off()
 }
