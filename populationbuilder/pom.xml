@@ -1,0 +1,222 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.agentsoz.syntheticpop</groupId>
+    <artifactId>populationbuilder</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>PopulationBuilder</name>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.12</junit.version>
+        <junit.vintage.version>${junit.version}.0</junit.vintage.version>
+        <junit.jupiter.version>5.0.0</junit.jupiter.version>
+        <junit.platform.version>1.0.0</junit.platform.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/agentsoz/synthetic-population.git</connection>
+        <developerConnection>scm:git:https://github.com/agentsoz/synthetic-population.git</developerConnection>
+        <url>https://github.com/agentsoz/synthetic-population.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>GNU General Lesser Public License, Version 3.0</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Bhagya Niroshan Wickramasinghe</name>
+            <email>bhagya.niroshan@gmail.com</email>
+            <organization>RMIT - AgentsOZ</organization>
+            <organizationUrl>http://agentsoz.github.io</organizationUrl>
+        </developer>
+        <developer>
+            <name>Dhirendra Singh</name>
+            <email>dhi.singh@gmail.com</email>
+            <organization>AgentsOZ</organization>
+            <organizationUrl>http://agentsoz.github.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <compilerVersion>1.8</compilerVersion>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+            </plugin>
+
+            <!-- License header plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.13</version>
+                <configuration>
+                    <organizationName>AgentsOZ</organizationName>
+                    <copyrightOwners>by its authors. See AUTHORS file.</copyrightOwners>
+                    <projectName>Synthetic Population Construction for Australia</projectName>
+                    <canUpdateDescription>true</canUpdateDescription>
+                    <canUpdateCopyright>true</canUpdateCopyright>
+                    <inceptionYear>2016</inceptionYear>
+                    <licenseName>lgpl_v3</licenseName>
+                    <licenseFile>${basedir}/COPYING.LESSER</licenseFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-project-license</goal>
+                            <!-- To disable update header if it takes a long time; comment out below goal and manually do mvn license:update-file-header prior to release-->
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- To run tests on IDEs such as Eclipse, Intellij -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit.vintage.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <modules>
+        <module>util</module>
+        <module>filemanager</module>
+        <module>geo</module>
+        <module>synthesis</module>
+        <module>addressmapper</module>
+    </modules>
+</project>
