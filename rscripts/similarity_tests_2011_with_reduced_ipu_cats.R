@@ -39,7 +39,7 @@ option_list = list(
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2011/analysis",
+    default = "../data/melbourne-2011/analysis/reduced-cats/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -283,7 +283,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F)
+  write.csv(cossim_test_result, file = outfile, row.names = F, quote = F)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -403,13 +403,13 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-tost-wilcoxon-reduced-cats.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result, file = outfile)
+  write.csv(wilcoxon_test_result, file = outfile, quote = F)
   
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   print("Cosine similarity test - Households")
   outfile = paste(
     outputHome,
-    "/households-preprocessed-vs-generated-cosine-similarity-reduced-cats-reduced-cats.csv",
+    "/households-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
     sep = ""
   )
   write.csv(cossim_test_result, file = outfile, quote = F)
