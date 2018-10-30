@@ -10,12 +10,12 @@ package io.github.agentsoz.syntheticpop.synthesis;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -228,18 +228,20 @@ public class FamilyFactory {
             children.addAll(extrasHandler.getChildrenFromExtras(null, childAges, childrenToForm));
         }
 
-        Collections.shuffle(couples, random);
-        children.sort(ageComparator.reversed());
+//        Collections.shuffle(couples, random);
+//        children.sort(ageComparator.reversed());
 
         List<Family> cplWithChildUnits = new ArrayList<>();
+        Collections.shuffle(children, random);
 
         boolean success = false;
-        Iterator<Family> couplesItr = couples.iterator();
-        while (couplesItr.hasNext()) {
-            Family f = couplesItr.next();
-            Person child = getChildForFamily(f, children);
-            if (child != null) {
-                couplesItr.remove();
+        Iterator<Person> childrenItr = children.iterator();
+        while (childrenItr.hasNext()) {
+            Person child = childrenItr.next();
+            Family f = getParentCoupleForChild(child, couples);
+
+            if (f != null) {
+                childrenItr.remove();
                 f.setType(FamilyType.COUPLE_WITH_CHILDREN);
                 f.addMember(child);
                 cplWithChildUnits.add(f);
@@ -284,6 +286,31 @@ public class FamilyFactory {
             Person newChild = suitableChildren.get(offset);
             children.remove(newChild);
             return newChild;
+        }
+    }
+
+
+    /**
+     * Returns a suitable family for the specified child considering population rules. Returns null if no suitable family
+     *
+     * @param child    The child looking for a family
+     * @param families The list of families to select from
+     * @return The selected family.
+     */
+    private Family getParentCoupleForChild(Person child, List<Family> families) {
+
+        List<Family> suitableCouples = families.parallelStream().filter(f -> {
+            List<Person> parents = f.getParents();
+            return PopulationRules.validateParentChildAgeRule(parents.get(0), parents.size() == 2 ? parents.get(1) : null, child);
+        }).collect(Collectors.toList());
+
+        if (suitableCouples.isEmpty()) {
+            return null;
+        } else {
+            int offset = random.nextInt(suitableCouples.size());
+            Family newFamily = suitableCouples.get(offset);
+            families.remove(newFamily);
+            return newFamily;
         }
     }
 }
