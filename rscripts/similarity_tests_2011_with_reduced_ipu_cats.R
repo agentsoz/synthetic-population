@@ -11,6 +11,7 @@ source("drawplots.R")
 source("ft.R")
 source("reduce_categories.R")
 source("kl.R")
+source("jsd.R")
 
 
 option_list = list(
@@ -155,7 +156,7 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   
   pval = max(c(grt$p.value, les$p.value))
   
-  # Do Cosine similarity right here
+  #Do Cosine similarity right here
   cossim = cosine(x = exp_dist, y = obs_dist)
   
   #Do Freeman-Tukey test
@@ -165,7 +166,11 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   apd = sum(abs(exp_dist - obs_dist))/sum(exp_dist)
   pop_size = sum(exp_dist)
   
+  #Do KLD
   kl_result = KLDivergence(exp_dist, obs_dist, 0.000001)
+  
+  #Do JSD
+  jsd_result = JSDivergence(exp_dist, obs_dist)
   
   return(list(
     "TOST p-value" = pval,
@@ -177,7 +182,8 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
     "APD" = apd,
     "APD%" = (apd*100),
     "Pop size"= pop_size,
-    "KL Divergence" = kl_result
+    "KL Divergence" = kl_result,
+    "JS Divergence" = jsd_result
   ))
   
 }
@@ -191,6 +197,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result = matrix(0, nrow=length(sa2_list), ncol = 2)
+  js_test_result = matrix(0, nrow=length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -226,6 +233,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i,] <- c(sa2_list[i], unlist(res)[10])
+    js_test_result[i,] <- c(sa2_list[i], unlist(res)[11])
     
     totals[i, 3] <- sum(cleaned_dist)
     totals[i, 5] <- sum(synthetic_population_dist)
@@ -319,6 +327,13 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                   "/persons-preprocessed-vs-generated-kl-divergence-reduced-cats.csv",
                   sep = "")
   write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
+  
+  print("JSD test")
+  colnames(js_test_result) <- c("SA2","JSD")
+  outfile = paste(outputHome,
+                  "/persons-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
+                  sep = "")
+  write.csv(js_test_result, file = outfile, row.names = F, quote = F)
 }
 
 EvaluateHouseholdProcessedVsSynthesised <- function() {
@@ -330,6 +345,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  js_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -364,6 +380,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i, ] <- c(sa2_list[i], unlist(res)[10])
+    js_test_result[i, ] <- c(sa2_list[i], unlist(res)[11])
     
     totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
     totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
@@ -462,6 +479,12 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
                   sep = "")
   write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
   
+  print("JSD test")
+  colnames(js_test_result) <- c("SA2","JSD")
+  outfile = paste(outputHome,
+                  "/households-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
+                  sep = "")
+  write.csv(js_test_result, file = outfile, row.names = F, quote = F)
 }
 
 EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
@@ -473,6 +496,7 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  js_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -505,6 +529,7 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i,] <-  c(sa2_list[i], unlist(res)[10])
+    js_test_result[i,] <-  c(sa2_list[i], unlist(res)[11])
     
     
     totals[i, 3] <- sum(cleaned_dist)
@@ -600,6 +625,13 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
                   "/persons-age-cats-preprocessed-vs-generated-kl-divergence-reduced-cats.csv",
                   sep = "")
   write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
+
+  print("JSD test")
+  colnames(js_test_result) <- c("SA2","JSD")
+  outfile = paste(outputHome,
+                  "/persons-age-cats-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
+                  sep = "")
+  write.csv(js_test_result, file = outfile, row.names = F, quote = F)  
 }
 
 EvaluatePersonsProcessedVsSynthesised()
