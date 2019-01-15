@@ -39,7 +39,7 @@ option_list = list(
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2016/analysis",
+    default = "../data/melbourne-2016/analysis/reduced-cats/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
