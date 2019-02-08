@@ -118,7 +118,7 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
       
   * Number of dwellings by Number of Persons Usually Resident in Dwelling (NPRD) by Family Household Composition (Dwelling) (HCFMD). 
 
-    Use Construct below table using "Counting Dwellings, Place of Enumeration" dataset and save as `synthetic-population/data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip`. This table should not have any `Total` fields.
+    Construct below table using "Counting Dwellings, Place of Enumeration" dataset and save as `synthetic-population/data/melbourne/raw/Households_2016_Greater_Melbourne_SA2.zip`. This table should not have any `Total` fields.
     
     Following HCFMD categories are not selected
     
@@ -142,7 +142,9 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
          
    * Household composition distributions of each SA2 by SA1s in it. 
 
-     Construct below table in TableBuilder using "Counting Dwellings, Place of Enumeration" dataset for all SA2s and save the files. It may require downloading data as multiple files. For example `synthetic-population/data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip`. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
+     Construct below table in TableBuilder using "Counting Dwellings, Place of Enumeration" dataset for all SA2s and save the files. SA1 fields of an interest area can be found under "Geographical Areas (Enumeration) >  Geographical Areas From Mesh Block (MBs) > MB By Main Statistical Area Structure (Main ASGS)". The last level (leaf nodes) of the structure gives the mesh block IDs and the one before the last level gives the SA1 IDs. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
+     
+     As this gives a large table, you may have to download the able as multiple files. The files should not have any overlapping data. For example `synthetic-population/data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip` and etc. If that is the case give all the files as inputs as instructed in `rscripts/README.md`.
 
 ```
 |-----------|------| SA1s  | SA1_CODE1 | SA1_CODE2 | SA1_CODE3 |  ...  |
