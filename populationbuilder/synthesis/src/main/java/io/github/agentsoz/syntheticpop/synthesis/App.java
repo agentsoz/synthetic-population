@@ -25,6 +25,7 @@ package io.github.agentsoz.syntheticpop.synthesis;
 import io.github.agentsoz.syntheticpop.filemanager.csv.abs.StatisticalAreaCodeReader;
 import io.github.agentsoz.syntheticpop.synthesis.models.*;
 import io.github.agentsoz.syntheticpop.util.ConfigProperties;
+import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 
 import java.io.File;
@@ -98,10 +99,24 @@ public class App {
 
 
         try {
-            List<String> saList = props.getSAList("SAList", inputDirectory);
-            Map<String, String> sa2CodeMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodesZip,
-                                                                                                       saReferenceColumnHeader,
-                                                                                                       saTargetColumnHeader);
+            List<String> saList = null;
+            try {
+                saList = props.getSAList("SAList", inputDirectory);
+
+            } catch (IOException e) {
+                Log.errorAndExit("Cannot read SA list from " + System.getProperty("user.dir") + File.separator + props.getProperty("SAList") + " file.",
+                                 GlobalConstants.ExitCode.USERINPUT);
+            }
+
+            Map<String, String> sa2CodeMap = null;
+            try {
+                sa2CodeMap = StatisticalAreaCodeReader.loadCsvAndCreateMapWithAreaCode(saCodesZip,
+                                                                                       saReferenceColumnHeader,
+                                                                                       saTargetColumnHeader);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             Random rand = new Random(randomSeed);
 
             //Read exact age distributions
