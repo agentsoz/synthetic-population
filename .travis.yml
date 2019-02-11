@@ -3,6 +3,9 @@ sudo: false
 cache: packages
 warnings_are_errors: false
 
+before_install:
+ - sudo apt-get install -y maven
+
 install:
  - Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics","futile.logger"))'
  - cd populationbuilder/
