@@ -242,13 +242,13 @@ public class DataReader {
     private static RelationshipStatus getRelationshipStatus(String relationshipType) {
         RelationshipStatus relStatus;
         switch (relationshipType) {
-            case "Relatives":
+            case "Relatives": case "Relative":
                 relStatus = RelationshipStatus.RELATIVE;
                 break;
             case "Married":
                 relStatus = RelationshipStatus.MARRIED;
                 break;
-            case "Lone parent":
+            case "Lone parent": case "LoneParent":
                 relStatus = RelationshipStatus.LONE_PARENT;
                 break;
             case "U15Child":
@@ -263,11 +263,11 @@ public class DataReader {
             case "GroupHhold":
                 relStatus = RelationshipStatus.GROUP_HOUSEHOLD;
                 break;
-            case "Lone person":
+            case "Lone person": case "LonePerson":
                 relStatus = RelationshipStatus.LONE_PERSON;
                 break;
             default:
-                throw new Error("Unrecognised Person type");
+                throw new Error("Unrecognised Person type: " + relationshipType);
         }
         return relStatus;
     }
@@ -377,4 +377,3 @@ public class DataReader {
     }
 
 }
-
