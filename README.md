@@ -120,7 +120,9 @@ Use the same category names when creating custom categories as instructed below.
      **Age groups** used here are 0-14, 15-24, 25-34, 35-49, 50-64, ... , 85-99, 100++. These can be created by combining 5 year age groups (AGE5P) provided in TableBuilder.
      
      **_Creating the first table_**
-      To create a table with the below table structure:
+     
+      Following are the steps to create a table similar to the one shown below. 
+      
       1. Tick the required SA2s from `Geographical Areas (Usual Residence)` and click on `Row` button at the top. This will add them to the table
       2. Go to `Persons Classifications > People and Relationships > RLHP Relationship in Household` and tick the custom relationship categories created earlier. Click on `Row` button to add them to the table.
       3. Go to `Persons Classifications > SEXP Sex` and add the two categories similar to above
