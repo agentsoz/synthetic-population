@@ -109,6 +109,8 @@ Column headers names of below shown tables can be different. The tool will work 
 
 Use the same category names when creating custom categories as instructed below. This will allow running the program with minimum configuration changes. If using different *category names* is a must or ABS has changed category names after 2016, they can be updated in `rscripts/config.R`. The order of categories within a column can be different.
 
+#### Data Tables
+
    * Number of persons by Relationship Status (RLHP) by Sex (SEXP) by Age group (AGE5P) by SA2. 
 
      Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. 
