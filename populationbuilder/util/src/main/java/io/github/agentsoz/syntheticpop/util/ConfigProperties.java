@@ -140,7 +140,7 @@ public class ConfigProperties extends Properties {
                            .map(Path::getFileName)
                            .map(Path::toString)
                            .collect(Collectors.toList());
-        } else if (Files.exists(Paths.get(saParam))) {
+        } else if (saParam.endsWith(".txt") || Files.exists(Paths.get(saParam))) {
             saList = Files.readAllLines(Paths.get(saParam));
         } else {
             saList = Arrays.asList(saParam.split(","));
