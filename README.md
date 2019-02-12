@@ -101,20 +101,43 @@ Following image shows accuracy of person distribution in comparison to cleaned (
 
 ABS TableBuilder and tutorial can be accessed from this [link](http://www.abs.gov.au/websitedbs/D3310114.nsf/Home/2016%20TableBuilder). You need to know how to create and manage tables, change databases, create custom data fields and download data tables in csv format.
 
+**_Notes_**
+
+When downloading large tables (that does not exceed max limit), Tablebuilder puts them in a job queue so won't be available straight away.
+
+Column headers names of below shown tables can be different. The tool will work properly as long as the structure of the csv file is same as the examples. If it is impossible have the same column order, `rescripts/config.R` file can be updated with new coloum indices.
+
+Use the same category names when creating custom categories as instructed below. This will allow running the program with minimum configuration changes. If using different *category names* is a must or ABS has changed category names after 2016, they can be updated in `rscripts/config.R`. The order of categories within a column can be different.
+
    * Number of persons by Relationship Status (RLHP) by Sex (SEXP) by Age group (AGE5P) by SA2. 
 
-     Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. Remove `Total` fields from the table by clicking on "Hide Total" button (the button with zigma symbol in column and row headers) if it is already selected, and save the table as `synthetic-population/data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip`.
+     Construct the below table using "Counting Persons, Place of Usual Residence" database. Codes used for table headers are used in TableBuilder. 
      
-     The Filters section above the table will show `Default Summation: Persons Place of Usual Residence`. This describes what is represented by the numbers
+     *NOTE: This tool uses custom  Relationship status and Age groups. Custom categories can be formed by combining existing categories in TableBuilder's "Custom Data" section.*
+     
+     **Relationship categories** are given in `synthetic-population/doc/Custom Individual relationship categories.pdf`. 
+     
+     **Age groups** used here are 0-14, 15-24, 25-34, 35-49, 50-64, ... , 85-99, 100++. These can be created by combining 5 year age groups (AGE5P) provided in TableBuilder.
+     
+     **_Creating the first table_**
+      To create a table with the below table structure:
+      1. Tick the required SA2s from `Geographical Areas (Usual Residence)` and click on `Row` button at the top. This will add them to the table
+      2. Go to `Persons Classifications > People and Relationships > RLHP Relationship in Household` and tick the custom relationship categories created earlier. Click on `Row` button to add them to the table.
+      3. Go to `Persons Classifications > SEXP Sex` and add the two categories similar to above
+      4. Go to `Persons Classifications > AGE5P Age in Five Year Groups`, tick the custom age groups created earlier and tadd them to the table.
+      5. Now you should have table similar to the below structure. If the order of the columns are not as shown below, adjust the order by clicking on the column header and dragging it to the correct position. The Filters section above the table will show `Default Summation: Persons Place of Usual Residence`. This describes what is represented by the numbers.
+      6. Remove `Total` fields from the table by clicking on "Hide Total" button (the button with zigma symbol in column and row headers) if it is already selected
+      7. To download first select `Strinve Value (csv)` from the dropdown menu in the top right corner and click on `Go`. If the table is large TableBuilder may put it in a job queue. Table can be dowloaded later from `Saved Tables` when it is ready.
+      8. In the default data set this table is saved as `synthetic-population/data/melbourne/raw/Persons_2016_Greater_Melbourne_SA2.zip`. 
      
 ```
-|---------------------------| Persons, Place of Usual Residence |
-| SA2 | RLHP | SEXP | AGE5P |                                   |
-|-----|------|------|-------|-----------------------------------|
-|     |      |      |       |                 x                 |
-|     |      |      |       |                 x                 |
+|---------------------------------------| Persons, Place of Usual Residence |
+| SA2 | CUSTOM RLHP | SEXP | CUSTOM AGE |                                   |
+|-----|-------------|------|------------|-----------------------------------|
+|     |             |      |            |                 x                 |
+|     |             |      |            |                 x                 |
 ```
-This tool uses custom  Relationship status and Age groups. Custom categories can be formed by combining existing categories in TableBuilder's "Custom Data" section. The relationship categories are given in `synthetic-population/doc/Custom Individual relationship categories.pdf`. Age groups used here are 0-14, 15-24, 25-34, 35-49, 50-64, ... , 85-99, 100++. 
+ 
       
   * Number of dwellings by Number of Persons Usually Resident in Dwelling (NPRD) by Family Household Composition (Dwelling) (HCFMD). 
 
@@ -142,7 +165,9 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
          
    * Household composition distributions of each SA2 by SA1s in it. 
 
-     Construct below table in TableBuilder using "Counting Dwellings, Place of Enumeration" dataset for all SA2s and save the files. SA1 fields of an interest area can be found under "Geographical Areas (Enumeration) >  Geographical Areas From Mesh Block (MBs) > MB By Main Statistical Area Structure (Main ASGS)". The last level (leaf nodes) of the structure gives the mesh block IDs and the one before the last level gives the SA1 IDs. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
+     Construct below table in TableBuilder using "Counting Dwellings, Place of Enumeration" dataset for all SA2s and save the files. 
+     
+     SA1 fields of an interest area can be found under "Geographical Areas (Enumeration) >  Geographical Areas From Mesh Block (MBs) > MB By Main Statistical Area Structure (Main ASGS)". The last level (leaf nodes) of the structure gives the mesh block IDs and the one before the last level gives the SA1 IDs. To get the proper structure add SA1s as *columns*. Remove `Total` fields from the table before saving. Both zip and csv are acceptable for this table.
      
      As this gives a large table, you may have to download the able as multiple files. The files should not have any overlapping data. For example `synthetic-population/data/melbourne/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip` and etc. If that is the case give all the files as inputs as instructed in `rscripts/README.md`.
 
@@ -156,7 +181,7 @@ This tool uses custom  Relationship status and Age groups. Custom categories can
 
   * Age distribution of persons in SA2s. 
 
-    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `synthetic-population/data/melbourne/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip`. Remove `Total` column and row from the table if they are added automatically.
+    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `synthetic-population/data/melbourne/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip`. Here SA2 names are added as *columns*. Remove `Total` column and row from the table if they are added automatically.
 
 ```
 | SA2s | SA2_NAME1 | SA2_NAME2 | SA2_NAME3 |  ...  |
