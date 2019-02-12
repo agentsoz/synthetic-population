@@ -3,13 +3,13 @@ randomSeed =  1
 #Person types
 rel_status_cats = c(
   'Married',
-  'Lone parent',
+  'LoneParent',
   'U15Child',
   'Student',
   'O15Child',
   'GroupHhold',
-  'Lone person',
-  'Relatives'
+  'LonePerson',
+  'Relative'
 )
 sex_cats = c('Male', 'Female')
 age_cats = c(
@@ -103,10 +103,10 @@ h_value_col = 4 #The number of households column index
 
 ## SA1 household distribution file
 
-#R's read.csv failes to read this file properly
+#R's read.csv failes to read 'SA1 household distribution file' properly. Below properties tell our custom reader what rows and columns to read.
 sa2_col = 1 #SA1 codes column index
 family_hh_type_col = 3 # Family household type column index
-hh_size_col = 2 # Number of persons in household column index
+hh_size_col = 2 # household size column index
 sa1_start_col = 4 # The starting column of SA1 codes 
 sa1_row = 7 # SA1 codes row
 colname_row = 8 # Column names row

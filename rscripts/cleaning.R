@@ -73,6 +73,11 @@ clean <-
       sex = person[i, pSexColi]
       age = person[i, pAgeColi]
       val = person[i, pValColi]
+      
+      if(is.null(IndPossibles[[rel]][[sex]][[age]])){
+        flog.error("(%s,%s,%) is not a valid agent type. Check whether categories in data file matche rscript\\config.R", rel, sex, age)
+      }
+      
       person[i, pValColi] = person[i, pValColi] * IndPossibles[[rel]][[sex]][[age]]
       if (val != person[i, pValColi]) {
         flog.info("Persons: %s",person[i, ])
