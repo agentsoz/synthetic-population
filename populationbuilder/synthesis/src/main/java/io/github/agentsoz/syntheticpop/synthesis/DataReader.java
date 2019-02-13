@@ -26,15 +26,13 @@ import io.github.agentsoz.syntheticpop.filemanager.FileUtils;
 import io.github.agentsoz.syntheticpop.filemanager.csv.CSVReader;
 import io.github.agentsoz.syntheticpop.filemanager.zip.Zip;
 import io.github.agentsoz.syntheticpop.synthesis.models.*;
+import io.github.agentsoz.syntheticpop.util.GlobalConstants;
 import io.github.agentsoz.syntheticpop.util.Log;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -199,6 +197,10 @@ public class DataReader {
                         ageDistBySA2.put(csvRecord.get(i), new ArrayList<>(116));
                         sa2names.add(csvRecord.get(i));
                     }
+                }
+
+                if(sa2names.isEmpty()){
+                    Log.errorAndExit("There are no SA2 names in row "+sa2NamesRow+" in "+file.toAbsolutePath(), GlobalConstants.ExitCode.USERINPUT);
                 }
 
             } else if (row > sa2NamesRow && csvRecord.size() > ageColumn && csvRecord.get(ageColumn).matches("\\d+.*")) {
