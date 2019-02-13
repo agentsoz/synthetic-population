@@ -25,9 +25,7 @@ package io.github.agentsoz.syntheticpop.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,8 +37,9 @@ public class ConfigProperties extends Properties {
      *
      */
     private static final long serialVersionUID = -5371179228765375673L;
-
+    private final String propertiesFile;
     public ConfigProperties(String propertyFile) throws IOException {
+        this.propertiesFile = propertyFile;
         this.loadPropertyFile(propertyFile);
     }
 
@@ -63,6 +62,15 @@ public class ConfigProperties extends Properties {
 
         }
         return filePath;
+    }
+
+    @Override
+    public String getProperty(String key) {
+        String property = super.getProperty(key);
+        if (property == null) {
+            Log.errorAndExit("Cannot find "+key + " in "+Paths.get(this.propertiesFile).toAbsolutePath(), GlobalConstants.ExitCode.USERINPUT);
+        }
+        return property;
     }
 
     private void loadPropertyFile(String propertyFile) throws IOException {
@@ -127,19 +135,22 @@ public class ConfigProperties extends Properties {
     /**
      * Reads SA names list from user input
      *
-     * @param propertyName       SA list property
+     * @param propertyName   SA list property
      * @param inputDirectory The input data directory
      * @return List of SA2s
      * @throws IOException File reading
      */
-    public List<String> getSAList(String propertyName,Path inputDirectory) throws IOException {
+    public List<String> getSAList(String propertyName, Path inputDirectory) throws IOException {
         List<String> saList = null;
         String saParam = this.getProperty(propertyName);
         if (saParam.equals("*")) {
+            if (!Files.exists(inputDirectory)) {
+                Log.errorAndExit("No directory at: " + inputDirectory.toAbsolutePath(), GlobalConstants.ExitCode.USERINPUT);
+            }
             saList = Files.list(inputDirectory)
-                           .map(Path::getFileName)
-                           .map(Path::toString)
-                           .collect(Collectors.toList());
+                          .map(Path::getFileName)
+                          .map(Path::toString)
+                          .collect(Collectors.toList());
         } else if (saParam.endsWith(".txt") || Files.exists(Paths.get(saParam))) {
             saList = Files.readAllLines(Paths.get(saParam));
         } else {

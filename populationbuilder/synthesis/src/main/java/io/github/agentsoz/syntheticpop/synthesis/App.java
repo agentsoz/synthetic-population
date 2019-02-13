@@ -222,6 +222,7 @@ public class App {
 
             }
             Log.info("Writing analysis data files to: " + analysisDirectory);
+            Files.createDirectories(analysisDirectory);
             DataWriter.saveParentChildAgeGapSummary(Paths.get(analysisDirectory + File.separator + "parent_child_age_gap.csv"),
                                                     parentalAgeGapHistogram);
             if (!randomAgeAssignments.isEmpty()) {
