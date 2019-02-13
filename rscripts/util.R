@@ -11,12 +11,13 @@ GetAllSAs <- function(filename, startrow, endrow, sacol) {
 }
 
 GetMatchingRowIds <- function(arr, col, key) {
-  rwids = which(arr[, col] == key)
+  rwids = as.numeric(rownames(subset(arr, arr[,col] == key)))
+  # rwids = which(arr[, col] == key)
   return(rwids)
 }
 
 GetMatchingColIds <- function(arr, row, key) {
-  colids = which(arr[row, ] == key)
+  colids = as.numeric(colnames(subset(arr, arr[row,] == key)))
   return(colids)
 }
 

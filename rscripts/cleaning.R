@@ -75,7 +75,7 @@ clean <-
       val = person[i, pValColi]
       
       if(is.null(IndPossibles[[rel]][[sex]][[age]])){
-        flog.error("(%s,%s,%) is not a valid agent type. Check whether categories in data file matche rscript\\config.R", rel, sex, age)
+        flog.error("(%s,%s,%s) is not a valid agent type. Check whether categories in data file matche rscript\\config.R", rel, sex, age)
       }
       
       person[i, pValColi] = person[i, pValColi] * IndPossibles[[rel]][[sex]][[age]]
@@ -142,7 +142,7 @@ clean <-
     }
     
     #Check lone person households
-    lnpersonrwids = GetMatchingRowIds(person, pRelColi, "Lone person")
+    lnpersonrwids = GetMatchingRowIds(person, pRelColi, "LonePerson")
     ttllnpersons = sum(person[lnpersonrwids, pValColi])
     flog.info("Lone persons: total persons in persons file %d",
         ttllnpersons)
@@ -269,7 +269,7 @@ clean <-
       ttlOneParentFamilies
     )
     
-    loneParentRwIds = GetMatchingRowIds(person, pRelColi, "Lone parent")
+    loneParentRwIds = GetMatchingRowIds(person, pRelColi, "LoneParent")
     ttlLoneparents = sum(person[loneParentRwIds, pValColi])
     flog.info("Lone Parents: lone parents in persons file: %d",
         ttlLoneparents)
@@ -321,7 +321,7 @@ clean <-
     }
     
     #Relatives and Other family
-    relrwids = GetMatchingRowIds(person, pRelColi, "Relatives")
+    relrwids = GetMatchingRowIds(person, pRelColi, "Relative")
     ttlrelatives = sum(person[relrwids, pValColi])
     flog.info("Relatives for Other families: total relatives in persons file: %d",
         ttlrelatives)
