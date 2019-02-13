@@ -185,16 +185,17 @@ Use the same category names when creating custom categories as instructed below.
 
   * Age distribution of persons in SA2s. 
 
-    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `synthetic-population/data/melbourne/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip`. Here SA2 names are added as *columns*. Remove `Total` column and row from the table if they are added automatically.
+    Construct the below table using "Counting Persons, Place of Usual Residence" database and save as `synthetic-population/data/melbourne/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip`. Here SA2 names are added as *columns*. This table contains the percentage of persons in each age by the SA2 ("Options > Percentages > Column"). Remove `Total` column and row from the table if they are added automatically.
 
 ```
-| SA2s | SA2_NAME1 | SA2_NAME2 | SA2_NAME3 |  ...  |
-| AGEP |           |           |           |       |
-|------|-----------|-----------|-----------|-------|
-|  1   |     x     |     x     |     x     | ..x.. |
-|  2   |     x     |     x     |     x     | ..x.. |
-| ...  |     x     |     x     |     x     | ..x.. |
-| 115  |     x     |     x     |     x     | ..x.. |
+| SA2s | SA2_NAME1 | SA2_NAME2 | SA2_NAME3 |  ....  |
+| AGEP |           |           |           |        |
+|------|-----------|-----------|-----------|--------|
+|  1   |     x%    |     x%    |     x%    | ..x%.. |
+|  2   |     x%    |     x%    |     x%    | ..x%.. |
+| ...  |     x%    |     x%    |     x%    | ..x%.. |
+| 115  |     x%    |     x%    |     x%    | ..x%.. |
+| Total|   100%    |   100%    |   100%    | .100%. |
 ```
 
 ### 2. Download required Australian Statistical Geography Standard (ASGS) data cubes
