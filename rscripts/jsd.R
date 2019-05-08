@@ -12,6 +12,6 @@ JSDivergence <- function(exp_dist, obs_dist){
     obs_prob = obs_dist/sum(obs_dist)
   }
   k <- rbind(exp_prob, obs_prob)
-  return(JSD(k, unit="log" ))
+  return(JSD(k, unit="log2" ))
   
 }
