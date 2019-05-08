@@ -235,7 +235,8 @@ EvaluatePersonsRawVsSynthesised <- function() {
                   sep = "")
   write.csv(wilcoxon_test_result,
             file = outfile,
-            row.names = F)
+            row.names = F,
+            quote = F)
   
   
   print("Cosine similarity test")
@@ -258,7 +259,8 @@ EvaluatePersonsRawVsSynthesised <- function() {
                   sep = "")
   write.csv(ft_test_result,
             file = outfile,
-            row.names = F)
+            row.names = F,
+            quote = F)
   
   print("APD test")
   colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
@@ -356,7 +358,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-cosine-similarity.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F)
+  write.csv(cossim_test_result, file = outfile, row.names = F, quote = F)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -459,7 +461,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-tost-wilcoxon.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result, file = outfile)
+  write.csv(wilcoxon_test_result, file = outfile, quote = F)
   
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   print("Cosine similarity test - Households")
@@ -468,11 +470,11 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     "/households-preprocessed-vs-generated-cosine-similarity.csv",
     sep = ""
   )
-  write.csv(cossim_test_result, file = outfile)
+  write.csv(cossim_test_result, file = outfile, quote = F)
   
   totals_file <-
     paste(outputHome, "/households-persons-totals.csv", sep = "")
-  write.csv(totals, file = totals_file)
+  write.csv(totals, file = totals_file, quote = F)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -580,14 +582,14 @@ EvalautePersonsAgeDistribution <- function() {
   outfile = paste(outputHome,
                   "/persons-age-census-vs-generated-tost-wilcoxon.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result, file = outfile)
+  write.csv(wilcoxon_test_result, file = outfile, quote = F)
   
   print("Cosine similarity test - Persons age")
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   outfile = paste(outputHome,
                   "/persons-age-census-vs-generated-cosine-similarity.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile)
+  write.csv(cossim_test_result, file = outfile, quote = F)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
