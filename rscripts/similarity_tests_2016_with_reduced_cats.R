@@ -205,10 +205,20 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist = synthetic_population_dist$Persons
     
+    hh_data_csv = paste(data_home,
+                             "/",
+                             sa2_list[i],
+                             "/preprocessed/household_types.csv.gz",
+                             sep = "")
+    hh_data = read.csv(hh_data_csv)
+    hh_sizes = ceiling(c(1:nrow(hh_data)/14))
+    hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
+    
     #Removing impossible categories
     cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     
+    cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
@@ -278,7 +288,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F)
+  write.csv(cossim_test_result, file = outfile, row.names = F, quote = F)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -393,7 +403,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-tost-wilcoxon-reduced-cats.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result, file = outfile)
+  write.csv(wilcoxon_test_result, file = outfile,quote = F)
   
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   print("Cosine similarity test - Households")
@@ -463,6 +473,15 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
     
     synthetic_population_dist = rowSums(matrix(synthetic_population_dist, nrow = 7))
     
+    hh_data_csv = paste(data_home,
+                        "/",
+                        sa2_list[i],
+                        "/preprocessed/household_types.csv.gz",
+                        sep = "")
+    hh_data = read.csv(hh_data_csv)
+    hh_sum = sum(hh_data$Households.count*hh_data$Household.size)
+    
+    cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_sum
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
