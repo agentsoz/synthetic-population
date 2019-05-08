@@ -20,8 +20,8 @@
 19,Beaconsfield - Officer,1
 20,Beaumaris,1
 21,Belgrave - Selby,1
-22,Bentleigh East,1
-23,Bentleigh - McKinnon,1
+22,Bentleigh - McKinnon,1
+23,Bentleigh East,1
 24,Berwick - North,1
 25,Berwick - South,1
 26,Blackburn,1
@@ -29,10 +29,10 @@
 28,Boronia - The Basin,1
 29,Box Hill,1
 30,Box Hill North,1
-31,Braeside,NaN
+31,Braeside,1
 32,Braybrook,1
-33,Brighton East,1
-34,Brighton (Vic.),1
+33,Brighton (Vic.),1
+34,Brighton East,1
 35,Broadmeadows,1
 36,Brunswick,1
 37,Brunswick East,1
@@ -51,8 +51,8 @@
 50,Carlton North - Princes Hill,1
 51,Carnegie,1
 52,Caroline Springs,1
-53,Carrum Downs,1
-54,Carrum - Patterson Lakes,1
+53,Carrum - Patterson Lakes,1
+54,Carrum Downs,1
 55,Caulfield - North,1
 56,Caulfield - South,1
 57,Chelsea - Bonbeach,1
@@ -109,9 +109,9 @@
 108,Gisborne,1
 109,Gladstone Park - Westmeadows,1
 110,Glen Iris - East,1
-111,Glenroy - Hadfield,1
-112,Glen Waverley - East,1
-113,Glen Waverley - West,1
+111,Glen Waverley - East,1
+112,Glen Waverley - West,1
+113,Glenroy - Hadfield,1
 114,Greensborough,1
 115,Greenvale - Bulla,1
 116,Hallam,1
@@ -139,8 +139,8 @@
 138,Keysborough,1
 139,Kilsyth,1
 140,Kinglake,1
-141,Kingsbury,1
-142,Kings Park (Vic.),1
+141,Kings Park (Vic.),1
+142,Kingsbury,1
 143,Knoxfield - Scoresby,1
 144,Koo Wee Rup,1
 145,Lalor,1
@@ -150,8 +150,8 @@
 149,Lynbrook - Lyndhurst,1
 150,Lysterfield,1
 151,Macedon,1
-152,Malvern East,1
-153,Malvern - Glen Iris,1
+152,Malvern - Glen Iris,1
+153,Malvern East,1
 154,Maribyrnong,1
 155,Meadow Heights,1
 156,Melbourne,1
@@ -186,8 +186,8 @@
 185,Niddrie - Essendon West,1
 186,Noble Park,1
 187,Noble Park North,1
-188,Northcote,1
-189,North Melbourne,1
+188,North Melbourne,1
+189,Northcote,1
 190,Nunawading,1
 191,Oakleigh - Huntingdale,1
 192,Ormond - Glen Huntly,1
@@ -226,11 +226,11 @@
 225,Seddon - Kingsville,1
 226,Skye - Sandhurst,1
 227,Somerville,1
-228,Southbank,1
-229,South Melbourne,1
-230,South Morang,1
-231,South Yarra - East,1
-232,South Yarra - West,1
+228,South Melbourne,1
+229,South Morang,1
+230,South Yarra - East,1
+231,South Yarra - West,1
+232,Southbank,1
 233,Springvale,1
 234,Springvale South,1
 235,St Albans - North,1
