@@ -47,7 +47,7 @@ option_list = list(
     c("--sa2s"),
     help = "The list of SA2s to perform statistical analysis. The parameter can be either \"*\" - performes analysis on all the SA2 directories under the directory specified under --data option,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
     metavar = "LIST_NAMES",
-    default = "Melbourne"
+    default = "*"
   ),
   make_option(
     c("--mu"),
