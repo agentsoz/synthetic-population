@@ -47,7 +47,7 @@ option_list = list(
     c("--sa2s"),
     help = "The list of SA2s to perform statistical analysis. The parameter can be either \"*\" - performes analysis on all the SA2 directories under the directory specified under --data option,  a comma seperated list of SA2 names or a plain text file with one SA2 per line [default= %default]",
     metavar = "LIST_NAMES",
-    default = "*"
+    default = "Melbourne"
   ),
   make_option(
     c("--mu"),
@@ -195,6 +195,13 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                              "/preprocessed/person_types.csv.gz",
                              sep = "")
     cleaned_dist = read.csv(cleaned_data_csv)
+   
+    if(sa2_list[i] == "Melbourne"){
+      person_types = paste(cleaned_dist$Relationship, cleaned_dist$Sex, cleaned_dist$Age, sep=",")
+      person_types[-c(87, 6)] = NA
+    }else{
+      person_types = NULL
+    }
     cleaned_dist = cleaned_dist$Persons.count
     
     synthetic_population_csv = paste(data_home,
@@ -203,22 +210,25 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                                      "/population/output_person_types.csv.gz",
                                      sep = "")
     synthetic_population_dist  = read.csv(synthetic_population_csv)
+    
     synthetic_population_dist = synthetic_population_dist$Persons
     
-    hh_data_csv = paste(data_home,
-                             "/",
-                             sa2_list[i],
-                             "/preprocessed/household_types.csv.gz",
-                             sep = "")
-    hh_data = read.csv(hh_data_csv)
-    hh_sizes = ceiling(c(1:nrow(hh_data)/14))
-    hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
+    # hh_data_csv = paste(data_home,
+    #                          "/",
+    #                          sa2_list[i],
+    #                          "/preprocessed/household_types.csv.gz",
+    #                          sep = "")
+    # hh_data = read.csv(hh_data_csv)
+    # hh_sizes = ceiling(c(1:nrow(hh_data)/14))
+    # hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
+    # cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
     
     #Removing impossible categories
     cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    person_types = person_types[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     
-    cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
+    
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
@@ -258,7 +268,9 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
       paste(file_prefix,"qqplot_persons_preprocessed_vs_synthetic.pdf", sep = "_"),
       sep = "/"
     )
-    DrawQQPlot(cleaned_dist, synthetic_population_dist,qqplot_pdf,"", "Preprocessed-census persons","Synthesised persons",sa2 = sa2_list[i])
+    
+    DrawQQPlot(cleaned_dist, synthetic_population_dist,qqplot_pdf,"", "Preprocessed-census distribution","Synthesised distribution",sa2 = sa2_list[i], point_labels = person_types)
+  
   }
   
   print("TOST with Wilcoxon Signed Rank Test")
@@ -340,6 +352,9 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist = synthetic_population_dist$NofHouseholds
     
+    totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
+    totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
+    
     #Removing impossible categories
     cleaned_dist = cleaned_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
     synthetic_population_dist = synthetic_population_dist[-c(1:12,14,16,19:27,33:41,48,51:55,65:69,80,83,97,111)]
@@ -350,9 +365,6 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
-    
-    totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
-    totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
     
     file_prefix = SA2FilePrefix(sa2_list[i])
     out_file = paste(
@@ -461,7 +473,7 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
     cleaned_dist = read.csv(cleaned_data_csv)
     cleaned_dist = cleaned_dist$Persons.count
     
-    cleaned_dist = rowSums(matrix(cleaned_dist, nrow = 7))
+    cleaned_dist = rowSums(matrix(cleaned_dist, nrow = 8))
     
     synthetic_population_csv = paste(data_home,
                                      "/",
@@ -471,17 +483,17 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
     synthetic_population_dist  = read.csv(synthetic_population_csv)
     synthetic_population_dist  = synthetic_population_dist$Persons
     
-    synthetic_population_dist = rowSums(matrix(synthetic_population_dist, nrow = 7))
+    synthetic_population_dist = rowSums(matrix(synthetic_population_dist, nrow = 8))
     
-    hh_data_csv = paste(data_home,
-                        "/",
-                        sa2_list[i],
-                        "/preprocessed/household_types.csv.gz",
-                        sep = "")
-    hh_data = read.csv(hh_data_csv)
-    hh_sum = sum(hh_data$Households.count*hh_data$Household.size)
-    
-    cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_sum
+    # hh_data_csv = paste(data_home,
+    #                     "/",
+    #                     sa2_list[i],
+    #                     "/preprocessed/household_types.csv.gz",
+    #                     sep = "")
+    # hh_data = read.csv(hh_data_csv)
+    # hh_sum = sum(hh_data$Households.count*hh_data$Household.size)
+    # 
+    # cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_sum
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
