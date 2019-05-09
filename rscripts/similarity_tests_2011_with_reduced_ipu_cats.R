@@ -230,16 +230,16 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     synthetic_population_dist = synthetic_population_dist[-c(7,14,21,28,49,56,63,70)]
     
     # extrapolate expected distribution to match expected number of persons. Original persons dist got less persons by default.
-    hh_data_csv = paste(data_home,
-                        "/",
-                        sa2_list[i],
-                        "/preprocessed/household_types.csv.gz",
-                        sep = "")
-    hh_data = read.csv(hh_data_csv)
-    hh_sizes = ceiling(c(1:nrow(hh_data)/14))
-    hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
-    
-    cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
+    # hh_data_csv = paste(data_home,
+    #                     "/",
+    #                     sa2_list[i],
+    #                     "/preprocessed/household_types.csv.gz",
+    #                     sep = "")
+    # hh_data = read.csv(hh_data_csv)
+    # hh_sizes = ceiling(c(1:nrow(hh_data)/14))
+    # hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
+    # 
+    # cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
     
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
