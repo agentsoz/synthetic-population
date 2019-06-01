@@ -6,10 +6,14 @@ DIR=`dirname "$0"`
 CDIR=`pwd`
 
 cd $DIR/../rscripts &&
-sudo Rscript -e 'install.packages(c("devtools","testthat","stringr","optparse","Metrics","futile.logger"))' &&
-./sa2preprocess.R &&
+sudo Rscript -e 'install.packages("stringi", dependencies=TRUE, INSTALL_opts = c("--no-lock"))' &&
+sudo Rscript -e 'install.packages(c("devtools","testthat","optparse","Metrics","futile.logger"))' &&
 cd ../populationbuilder &&
 mvn clean install &&
+echo "Environment setup and build complete! Now you can take a very quick break! " &&
+cd ../rscripts &&
+./sa2preprocess.R &&
+cd ../populationbuilder &&
 java -jar synthesis/target/synthesis.jar population.properties &&
 java -Xmx4g -jar addressmapper/target/addressmapper.jar addressmapper.properties -sh &&
 cd ../data &&
