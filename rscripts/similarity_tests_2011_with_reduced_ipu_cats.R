@@ -2,17 +2,17 @@
 library(lsa)
 library(optparse)
 library(tools)
+library(phdutils)
 
 start_time <- Sys.time()
 source("config.R")
 source("datareader.R")
 source("util.R")
 source("drawplots.R")
-source("ft.R")
+
 source("reduce_categories.R")
 source("kl.R")
-source("jsd.R")
-
+# source("jsd.R")
 
 option_list = list(
   make_option(
@@ -160,7 +160,7 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   cossim = cosine(x = exp_dist, y = obs_dist)
   
   #Do Freeman-Tukey test
-  ft_result = FreemanTukeyTest(exp_dist, obs_dist)
+  ft_result = FreemanTukeyTest(exp_dist, obs_dist,simulate_p_value = T, sim_samples = 500)
   
   #Do APD
   apd = sum(abs(exp_dist - obs_dist))/sum(exp_dist)
@@ -170,20 +170,20 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   kl_result = KLDivergence(exp_dist, obs_dist, 0.000001)
   
   #Do JSD
-  jsd_result = JSDivergence(exp_dist, obs_dist)
+  # jsd_result = JSDivergence(exp_dist, obs_dist)
   
   return(list(
     "TOST p-value" = pval,
     "TOST alt accept" = (pval < (alpha)),
     "Cossine similarity" = cossim,
-    "FT statistic" = ft_result$FT.statistic,
-    "FT p-value" = ft_result$FT.p.value,
-    "FT degrees of freedom" = ft_result$FT.df,
+    "FT statistic" = ft_result$statistic,
+    "FT p-value" = ft_result$p.value,
+    "FT degrees of freedom" = ft_result$parameter,
     "APD" = apd,
     "APD%" = (apd*100),
     "Pop size"= pop_size,
     "KL Divergence" = kl_result,
-    "JS Divergence" = jsd_result
+    "JS Divergence" = NA
   ))
   
 }
@@ -240,7 +240,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     # hh_pesons_sum = sum(hh_data$Households.count*hh_sizes)
     # 
     # cleaned_dist = cleaned_dist/sum(cleaned_dist)*hh_pesons_sum
-    
+
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
     wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
@@ -651,9 +651,8 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   write.csv(js_test_result, file = outfile, row.names = F, quote = F)  
 }
 
-
-EvaluateHouseholdProcessedVsSynthesised()
 EvaluatePersonsProcessedVsSynthesised()
+EvaluateHouseholdProcessedVsSynthesised()
 EvaluateAgeCatsPersonsProcessedVsSynthesised()
 
 

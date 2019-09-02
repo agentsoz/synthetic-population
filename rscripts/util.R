@@ -51,12 +51,6 @@ FillAccording2Dist <- function(dataarray, amount) {
   return(dataarray)
 }
 
-SmartRound <- function(x) {
-  y <- floor(x)
-  indices <- tail(order(x - y), round(sum(x)) - sum(y))
-  y[indices] <- y[indices] + 1
-  return(y)
-}
 
 SA2FilePrefix <- function(sa2) {
   sa2_prefix = unlist(strsplit(gsub("-|\\(|\\)|\\.", "", sa2), "\\s+"))
@@ -91,4 +85,8 @@ OrderAgeDescending <- function(p_marg){
     p_marg[c(block_start:block_end),] <- block[age_desc_row_order,]
   }
   return(p_marg)
+}
+
+WriteLatexCsv <- function(data, file){
+  write.table(data, file = file, quote = F, sep = ";", row.names = F, na = "nan" )
 }

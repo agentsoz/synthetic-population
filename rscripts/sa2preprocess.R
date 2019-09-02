@@ -18,19 +18,19 @@ set.seed(randomSeed)
 option_list = list(
   make_option(
     c("--households"),
-    default = "../data/melbourne-2016/raw/Households_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Households_2011_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--persons"),
-    default = "../data/melbourne-2016/raw/Persons_2016_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2011/raw/Persons_2011_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2016/generated/SA2/",
+    default = "../data/melbourne-2011/generated/SA2/",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -49,27 +49,27 @@ option_list = list(
   ),
   make_option(
     c("--sa1hh"),
-    default = "../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_East.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Inner_South.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_East.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_North_West.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_Outer_East.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_South_East.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Melbourne_West.zip,
-    ../data/melbourne-2016/raw/SA1_households_dist_in_SA2s_2016_Mornington_Peninsula.zip",
+    default = "../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_Inner.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_Inner_East.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_Inner_South.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_North_East.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_North_West.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_Outer_East.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_South_East.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Melbourne_West.zip,
+    ../data/melbourne-2011/raw/SA1_households_dist_in_SA2s_2011_Mornington_Peninsula.zip",
     help = "A list of comma separeted ABS downloaded files giving the SA2s, their SA1s and the number of households in each SA1 by the household types. Only applicable if --dosa1 flag is set. [default= %default]",
     metavar = "LIST_FILES"
   ),
   make_option(
     c("--sa2codemap"),
-    default = "../data/melbourne-2016/raw/1270055001_sa2_2016_aust_csv.zip",
-    help = "The csv file from ABS giving SA2_NAME_2016 and the corresponding SA2_5DIGITCODE_2016. Required to find the SA1 in an SA2. Only applicable if --dosa1 flag is set. [default= %default]",
+    default = "../data/melbourne-2011/raw/1270055001_sa2_2011_aust_csv.zip",
+    help = "The csv file from ABS giving SA2_NAME_2011 and the corresponding SA2_5DIGITCODE_2011. Required to find the SA1 in an SA2. Only applicable if --dosa1 flag is set. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--errorfile"),
-    default = "../data/melbourne-2016/analysis/cleaning_error.csv",
+    default = "../data/melbourne-2011/analysis/cleaning_error.csv",
     help = "The csv file to save error percentage before and after cleaning. [default= %default]",
     metavar = "FILE"
   ),
