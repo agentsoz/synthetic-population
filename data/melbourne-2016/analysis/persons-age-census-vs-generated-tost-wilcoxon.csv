@@ -2,309 +2,309 @@
 mu= 2,Equivalent
 alpha=0.05
 confidence=90%
-1,Abbotsford,4.26646201322896e-21,1
-2,Airport West,4.41811681664931e-21,1
-3,Albert Park,4.39834217920987e-21,1
-4,Alphington - Fairfield,4.22541926338142e-21,1
-5,Altona,4.5144327439435e-21,1
-6,Altona Meadows,4.46545251582289e-21,1
-7,Altona North,4.5400602850137e-21,1
-8,Ardeer - Albion,4.33893129978743e-21,1
-9,Armadale,4.33893129978743e-21,1
-10,Ascot Vale,4.33893129978743e-21,1
-11,Ashburton (Vic.),4.39834217920987e-21,1
-12,Ashwood - Chadstone,4.42351086993873e-21,1
-13,Aspendale Gardens - Waterways,4.29118107432668e-21,1
-14,Bacchus Marsh,4.39815762279239e-21,1
-15,Balwyn,4.5402506360044e-21,1
-16,Balwyn North,4.56295690218201e-21,1
-17,Bayswater,4.53986994164424e-21,1
-18,Bayswater North,4.33893129978743e-21,1
-19,Beaconsfield - Officer,4.08042164164166e-21,1
-20,Beaumaris,4.37019087789646e-21,1
-21,Belgrave - Selby,4.18053199191742e-21,1
-22,Bentleigh - McKinnon,4.44583270586845e-21,1
-23,Bentleigh East (North),4.48555520576875e-21,1
-24,Bentleigh East (South),4.37019087789646e-21,1
-25,Berwick - North,4.5402506360044e-21,1
-26,Berwick - South,4.18070781718681e-21,1
-27,Blackburn,4.44583270586845e-21,1
-28,Blackburn South,4.48555520576875e-21,1
-29,Boronia,4.46526527110156e-21,1
-30,Box Hill,4.42351086993873e-21,1
-31,Box Hill North,4.42351086993873e-21,1
-32,Braeside,2.8280646965215e-18,1
-33,Braybrook,4.33893129978743e-21,1
-34,Brighton (Vic.),4.48233528113875e-21,1
-35,Brighton East,4.48252320937947e-21,1
-36,Broadmeadows,4.30444889954952e-21,1
-37,Brunswick,4.37019087789646e-21,1
-38,Brunswick East,4.26664128845475e-21,1
-39,Brunswick West,4.39834217920987e-21,1
-40,Bulleen,4.41811681664931e-21,1
-41,Bundoora - East,4.48536704522919e-21,1
-42,Bundoora - North,4.18053199191742e-21,1
-43,Bundoora - West,4.41793135858908e-21,1
-44,Bunyip - Garfield,4.26646201322896e-21,1
-45,Burnside,4.41793135858908e-21,1
-46,Burnside Heights,3.6169391757572e-21,1
-47,Burwood,4.39834217920987e-21,1
-48,Burwood East,4.48536704522919e-21,1
-49,Cairnlea,4.18070781718681e-21,1
-50,Camberwell,4.46545251582289e-21,1
-51,Campbellfield - Coolaroo,4.48555520576875e-21,1
-52,Carlton,4.30426810748442e-21,1
-53,Carlton North - Princes Hill,4.26664128845475e-21,1
-54,Carnegie,4.42351086993873e-21,1
-55,Caroline Springs,4.08059344351535e-21,1
-56,Carrum - Patterson Lakes,4.36982402890376e-21,1
-57,Carrum Downs,4.39815762279239e-21,1
-58,Caulfield - North,4.39815762279239e-21,1
-59,Caulfield - South,4.44564624688316e-21,1
-60,Chelsea - Bonbeach,4.37019087789646e-21,1
-61,Chelsea Heights,4.2416738241918e-21,1
-62,Cheltenham - Highett (East),4.44583270586845e-21,1
-63,Cheltenham - Highett (West),4.44564624688316e-21,1
-64,Chirnside Park,4.45348907753607e-21,1
-65,Clarinda - Oakleigh South,4.72539388395118e-21,1
-66,Clayton,4.39815762279239e-21,1
-67,Clayton South,4.53986994164424e-21,1
-68,Coburg,4.39834217920987e-21,1
-69,Coburg North,4.33856695716769e-21,1
-70,Collingwood,4.22506402912183e-21,1
-71,Craigieburn - Central,4.13209935221777e-21,1
-72,Craigieburn - North,3.76681350292009e-21,1
-73,Craigieburn - South,4.13244711788688e-21,1
-74,Craigieburn - West,4.26646201322896e-21,1
-75,Cranbourne,4.44564624688316e-21,1
-76,Cranbourne East,4.39834217920987e-21,1
-77,Cranbourne North,4.22524164268626e-21,1
-78,Cranbourne South,4.33838479681458e-21,1
-79,Cranbourne West,4.2659242307143e-21,1
-80,Croydon - East,4.39834217920987e-21,1
-81,Croydon - West,4.42351086993873e-21,1
-82,Croydon Hills - Warranwood,4.37019087789646e-21,1
-83,Croydon South,4.33704709845954e-21,1
-84,Dandenong,4.42351086993873e-21,1
-85,Dandenong North,4.5144327439435e-21,1
-86,Deer Park - Derrimut,4.37019087789646e-21,1
-87,Delahey,4.26664128845475e-21,1
-88,Dingley Village,4.72539388395118e-21,1
-89,Docklands,3.8366614173113e-21,1
-90,Doncaster,4.56314816981462e-21,1
-91,Doncaster East (North),4.88099034826779e-21,1
-92,Doncaster East (South),4.5402506360044e-21,1
-93,Donvale - Park Orchards,5.06381423167308e-21,1
-94,Doreen,4.18053199191742e-21,1
-95,Doveton,4.37019087789646e-21,1
-96,Dromana,4.42313974768457e-21,1
-97,East Melbourne,4.39723495163231e-21,1
-98,Edithvale - Aspendale,4.30426810748442e-21,1
-99,Elsternwick,4.39834217920987e-21,1
-100,Eltham,4.5400602850137e-21,1
-101,Elwood,4.33856695716769e-21,1
-102,Emerald - Cockatoo,4.36982402890376e-21,1
-103,Endeavour Hills - North,4.45330220175719e-21,1
-104,Endeavour Hills - South,4.22541926338142e-21,1
-105,Epping - East,4.33893129978743e-21,1
-106,Epping - South,4.30444889954952e-21,1
-107,Epping - West,3.8366614173113e-21,1
-108,Essendon - Aberfeldie,4.42332530509457e-21,1
-109,Fawkner,4.48555520576875e-21,1
-110,Ferntree Gully (North),4.42351086993873e-21,1
-111,Ferntree Gully (South) - Upper Ferntree Gully,4.33893129978743e-21,1
-112,Fitzroy,4.30444889954952e-21,1
-113,Fitzroy North,4.26664128845475e-21,1
-114,Flemington,4.30444889954952e-21,1
-115,Flemington Racecourse,1.17054542618394e-19,1
-116,Flinders,4.33893129978743e-21,1
-117,Footscray,4.42351086993873e-21,1
-118,Forest Hill,4.5402506360044e-21,1
-119,Frankston,4.42351086993873e-21,1
-120,Frankston North,4.39834217920987e-21,1
-121,Frankston South,4.58327393490326e-21,1
-122,Gisborne,4.39815762279239e-21,1
-123,Gladstone Park - Westmeadows,4.45348907753607e-21,1
-124,Glen Iris - East,4.39797307377041e-21,1
-125,Glen Waverley - East,4.5144327439435e-21,1
-126,Glen Waverley - West,4.48555520576875e-21,1
-127,Glenroy,4.46526527110156e-21,1
-128,Gowanbrae,4.24096035382967e-21,1
-129,Greensborough,4.56295690218201e-21,1
-130,Greenvale - Bulla,4.26646201322896e-21,1
-131,Hadfield,4.41700417979996e-21,1
-132,Hallam,4.51424342675939e-21,1
-133,Hampton,4.42332530509457e-21,1
-134,Hampton Park - Lynbrook,4.26664128845475e-21,1
-135,Hastings - Somers,4.42351086993873e-21,1
-136,Hawthorn,4.37019087789646e-21,1
-137,Hawthorn East,4.42313974768457e-21,1
-138,Healesville - Yarra Glen,4.53929895725933e-21,1
-139,Heidelberg - Rosanna,4.39834217920987e-21,1
-140,Heidelberg West,4.42351086993873e-21,1
-141,Hillside,4.13244711788688e-21,1
-142,Hoppers Crossing - North,4.30444889954952e-21,1
-143,Hoppers Crossing - South,4.33893129978743e-21,1
-144,Hughesdale,4.26664128845475e-21,1
-145,Hurstbridge,3.83633746487082e-21,1
-146,Ivanhoe,4.30444889954952e-21,1
-147,Ivanhoe East - Eaglemont,4.48555520576875e-21,1
-148,Keilor,4.41793135858908e-21,1
-149,Keilor Downs,4.45348907753607e-21,1
-150,Keilor East,4.56314816981462e-21,1
-151,Kensington (Vic.),4.22541926338142e-21,1
-152,Kew,4.4454597953659e-21,1
-153,Kew East,4.30426810748442e-21,1
-154,Keysborough,4.5402506360044e-21,1
-155,Kilsyth,4.5144327439435e-21,1
-156,Kinglake,3.96585083010586e-21,1
-157,Kings Park (Vic.),4.26664128845475e-21,1
-158,Kingsbury,4.39797307377041e-21,1
-159,Knoxfield - Scoresby,4.41793135858908e-21,1
-160,Koo Wee Rup,4.30426810748442e-21,1
-161,Lalor,4.48555520576875e-21,1
-162,Langwarrin,4.30444889954952e-21,1
-163,Laverton,4.02478092479226e-21,1
-164,Lilydale - Coldstream,4.45348907753607e-21,1
-165,Lynbrook - Lyndhurst,4.33856695716769e-21,1
-166,Lysterfield,4.02495048853108e-21,1
-167,Macedon,4.07956273589165e-21,1
-168,Malvern - Glen Iris,4.44583270586845e-21,1
-169,Malvern East,4.44583270586845e-21,1
-170,Maribyrnong,4.30408732267127e-21,1
-171,Meadow Heights,4.18070781718681e-21,1
-172,Melbourne,4.30426810748442e-21,1
-173,Melbourne Airport,9.44456165255629e-19,1
-174,Melton,4.33874912482521e-21,1
-175,Melton South,4.39815762279239e-21,1
-176,Melton West,4.26664128845475e-21,1
-177,Mentone,4.44583270586845e-21,1
-178,Mernda,4.13244711788688e-21,1
-179,Mickleham - Yuroke,3.90329690066235e-21,1
-180,Mill Park - North,4.39815762279239e-21,1
-181,Mill Park - South,4.18070781718681e-21,1
-182,Mitcham (Vic.),4.37000744972387e-21,1
-183,Monbulk - Silvan,4.26646201322896e-21,1
-184,Montmorency - Briar Hill,4.37019087789646e-21,1
-185,Montrose,4.51367552069607e-21,1
-186,Moonee Ponds,4.39834217920987e-21,1
-187,Moorabbin - Heatherton,4.37019087789646e-21,1
-188,Mooroolbark,4.39834217920987e-21,1
-189,Mordialloc - Parkdale,4.42351086993873e-21,1
-190,Mornington,4.48252320937947e-21,1
-191,Mount Dandenong - Olinda,4.30426810748442e-21,1
-192,Mount Eliza,4.42351086993873e-21,1
-193,Mount Evelyn,4.22541926338142e-21,1
-194,Mount Martha,4.42351086993873e-21,1
-195,Mount Waverley - North,4.45348907753607e-21,1
-196,Mount Waverley - South,4.5402506360044e-21,1
-197,Mulgrave,4.58327393490326e-21,1
-198,Murrumbeena,4.30408732267127e-21,1
-199,Narre Warren - North East,4.26628274519712e-21,1
-200,Narre Warren - South West,4.33893129978743e-21,1
-201,Narre Warren North,4.48536704522919e-21,1
-202,Narre Warren South (East),4.13244711788688e-21,1
-203,Narre Warren South (West),4.36982402890376e-21,1
-204,Newport,4.37019087789646e-21,1
-205,Niddrie - Essendon West,4.26664128845475e-21,1
-206,Noble Park - East,4.39815762279239e-21,1
-207,Noble Park - West,4.39815762279239e-21,1
-208,Noble Park North,4.37933334386682e-21,1
-209,North Melbourne,4.42332530509457e-21,1
-210,Northcote,4.42351086993873e-21,1
-211,Nunawading,4.39834217920987e-21,1
-212,Oakleigh - Huntingdale,4.39834217920987e-21,1
-213,Ormond - Glen Huntly,4.37000744972387e-21,1
-214,Pakenham - North,4.42332530509457e-21,1
-215,Pakenham - South,4.39834217920987e-21,1
-216,Panton Hill - St Andrews,4.37896554520346e-21,1
-217,Parkville,9.1918911262249e-21,1
-218,Pascoe Vale,4.39834217920987e-21,1
-219,Pascoe Vale South,4.39778853214371e-21,1
-220,Pearcedale - Tooradin,4.26646201322896e-21,1
-221,Plenty - Yarrambat,4.51405411715698e-21,1
-222,Point Cook - East,3.96585083010586e-21,1
-223,Point Cook - North,4.30426810748442e-21,1
-224,Point Cook - South,3.69380460555647e-21,1
-225,Point Nepean,4.39834217920987e-21,1
-226,Port Melbourne,4.26646201322896e-21,1
+1,Abbotsford,NA,NA
+2,Airport West,NA,NA
+3,Albert Park,NA,NA
+4,Alphington - Fairfield,NA,NA
+5,Altona,NA,NA
+6,Altona Meadows,NA,NA
+7,Altona North,NA,NA
+8,Ardeer - Albion,NA,NA
+9,Armadale,NA,NA
+10,Ascot Vale,NA,NA
+11,Ashburton (Vic.),NA,NA
+12,Ashwood - Chadstone,NA,NA
+13,Aspendale Gardens - Waterways,NA,NA
+14,Bacchus Marsh,NA,NA
+15,Balwyn,NA,NA
+16,Balwyn North,NA,NA
+17,Bayswater,NA,NA
+18,Bayswater North,NA,NA
+19,Beaconsfield - Officer,NA,NA
+20,Beaumaris,NA,NA
+21,Belgrave - Selby,NA,NA
+22,Bentleigh - McKinnon,NA,NA
+23,Bentleigh East (North),NA,NA
+24,Bentleigh East (South),NA,NA
+25,Berwick - North,NA,NA
+26,Berwick - South,NA,NA
+27,Blackburn,NA,NA
+28,Blackburn South,NA,NA
+29,Boronia,NA,NA
+30,Box Hill,NA,NA
+31,Box Hill North,NA,NA
+32,Braeside,NA,NA
+33,Braybrook,NA,NA
+34,Brighton (Vic.),NA,NA
+35,Brighton East,NA,NA
+36,Broadmeadows,NA,NA
+37,Brunswick,NA,NA
+38,Brunswick East,NA,NA
+39,Brunswick West,NA,NA
+40,Bulleen,NA,NA
+41,Bundoora - East,NA,NA
+42,Bundoora - North,NA,NA
+43,Bundoora - West,NA,NA
+44,Bunyip - Garfield,NA,NA
+45,Burnside,NA,NA
+46,Burnside Heights,NA,NA
+47,Burwood,NA,NA
+48,Burwood East,NA,NA
+49,Cairnlea,NA,NA
+50,Camberwell,NA,NA
+51,Campbellfield - Coolaroo,NA,NA
+52,Carlton,NA,NA
+53,Carlton North - Princes Hill,NA,NA
+54,Carnegie,NA,NA
+55,Caroline Springs,NA,NA
+56,Carrum - Patterson Lakes,NA,NA
+57,Carrum Downs,NA,NA
+58,Caulfield - North,NA,NA
+59,Caulfield - South,NA,NA
+60,Chelsea - Bonbeach,NA,NA
+61,Chelsea Heights,NA,NA
+62,Cheltenham - Highett (East),NA,NA
+63,Cheltenham - Highett (West),NA,NA
+64,Chirnside Park,NA,NA
+65,Clarinda - Oakleigh South,NA,NA
+66,Clayton,NA,NA
+67,Clayton South,NA,NA
+68,Coburg,NA,NA
+69,Coburg North,NA,NA
+70,Collingwood,NA,NA
+71,Craigieburn - Central,NA,NA
+72,Craigieburn - North,NA,NA
+73,Craigieburn - South,NA,NA
+74,Craigieburn - West,NA,NA
+75,Cranbourne,NA,NA
+76,Cranbourne East,NA,NA
+77,Cranbourne North,NA,NA
+78,Cranbourne South,NA,NA
+79,Cranbourne West,NA,NA
+80,Croydon - East,NA,NA
+81,Croydon - West,NA,NA
+82,Croydon Hills - Warranwood,NA,NA
+83,Croydon South,NA,NA
+84,Dandenong,NA,NA
+85,Dandenong North,NA,NA
+86,Deer Park - Derrimut,NA,NA
+87,Delahey,NA,NA
+88,Dingley Village,NA,NA
+89,Docklands,NA,NA
+90,Doncaster,NA,NA
+91,Doncaster East (North),NA,NA
+92,Doncaster East (South),NA,NA
+93,Donvale - Park Orchards,NA,NA
+94,Doreen,NA,NA
+95,Doveton,NA,NA
+96,Dromana,NA,NA
+97,East Melbourne,NA,NA
+98,Edithvale - Aspendale,NA,NA
+99,Elsternwick,NA,NA
+100,Eltham,NA,NA
+101,Elwood,NA,NA
+102,Emerald - Cockatoo,NA,NA
+103,Endeavour Hills - North,NA,NA
+104,Endeavour Hills - South,NA,NA
+105,Epping - East,NA,NA
+106,Epping - South,NA,NA
+107,Epping - West,NA,NA
+108,Essendon - Aberfeldie,NA,NA
+109,Fawkner,NA,NA
+110,Ferntree Gully (North),NA,NA
+111,Ferntree Gully (South) - Upper Ferntree Gully,NA,NA
+112,Fitzroy,NA,NA
+113,Fitzroy North,NA,NA
+114,Flemington,NA,NA
+115,Flemington Racecourse,NA,NA
+116,Flinders,NA,NA
+117,Footscray,NA,NA
+118,Forest Hill,NA,NA
+119,Frankston,NA,NA
+120,Frankston North,NA,NA
+121,Frankston South,NA,NA
+122,Gisborne,NA,NA
+123,Gladstone Park - Westmeadows,NA,NA
+124,Glen Iris - East,NA,NA
+125,Glen Waverley - East,NA,NA
+126,Glen Waverley - West,NA,NA
+127,Glenroy,NA,NA
+128,Gowanbrae,NA,NA
+129,Greensborough,NA,NA
+130,Greenvale - Bulla,NA,NA
+131,Hadfield,NA,NA
+132,Hallam,NA,NA
+133,Hampton,NA,NA
+134,Hampton Park - Lynbrook,NA,NA
+135,Hastings - Somers,NA,NA
+136,Hawthorn,NA,NA
+137,Hawthorn East,NA,NA
+138,Healesville - Yarra Glen,NA,NA
+139,Heidelberg - Rosanna,NA,NA
+140,Heidelberg West,NA,NA
+141,Hillside,NA,NA
+142,Hoppers Crossing - North,NA,NA
+143,Hoppers Crossing - South,NA,NA
+144,Hughesdale,NA,NA
+145,Hurstbridge,NA,NA
+146,Ivanhoe,NA,NA
+147,Ivanhoe East - Eaglemont,NA,NA
+148,Keilor,NA,NA
+149,Keilor Downs,NA,NA
+150,Keilor East,NA,NA
+151,Kensington (Vic.),NA,NA
+152,Kew,NA,NA
+153,Kew East,NA,NA
+154,Keysborough,NA,NA
+155,Kilsyth,NA,NA
+156,Kinglake,NA,NA
+157,Kings Park (Vic.),NA,NA
+158,Kingsbury,NA,NA
+159,Knoxfield - Scoresby,NA,NA
+160,Koo Wee Rup,NA,NA
+161,Lalor,NA,NA
+162,Langwarrin,NA,NA
+163,Laverton,NA,NA
+164,Lilydale - Coldstream,NA,NA
+165,Lynbrook - Lyndhurst,NA,NA
+166,Lysterfield,NA,NA
+167,Macedon,NA,NA
+168,Malvern - Glen Iris,NA,NA
+169,Malvern East,NA,NA
+170,Maribyrnong,NA,NA
+171,Meadow Heights,NA,NA
+172,Melbourne,NA,NA
+173,Melbourne Airport,NA,NA
+174,Melton,NA,NA
+175,Melton South,NA,NA
+176,Melton West,NA,NA
+177,Mentone,NA,NA
+178,Mernda,NA,NA
+179,Mickleham - Yuroke,NA,NA
+180,Mill Park - North,NA,NA
+181,Mill Park - South,NA,NA
+182,Mitcham (Vic.),NA,NA
+183,Monbulk - Silvan,NA,NA
+184,Montmorency - Briar Hill,NA,NA
+185,Montrose,NA,NA
+186,Moonee Ponds,NA,NA
+187,Moorabbin - Heatherton,NA,NA
+188,Mooroolbark,NA,NA
+189,Mordialloc - Parkdale,NA,NA
+190,Mornington,NA,NA
+191,Mount Dandenong - Olinda,NA,NA
+192,Mount Eliza,NA,NA
+193,Mount Evelyn,NA,NA
+194,Mount Martha,NA,NA
+195,Mount Waverley - North,NA,NA
+196,Mount Waverley - South,NA,NA
+197,Mulgrave,NA,NA
+198,Murrumbeena,NA,NA
+199,Narre Warren - North East,NA,NA
+200,Narre Warren - South West,NA,NA
+201,Narre Warren North,NA,NA
+202,Narre Warren South (East),NA,NA
+203,Narre Warren South (West),NA,NA
+204,Newport,NA,NA
+205,Niddrie - Essendon West,NA,NA
+206,Noble Park - East,NA,NA
+207,Noble Park - West,NA,NA
+208,Noble Park North,NA,NA
+209,North Melbourne,NA,NA
+210,Northcote,NA,NA
+211,Nunawading,NA,NA
+212,Oakleigh - Huntingdale,NA,NA
+213,Ormond - Glen Huntly,NA,NA
+214,Pakenham - North,NA,NA
+215,Pakenham - South,NA,NA
+216,Panton Hill - St Andrews,NA,NA
+217,Parkville,NA,NA
+218,Pascoe Vale,NA,NA
+219,Pascoe Vale South,NA,NA
+220,Pearcedale - Tooradin,NA,NA
+221,Plenty - Yarrambat,NA,NA
+222,Point Cook - East,NA,NA
+223,Point Cook - North,NA,NA
+224,Point Cook - South,NA,NA
+225,Point Nepean,NA,NA
+226,Port Melbourne,NA,NA
 227,Port Melbourne Industrial,0,0
-228,Prahran - Windsor,4.42332530509457e-21,1
-229,Preston - East,4.46451636719377e-21,1
-230,Preston - West,4.33874912482521e-21,1
-231,Research - North Warrandyte,4.22488642268786e-21,1
-232,Reservoir - East,4.42332530509457e-21,1
-233,Reservoir - West,4.56314816981462e-21,1
-234,Richmond (Vic.),4.37019087789646e-21,1
-235,Riddells Creek,4.13209935221777e-21,1
-236,Ringwood,4.42332530509457e-21,1
-237,Ringwood East,4.44564624688316e-21,1
-238,Ringwood North,4.45348907753607e-21,1
-239,Rockbank - Mount Cottrell,3.61678606834826e-21,1
-240,Romsey,4.26646201322896e-21,1
-241,Rosebud - McCrae,4.44583270586845e-21,1
-242,Rowville - Central,4.45330220175719e-21,1
-243,Rowville - North,4.18035617371013e-21,1
-244,Rowville - South,4.41774590796334e-21,1
-245,Roxburgh Park - Somerton,4.33893129978743e-21,1
-246,Sandringham - Black Rock,4.44583270586845e-21,1
-247,Seabrook,3.96518213046887e-21,1
-248,Seaford (Vic.),4.37019087789646e-21,1
-249,Seddon - Kingsville,4.33893129978743e-21,1
-250,Skye - Sandhurst,4.18035617371013e-21,1
-251,Somerville,4.39834217920987e-21,1
-252,South Melbourne,4.44564624688316e-21,1
-253,South Morang (North),4.13209935221777e-21,1
-254,South Morang (South),4.4454597953659e-21,1
-255,South Yarra - East,4.26664128845475e-21,1
-256,South Yarra - West,4.39797307377041e-21,1
-257,Southbank,4.18053199191742e-21,1
-258,Springvale,4.5400602850137e-21,1
-259,Springvale South,4.41811681664931e-21,1
-260,St Albans - North,4.48555520576875e-21,1
-261,St Albans - South,4.33874912482521e-21,1
-262,St Kilda,4.42351086993873e-21,1
-263,St Kilda East,4.30444889954952e-21,1
-264,Strathmore,4.45348907753607e-21,1
-265,Sunbury,4.36982402890376e-21,1
-266,Sunbury - South,4.39815762279239e-21,1
-267,Sunshine,4.33874912482521e-21,1
-268,Sunshine North,4.5144327439435e-21,1
-269,Sunshine West,4.48555520576875e-21,1
-270,Surrey Hills (East) - Mont Albert,4.42332530509457e-21,1
-271,Surrey Hills (West) - Canterbury,4.58327393490326e-21,1
-272,Sydenham,4.39834217920987e-21,1
-273,Tarneit,4.22524164268626e-21,1
-274,Taylors Hill,4.18070781718681e-21,1
-275,Taylors Lakes,4.37933334386682e-21,1
-276,Templestowe,6.26076463753277e-21,1
-277,Templestowe Lower,4.74989320037503e-21,1
-278,The Basin,4.08024984667617e-21,1
-279,Thomastown,4.48555520576875e-21,1
-280,Thornbury,4.33893129978743e-21,1
-281,Toorak,4.42332530509457e-21,1
-282,Truganina,4.08007805861876e-21,1
-283,Tullamarine,4.3690904191429e-21,1
-284,Upwey - Tecoma,4.26628274519712e-21,1
-285,Vermont,4.45348907753607e-21,1
-286,Vermont South,5.17123806813424e-21,1
-287,Viewbank - Yallambie,4.58308186176413e-21,1
-288,Wallan,4.18070781718681e-21,1
-289,Wandin - Seville,4.41774590796334e-21,1
-290,Wantirna,4.5400602850137e-21,1
-291,Wantirna South,4.56314816981462e-21,1
-292,Warrandyte - Wonga Park,4.5144327439435e-21,1
-293,Watsonia,4.37896554520346e-21,1
-294,Wattle Glen - Diamond Creek,4.30444889954952e-21,1
-295,Werribee - East,4.37000744972387e-21,1
-296,Werribee - South,4.48555520576875e-21,1
-297,Werribee - West,4.30444889954952e-21,1
-298,West Footscray - Tottenham,4.37019087789646e-21,1
-299,Wheelers Hill,5.03846349755368e-21,1
-300,Whittlesea,4.39834217920987e-21,1
-301,Williamstown,4.42351086993873e-21,1
-302,Wollert,3.90296757636694e-21,1
-303,Wyndham Vale,4.26664128845475e-21,1
-304,Yarra - North,4.30426810748442e-21,1
-305,Yarra Valley,4.37000744972387e-21,1
-306,Yarraville,4.39797307377041e-21,1
+228,Prahran - Windsor,NA,NA
+229,Preston - East,NA,NA
+230,Preston - West,NA,NA
+231,Research - North Warrandyte,NA,NA
+232,Reservoir - East,NA,NA
+233,Reservoir - West,NA,NA
+234,Richmond (Vic.),NA,NA
+235,Riddells Creek,NA,NA
+236,Ringwood,NA,NA
+237,Ringwood East,NA,NA
+238,Ringwood North,NA,NA
+239,Rockbank - Mount Cottrell,NA,NA
+240,Romsey,NA,NA
+241,Rosebud - McCrae,NA,NA
+242,Rowville - Central,NA,NA
+243,Rowville - North,NA,NA
+244,Rowville - South,NA,NA
+245,Roxburgh Park - Somerton,NA,NA
+246,Sandringham - Black Rock,NA,NA
+247,Seabrook,NA,NA
+248,Seaford (Vic.),NA,NA
+249,Seddon - Kingsville,NA,NA
+250,Skye - Sandhurst,NA,NA
+251,Somerville,NA,NA
+252,South Melbourne,NA,NA
+253,South Morang (North),NA,NA
+254,South Morang (South),NA,NA
+255,South Yarra - East,NA,NA
+256,South Yarra - West,NA,NA
+257,Southbank,NA,NA
+258,Springvale,NA,NA
+259,Springvale South,NA,NA
+260,St Albans - North,NA,NA
+261,St Albans - South,NA,NA
+262,St Kilda,NA,NA
+263,St Kilda East,NA,NA
+264,Strathmore,NA,NA
+265,Sunbury,NA,NA
+266,Sunbury - South,NA,NA
+267,Sunshine,NA,NA
+268,Sunshine North,NA,NA
+269,Sunshine West,NA,NA
+270,Surrey Hills (East) - Mont Albert,NA,NA
+271,Surrey Hills (West) - Canterbury,NA,NA
+272,Sydenham,NA,NA
+273,Tarneit,NA,NA
+274,Taylors Hill,NA,NA
+275,Taylors Lakes,NA,NA
+276,Templestowe,NA,NA
+277,Templestowe Lower,NA,NA
+278,The Basin,NA,NA
+279,Thomastown,NA,NA
+280,Thornbury,NA,NA
+281,Toorak,NA,NA
+282,Truganina,NA,NA
+283,Tullamarine,NA,NA
+284,Upwey - Tecoma,NA,NA
+285,Vermont,NA,NA
+286,Vermont South,NA,NA
+287,Viewbank - Yallambie,NA,NA
+288,Wallan,NA,NA
+289,Wandin - Seville,NA,NA
+290,Wantirna,NA,NA
+291,Wantirna South,NA,NA
+292,Warrandyte - Wonga Park,NA,NA
+293,Watsonia,NA,NA
+294,Wattle Glen - Diamond Creek,NA,NA
+295,Werribee - East,NA,NA
+296,Werribee - South,NA,NA
+297,Werribee - West,NA,NA
+298,West Footscray - Tottenham,NA,NA
+299,Wheelers Hill,NA,NA
+300,Whittlesea,NA,NA
+301,Williamstown,NA,NA
+302,Wollert,NA,NA
+303,Wyndham Vale,NA,NA
+304,Yarra - North,NA,NA
+305,Yarra Valley,NA,NA
+306,Yarraville,NA,NA
