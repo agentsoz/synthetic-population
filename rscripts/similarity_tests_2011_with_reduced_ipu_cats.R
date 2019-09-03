@@ -2,7 +2,6 @@
 library(lsa)
 library(optparse)
 library(tools)
-library(phdutils)
 
 start_time <- Sys.time()
 source("config.R")
@@ -11,8 +10,7 @@ source("util.R")
 source("drawplots.R")
 
 source("reduce_categories.R")
-source("kl.R")
-# source("jsd.R")
+source("stat_tests.R")
 
 option_list = list(
   make_option(
@@ -139,42 +137,29 @@ alpha = opt$alpha
 
 PerformSimilarityTests <- function(exp_dist, obs_dist) {
 
-  grt = wilcox.test(
-    x = exp_dist,
-    y = obs_dist,
-    paired = T,
-    alternative = "greater",
-    mu = -mu
-  )
-  les = wilcox.test(
-    x = exp_dist,
-    y = obs_dist,
-    paired = T,
-    alternative = "less",
-    mu = mu
-  )
-  
-  pval = max(c(grt$p.value, les$p.value))
-  
-  #Do Cosine similarity right here
-  cossim = cosine(x = exp_dist, y = obs_dist)
+  tost = TostWilcoxon(exp_dist = exp_dist, obs_dist = obs_dist, mu = mu)
+   #Do Cosine similarity right here
+  cossim = CosineSimilarity(exp_dist = exp_dist, obs_dist = obs_dist)
   
   #Do Freeman-Tukey test
-  ft_result = FreemanTukeyTest(exp_dist, obs_dist,simulate_p_value = T, sim_samples = 500)
+  ft_result = FreemanTukeyTest(exp_dist, obs_dist,simulate_p_value = T, sim_samples = 1000)
   
   #Do APD
   apd = sum(abs(exp_dist - obs_dist))/sum(exp_dist)
   pop_size = sum(exp_dist)
   
   #Do KLD
-  kl_result = KLDivergence(exp_dist, obs_dist, 0.000001)
+  kl_result = KLDivergence(exp_dist, obs_dist, 0.0001)
   
   #Do JSD
   # jsd_result = JSDivergence(exp_dist, obs_dist)
   
+  #DO SAE
+  error = Error(exp_dist, obs_dist)
+  
   return(list(
-    "TOST p-value" = pval,
-    "TOST alt accept" = (pval < (alpha)),
+    "TOST p-value" = tost$TOST.p.value,
+    "TOST alt accept" =  tost$TOST.alt.accept,
     "Cossine similarity" = cossim,
     "FT statistic" = ft_result$statistic,
     "FT p-value" = ft_result$p.value,
@@ -183,7 +168,8 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
     "APD%" = (apd*100),
     "Pop size"= pop_size,
     "KL Divergence" = kl_result,
-    "JS Divergence" = NA
+    "JS Divergence" = NA,
+    "SAE" = error$sae
   ))
   
 }
@@ -198,6 +184,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result = matrix(0, nrow=length(sa2_list), ncol = 2)
   js_test_result = matrix(0, nrow=length(sa2_list), ncol = 2)
+  sae_test_result = matrix(0, nrow=length(sa2_list), ncol = 3)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -249,6 +236,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i,] <- c(sa2_list[i], unlist(res)[10])
     js_test_result[i,] <- c(sa2_list[i], unlist(res)[11])
+    sae_test_result[i, ] <- c(sa2_list[i], res$SAE, res$`Pop size`)
     
     totals[i, 3] <- sum(cleaned_dist)
     totals[i, 5] <- sum(synthetic_population_dist)
@@ -303,16 +291,14 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-tost-wilcoxon-reduced-cats.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result,
-            file = outfile,
-            row.names = F)
+  WriteLatexCsv(wilcoxon_test_result, file = outfile)
   
   print("Cosine similarity test")
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(cossim_test_result, file = outfile)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -325,30 +311,36 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-freeman-tukey-reduced-cats.csv",
                   sep = "")
-  write.csv(ft_test_result,
-            file = outfile,
-            row.names = F, quote = F)
+  WriteLatexCsv(ft_test_result,
+            file = outfile)
   
   print("APD test")
   colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-absolute-percentage-deviation-reduced-cats.csv",
                   sep = "")
-  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(apd_test_result, file = outfile)
   
   print("KLD test")
   colnames(kl_test_result) <- c("SA2","KLD")
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-kl-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(kl_test_result, file = outfile)
   
   print("JSD test")
   colnames(js_test_result) <- c("SA2","JSD")
   outfile = paste(outputHome,
                   "/persons-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(js_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(js_test_result, file = outfile)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2","SAE","PopSize")
+  outfile = paste(outputHome,
+                  "/persons-preprocessed-vs-generated-sae-reduced-cats.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
 }
 
 EvaluateHouseholdProcessedVsSynthesised <- function() {
@@ -361,6 +353,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   js_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -398,6 +391,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i, ] <- c(sa2_list[i], unlist(res)[10])
     js_test_result[i, ] <- c(sa2_list[i], unlist(res)[11])
+    sae_test_result[i, ] <- c(sa2_list[i], res$SAE, res$`Pop size`)
     
     totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
     totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
@@ -452,7 +446,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-tost-wilcoxon-reduced-cats.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result, file = outfile, quote = F)
+  WriteLatexCsv(wilcoxon_test_result, file = outfile)
   
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   print("Cosine similarity test - Households")
@@ -461,11 +455,11 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     "/households-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
     sep = ""
   )
-  write.csv(cossim_test_result, file = outfile, quote = F)
+  WriteLatexCsv(cossim_test_result, file = outfile)
   
   totals_file <-
     paste(outputHome, "/households-persons-totals.csv", sep = "")
-  write.csv(totals, file = totals_file)
+  WriteLatexCsv(totals, file = totals_file)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -478,30 +472,36 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-freeman-tukey-reduced-cats.csv",
                   sep = "")
-  write.csv(ft_test_result,
-            file = outfile,
-            row.names = F, quote = F)
+  WriteLatexCsv(ft_test_result,
+            file = outfile)
   
   print("APD test")
   colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-absolute-percentage-deviation-reduced-cats.csv",
                   sep = "")
-  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(apd_test_result, file = outfile)
   
   print("KLD test")
   colnames(kl_test_result) <- c("SA2", "KLD")
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-kl-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(kl_test_result, file = outfile)
   
   print("JSD test")
   colnames(js_test_result) <- c("SA2","JSD")
   outfile = paste(outputHome,
                   "/households-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(js_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(js_test_result, file = outfile)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2","SAE","PopSize")
+  outfile = paste(outputHome,
+                  "/households-preprocessed-vs-generated-sae-reduced-cats.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
 }
 
 EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
@@ -514,6 +514,7 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
   kl_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   js_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -547,6 +548,7 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
     kl_test_result[i,] <-  c(sa2_list[i], unlist(res)[10])
     js_test_result[i,] <-  c(sa2_list[i], unlist(res)[11])
+    sae_test_result[i, ] <- c(sa2_list[i], res$SAE, res$`Pop size`)
     
     
     totals[i, 3] <- sum(cleaned_dist)
@@ -603,16 +605,15 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-tost-wilcoxon-reduced-cats.csv",
                   sep = "")
-  write.csv(wilcoxon_test_result,
-            file = outfile,
-            row.names = F)
+  WriteLatexCsv(wilcoxon_test_result,
+            file = outfile)
   
   print("Cosine similarity test")
   colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-cosine-similarity-reduced-cats.csv",
                   sep = "")
-  write.csv(cossim_test_result, file = outfile, row.names = F)
+  WriteLatexCsv(cossim_test_result, file = outfile)
   
   print("Freeman Tukey Test")
   colnames(ft_test_result) <-
@@ -625,30 +626,36 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-freeman-tukey-reduced-cats.csv",
                   sep = "")
-  write.csv(ft_test_result,
-            file = outfile,
-            row.names = F, quote = F)
+  WriteLatexCsv(ft_test_result,
+            file = outfile)
   
   print("APD test")
   colnames(apd_test_result) <- c("SA2", "APD","APD%","Population size")
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-absolute-percentage-deviation-reduced-cats.csv",
                   sep = "")
-  write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(apd_test_result, file = outfile)
   
   print("KLD test")
   colnames(kl_test_result) <- c("SA2", "KLD")
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-kl-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(kl_test_result, file = outfile, row.names = F, quote = F)
+  WriteLatexCsv(kl_test_result, file = outfile)
 
   print("JSD test")
   colnames(js_test_result) <- c("SA2","JSD")
   outfile = paste(outputHome,
                   "/persons-age-cats-preprocessed-vs-generated-js-divergence-reduced-cats.csv",
                   sep = "")
-  write.csv(js_test_result, file = outfile, row.names = F, quote = F)  
+  WriteLatexCsv(js_test_result, file = outfile)  
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2","SAE","PopSize")
+  outfile = paste(outputHome,
+                  "/persons-age-cats-preprocessed-vs-generated-sae-reduced-cats.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
 }
 
 EvaluatePersonsProcessedVsSynthesised()
