@@ -56,7 +56,9 @@ KLDivergence <- function(exp_dist, obs_dist, laplace_smoothing_param = NA){
     smooth_obs = LaplaceSmoothing(obs_dist, laplace_smoothing_param)
   }
 
-
+  if(sum(smooth_obs) == 0){
+    return(NA)
+  }
   return(entropy::KL.plugin(smooth_exp, smooth_obs))
 
 }

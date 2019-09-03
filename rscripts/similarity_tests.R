@@ -9,36 +9,37 @@ source("datareader.R")
 source("util.R")
 source("drawplots.R")
 source("stat_tests.R")
+source("reduce_categories.R")
 
 
 option_list = list(
   make_option(
     c("--generateddata"),
-    default = "../data/melbourne-2011/generated/SA2",
+    default = "../data/melbourne-2016/generated/SA2",
     help = "Generated data files location. [default= %default]",
     metavar = "DIR"
   ),
   make_option(
     c("--rawhouseholds"),
-    default = "../data/melbourne-2011/raw/Households_2011_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2016/raw/Households_2016_Greater_Melbourne_SA2.zip",
     help = "Household data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--rawpersons"),
-    default = "../data/melbourne-2011/raw/Persons_2011_Greater_Melbourne_SA2.zip",
+    default = "../data/melbourne-2016/raw/Persons_2016_Greater_Melbourne_SA2.zip",
     help = "Person data file from ABS. The file can be either a zip or a csv. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--sa2agedist"),
-    default = "../data/melbourne-2011/raw/Persons_percentage_by_age_2011_Greater_Melbourne_SA2s.zip",
+    default = "../data/melbourne-2016/raw/Persons_percentage_by_age_2016_Greater_Melbourne_SA2s.zip",
     help = "Distribution of person percentages by Age in each SA2. [default= %default]",
     metavar = "FILE"
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2011/analysis",
+    default = "../data/melbourne-2016/analysis",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -135,12 +136,15 @@ mu = opt$mu
 alpha = opt$alpha
 
 PerformSimilarityTests <- function(exp_dist, obs_dist) {
+  library(XNomial)
   
   # Do Cosine similarity right here
   cossim = CosineSimilarity(exp_dist = exp_dist, obs_dist = obs_dist)
   
   #Do Freeman-Tukey test
-  ft_result = FreemanTukeyTest(exp_dist = exp_dist, obs_dist = obs_dist, simulate_p_value = T, sim_samples = 1000)
+  ft_result = FreemanTukeyTest(exp_dist = exp_dist, obs_dist = obs_dist, simulate_p_value = T, sim_samples = 10)
+  
+  # chi = xmonte(expr = LaplaceSmoothing(exp_dist, smoothing_param = 0.0001), obs = LaplaceSmoothing(obs_dist, smoothing_param = 0.0001),statName = "Chisq",ntrials = 10)
   
   #Do SAE
   error = Error(exp_dist = exp_dist, obs_dist = obs_dist)
@@ -264,15 +268,18 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                              "/preprocessed/person_types.csv.gz",
                              sep = "")
     cleaned_dist = read.csv(cleaned_data_csv)$Persons.count
+    # cleaned_dist = CombineChildCatsInInput(cleaned_dist)$Persons.count
+    
     synthetic_population_csv = paste(data_home,
                                      "/",
                                      sa2_list[i],
                                      "/population/output_person_types.csv.gz",
                                      sep = "")
     synthetic_population_dist  = read.csv(synthetic_population_csv)$Persons
+    # synthetic_population_dist = CombineChildCatsInOutput(synthetic_population_dist)$Persons
     
-    # cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
-    # synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    cleaned_dist = cleaned_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
+    synthetic_population_dist = synthetic_population_dist[-c(8,16,24,32,33:39,41:47,49:54,56:62,64,72,80,88,96,104,112)]
     
     res = PerformSimilarityTests(cleaned_dist, synthetic_population_dist)
     
