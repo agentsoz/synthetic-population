@@ -1,310 +1,310 @@
-SA2,p-value
-mu= 2,Equivalent (0 - no, 1 - yes )
+SA2;p-value
+mu= 2;Equivalent (0 - no, 1 - yes )
 alpha=0.05
 confidence=90%
-Abbotsford,NA,NA
-Airport West,NA,NA
-Albert Park,NA,NA
-Alphington - Fairfield,NA,NA
-Altona,NA,NA
-Altona Meadows,NA,NA
-Altona North,NA,NA
-Ardeer - Albion,NA,NA
-Armadale,NA,NA
-Ascot Vale,NA,NA
-Ashburton (Vic.),NA,NA
-Ashwood - Chadstone,NA,NA
-Aspendale Gardens - Waterways,NA,NA
-Bacchus Marsh,NA,NA
-Balwyn,NA,NA
-Balwyn North,NA,NA
-Bayswater,NA,NA
-Bayswater North,NA,NA
-Beaconsfield - Officer,NA,NA
-Beaumaris,NA,NA
-Belgrave - Selby,NA,NA
-Bentleigh - McKinnon,NA,NA
-Bentleigh East (North),NA,NA
-Bentleigh East (South),NA,NA
-Berwick - North,NA,NA
-Berwick - South,NA,NA
-Blackburn,NA,NA
-Blackburn South,NA,NA
-Boronia,NA,NA
-Box Hill,NA,NA
-Box Hill North,NA,NA
-Braeside,NA,NA
-Braybrook,NA,NA
-Brighton (Vic.),NA,NA
-Brighton East,NA,NA
-Broadmeadows,NA,NA
-Brunswick,NA,NA
-Brunswick East,NA,NA
-Brunswick West,NA,NA
-Bulleen,NA,NA
-Bundoora - East,NA,NA
-Bundoora - North,NA,NA
-Bundoora - West,NA,NA
-Bunyip - Garfield,NA,NA
-Burnside,NA,NA
-Burnside Heights,NA,NA
-Burwood,NA,NA
-Burwood East,NA,NA
-Cairnlea,NA,NA
-Camberwell,NA,NA
-Campbellfield - Coolaroo,NA,NA
-Carlton,NA,NA
-Carlton North - Princes Hill,NA,NA
-Carnegie,NA,NA
-Caroline Springs,NA,NA
-Carrum - Patterson Lakes,NA,NA
-Carrum Downs,NA,NA
-Caulfield - North,NA,NA
-Caulfield - South,NA,NA
-Chelsea - Bonbeach,NA,NA
-Chelsea Heights,NA,NA
-Cheltenham - Highett (East),NA,NA
-Cheltenham - Highett (West),NA,NA
-Chirnside Park,NA,NA
-Clarinda - Oakleigh South,NA,NA
-Clayton,NA,NA
-Clayton South,NA,NA
-Coburg,NA,NA
-Coburg North,NA,NA
-Collingwood,NA,NA
-Craigieburn - Central,NA,NA
-Craigieburn - North,NA,NA
-Craigieburn - South,NA,NA
-Craigieburn - West,NA,NA
-Cranbourne,NA,NA
-Cranbourne East,NA,NA
-Cranbourne North,NA,NA
-Cranbourne South,NA,NA
-Cranbourne West,NA,NA
-Croydon - East,NA,NA
-Croydon - West,NA,NA
-Croydon Hills - Warranwood,NA,NA
-Croydon South,NA,NA
-Dandenong,NA,NA
-Dandenong North,NA,NA
-Deer Park - Derrimut,NA,NA
-Delahey,NA,NA
-Dingley Village,NA,NA
-Docklands,NA,NA
-Doncaster,NA,NA
-Doncaster East (North),NA,NA
-Doncaster East (South),NA,NA
-Donvale - Park Orchards,NA,NA
-Doreen,NA,NA
-Doveton,NA,NA
-Dromana,NA,NA
-East Melbourne,NA,NA
-Edithvale - Aspendale,NA,NA
-Elsternwick,NA,NA
-Eltham,NA,NA
-Elwood,NA,NA
-Emerald - Cockatoo,NA,NA
-Endeavour Hills - North,NA,NA
-Endeavour Hills - South,NA,NA
-Epping - East,NA,NA
-Epping - South,NA,NA
-Epping - West,NA,NA
-Essendon - Aberfeldie,NA,NA
-Fawkner,NA,NA
-Ferntree Gully (North),NA,NA
-Ferntree Gully (South) - Upper Ferntree Gully,NA,NA
-Fitzroy,NA,NA
-Fitzroy North,NA,NA
-Flemington,NA,NA
-Flemington Racecourse,NA,NA
-Flinders,NA,NA
-Footscray,NA,NA
-Forest Hill,NA,NA
-Frankston,NA,NA
-Frankston North,NA,NA
-Frankston South,NA,NA
-Gisborne,NA,NA
-Gladstone Park - Westmeadows,NA,NA
-Glen Iris - East,NA,NA
-Glen Waverley - East,NA,NA
-Glen Waverley - West,NA,NA
-Glenroy,NA,NA
-Gowanbrae,NA,NA
-Greensborough,NA,NA
-Greenvale - Bulla,NA,NA
-Hadfield,NA,NA
-Hallam,NA,NA
-Hampton,NA,NA
-Hampton Park - Lynbrook,NA,NA
-Hastings - Somers,NA,NA
-Hawthorn,NA,NA
-Hawthorn East,NA,NA
-Healesville - Yarra Glen,NA,NA
-Heidelberg - Rosanna,NA,NA
-Heidelberg West,NA,NA
-Hillside,NA,NA
-Hoppers Crossing - North,NA,NA
-Hoppers Crossing - South,NA,NA
-Hughesdale,NA,NA
-Hurstbridge,NA,NA
-Ivanhoe,NA,NA
-Ivanhoe East - Eaglemont,NA,NA
-Keilor,NA,NA
-Keilor Downs,NA,NA
-Keilor East,NA,NA
-Kensington (Vic.),NA,NA
-Kew,NA,NA
-Kew East,NA,NA
-Keysborough,NA,NA
-Kilsyth,NA,NA
-Kinglake,NA,NA
-Kings Park (Vic.),NA,NA
-Kingsbury,NA,NA
-Knoxfield - Scoresby,NA,NA
-Koo Wee Rup,NA,NA
-Lalor,NA,NA
-Langwarrin,NA,NA
-Laverton,NA,NA
-Lilydale - Coldstream,NA,NA
-Lynbrook - Lyndhurst,NA,NA
-Lysterfield,NA,NA
-Macedon,NA,NA
-Malvern - Glen Iris,NA,NA
-Malvern East,NA,NA
-Maribyrnong,NA,NA
-Meadow Heights,NA,NA
-Melbourne,NA,NA
-Melbourne Airport,NA,NA
-Melton,NA,NA
-Melton South,NA,NA
-Melton West,NA,NA
-Mentone,NA,NA
-Mernda,NA,NA
-Mickleham - Yuroke,NA,NA
-Mill Park - North,NA,NA
-Mill Park - South,NA,NA
-Mitcham (Vic.),NA,NA
-Monbulk - Silvan,NA,NA
-Montmorency - Briar Hill,NA,NA
-Montrose,NA,NA
-Moonee Ponds,NA,NA
-Moorabbin - Heatherton,NA,NA
-Mooroolbark,NA,NA
-Mordialloc - Parkdale,NA,NA
-Mornington,NA,NA
-Mount Dandenong - Olinda,NA,NA
-Mount Eliza,NA,NA
-Mount Evelyn,NA,NA
-Mount Martha,NA,NA
-Mount Waverley - North,NA,NA
-Mount Waverley - South,NA,NA
-Mulgrave,NA,NA
-Murrumbeena,NA,NA
-Narre Warren - North East,NA,NA
-Narre Warren - South West,NA,NA
-Narre Warren North,NA,NA
-Narre Warren South (East),NA,NA
-Narre Warren South (West),NA,NA
-Newport,NA,NA
-Niddrie - Essendon West,NA,NA
-Noble Park - East,NA,NA
-Noble Park - West,NA,NA
-Noble Park North,NA,NA
-North Melbourne,NA,NA
-Northcote,NA,NA
-Nunawading,NA,NA
-Oakleigh - Huntingdale,NA,NA
-Ormond - Glen Huntly,NA,NA
-Pakenham - North,NA,NA
-Pakenham - South,NA,NA
-Panton Hill - St Andrews,NA,NA
-Parkville,NA,NA
-Pascoe Vale,NA,NA
-Pascoe Vale South,NA,NA
-Pearcedale - Tooradin,NA,NA
-Plenty - Yarrambat,NA,NA
-Point Cook - East,NA,NA
-Point Cook - North,NA,NA
-Point Cook - South,NA,NA
-Point Nepean,NA,NA
-Port Melbourne,NA,NA
-Port Melbourne Industrial,NA,NA
-Prahran - Windsor,NA,NA
-Preston - East,NA,NA
-Preston - West,NA,NA
-Research - North Warrandyte,NA,NA
-Reservoir - East,NA,NA
-Reservoir - West,NA,NA
-Richmond (Vic.),NA,NA
-Riddells Creek,NA,NA
-Ringwood,NA,NA
-Ringwood East,NA,NA
-Ringwood North,NA,NA
-Rockbank - Mount Cottrell,NA,NA
-Romsey,NA,NA
-Rosebud - McCrae,NA,NA
-Rowville - Central,NA,NA
-Rowville - North,NA,NA
-Rowville - South,NA,NA
-Roxburgh Park - Somerton,NA,NA
-Sandringham - Black Rock,NA,NA
-Seabrook,NA,NA
-Seaford (Vic.),NA,NA
-Seddon - Kingsville,NA,NA
-Skye - Sandhurst,NA,NA
-Somerville,NA,NA
-South Melbourne,NA,NA
-South Morang (North),NA,NA
-South Morang (South),NA,NA
-South Yarra - East,NA,NA
-South Yarra - West,NA,NA
-Southbank,NA,NA
-Springvale,NA,NA
-Springvale South,NA,NA
-St Albans - North,NA,NA
-St Albans - South,NA,NA
-St Kilda,NA,NA
-St Kilda East,NA,NA
-Strathmore,NA,NA
-Sunbury,NA,NA
-Sunbury - South,NA,NA
-Sunshine,NA,NA
-Sunshine North,NA,NA
-Sunshine West,NA,NA
-Surrey Hills (East) - Mont Albert,NA,NA
-Surrey Hills (West) - Canterbury,NA,NA
-Sydenham,NA,NA
-Tarneit,NA,NA
-Taylors Hill,NA,NA
-Taylors Lakes,NA,NA
-Templestowe,NA,NA
-Templestowe Lower,NA,NA
-The Basin,NA,NA
-Thomastown,NA,NA
-Thornbury,NA,NA
-Toorak,NA,NA
-Truganina,NA,NA
-Tullamarine,NA,NA
-Upwey - Tecoma,NA,NA
-Vermont,NA,NA
-Vermont South,NA,NA
-Viewbank - Yallambie,NA,NA
-Wallan,NA,NA
-Wandin - Seville,NA,NA
-Wantirna,NA,NA
-Wantirna South,NA,NA
-Warrandyte - Wonga Park,NA,NA
-Watsonia,NA,NA
-Wattle Glen - Diamond Creek,NA,NA
-Werribee - East,NA,NA
-Werribee - South,NA,NA
-Werribee - West,NA,NA
-West Footscray - Tottenham,NA,NA
-Wheelers Hill,NA,NA
-Whittlesea,NA,NA
-Williamstown,NA,NA
-Wollert,NA,NA
-Wyndham Vale,NA,NA
-Yarra - North,NA,NA
-Yarra Valley,NA,NA
-Yarraville,NA,NA
+Abbotsford;nan;nan
+Airport West;nan;nan
+Albert Park;nan;nan
+Alphington - Fairfield;nan;nan
+Altona;nan;nan
+Altona Meadows;nan;nan
+Altona North;nan;nan
+Ardeer - Albion;nan;nan
+Armadale;nan;nan
+Ascot Vale;nan;nan
+Ashburton (Vic.);nan;nan
+Ashwood - Chadstone;nan;nan
+Aspendale Gardens - Waterways;nan;nan
+Bacchus Marsh;nan;nan
+Balwyn;nan;nan
+Balwyn North;nan;nan
+Bayswater;nan;nan
+Bayswater North;nan;nan
+Beaconsfield - Officer;nan;nan
+Beaumaris;nan;nan
+Belgrave - Selby;nan;nan
+Bentleigh - McKinnon;nan;nan
+Bentleigh East (North);nan;nan
+Bentleigh East (South);nan;nan
+Berwick - North;nan;nan
+Berwick - South;nan;nan
+Blackburn;nan;nan
+Blackburn South;nan;nan
+Boronia;nan;nan
+Box Hill;nan;nan
+Box Hill North;nan;nan
+Braeside;nan;nan
+Braybrook;nan;nan
+Brighton (Vic.);nan;nan
+Brighton East;nan;nan
+Broadmeadows;nan;nan
+Brunswick;nan;nan
+Brunswick East;nan;nan
+Brunswick West;nan;nan
+Bulleen;nan;nan
+Bundoora - East;nan;nan
+Bundoora - North;nan;nan
+Bundoora - West;nan;nan
+Bunyip - Garfield;nan;nan
+Burnside;nan;nan
+Burnside Heights;nan;nan
+Burwood;nan;nan
+Burwood East;nan;nan
+Cairnlea;nan;nan
+Camberwell;nan;nan
+Campbellfield - Coolaroo;nan;nan
+Carlton;nan;nan
+Carlton North - Princes Hill;nan;nan
+Carnegie;nan;nan
+Caroline Springs;nan;nan
+Carrum - Patterson Lakes;nan;nan
+Carrum Downs;nan;nan
+Caulfield - North;nan;nan
+Caulfield - South;nan;nan
+Chelsea - Bonbeach;nan;nan
+Chelsea Heights;nan;nan
+Cheltenham - Highett (East);nan;nan
+Cheltenham - Highett (West);nan;nan
+Chirnside Park;nan;nan
+Clarinda - Oakleigh South;nan;nan
+Clayton;nan;nan
+Clayton South;nan;nan
+Coburg;nan;nan
+Coburg North;nan;nan
+Collingwood;nan;nan
+Craigieburn - Central;nan;nan
+Craigieburn - North;nan;nan
+Craigieburn - South;nan;nan
+Craigieburn - West;nan;nan
+Cranbourne;nan;nan
+Cranbourne East;nan;nan
+Cranbourne North;nan;nan
+Cranbourne South;nan;nan
+Cranbourne West;nan;nan
+Croydon - East;nan;nan
+Croydon - West;nan;nan
+Croydon Hills - Warranwood;nan;nan
+Croydon South;nan;nan
+Dandenong;nan;nan
+Dandenong North;nan;nan
+Deer Park - Derrimut;nan;nan
+Delahey;nan;nan
+Dingley Village;nan;nan
+Docklands;nan;nan
+Doncaster;nan;nan
+Doncaster East (North);nan;nan
+Doncaster East (South);nan;nan
+Donvale - Park Orchards;nan;nan
+Doreen;nan;nan
+Doveton;nan;nan
+Dromana;nan;nan
+East Melbourne;nan;nan
+Edithvale - Aspendale;nan;nan
+Elsternwick;nan;nan
+Eltham;nan;nan
+Elwood;nan;nan
+Emerald - Cockatoo;nan;nan
+Endeavour Hills - North;nan;nan
+Endeavour Hills - South;nan;nan
+Epping - East;nan;nan
+Epping - South;nan;nan
+Epping - West;nan;nan
+Essendon - Aberfeldie;nan;nan
+Fawkner;nan;nan
+Ferntree Gully (North);nan;nan
+Ferntree Gully (South) - Upper Ferntree Gully;nan;nan
+Fitzroy;nan;nan
+Fitzroy North;nan;nan
+Flemington;nan;nan
+Flemington Racecourse;nan;nan
+Flinders;nan;nan
+Footscray;nan;nan
+Forest Hill;nan;nan
+Frankston;nan;nan
+Frankston North;nan;nan
+Frankston South;nan;nan
+Gisborne;nan;nan
+Gladstone Park - Westmeadows;nan;nan
+Glen Iris - East;nan;nan
+Glen Waverley - East;nan;nan
+Glen Waverley - West;nan;nan
+Glenroy;nan;nan
+Gowanbrae;nan;nan
+Greensborough;nan;nan
+Greenvale - Bulla;nan;nan
+Hadfield;nan;nan
+Hallam;nan;nan
+Hampton;nan;nan
+Hampton Park - Lynbrook;nan;nan
+Hastings - Somers;nan;nan
+Hawthorn;nan;nan
+Hawthorn East;nan;nan
+Healesville - Yarra Glen;nan;nan
+Heidelberg - Rosanna;nan;nan
+Heidelberg West;nan;nan
+Hillside;nan;nan
+Hoppers Crossing - North;nan;nan
+Hoppers Crossing - South;nan;nan
+Hughesdale;nan;nan
+Hurstbridge;nan;nan
+Ivanhoe;nan;nan
+Ivanhoe East - Eaglemont;nan;nan
+Keilor;nan;nan
+Keilor Downs;nan;nan
+Keilor East;nan;nan
+Kensington (Vic.);nan;nan
+Kew;nan;nan
+Kew East;nan;nan
+Keysborough;nan;nan
+Kilsyth;nan;nan
+Kinglake;nan;nan
+Kings Park (Vic.);nan;nan
+Kingsbury;nan;nan
+Knoxfield - Scoresby;nan;nan
+Koo Wee Rup;nan;nan
+Lalor;nan;nan
+Langwarrin;nan;nan
+Laverton;nan;nan
+Lilydale - Coldstream;nan;nan
+Lynbrook - Lyndhurst;nan;nan
+Lysterfield;nan;nan
+Macedon;nan;nan
+Malvern - Glen Iris;nan;nan
+Malvern East;nan;nan
+Maribyrnong;nan;nan
+Meadow Heights;nan;nan
+Melbourne;nan;nan
+Melbourne Airport;nan;nan
+Melton;nan;nan
+Melton South;nan;nan
+Melton West;nan;nan
+Mentone;nan;nan
+Mernda;nan;nan
+Mickleham - Yuroke;nan;nan
+Mill Park - North;nan;nan
+Mill Park - South;nan;nan
+Mitcham (Vic.);nan;nan
+Monbulk - Silvan;nan;nan
+Montmorency - Briar Hill;nan;nan
+Montrose;nan;nan
+Moonee Ponds;nan;nan
+Moorabbin - Heatherton;nan;nan
+Mooroolbark;nan;nan
+Mordialloc - Parkdale;nan;nan
+Mornington;nan;nan
+Mount Dandenong - Olinda;nan;nan
+Mount Eliza;nan;nan
+Mount Evelyn;nan;nan
+Mount Martha;nan;nan
+Mount Waverley - North;nan;nan
+Mount Waverley - South;nan;nan
+Mulgrave;nan;nan
+Murrumbeena;nan;nan
+Narre Warren - North East;nan;nan
+Narre Warren - South West;nan;nan
+Narre Warren North;nan;nan
+Narre Warren South (East);nan;nan
+Narre Warren South (West);nan;nan
+Newport;nan;nan
+Niddrie - Essendon West;nan;nan
+Noble Park - East;nan;nan
+Noble Park - West;nan;nan
+Noble Park North;nan;nan
+North Melbourne;nan;nan
+Northcote;nan;nan
+Nunawading;nan;nan
+Oakleigh - Huntingdale;nan;nan
+Ormond - Glen Huntly;nan;nan
+Pakenham - North;nan;nan
+Pakenham - South;nan;nan
+Panton Hill - St Andrews;nan;nan
+Parkville;nan;nan
+Pascoe Vale;nan;nan
+Pascoe Vale South;nan;nan
+Pearcedale - Tooradin;nan;nan
+Plenty - Yarrambat;nan;nan
+Point Cook - East;nan;nan
+Point Cook - North;nan;nan
+Point Cook - South;nan;nan
+Point Nepean;nan;nan
+Port Melbourne;nan;nan
+Port Melbourne Industrial;nan;nan
+Prahran - Windsor;nan;nan
+Preston - East;nan;nan
+Preston - West;nan;nan
+Research - North Warrandyte;nan;nan
+Reservoir - East;nan;nan
+Reservoir - West;nan;nan
+Richmond (Vic.);nan;nan
+Riddells Creek;nan;nan
+Ringwood;nan;nan
+Ringwood East;nan;nan
+Ringwood North;nan;nan
+Rockbank - Mount Cottrell;nan;nan
+Romsey;nan;nan
+Rosebud - McCrae;nan;nan
+Rowville - Central;nan;nan
+Rowville - North;nan;nan
+Rowville - South;nan;nan
+Roxburgh Park - Somerton;nan;nan
+Sandringham - Black Rock;nan;nan
+Seabrook;nan;nan
+Seaford (Vic.);nan;nan
+Seddon - Kingsville;nan;nan
+Skye - Sandhurst;nan;nan
+Somerville;nan;nan
+South Melbourne;nan;nan
+South Morang (North);nan;nan
+South Morang (South);nan;nan
+South Yarra - East;nan;nan
+South Yarra - West;nan;nan
+Southbank;nan;nan
+Springvale;nan;nan
+Springvale South;nan;nan
+St Albans - North;nan;nan
+St Albans - South;nan;nan
+St Kilda;nan;nan
+St Kilda East;nan;nan
+Strathmore;nan;nan
+Sunbury;nan;nan
+Sunbury - South;nan;nan
+Sunshine;nan;nan
+Sunshine North;nan;nan
+Sunshine West;nan;nan
+Surrey Hills (East) - Mont Albert;nan;nan
+Surrey Hills (West) - Canterbury;nan;nan
+Sydenham;nan;nan
+Tarneit;nan;nan
+Taylors Hill;nan;nan
+Taylors Lakes;nan;nan
+Templestowe;nan;nan
+Templestowe Lower;nan;nan
+The Basin;nan;nan
+Thomastown;nan;nan
+Thornbury;nan;nan
+Toorak;nan;nan
+Truganina;nan;nan
+Tullamarine;nan;nan
+Upwey - Tecoma;nan;nan
+Vermont;nan;nan
+Vermont South;nan;nan
+Viewbank - Yallambie;nan;nan
+Wallan;nan;nan
+Wandin - Seville;nan;nan
+Wantirna;nan;nan
+Wantirna South;nan;nan
+Warrandyte - Wonga Park;nan;nan
+Watsonia;nan;nan
+Wattle Glen - Diamond Creek;nan;nan
+Werribee - East;nan;nan
+Werribee - South;nan;nan
+Werribee - West;nan;nan
+West Footscray - Tottenham;nan;nan
+Wheelers Hill;nan;nan
+Whittlesea;nan;nan
+Williamstown;nan;nan
+Wollert;nan;nan
+Wyndham Vale;nan;nan
+Yarra - North;nan;nan
+Yarra Valley;nan;nan
+Yarraville;nan;nan
