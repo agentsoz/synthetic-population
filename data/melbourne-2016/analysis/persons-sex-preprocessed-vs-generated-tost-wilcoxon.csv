@@ -1,0 +1,310 @@
+SA2;p-value
+mu= 2;Equivalent
+alpha=0.05
+confidence=90%
+Abbotsford;1;0
+Airport West;1;0
+Albert Park;1;0
+Alphington - Fairfield;1;0
+Altona;1;0
+Altona Meadows;1;0
+Altona North;1;0
+Ardeer - Albion;1;0
+Armadale;1;0
+Ascot Vale;1;0
+Ashburton (Vic.);1;0
+Ashwood - Chadstone;1;0
+Aspendale Gardens - Waterways;1;0
+Bacchus Marsh;1;0
+Balwyn;1;0
+Balwyn North;1;0
+Bayswater;1;0
+Bayswater North;1;0
+Beaconsfield - Officer;1;0
+Beaumaris;1;0
+Belgrave - Selby;1;0
+Bentleigh - McKinnon;1;0
+Bentleigh East (North);1;0
+Bentleigh East (South);1;0
+Berwick - North;1;0
+Berwick - South;1;0
+Blackburn;1;0
+Blackburn South;1;0
+Boronia;1;0
+Box Hill;1;0
+Box Hill North;1;0
+Braeside;0.75;0
+Braybrook;1;0
+Brighton (Vic.);1;0
+Brighton East;1;0
+Broadmeadows;1;0
+Brunswick;1;0
+Brunswick East;1;0
+Brunswick West;1;0
+Bulleen;1;0
+Bundoora - East;1;0
+Bundoora - North;1;0
+Bundoora - West;1;0
+Bunyip - Garfield;1;0
+Burnside;1;0
+Burnside Heights;1;0
+Burwood;1;0
+Burwood East;1;0
+Cairnlea;1;0
+Camberwell;1;0
+Campbellfield - Coolaroo;1;0
+Carlton;1;0
+Carlton North - Princes Hill;1;0
+Carnegie;1;0
+Caroline Springs;1;0
+Carrum - Patterson Lakes;1;0
+Carrum Downs;1;0
+Caulfield - North;1;0
+Caulfield - South;1;0
+Chelsea - Bonbeach;1;0
+Chelsea Heights;1;0
+Cheltenham - Highett (East);1;0
+Cheltenham - Highett (West);1;0
+Chirnside Park;1;0
+Clarinda - Oakleigh South;1;0
+Clayton;1;0
+Clayton South;1;0
+Coburg;1;0
+Coburg North;1;0
+Collingwood;1;0
+Craigieburn - Central;1;0
+Craigieburn - North;1;0
+Craigieburn - South;1;0
+Craigieburn - West;1;0
+Cranbourne;1;0
+Cranbourne East;1;0
+Cranbourne North;1;0
+Cranbourne South;1;0
+Cranbourne West;1;0
+Croydon - East;1;0
+Croydon - West;1;0
+Croydon Hills - Warranwood;1;0
+Croydon South;1;0
+Dandenong;1;0
+Dandenong North;1;0
+Deer Park - Derrimut;0.97032678060404;0
+Delahey;1;0
+Dingley Village;1;0
+Docklands;1;0
+Doncaster;1;0
+Doncaster East (North);1;0
+Doncaster East (South);1;0
+Donvale - Park Orchards;1;0
+Doreen;1;0
+Doveton;1;0
+Dromana;1;0
+East Melbourne;1;0
+Edithvale - Aspendale;1;0
+Elsternwick;1;0
+Eltham;1;0
+Elwood;1;0
+Emerald - Cockatoo;1;0
+Endeavour Hills - North;1;0
+Endeavour Hills - South;1;0
+Epping - East;1;0
+Epping - South;1;0
+Epping - West;1;0
+Essendon - Aberfeldie;1;0
+Fawkner;1;0
+Ferntree Gully (North);1;0
+Ferntree Gully (South) - Upper Ferntree Gully;1;0
+Fitzroy;1;0
+Fitzroy North;0.97032678060404;0
+Flemington;1;0
+Flemington Racecourse;0.5;0
+Flinders;1;0
+Footscray;1;0
+Forest Hill;1;0
+Frankston;1;0
+Frankston North;1;0
+Frankston South;1;0
+Gisborne;1;0
+Gladstone Park - Westmeadows;1;0
+Glen Iris - East;1;0
+Glen Waverley - East;1;0
+Glen Waverley - West;1;0
+Glenroy;1;0
+Gowanbrae;1;0
+Greensborough;1;0
+Greenvale - Bulla;1;0
+Hadfield;1;0
+Hallam;1;0
+Hampton;1;0
+Hampton Park - Lynbrook;1;0
+Hastings - Somers;1;0
+Hawthorn;1;0
+Hawthorn East;1;0
+Healesville - Yarra Glen;1;0
+Heidelberg - Rosanna;1;0
+Heidelberg West;1;0
+Hillside;1;0
+Hoppers Crossing - North;1;0
+Hoppers Crossing - South;1;0
+Hughesdale;1;0
+Hurstbridge;0.75;0
+Ivanhoe;1;0
+Ivanhoe East - Eaglemont;1;0
+Keilor;1;0
+Keilor Downs;1;0
+Keilor East;1;0
+Kensington (Vic.);1;0
+Kew;1;0
+Kew East;1;0
+Keysborough;1;0
+Kilsyth;1;0
+Kinglake;1;0
+Kings Park (Vic.);1;0
+Kingsbury;1;0
+Knoxfield - Scoresby;1;0
+Koo Wee Rup;1;0
+Lalor;1;0
+Langwarrin;1;0
+Laverton;1;0
+Lilydale - Coldstream;0.97032678060404;0
+Lynbrook - Lyndhurst;1;0
+Lysterfield;1;0
+Macedon;1;0
+Malvern - Glen Iris;1;0
+Malvern East;1;0
+Maribyrnong;1;0
+Meadow Heights;1;0
+Melbourne;1;0
+Melbourne Airport;1;0
+Melton;1;0
+Melton South;1;0
+Melton West;1;0
+Mentone;1;0
+Mernda;1;0
+Mickleham - Yuroke;1;0
+Mill Park - North;1;0
+Mill Park - South;0.97032678060404;0
+Mitcham (Vic.);1;0
+Monbulk - Silvan;1;0
+Montmorency - Briar Hill;1;0
+Montrose;1;0
+Moonee Ponds;1;0
+Moorabbin - Heatherton;1;0
+Mooroolbark;1;0
+Mordialloc - Parkdale;1;0
+Mornington;1;0
+Mount Dandenong - Olinda;1;0
+Mount Eliza;1;0
+Mount Evelyn;0.97032678060404;0
+Mount Martha;1;0
+Mount Waverley - North;1;0
+Mount Waverley - South;1;0
+Mulgrave;1;0
+Murrumbeena;1;0
+Narre Warren - North East;1;0
+Narre Warren - South West;1;0
+Narre Warren North;1;0
+Narre Warren South (East);1;0
+Narre Warren South (West);1;0
+Newport;1;0
+Niddrie - Essendon West;1;0
+Noble Park - East;1;0
+Noble Park - West;1;0
+Noble Park North;1;0
+North Melbourne;0.97032678060404;0
+Northcote;1;0
+Nunawading;1;0
+Oakleigh - Huntingdale;1;0
+Ormond - Glen Huntly;1;0
+Pakenham - North;1;0
+Pakenham - South;1;0
+Panton Hill - St Andrews;1;0
+Parkville;1;0
+Pascoe Vale;1;0
+Pascoe Vale South;1;0
+Pearcedale - Tooradin;1;0
+Plenty - Yarrambat;1;0
+Point Cook - East;1;0
+Point Cook - North;1;0
+Point Cook - South;1;0
+Point Nepean;1;0
+Port Melbourne;1;0
+Port Melbourne Industrial;0.5;0
+Prahran - Windsor;1;0
+Preston - East;1;0
+Preston - West;1;0
+Research - North Warrandyte;1;0
+Reservoir - East;1;0
+Reservoir - West;1;0
+Richmond (Vic.);1;0
+Riddells Creek;1;0
+Ringwood;1;0
+Ringwood East;1;0
+Ringwood North;1;0
+Rockbank - Mount Cottrell;0.977249868051821;0
+Romsey;1;0
+Rosebud - McCrae;1;0
+Rowville - Central;1;0
+Rowville - North;1;0
+Rowville - South;1;0
+Roxburgh Park - Somerton;1;0
+Sandringham - Black Rock;1;0
+Seabrook;1;0
+Seaford (Vic.);1;0
+Seddon - Kingsville;1;0
+Skye - Sandhurst;1;0
+Somerville;1;0
+South Melbourne;1;0
+South Morang (North);1;0
+South Morang (South);1;0
+South Yarra - East;1;0
+South Yarra - West;1;0
+Southbank;1;0
+Springvale;1;0
+Springvale South;1;0
+St Albans - North;1;0
+St Albans - South;1;0
+St Kilda;1;0
+St Kilda East;1;0
+Strathmore;1;0
+Sunbury;1;0
+Sunbury - South;1;0
+Sunshine;1;0
+Sunshine North;1;0
+Sunshine West;1;0
+Surrey Hills (East) - Mont Albert;1;0
+Surrey Hills (West) - Canterbury;1;0
+Sydenham;1;0
+Tarneit;1;0
+Taylors Hill;1;0
+Taylors Lakes;1;0
+Templestowe;1;0
+Templestowe Lower;1;0
+The Basin;1;0
+Thomastown;1;0
+Thornbury;1;0
+Toorak;1;0
+Truganina;1;0
+Tullamarine;1;0
+Upwey - Tecoma;1;0
+Vermont;1;0
+Vermont South;1;0
+Viewbank - Yallambie;1;0
+Wallan;1;0
+Wandin - Seville;1;0
+Wantirna;1;0
+Wantirna South;1;0
+Warrandyte - Wonga Park;1;0
+Watsonia;1;0
+Wattle Glen - Diamond Creek;1;0
+Werribee - East;1;0
+Werribee - South;1;0
+Werribee - West;1;0
+West Footscray - Tottenham;1;0
+Wheelers Hill;1;0
+Whittlesea;1;0
+Williamstown;1;0
+Wollert;1;0
+Wyndham Vale;1;0
+Yarra - North;1;0
+Yarra Valley;1;0
+Yarraville;1;0
