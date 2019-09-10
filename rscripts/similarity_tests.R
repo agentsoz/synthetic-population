@@ -136,13 +136,14 @@ mu = opt$mu
 alpha = opt$alpha
 
 PerformSimilarityTests <- function(exp_dist, obs_dist) {
-  library(XNomial)
+  
+  tost = TostWilcoxon(exp_dist = exp_dist, obs_dist = obs_dist, mu = 2)
   
   # Do Cosine similarity right here
   cossim = CosineSimilarity(exp_dist = exp_dist, obs_dist = obs_dist)
   
   #Do Freeman-Tukey test
-  ft_result = FreemanTukeyTest(exp_dist = exp_dist, obs_dist = obs_dist, simulate_p_value = T, sim_samples = 10)
+  ft_result = FreemanTukeyTest(exp_dist = exp_dist, obs_dist = obs_dist, simulate_p_value = T, sim_samples = 1000)
   
   # chi = xmonte(expr = LaplaceSmoothing(exp_dist, smoothing_param = 0.0001), obs = LaplaceSmoothing(obs_dist, smoothing_param = 0.0001),statName = "Chisq",ntrials = 10)
   
@@ -150,8 +151,8 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   error = Error(exp_dist = exp_dist, obs_dist = obs_dist)
   
   return(list(
-    "TOST p-value" = NA,
-    "TOST alt accept" = NA,
+    "TOST p-value" = tost$TOST.p.value,
+    "TOST alt accept" = tost$TOST.alt.accept,
     "Cossine similarity" = cossim,
     "FT statistic" = ft_result$statistic,
     "FT p-value" = ft_result$p.value,
@@ -481,7 +482,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   
 }
 
-EvalautePersonsAgeDistribution <- function() {
+EvalautePersonsRawAgeDistribution <- function() {
   cat("Person age distribution of census data vs. synthetic population\n")
   wilcoxon_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
@@ -508,11 +509,12 @@ EvalautePersonsAgeDistribution <- function() {
       rownames(synth_age_dist) = expected_age_dist$`AGEP Age`
       synth_age_dist = tabulate(synthetic_population_dist$Age + 1, nbins = 116)
       
-      if(sum(synth_age_dist) != 0){
-        synth_age_dist = (synth_age_dist / sum(synth_age_dist)) * 100  
-      }
+      # if(sum(synth_age_dist) != 0){
+      #   synth_age_dist = (synth_age_dist / sum(synth_age_dist)) * 100  
+      # }
       
-      res = PerformSimilarityTests(as.numeric(expected_age_dist[, sa2_list[i]]), synth_age_dist)
+      
+      res = PerformSimilarityTests(as.numeric(expected_age_dist[, sa2_list[i]])*sum(synth_age_dist)/100, synth_age_dist)
       wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
       cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
       ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
@@ -599,10 +601,388 @@ EvalautePersonsAgeDistribution <- function() {
   ))
 }
 
-EvaluateHouseholdProcessedVsSynthesised()
-EvaluatePersonsProcessedVsSynthesised()
-EvaluatePersonsRawVsSynthesised()
-EvalautePersonsAgeDistribution()
+EvalautePersonsPreprocessedAgeDistribution <- function() {
+  cat("Person age distribution of census data vs. synthetic population\n")
+  wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  
+  expected_dist_empty = list()
+  expected_dist_empty_count = 1
+  
+  for (i in 1:length(sa2_list)) {
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
+    
+    wilcoxon_test_result[i,1] <- sa2_list[i]
+    cossim_test_result[i,1] <- sa2_list[i]
+    
+    
+      synthetic_persons_csv = paste(data_home,
+                                    "/",
+                                    sa2_list[i],
+                                    "/population/output_person_types.csv.gz",
+                                    sep = "")
+      synthetic_population_dist  = read.csv(synthetic_persons_csv)
+      synth_age_dist = rowSums(matrix(synthetic_population_dist$Persons, nrow = 8))
+      
+      cleaned_data_csv = paste(data_home,
+                               "/",
+                               sa2_list[i],
+                               "/preprocessed/person_types.csv.gz",
+                               sep = "")
+      cleaned_dist = read.csv(cleaned_data_csv)
+      cleaned_age_dist = rowSums(matrix(cleaned_dist$Persons.count, nrow = 8))
+      
+      res = PerformSimilarityTests(exp_dist = cleaned_age_dist, obs_dist = synth_age_dist)
+      wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+      cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+      ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+      sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+      
+      file_prefix = SA2FilePrefix(sa2_list[i])
+      out_file = paste(outputHome,
+                       "plots",
+                       sa2_list[i],
+                       paste(file_prefix,"bar_persons_preprocssed_age_vs_synthetic.pdf", sep = "_"),
+                       sep = "/")
+      
+      xlabels = c(1:8)
+      
+      DrawBarSA2Plot(
+        cleaned_age_dist,
+        synth_age_dist,
+        out_file,
+        "Age distribution in census data vs synthetic population",
+        "Age in years",
+        "Percentage of persons",
+        xlabels,
+        c("Census", "Synthesised"),
+        sa2_list[i]
+      )
+  }
+  
+  colnames(wilcoxon_test_result) <-
+    c(
+      "SA2",
+      paste("p-value\nmu=", mu),
+      paste(
+        "Equivalent\n",
+        "alpha=",
+        alpha,
+        "\nconfidence=",
+        (100 - (alpha * 2 * 100)),
+        "%",
+        sep = ""
+      )
+    )
+  
+  print("TOST with Wilcoxon Signed Rank Test - Persons age")
+  outfile = paste(outputHome,
+                  "/persons-age-preprocessed-vs-generated-tost-wilcoxon.csv",
+                  sep = "")
+  WriteLatexCsv(wilcoxon_test_result, file = outfile)
+  
+  print("Cosine similarity test - Persons age")
+  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
+  outfile = paste(outputHome,
+                  "/persons-age-preprocessed-vs-generated-cosine-similarity.csv",
+                  sep = "")
+  WriteLatexCsv(cossim_test_result, file = outfile)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-age-preprocessed-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  WriteLatexCsv(ft_test_result,
+                file = outfile)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2", "SAE","Population size")
+  outfile = paste(outputHome,
+                  "/persons-age-preprocessed-vs-generated-standardised-absolute-error.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
+  
+  age_saes = as.numeric(sae_test_result[,"SAE"])
+  breaks_a = c(0, 0.01, 0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,max(age_saes))
+  age_sae_hist <- table(cut(age_saes, breaks = breaks_a))
+  rownames(age_sae_hist) <- breaks_a[-1]
+  outfile = paste(outputHome,
+                  "/persons-age-preprocessed-vs-generated-sae-hist.csv",
+                  sep = "")
+  WriteLatexCsv(age_sae_hist, file = outfile)
+  
+  print(paste(
+    "Expected age distribution empty SA2s:",
+    unlist(expected_dist_empty)
+  ))
+}
+
+EvalautePersonsPreprocessedRelDistribution <- function() {
+  cat("Person rel distribution of census data vs. synthetic population\n")
+  wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  
+  expected_dist_empty = list()
+  expected_dist_empty_count = 1
+  
+  for (i in 1:length(sa2_list)) {
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
+    
+    wilcoxon_test_result[i,1] <- sa2_list[i]
+    cossim_test_result[i,1] <- sa2_list[i]
+    
+    
+    synthetic_persons_csv = paste(data_home,
+                                  "/",
+                                  sa2_list[i],
+                                  "/population/output_person_types.csv.gz",
+                                  sep = "")
+    synthetic_population_dist  = read.csv(synthetic_persons_csv)
+    synth_rel_dist = rowSums( matrix(synthetic_population_dist$Persons, nrow = 8, byrow = T))
+    
+    cleaned_data_csv = paste(data_home,
+                             "/",
+                             sa2_list[i],
+                             "/preprocessed/person_types.csv.gz",
+                             sep = "")
+    cleaned_dist = read.csv(cleaned_data_csv)
+    cleaned_sex_dist = rowSums(matrix(cleaned_dist$Persons.count, nrow = 8, byrow = T))
+    
+    res = PerformSimilarityTests(exp_dist = cleaned_sex_dist, obs_dist = synth_rel_dist)
+    wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+    cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+    ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+    sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+    
+    file_prefix = SA2FilePrefix(sa2_list[i])
+    out_file = paste(outputHome,
+                     "plots",
+                     sa2_list[i],
+                     paste(file_prefix,"bar_persons_preprocssed_sex_vs_synthetic.pdf", sep = "_"),
+                     sep = "/")
+    
+    # xlabels = c(1:8)
+    # 
+    # DrawBarSA2Plot(
+    #   cleaned_age_dist,
+    #   synth_rel_dist,
+    #   out_file,
+    #   "Rel distribution in census data vs synthetic population",
+    #   "Rel in years",
+    #   "Percentage of persons",
+    #   xlabels,
+    #   c("Census", "Synthesised"),
+    #   sa2_list[i]
+    # )
+  }
+  
+  colnames(wilcoxon_test_result) <-
+    c(
+      "SA2",
+      paste("p-value\nmu=", mu),
+      paste(
+        "Equivalent\n",
+        "alpha=",
+        alpha,
+        "\nconfidence=",
+        (100 - (alpha * 2 * 100)),
+        "%",
+        sep = ""
+      )
+    )
+  
+  print("TOST with Wilcoxon Signed Rank Test - Persons Rel")
+  outfile = paste(outputHome,
+                  "/persons-Rel-preprocessed-vs-generated-tost-wilcoxon.csv",
+                  sep = "")
+  WriteLatexCsv(wilcoxon_test_result, file = outfile)
+  
+  print("Cosine similarity test - Persons Rel")
+  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
+  outfile = paste(outputHome,
+                  "/persons-Rel-preprocessed-vs-generated-cosine-similarity.csv",
+                  sep = "")
+  WriteLatexCsv(cossim_test_result, file = outfile)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-Rel-preprocessed-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  WriteLatexCsv(ft_test_result,
+                file = outfile)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2", "SAE","Population size")
+  outfile = paste(outputHome,
+                  "/persons-Rel-preprocessed-vs-generated-standardised-absolute-error.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
+  
+  age_saes = as.numeric(sae_test_result[,"SAE"])
+  breaks_a = c(0, 0.01, 0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1, max(age_saes))
+  age_sae_hist <- table(cut(age_saes, breaks = breaks_a))
+  rownames(age_sae_hist) <- breaks_a[-1]
+  outfile = paste(outputHome,
+                  "/persons-Rel-preprocessed-vs-generated-sae-hist.csv",
+                  sep = "")
+  WriteLatexCsv(age_sae_hist, file = outfile)
+  
+  print(paste(
+    "Expected rel distribution empty SA2s:",
+    unlist(expected_dist_empty)
+  ))
+}
+
+EvalautePersonsPreprocessedSexDistribution <- function() {
+  cat("Person sex distribution of census data vs. synthetic population\n")
+  wilcoxon_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
+  ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
+  sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  
+  expected_dist_empty = list()
+  expected_dist_empty_count = 1
+  
+  for (i in 1:length(sa2_list)) {
+    cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
+    
+    wilcoxon_test_result[i,1] <- sa2_list[i]
+    cossim_test_result[i,1] <- sa2_list[i]
+    
+    
+    synthetic_persons_csv = paste(data_home,
+                                  "/",
+                                  sa2_list[i],
+                                  "/population/output_person_types.csv.gz",
+                                  sep = "")
+    synthetic_population_dist  = read.csv(synthetic_persons_csv)
+    synth_sex_dist = rowSums(matrix(rowSums(matrix(synthetic_population_dist$Persons, nrow = 16)), nrow = 2, byrow = T))
+    
+    cleaned_data_csv = paste(data_home,
+                             "/",
+                             sa2_list[i],
+                             "/preprocessed/person_types.csv.gz",
+                             sep = "")
+    cleaned_dist = read.csv(cleaned_data_csv)
+    cleaned_sex_dist = rowSums(matrix(rowSums(matrix(cleaned_dist$Persons, nrow = 16)), nrow = 2, byrow = T))
+    
+    res = PerformSimilarityTests(exp_dist = cleaned_sex_dist, obs_dist = synth_sex_dist)
+    wilcoxon_test_result[i,] <- c(sa2_list[i], unlist(res)[1:2])
+    cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
+    ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
+    sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+    
+    file_prefix = SA2FilePrefix(sa2_list[i])
+    # out_file = paste(outputHome,
+    #                  "plots",
+    #                  sa2_list[i],
+    #                  paste(file_prefix,"bar_persons_preprocssed_sex_vs_synthetic.pdf", sep = "_"),
+    #                  sep = "/")
+    
+    # xlabels = c(1:8)
+    # 
+    # DrawBarSA2Plot(
+    #   cleaned_age_dist,
+    #   synth_sex_dist,
+    #   out_file,
+    #   "sex distribution in census data vs synthetic population",
+    #   "sex in years",
+    #   "Percentage of persons",
+    #   xlabels,
+    #   c("Census", "Synthesised"),
+    #   sa2_list[i]
+    # )
+  }
+  
+  colnames(wilcoxon_test_result) <-
+    c(
+      "SA2",
+      paste("p-value\nmu=", mu),
+      paste(
+        "Equivalent\n",
+        "alpha=",
+        alpha,
+        "\nconfidence=",
+        (100 - (alpha * 2 * 100)),
+        "%",
+        sep = ""
+      )
+    )
+  
+  print("TOST with Wilcoxon Signed Rank Test - Persons sex")
+  outfile = paste(outputHome,
+                  "/persons-sex-preprocessed-vs-generated-tost-wilcoxon.csv",
+                  sep = "")
+  WriteLatexCsv(wilcoxon_test_result, file = outfile)
+  
+  print("Cosine similarity test - Persons sex")
+  colnames(cossim_test_result) <- c("SA2", "Cosine similarity")
+  outfile = paste(outputHome,
+                  "/persons-sex-preprocessed-vs-generated-cosine-similarity.csv",
+                  sep = "")
+  WriteLatexCsv(cossim_test_result, file = outfile)
+  
+  print("Freeman Tukey Test")
+  colnames(ft_test_result) <-
+    c(
+      "SA2",
+      "FT statistic",
+      "FT p-value",
+      "FT degrees of freedom"
+    )
+  outfile = paste(outputHome,
+                  "/persons-sex-preprocessed-vs-generated-freeman-tukey.csv",
+                  sep = "")
+  WriteLatexCsv(ft_test_result,
+                file = outfile)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2", "SAE","Population size")
+  outfile = paste(outputHome,
+                  "/persons-sex-preprocessed-vs-generated-standardised-absolute-error.csv",
+                  sep = "")
+  WriteLatexCsv(sae_test_result, file = outfile)
+  
+  age_saes = as.numeric(sae_test_result[,"SAE"])
+  breaks_a = c(0, 0.01, 0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1, max(age_saes))
+  age_sae_hist <- table(cut(age_saes, breaks = breaks_a))
+  rownames(age_sae_hist) <- breaks_a[-1]
+  outfile = paste(outputHome,
+                  "/persons-sex-preprocessed-vs-generated-sae-hist.csv",
+                  sep = "")
+  WriteLatexCsv(age_sae_hist, file = outfile)
+  
+  print(paste(
+    "Expected sex distribution empty SA2s:",
+    unlist(expected_dist_empty)
+  ))
+}
+
+# EvaluateHouseholdProcessedVsSynthesised()
+# EvaluatePersonsProcessedVsSynthesised()
+# EvaluatePersonsRawVsSynthesised()
+# EvalautePersonsAgeDistribution()
+EvalautePersonsPreprocessedAgeDistribution()
+EvalautePersonsPreprocessedRelDistribution()
+EvalautePersonsPreprocessedSexDistribution()
 
 end_time <- Sys.time()
 
