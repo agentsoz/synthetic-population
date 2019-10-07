@@ -8,8 +8,8 @@ source("config.R")
 source("datareader.R")
 source("util.R")
 source("drawplots.R")
-source("ft.R")
 source("reduce_categories.R")
+source("stat_tests.R")
 
 
 option_list = list(
@@ -158,22 +158,26 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   cossim = cosine(x = exp_dist, y = obs_dist)
   
   #Do Freeman-Tukey test
-  ft_result = FreemanTukeyTest(exp_dist, obs_dist)
+  ft_result = FreemanTukeyTest(exp_dist, obs_dist, simulate_p_value = T)
   
   #Do APD
   apd = sum(abs(exp_dist - obs_dist))/sum(exp_dist)
   pop_size = sum(exp_dist)
   
+  #DO SAE
+  err = Error(exp_dist=exp_dist, obs_dist = obs_dist)
+  
   return(list(
     "TOST p-value" = pval,
     "TOST alt accept" = (pval < (alpha)),
     "Cossine similarity" = cossim,
-    "FT statistic" = ft_result$FT.statistic,
-    "FT p-value" = ft_result$FT.p.value,
-    "FT degrees of freedom" = ft_result$FT.df,
+    "FT statistic" = ft_result$statistic,
+    "FT p-value" = ft_result$p.value,
+    "FT degrees of freedom" = ft_result$parameter,
     "APD" = apd,
     "APD%" = (apd*100),
-    "Pop size"= pop_size
+    "Pop size"= pop_size,
+    "SAE" = err$sae
   ))
   
 }
@@ -186,6 +190,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 4)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
+  sae_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -235,6 +240,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
     cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     apd_test_result[i,] <- c(sa2_list[i], unlist(res)[7:9])
+    sae_test_result[i,] <- c(sa2_list[i], unlist(res)[10])
     
     totals[i, 3] <- sum(cleaned_dist)
     totals[i, 5] <- sum(synthetic_population_dist)
@@ -323,6 +329,13 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
                   "/persons-preprocessed-vs-generated-absolute-percentage-deviation-reduced-cats.csv",
                   sep = "")
   write.csv(apd_test_result, file = outfile, row.names = F, quote = F)
+  
+  print("SAE test")
+  colnames(sae_test_result) <- c("SA2", "SAE")
+  outfile = paste(outputHome,
+                  "/persons-preprocessed-vs-generated-sae-reduced-cats.csv",
+                  sep = "")
+  write.csv(sae_test_result, file = outfile, row.names = F, quote = F)
 }
 
 EvaluateHouseholdProcessedVsSynthesised <- function() {
@@ -594,9 +607,6 @@ EvaluateAgeCatsPersonsProcessedVsSynthesised <- function() {
 EvaluatePersonsProcessedVsSynthesised()
 EvaluateAgeCatsPersonsProcessedVsSynthesised()
 EvaluateHouseholdProcessedVsSynthesised()
-
-
-
 
 end_time <- Sys.time()
 
