@@ -1,0 +1,279 @@
+SA2;FT statistic;FT p-value;FT degrees of freedom
+Abbotsford;4.93399780366734;1;nan
+Airport West;5.0472090712349;1;nan
+Albert Park;8.72915276327199;1;nan
+Alphington - Fairfield;3.67478053074023;1;nan
+Altona;7.30447643302827;1;nan
+Altona Meadows;18.3813115290407;1;nan
+Altona North;2.40579433217289;1;nan
+Ardeer - Albion;4.36767356088098;1;nan
+Armadale;6.87609952436152;1;nan
+Ascot Vale;15.214498652035;1;nan
+Ashburton (Vic.);5.66242779637851;1;nan
+Ashwood - Chadstone;9.40624028799858;1;nan
+Aspendale Gardens - Waterways;7.27795534221263;1;nan
+Bacchus Marsh;5.11942390850282;1;nan
+Balwyn;13.6751014229826;1;nan
+Balwyn North;11.5501196270391;1;nan
+Bayswater;4.46169328285953;1;nan
+Bayswater North;7.16277994838288;1;nan
+Beaconsfield - Officer;5.92894190237463;1;nan
+Beaumaris;6.81399052404492;1;nan
+Belgrave - Selby;9.28393955021344;1;nan
+Bentleigh - McKinnon;7.30141423707715;1;nan
+Bentleigh East;11.6489724739448;1;nan
+Berwick - North;11.6942743233217;1;nan
+Berwick - South;10.2926514366387;1;nan
+Blackburn;6.16022158853107;1;nan
+Blackburn South;3.47130769143353;1;nan
+Boronia - The Basin;12.2245148309966;1;nan
+Box Hill;5.72583605831786;1;nan
+Box Hill North;7.12655524969872;1;nan
+Braeside;24;0.000999000999000999;nan
+Braybrook;4.39196120893756;1;nan
+Brighton (Vic.);15.3088214438067;1;nan
+Brighton East;6.71071949610492;1;nan
+Broadmeadows;2.09969353306065;1;nan
+Brunswick;21.6706987133094;1;nan
+Brunswick East;7.92330236152148;1;nan
+Brunswick West;8.77208928399488;1;nan
+Bulleen;9.55520407796476;1;nan
+Bundoora - East;6.3301526859272;1;nan
+Bundoora - North;5.86034301849646;1;nan
+Bundoora - West;2.78634186203266;1;nan
+Bunyip - Garfield;1.6393960498753;1;nan
+Burwood;2.39257327790231;1;nan
+Burwood East;2.91258503953827;1;nan
+Cairnlea;2.80832105361474;1;nan
+Camberwell;10.4462767715868;1;nan
+Campbellfield - Coolaroo;4.55247740818332;1;nan
+Carlton;7.26219270509479;1;nan
+Carlton North - Princes Hill;16.3200854483656;1;nan
+Carnegie;4.37765137015604;1;nan
+Caroline Springs;20.6033127214876;1;nan
+Carrum - Patterson Lakes;4.63062755930534;1;nan
+Carrum Downs;9.45585656446107;1;nan
+Caulfield - North;9.89619059752793;1;nan
+Caulfield - South;7.79030313470954;1;nan
+Chelsea - Bonbeach;7.63347468390887;1;nan
+Chelsea Heights;6.34830346367347;1;nan
+Cheltenham - Highett (East);7.94002105301212;1;nan
+Cheltenham - Highett (West);5.3725428906679;1;nan
+Chirnside Park;9.28061026019937;1;nan
+Clarinda - Oakleigh South;6.53730888097774;1;nan
+Clayton;4.70984682191077;1;nan
+Clayton South;9.60888661386018;1;nan
+Coburg;20.2828170686139;1;nan
+Coburg North;4.14109216938701;1;nan
+Collingwood;8.65665879720115;1;nan
+Craigieburn - Mickleham;10.5232956258508;1;nan
+Cranbourne;8.6619941844715;1;nan
+Cranbourne East;3.8544910406887;1;nan
+Cranbourne North;3.69104183172911;1;nan
+Cranbourne South;8.8398962677042;1;nan
+Cranbourne West;1.45992360135285;1;nan
+Croydon;21.293155017651;1;nan
+Croydon Hills - Warranwood;10.0946699841273;1;nan
+Dandenong;6.75023414862826;1;nan
+Dandenong North;10.4483317853022;1;nan
+Deer Park - Derrimut;3.43941791029242;1;nan
+Delahey;7.22852709473116;1;nan
+Dingley Village;8.76315169786062;1;nan
+Docklands;5.73918546805101;1;nan
+Doncaster;10.6468905556359;1;nan
+Doncaster East;28.5458441650187;1;nan
+Donvale - Park Orchards;12.6994217491376;1;nan
+Doveton;3.07313440181544;1;nan
+Dromana;5.85152641051421;1;nan
+East Melbourne;7.44032964685881;1;nan
+Edithvale - Aspendale;8.79930272322619;1;nan
+Elsternwick;3.76814489676205;1;nan
+Eltham;16.4798765292046;1;nan
+Elwood;12.6625015244793;1;nan
+Emerald - Cockatoo;18.4105017915161;1;nan
+Endeavour Hills;17.4110364112423;1;nan
+Epping;12.0664587997013;1;nan
+Essendon - Aberfeldie;11.9468003207271;1;nan
+Fawkner;3.15151275161402;1;nan
+Ferntree Gully;17.0792074268011;1;nan
+Fitzroy;14.6511467027591;1;nan
+Fitzroy North;22.3909564111686;1;nan
+Flemington;3.24617601009879;1;nan
+Flemington Racecourse;15.2583387559886;0.157842157842158;nan
+Flinders;3.79446116207614;1;nan
+Footscray;5.97741420735257;1;nan
+Forest Hill;6.02366326248481;1;nan
+Frankston;16.0142459023538;1;nan
+Frankston North;19.811264829991;1;nan
+Frankston South;11.5431842818883;1;nan
+Gisborne;20.4357285873879;1;nan
+Gladstone Park - Westmeadows;10.2633805252052;1;nan
+Glen Iris - East;8.48576535808524;1;nan
+Glen Waverley - East;7.30390867312728;1;nan
+Glen Waverley - West;5.84143115344568;1;nan
+Glenroy - Hadfield;29.9002171248297;1;nan
+Greensborough;11.401289251675;1;nan
+Greenvale - Bulla;3.74021338026496;1;nan
+Hallam;1.5922448608271;1;nan
+Hampton;9.48785147312204;1;nan
+Hampton Park - Lynbrook;6.97452873410103;1;nan
+Hastings - Somers;16.3097395049677;1;nan
+Hawthorn;14.8012588099111;1;nan
+Hawthorn East;7.22143572297891;1;nan
+Healesville - Yarra Glen;9.02263704560033;1;nan
+Heidelberg - Rosanna;5.59441966260208;1;nan
+Heidelberg West;11.500513088977;1;nan
+Hillside;7.3134235321447;1;nan
+Hoppers Crossing - North;12.8189243247717;1;nan
+Hoppers Crossing - South;8.30226382773892;1;nan
+Hughesdale;4.38327464182037;1;nan
+Hurstbridge;7.01442710278054;1;nan
+Ivanhoe;4.51312211558317;1;nan
+Ivanhoe East - Eaglemont;5.37690126072957;1;nan
+Keilor;5.86753488230822;1;nan
+Keilor Downs;6.83056585874192;1;nan
+Keilor East;8.35253333631401;1;nan
+Kensington;12.3936974162804;1;nan
+Kew;21.147998693547;1;nan
+Kew East;5.24398792536496;1;nan
+Keysborough;3.34222408807241;1;nan
+Kilsyth;5.86197953363391;1;nan
+Kinglake;7.58692855403507;1;nan
+Kings Park (Vic.);6.61642369689734;1;nan
+Kingsbury;3.85259137360621;1;nan
+Knoxfield - Scoresby;14.6780696156801;1;nan
+Koo Wee Rup;2.66531412583789;1;nan
+Lalor;4.4136941667857;1;nan
+Langwarrin;20.0700917144495;1;nan
+Laverton;8.10376768377784;1;nan
+Lilydale - Coldstream;16.9326005547643;1;nan
+Lynbrook - Lyndhurst;4.22507216268699;1;nan
+Lysterfield;4.23510235395879;1;nan
+Macedon;8.29554416722091;1;nan
+Malvern - Glen Iris;7.20004378172717;1;nan
+Malvern East;11.8747348335509;1;nan
+Maribyrnong;4.92901947234409;1;nan
+Meadow Heights;5.1105308140871;1;nan
+Melbourne;7.67515637066113;1;nan
+Melbourne Airport;14.2641868638567;0.33966033966034;nan
+Melton;19.2979942455404;1;nan
+Melton South;17.6591445200817;1;nan
+Melton West;8.69856589748603;1;nan
+Mentone;2.55404689029577;1;nan
+Mill Park - North;8.9831452968685;1;nan
+Mill Park - South;5.55872497860887;1;nan
+Mitcham (Vic.);17.9864006787132;1;nan
+Monbulk - Silvan;17.8879151907588;1;nan
+Montmorency - Briar Hill;10.6062899320654;1;nan
+Montrose;7.58309510499002;1;nan
+Moonee Ponds;6.91001772669348;1;nan
+Moorabbin - Heatherton;3.69958397033556;1;nan
+Mooroolbark;16.8693407791397;1;nan
+Mordialloc - Parkdale;6.90700078954535;1;nan
+Mornington;17.1686227709879;1;nan
+Mount Dandenong - Olinda;6.8028628861673;1;nan
+Mount Eliza;7.56618732890625;1;nan
+Mount Evelyn;15.3289706191482;1;nan
+Mount Martha;7.18085827767344;1;nan
+Mount Waverley - North;9.07423844442519;1;nan
+Mount Waverley - South;7.22904356228382;1;nan
+Mulgrave;16.7934031944531;1;nan
+Murrumbeena;5.7158346125782;1;nan
+Narre Warren;9.92750603449832;1;nan
+Narre Warren North;4.62548477310744;1;nan
+Narre Warren South;6.83796071734688;1;nan
+Newport;14.187209833596;1;nan
+Niddrie - Essendon West;2.58912549490913;1;nan
+Noble Park;4.09572166392755;1;nan
+Noble Park North;1.99175646031511;1;nan
+North Melbourne;14.5572380341601;1;nan
+Northcote;32.5265950882599;0.999000999000999;nan
+Nunawading;5.89593428717544;1;nan
+Oakleigh - Huntingdale;4.85233384131307;1;nan
+Ormond - Glen Huntly;10.3301511972195;1;nan
+Pakenham - North;6.05681107504428;1;nan
+Pakenham - South;11.0327653611745;1;nan
+Panton Hill - St Andrews;13.5061520633753;1;nan
+Parkville;5.564235810912;1;nan
+Pascoe Vale;4.98633926585411;1;nan
+Pascoe Vale South;6.97420955101782;1;nan
+Pearcedale - Tooradin;13.4204643286787;1;nan
+Plenty - Yarrambat;33.1838498507468;0.999000999000999;nan
+Point Cook;20.8173430585795;1;nan
+Point Nepean;9.82191548014272;1;nan
+Port Melbourne;10.6074120345649;1;nan
+Port Melbourne Industrial;nan;nan;nan
+Prahran - Windsor;29.4416753710082;1;nan
+Preston;28.7468844812143;1;nan
+Research - North Warrandyte;6.13769778673756;1;nan
+Reservoir - East;5.07212498519554;1;nan
+Reservoir - West;9.34766912888772;1;nan
+Richmond (Vic.);28.6473318896888;1;nan
+Riddells Creek;10.4430204015909;1;nan
+Ringwood;14.2549933370624;1;nan
+Ringwood East;5.50481198558465;1;nan
+Ringwood North;13.7591706126915;1;nan
+Rockbank - Mount Cottrell;7.6267044622134;1;nan
+Romsey;5.10409150556595;1;nan
+Rosebud - McCrae;7.60790404797481;1;nan
+Rowville - Central;19.7449187595494;1;nan
+Rowville - North;5.5954455017547;1;nan
+Rowville - South;5.17857000727737;1;nan
+Roxburgh Park - Somerton;22.4993759464449;1;nan
+Sandringham - Black Rock;9.88091482242717;1;nan
+Seabrook;2.40020747275987;1;nan
+Seaford (Vic.);6.33176565243167;1;nan
+Seddon - Kingsville;1.72011025805223;1;nan
+Skye - Sandhurst;6.17551062395153;1;nan
+Somerville;19.4985025522313;1;nan
+South Melbourne;6.35957804438059;1;nan
+South Morang;17.861807617148;1;nan
+South Yarra - East;16.645749956102;1;nan
+South Yarra - West;5.79306302059623;1;nan
+Southbank;7.11533833710972;1;nan
+Springvale;3.48334753329429;1;nan
+Springvale South;5.62366345369025;1;nan
+St Albans - North;2.33441147652666;1;nan
+St Albans - South;6.86403694531083;1;nan
+St Kilda;27.3968352999854;1;nan
+St Kilda East;28.2885900049936;1;nan
+Strathmore;63.4523120866058;0.669330669330669;nan
+Sunbury;6.04736436412635;1;nan
+Sunbury - South;9.82408367413647;1;nan
+Sunshine;8.5179725524029;1;nan
+Sunshine North;0.976244572246968;1;nan
+Sunshine West;15.8206034486465;1;nan
+Surrey Hills (East) - Mont Albert;2.53674701458562;1;nan
+Surrey Hills (West) - Canterbury;6.22771436523018;1;nan
+Sydenham;1.16556765131419;1;nan
+Tarneit;13.007906092135;1;nan
+Taylors Hill;3.99037480774766;1;nan
+Taylors Lakes;4.6480347184492;1;nan
+Templestowe;13.0888714598441;1;nan
+Templestowe Lower;8.33375272309626;1;nan
+Thomastown;5.78331501581101;1;nan
+Thornbury;27.0769341566705;1;nan
+Toorak;20.3977583832693;1;nan
+Truganina;0.50245447036066;1;nan
+Tullamarine;3.30924597202841;1;nan
+Upwey - Tecoma;16.6531662052729;1;nan
+Vermont;9.78273557556826;1;nan
+Vermont South;7.2058262431349;1;nan
+Viewbank - Yallambie;10.8100350336911;1;nan
+Wallan;6.62586927748663;1;nan
+Wandin - Seville;11.0139699568199;1;nan
+Wantirna;13.0254163456845;1;nan
+Wantirna South;20.7127630604321;1;nan
+Warrandyte - Wonga Park;15.4668829246183;1;nan
+Watsonia;5.96548542810815;1;nan
+Wattle Glen - Diamond Creek;20.4541324289519;1;nan
+Werribee;27.9822889655446;1;nan
+Werribee - South;8.79178101143185;1;nan
+West Footscray - Tottenham;5.38357243431271;1;nan
+Wheelers Hill;28.948848611744;1;nan
+Whittlesea;26.3175469001492;1;nan
+Williamstown;5.49749751862324;1;nan
+Wyndham Vale;10.576283600842;1;nan
+Yarra - North;5.09338894818815;1;nan
+Yarra Valley;13.4895702353254;1;nan
+Yarraville;7.89466518335131;1;nan
