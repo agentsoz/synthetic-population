@@ -39,7 +39,7 @@ option_list = list(
   ),
   make_option(
     c("--output"),
-    default = "../data/melbourne-2016/analysis",
+    default = "../analysis/melbourne-2016",
     help = "The path of the output directory. [default= %default]",
     metavar = "DIR"
   ),
@@ -150,6 +150,8 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
   #Do SAE
   error = Error(exp_dist = exp_dist, obs_dist = obs_dist)
   
+  apd = APD(exp_dist, obs_dist)
+  
   return(list(
     "TOST p-value" = tost$TOST.p.value,
     "TOST alt accept" = tost$TOST.alt.accept,
@@ -158,7 +160,8 @@ PerformSimilarityTests <- function(exp_dist, obs_dist) {
     "FT p-value" = ft_result$p.value,
     "FT degrees of freedom" = ft_result$parameter,
     "SAE" = error$sae,
-    "Pop size"= sum(exp_dist)
+    "Pop size"= sum(exp_dist),
+    "APD" = apd$AAPD
   ))
   
 }
@@ -171,6 +174,7 @@ EvaluatePersonsRawVsSynthesised <- function() {
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   totals[, 1] <- sa2_list
   colnames(totals) <-
@@ -199,6 +203,8 @@ EvaluatePersonsRawVsSynthesised <- function() {
     cossim_test_result[i, ] <- c(sa2_list[i], unlist(res)[3])
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+    apd_test_result[i,] <- c(sa2_list[i], unlist(res)[9])
+    
   }
   
   print("TOST with Wilcoxon Signed Rank Test")
@@ -260,6 +266,7 @@ EvaluatePersonsProcessedVsSynthesised <- function() {
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -374,6 +381,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
   totals = matrix(0, nrow = length(sa2_list), ncol = 5)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   for (i in 1:length(sa2_list)) {
     cat("\rprocessing", i, "/", length(sa2_list),sa2_list[i],"                      ")
@@ -400,6 +408,7 @@ EvaluateHouseholdProcessedVsSynthesised <- function() {
     cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
     ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
     sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+    apd_test_result[i,] <- c(sa2_list[i], unlist(res)[9])
     
     totals[i, 2] <- sum(cleaned_dist * rep(seq(1, 8), each = 14))
     totals[i, 4] <- sum(synthetic_population_dist * rep(seq(1, 8), each = 14))
@@ -488,6 +497,7 @@ EvalautePersonsRawAgeDistribution <- function() {
   cossim_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result = matrix(0, nrow = length(sa2_list), ncol = 3)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   expected_dist_empty = list()
   expected_dist_empty_count = 1
@@ -519,6 +529,7 @@ EvalautePersonsRawAgeDistribution <- function() {
       cossim_test_result[i,] <- c(sa2_list[i], unlist(res)[3])
       ft_test_result[i,] <- c(sa2_list[i], unlist(res)[4:6])
       sae_test_result[i,] <- c(sa2_list[i], unlist(res)[7:8])
+      apd_test_result[i,] <- c(sa2_list[i], unlist(res)[9])
       
       file_prefix = SA2FilePrefix(sa2_list[i])
       out_file = paste(outputHome,
@@ -607,6 +618,7 @@ EvalautePersonsPreprocessedAgeDistribution <- function() {
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   expected_dist_empty = list()
   expected_dist_empty_count = 1
@@ -732,6 +744,7 @@ EvalautePersonsPreprocessedRelDistribution <- function() {
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   expected_dist_empty = list()
   expected_dist_empty_count = 1
@@ -857,6 +870,7 @@ EvalautePersonsPreprocessedSexDistribution <- function() {
   cossim_test_result <- matrix(0, nrow = length(sa2_list), ncol = 2)
   ft_test_result <- matrix(0, nrow = length(sa2_list), ncol = 4)
   sae_test_result <- matrix(0, nrow = length(sa2_list), ncol = 3)
+  apd_test_result = matrix(0, nrow = length(sa2_list), ncol = 2)
   
   expected_dist_empty = list()
   expected_dist_empty_count = 1
@@ -976,10 +990,10 @@ EvalautePersonsPreprocessedSexDistribution <- function() {
   ))
 }
 
-# EvaluateHouseholdProcessedVsSynthesised()
-# EvaluatePersonsProcessedVsSynthesised()
-# EvaluatePersonsRawVsSynthesised()
-# EvalautePersonsAgeDistribution()
+EvaluateHouseholdProcessedVsSynthesised()
+EvaluatePersonsProcessedVsSynthesised()
+EvaluatePersonsRawVsSynthesised()
+EvalautePersonsAgeDistribution()
 EvalautePersonsPreprocessedAgeDistribution()
 EvalautePersonsPreprocessedRelDistribution()
 EvalautePersonsPreprocessedSexDistribution()
