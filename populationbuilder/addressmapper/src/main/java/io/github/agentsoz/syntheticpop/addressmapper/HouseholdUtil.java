@@ -73,8 +73,13 @@ public class HouseholdUtil {
         }
     }
 
-    static String getSA1MainCode(LinkedHashMap<String, Object> h) {
-        return h.get("SA2_MAINCODE") + ((String) h.get("SA1_7DIGCODE")).substring(5);
+    static String getSA1MainCode(LinkedHashMap<String, Object> h) throws IllegalArgumentException  {
+        String sa1Code = (String)h.get("SA1_7DIGCODE");
+        if(sa1Code.isEmpty()){
+            throw new  IllegalArgumentException("SA1_7DIGCODE is not set in households file");
+        }else {
+            return h.get("SA2_MAINCODE") + ((String) sa1Code).substring(5);
+        }
     }
 }
 
