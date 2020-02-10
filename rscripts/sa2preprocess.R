@@ -43,7 +43,7 @@ option_list = list(
   make_option(
     c("--dosa1"),
     action = "store_true",
-    default = F,
+    default = T,
     help = "Set this flag to calculate SA1 level household distribution. [default= %default]",
     metavar = "LOGICAL"
   ),
