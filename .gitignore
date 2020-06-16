@@ -16,3 +16,6 @@
 *#
 *.Rproj
 extra/randoop-all-3.1.5.jar
+data/*
+!data/README.md
+*.DS_Store
