@@ -4,7 +4,7 @@ package io.github.agentsoz.syntheticpop.addressmapper.models;
  * #%L
  * Synthetic Population Construction for Australia
  * %%
- * Copyright (C) 2016 - 2019 by its authors. See AUTHORS file.
+ * Copyright (C) 2016 - 2020 by its authors. See AUTHORS file.
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
