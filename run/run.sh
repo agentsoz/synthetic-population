@@ -6,8 +6,8 @@ DIR=`dirname "$0"`
 CDIR=`pwd`
 
 cd $DIR/../rscripts &&
-sudo Rscript -e 'install.packages("stringi", dependencies=TRUE, INSTALL_opts = c("--no-lock"))' &&
-sudo Rscript -e 'install.packages(c("devtools","testthat","optparse","Metrics","futile.logger"))' &&
+sudo Rscript -e 'install.packages("stringi", dependencies=TRUE, INSTALL_opts = c("--no-lock"), repos="https://cran.csiro.au/")' &&
+sudo Rscript -e 'install.packages(c("devtools","testthat","optparse","Metrics","futile.logger"), repos="https://cran.csiro.au/")' &&
 cd ../populationbuilder &&
 mvn clean install &&
 echo "Environment setup and build complete! Now you can take a very quick break! " &&
