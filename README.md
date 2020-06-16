@@ -2,10 +2,11 @@
 
 The population covers Greater Melbourne area as specifed in Australian Bureau of Statistics (ABS) data. This includes 309 SA2s. The population statistics were obtained using TableBuilder Pro tool provided in Australian Bureau of Statics (ABS) website(www.abs.gov.au). ESRI shapefiles of mesh block area boundaries and SA2 code specifications were also downloaded from ABS website. ESRI shapefiles of building addresses were taken from Vicmap Data provided in www.land.vic.gov.au.
 
+The contents of the `data` directory are available on Cloudstor. Please download the file [contents.zip](https://cloudstor.aarnet.edu.au/plus/s/qpjNWXdoOtUiSKt?path=%2Fdata) and uncompress it into `synthetic-population/data/` directory. 
+
 Already constructed population of the Greater Melbourne is available in `synthetic-population/data/melbourne-2016-population.zip` file. Each household, family and person has unique IDs. So if a subset of SA2s are needed, the files of corresponding SA2s can be merged to get the population.
 
 ## Prerequisits
-- Git LFS (https://git-lfs.github.com)
 - R statistical package (https://www.r-project.org). Required R extra libraries are:
      - stringr
      - optparse
@@ -20,7 +21,7 @@ Already constructed population of the Greater Melbourne is available in `synthet
 - ABS TableBuilder Pro access to download data
 
 ## Quick run with default settings
-First, either clone the repository to your computer or download as a zip file. Then to generate the populations of Greater Melbourne SA2s with default settings and already downloaded data execute below commands. It installs the required R and Java libraries, synthesises the population,  assigns households to addresses and creates `synthetic-population/data/melbourne-2016-population.zip` file. Refer to "README.txt" file inside the zip file to get the population for a subset of Greater Melbourne SA2s. The whole population will be synthesised in about 30 minutes on a machine with a Intel Core i7 processor and 4GB allocated memory.
+First, either clone the repository to your computer or download as a zip file, and extract the contents.zip from cloudestore as described above. Then to generate the populations of Greater Melbourne SA2s with default settings and already downloaded data execute below commands. It installs the required R and Java libraries, synthesises the population,  assigns households to addresses and creates `synthetic-population/data/melbourne-2016-population.zip` file. Refer to "README.txt" file inside the zip file to get the population for a subset of Greater Melbourne SA2s. The whole population will be synthesised in about 30 minutes on a machine with a Intel Core i7 processor and 4GB allocated memory.
 
         > cd synthetic-population/run
         > ./run.sh
@@ -103,7 +104,7 @@ ABS TableBuilder and tutorial can be accessed from this [link](http://www.abs.go
 
 **_Notes_**
 
-When downloading large tables (that does not exceed max limit), Tablebuilder puts them in a job queue so won't be available straight away.
+When downloading large tables (that does not exceed max limit), Tablebuilder puts them in a job queue so won't be available right away.
 
 Column headers names of below shown tables can be different. The tool will work properly as long as the structure of the csv file is same as the examples. If it is impossible have the same column order, `rescripts/config.R` file can be updated with new coloum indices.
 
