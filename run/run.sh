@@ -29,11 +29,14 @@ The population represents persons, families and households of each SA2 within th
 These files can be opened using most of the archiving softwares. Perfome following steps to view these files after extracting the containing zip.
 
 Linux:
-Option 1: excute the command: 'zcat <file name>' to view on the terminal.
+Option 1: excute the command: 'zcat <file name.csv.gz>' to view on the terminal.
 Option 2: Right click on the file and select 'Extract Here'. Then open the extracted csv file using a Text Editor or Calc
 
 Windows:
 Install WinRar software or any other compatible tool and extract the '.gz' files. The extracted csv can be opened with Notepad or Microsoft Excel
+
+Mac:
+execute the command: 'gunzip <filename.csv.gz>' on the terminal. This will convert the file to a csv ('filename.csv'), which can be opened as a text file or a spreadsheet using a software like Microsoft Excel.
 
 3. Taking the population of a subset of SA2s
 ---------------------------------------------
