@@ -50,7 +50,7 @@ In more detail:
 6. Repeat steps 4 and 5 for all the SA2s in the subset.
 
 " > README.txt &&
-zip -r melbourne-2016-population.zip melbourne/generated/SA2/*/population/* README.txt &&
+zip -r melbourne-2016-population.zip melbourne-2016/generated/SA2/*/population/* README.txt &&
 rm README.txt &&
 cd $CDIR
 
